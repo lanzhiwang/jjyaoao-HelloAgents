@@ -9,18 +9,14 @@ from .plan_solve_agent import PlanAndSolveAgent
 try:
     from .tool_agent import ToolAgent
     from .conversational import ConversationalAgent
+
     __all__ = [
         "SimpleAgent",
         "ReActAgent",
         "ReflectionAgent",
         "PlanAndSolveAgent",
         "ToolAgent",
-        "ConversationalAgent"
+        "ConversationalAgent",
     ]
 except ImportError:
-    __all__ = [
-        "SimpleAgent",
-        "ReActAgent",
-        "ReflectionAgent",
-        "PlanAndSolveAgent"
-    ]
+    __all__ = ["SimpleAgent", "ReActAgent", "ReflectionAgent", "PlanAndSolveAgent"]

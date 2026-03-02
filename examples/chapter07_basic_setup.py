@@ -28,32 +28,38 @@ load_dotenv()
 
 from hello_agents import (
     HelloAgentsLLM,
-    SimpleAgent, ReActAgent, ReflectionAgent, PlanAndSolveAgent,
-    ToolRegistry, search, calculate,
-    ToolChain, ToolChainManager, AsyncToolExecutor
+    SimpleAgent,
+    ReActAgent,
+    ReflectionAgent,
+    PlanAndSolveAgent,
+    ToolRegistry,
+    search,
+    calculate,
+    ToolChain,
+    ToolChainManager,
+    AsyncToolExecutor,
 )
+
 
 def demo_simple_agent():
     """演示SimpleAgent - 基础对话"""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🤖 SimpleAgent 演示 - 基础对话Agent")
-    print("="*60)
+    print("=" * 60)
 
     # 创建LLM实例
     llm = HelloAgentsLLM()
 
     # 创建简单Agent
     agent = SimpleAgent(
-        name="助手",
-        llm=llm,
-        system_prompt="你是一个有用的AI助手，请用中文回答问题。"
+        name="助手", llm=llm, system_prompt="你是一个有用的AI助手，请用中文回答问题。"
     )
 
     # 测试对话
     test_questions = [
         "你好，请介绍一下自己",
         "什么是人工智能？",
-        "请用一句话总结机器学习的核心思想"
+        "请用一句话总结机器学习的核心思想",
     ]
 
     for question in test_questions:
@@ -64,11 +70,12 @@ def demo_simple_agent():
         except Exception as e:
             print(f"❌ 错误: {e}")
 
+
 def demo_react_agent():
     """演示ReActAgent - 推理与行动结合"""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🔧 ReActAgent 演示 - 推理与行动结合的Agent")
-    print("="*60)
+    print("=" * 60)
 
     # 创建LLM实例
     llm = HelloAgentsLLM()
@@ -80,22 +87,19 @@ def demo_react_agent():
     tool_registry.register_function(
         name="search",
         description="一个网页搜索引擎。当你需要回答关于时事、事实以及在你的知识库中找不到的信息时，应使用此工具。",
-        func=search
+        func=search,
     )
 
     tool_registry.register_function(
         name="calculate",
         description="执行数学计算。支持基本运算、数学函数等。例如：2+3*4, sqrt(16), sin(pi/2)等。",
-        func=calculate
+        func=calculate,
     )
 
     # 1. 默认配置演示
     print("\n--- 默认配置 ---")
     default_agent = ReActAgent(
-        name="通用助手",
-        llm=llm,
-        tool_registry=tool_registry,
-        max_steps=3
+        name="通用助手", llm=llm, tool_registry=tool_registry, max_steps=3
     )
 
     task1 = "计算 15 * 23 + 45 的结果"
@@ -130,7 +134,7 @@ Action: 选择合适的工具获取信息，格式为：
         llm=llm,
         tool_registry=tool_registry,
         custom_prompt=research_prompt,
-        max_steps=3
+        max_steps=3,
     )
 
     task2 = "搜索一下最新的人工智能发展趋势"
@@ -141,22 +145,19 @@ Action: 选择合适的工具获取信息，格式为：
     except Exception as e:
         print(f"❌ 错误: {e}")
 
+
 def demo_reflection_agent():
     """演示ReflectionAgent - 自我反思与迭代优化"""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🔄 ReflectionAgent 演示 - 自我反思与迭代优化的Agent")
-    print("="*60)
+    print("=" * 60)
 
     # 创建LLM实例
     llm = HelloAgentsLLM()
 
     # 1. 默认配置演示
     print("\n--- 默认配置 ---")
-    default_agent = ReflectionAgent(
-        name="通用助手",
-        llm=llm,
-        max_iterations=2
-    )
+    default_agent = ReflectionAgent(name="通用助手", llm=llm, max_iterations=2)
 
     task1 = "解释什么是递归算法，并给出一个简单的例子"
     print(f"\n🎯 任务: {task1}")
@@ -193,14 +194,11 @@ def demo_reflection_agent():
 # 评审意见: {feedback}
 
 请提供优化后的代码。
-"""
+""",
     }
 
     code_agent = ReflectionAgent(
-        name="代码专家",
-        llm=llm,
-        custom_prompts=code_prompts,
-        max_iterations=2
+        name="代码专家", llm=llm, custom_prompts=code_prompts, max_iterations=2
     )
 
     task2 = "编写一个Python函数，找出1到n之间所有的素数 (prime numbers)。"
@@ -211,21 +209,19 @@ def demo_reflection_agent():
     except Exception as e:
         print(f"❌ 错误: {e}")
 
+
 def demo_plan_solve_agent():
     """演示PlanAndSolveAgent - 分解规划与逐步执行"""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("📋 PlanAndSolveAgent 演示 - 分解规划与逐步执行的Agent")
-    print("="*60)
+    print("=" * 60)
 
     # 创建LLM实例
     llm = HelloAgentsLLM()
 
     # 1. 默认配置演示
     print("\n--- 默认配置 ---")
-    default_agent = PlanAndSolveAgent(
-        name="通用助手",
-        llm=llm
-    )
+    default_agent = PlanAndSolveAgent(name="通用助手", llm=llm)
 
     task1 = "如何学习Python编程？请制定一个详细的学习计划。"
     print(f"\n🎯 任务: {task1}")
@@ -258,13 +254,11 @@ def demo_plan_solve_agent():
 # 当前计算步骤: {current_step}
 
 请执行当前步骤的计算，只输出计算结果:
-"""
+""",
     }
 
     math_agent = PlanAndSolveAgent(
-        name="数学专家",
-        llm=llm,
-        custom_prompts=math_prompts
+        name="数学专家", llm=llm, custom_prompts=math_prompts
     )
 
     task2 = "一个水果店周一卖出了15个苹果。周二卖出的苹果数量是周一的两倍。周三卖出的数量比周二少了5个。请问这三天总共卖出了多少个苹果？"
@@ -275,11 +269,12 @@ def demo_plan_solve_agent():
     except Exception as e:
         print(f"❌ 错误: {e}")
 
+
 def demo_custom_vs_default():
     """演示自定义配置 vs 默认配置的对比"""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("⚖️ 自定义配置 vs 默认配置对比演示")
-    print("="*60)
+    print("=" * 60)
 
     llm = HelloAgentsLLM()
 
@@ -287,11 +282,7 @@ def demo_custom_vs_default():
 
     # 默认配置
     print("\n--- 使用默认配置的ReflectionAgent ---")
-    default_agent = ReflectionAgent(
-        name="默认助手",
-        llm=llm,
-        max_iterations=1
-    )
+    default_agent = ReflectionAgent(name="默认助手", llm=llm, max_iterations=1)
 
     print(f"🎯 任务: {task}")
     try:
@@ -336,14 +327,11 @@ def demo_custom_vs_default():
 # 评审意见: {feedback}
 
 请提供优化后的设计方案。
-"""
+""",
     }
 
     product_agent = ReflectionAgent(
-        name="产品经理",
-        llm=llm,
-        custom_prompts=product_prompts,
-        max_iterations=1
+        name="产品经理", llm=llm, custom_prompts=product_prompts, max_iterations=1
     )
 
     print(f"🎯 任务: {task}")
@@ -360,11 +348,12 @@ def demo_custom_vs_default():
     print("3. 适应不同的工作流程和输出格式")
     print("4. 体现专业角色的思维方式")
 
+
 def interactive_demo():
     """交互式演示"""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🎮 交互式演示 - 选择Agent类型进行对话")
-    print("="*60)
+    print("=" * 60)
 
     # 创建LLM实例
     llm = HelloAgentsLLM()
@@ -379,7 +368,7 @@ def interactive_demo():
         "1": SimpleAgent("简单助手", llm, "你是一个有用的AI助手。"),
         "2": ReActAgent("工具助手", llm, tool_registry, max_steps=3),
         "3": ReflectionAgent("反思助手", llm, max_iterations=2),
-        "4": PlanAndSolveAgent("规划助手", llm)
+        "4": PlanAndSolveAgent("规划助手", llm),
     }
 
     print("\n请选择Agent类型:")
@@ -392,7 +381,7 @@ def interactive_demo():
     while True:
         choice = input("\n请输入选择 (1-4) 或 'quit' 退出: ").strip()
 
-        if choice.lower() in ['quit', 'exit', '退出']:
+        if choice.lower() in ["quit", "exit", "退出"]:
             break
 
         if choice not in agents:
@@ -405,7 +394,7 @@ def interactive_demo():
         while True:
             user_input = input(f"\n与{agent.name}对话 (输入'back'返回选择): ")
 
-            if user_input.lower() == 'back':
+            if user_input.lower() == "back":
                 break
 
             try:
@@ -416,11 +405,12 @@ def interactive_demo():
 
     print("\n👋 再见！")
 
+
 def demo_advanced_features():
     """演示高级功能：工具链和异步执行"""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🚀 高级功能演示 - 工具链和异步执行")
-    print("="*60)
+    print("=" * 60)
 
     # 创建工具注册表
     registry = ToolRegistry()
@@ -475,6 +465,7 @@ def demo_advanced_features():
     except Exception as e:
         print(f"❌ 异步执行错误: {e}")
 
+
 def main():
     """主函数"""
     print("🚀 HelloAgents 框架完整演示")
@@ -508,9 +499,9 @@ def main():
         # 7. 交互式演示
         interactive_demo()
 
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("🎉 HelloAgents 框架演示完成！")
-        print("="*60)
+        print("=" * 60)
         print("\n📋 总结：")
         print("✅ 默认配置：开箱即用，简洁高效")
         print("✅ 自定义配置：专业定制，灵活强大")
@@ -521,6 +512,7 @@ def main():
         print("\n\n👋 用户中断，程序退出")
     except Exception as e:
         print(f"\n❌ 程序出错: {e}")
+
 
 if __name__ == "__main__":
     main()

@@ -6,6 +6,7 @@ from typing import Optional, Dict, Any, List
 from ..base import Tool, ToolParameter
 from ...core.exceptions import HelloAgentsException
 
+
 class SearchTool(Tool):
     """
     智能混合搜索工具
@@ -16,10 +17,15 @@ class SearchTool(Tool):
     3. SerpApi (serpapi) - 传统Google搜索
     """
 
-    def __init__(self, backend: str = "hybrid", tavily_key: Optional[str] = None, serpapi_key: Optional[str] = None):
+    def __init__(
+        self,
+        backend: str = "hybrid",
+        tavily_key: Optional[str] = None,
+        serpapi_key: Optional[str] = None,
+    ):
         super().__init__(
             name="search",
-            description="一个智能网页搜索引擎。支持混合搜索模式，自动选择最佳搜索源。当你需要回答关于时事、事实以及在你的知识库中找不到的信息时，应使用此工具。"
+            description="一个智能网页搜索引擎。支持混合搜索模式，自动选择最佳搜索源。当你需要回答关于时事、事实以及在你的知识库中找不到的信息时，应使用此工具。",
         )
         self.backend = backend
         self.tavily_key = tavily_key or os.getenv("TAVILY_API_KEY")
@@ -33,6 +39,7 @@ class SearchTool(Tool):
         if self.tavily_key:
             try:
                 from tavily import TavilyClient
+
                 self.tavily_client = TavilyClient(api_key=self.tavily_key)
                 self.available_backends.append("tavily")
                 print("✅ Tavily搜索引擎已初始化")
@@ -45,6 +52,7 @@ class SearchTool(Tool):
         if self.serpapi_key:
             try:
                 import serpapi
+
                 self.available_backends.append("serpapi")
                 print("✅ SerpApi搜索引擎已初始化")
             except ImportError:
@@ -55,7 +63,9 @@ class SearchTool(Tool):
         # 确定最终使用的后端
         if self.backend == "hybrid":
             if self.available_backends:
-                print(f"🔧 混合搜索模式已启用，可用后端: {', '.join(self.available_backends)}")
+                print(
+                    f"🔧 混合搜索模式已启用，可用后端: {', '.join(self.available_backends)}"
+                )
             else:
                 print("⚠️ 没有可用的搜索后端，请配置API密钥")
         elif self.backend == "tavily" and "tavily" not in self.available_backends:
@@ -130,15 +140,12 @@ class SearchTool(Tool):
     def _search_tavily(self, query: str) -> str:
         """使用Tavily搜索"""
         response = self.tavily_client.search(
-            query=query,
-            search_depth="basic",
-            include_answer=True,
-            max_results=3
+            query=query, search_depth="basic", include_answer=True, max_results=3
         )
 
         result = f"🎯 Tavily AI搜索结果：{response.get('answer', '未找到直接答案')}\n\n"
 
-        for i, item in enumerate(response.get('results', [])[:3], 1):
+        for i, item in enumerate(response.get("results", [])[:3], 1):
             result += f"[{i}] {item.get('title', '')}\n"
             result += f"    {item.get('content', '')[:200]}...\n"
             result += f"    来源: {item.get('url', '')}\n\n"
@@ -170,7 +177,9 @@ class SearchTool(Tool):
             result_text += f"💡 直接答案：{results['answer_box']['answer']}\n\n"
 
         if "knowledge_graph" in results and "description" in results["knowledge_graph"]:
-            result_text += f"📖 知识图谱：{results['knowledge_graph']['description']}\n\n"
+            result_text += (
+                f"📖 知识图谱：{results['knowledge_graph']['description']}\n\n"
+            )
 
         if "organic_results" in results and results["organic_results"]:
             result_text += "🔗 相关结果：\n"
@@ -197,9 +206,12 @@ class SearchTool(Tool):
         else:
             try:
                 import tavily
+
                 message += "   ✅ API密钥已配置，包已安装\n"
             except ImportError:
-                message += "   ❌ API密钥已配置，但需要安装包: pip install tavily-python\n"
+                message += (
+                    "   ❌ API密钥已配置，但需要安装包: pip install tavily-python\n"
+                )
 
         message += "\n"
 
@@ -211,6 +223,7 @@ class SearchTool(Tool):
         else:
             try:
                 import serpapi
+
                 message += "   ✅ API密钥已配置，包已安装\n"
             except ImportError:
                 message += "   ❌ API密钥已配置，但需要安装包: pip install google-search-results\n"
@@ -226,12 +239,10 @@ class SearchTool(Tool):
         """获取工具参数定义"""
         return [
             ToolParameter(
-                name="input",
-                type="string",
-                description="搜索查询关键词",
-                required=True
+                name="input", type="string", description="搜索查询关键词", required=True
             )
         ]
+
 
 # 便捷函数
 def search(query: str, backend: str = "hybrid") -> str:
@@ -248,16 +259,19 @@ def search(query: str, backend: str = "hybrid") -> str:
     tool = SearchTool(backend=backend)
     return tool.run({"input": query})
 
+
 # 专用搜索函数
 def search_tavily(query: str) -> str:
     """使用Tavily进行AI优化搜索"""
     tool = SearchTool(backend="tavily")
     return tool.run({"input": query})
 
+
 def search_serpapi(query: str) -> str:
     """使用SerpApi进行Google搜索"""
     tool = SearchTool(backend="serpapi")
     return tool.run({"input": query})
+
 
 def search_hybrid(query: str) -> str:
     """智能混合搜索，自动选择最佳搜索源"""

@@ -10,16 +10,18 @@
 from hello_agents import ConversationalAgent, HelloAgentsLLM
 from hello_agents.memory import WorkingMemory, VectorMemory
 
+
 def main():
     """记忆系统和RAG示例"""
     print("=== 记忆系统和RAG示例 ===\n")
-    
+
     # TODO: 实现记忆系统相关功能
     # - 工作记忆管理
     # - 向量数据库集成
     # - RAG检索增强生成
-    
+
     print("此示例将在第9章中详细实现...")
+
 
 if __name__ == "__main__":
     main()

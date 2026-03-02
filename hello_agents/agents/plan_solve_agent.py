@@ -42,12 +42,17 @@ DEFAULT_EXECUTOR_PROMPT = """
 请仅输出针对"当前步骤"的回答:
 """
 
+
 class Planner:
     """规划器 - 负责将复杂问题分解为简单步骤"""
 
-    def __init__(self, llm_client: HelloAgentsLLM, prompt_template: Optional[str] = None):
+    def __init__(
+        self, llm_client: HelloAgentsLLM, prompt_template: Optional[str] = None
+    ):
         self.llm_client = llm_client
-        self.prompt_template = prompt_template if prompt_template else DEFAULT_PLANNER_PROMPT
+        self.prompt_template = (
+            prompt_template if prompt_template else DEFAULT_PLANNER_PROMPT
+        )
 
     def plan(self, question: str, **kwargs) -> List[str]:
         """
@@ -80,12 +85,17 @@ class Planner:
             print(f"❌ 解析计划时发生未知错误: {e}")
             return []
 
+
 class Executor:
     """执行器 - 负责按计划逐步执行"""
 
-    def __init__(self, llm_client: HelloAgentsLLM, prompt_template: Optional[str] = None):
+    def __init__(
+        self, llm_client: HelloAgentsLLM, prompt_template: Optional[str] = None
+    ):
         self.llm_client = llm_client
-        self.prompt_template = prompt_template if prompt_template else DEFAULT_EXECUTOR_PROMPT
+        self.prompt_template = (
+            prompt_template if prompt_template else DEFAULT_EXECUTOR_PROMPT
+        )
 
     def execute(self, question: str, plan: List[str], **kwargs) -> str:
         """
@@ -109,7 +119,7 @@ class Executor:
                 question=question,
                 plan=plan,
                 history=history if history else "无",
-                current_step=step
+                current_step=step,
             )
             messages = [{"role": "user", "content": prompt}]
 
@@ -121,26 +131,27 @@ class Executor:
 
         return final_answer
 
+
 class PlanAndSolveAgent(Agent):
     """
     Plan and Solve Agent - 分解规划与逐步执行的智能体
-    
+
     这个Agent能够：
     1. 将复杂问题分解为简单步骤
     2. 按照计划逐步执行
     3. 维护执行历史和上下文
     4. 得出最终答案
-    
+
     特别适合多步骤推理、数学问题、复杂分析等任务。
     """
-    
+
     def __init__(
         self,
         name: str,
         llm: HelloAgentsLLM,
         system_prompt: Optional[str] = None,
         config: Optional[Config] = None,
-        custom_prompts: Optional[Dict[str, str]] = None
+        custom_prompts: Optional[Dict[str, str]] = None,
     ):
         """
         初始化PlanAndSolveAgent
@@ -164,38 +175,38 @@ class PlanAndSolveAgent(Agent):
 
         self.planner = Planner(self.llm, planner_prompt)
         self.executor = Executor(self.llm, executor_prompt)
-    
+
     def run(self, input_text: str, **kwargs) -> str:
         """
         运行Plan and Solve Agent
-        
+
         Args:
             input_text: 要解决的问题
             **kwargs: 其他参数
-            
+
         Returns:
             最终答案
         """
         print(f"\n🤖 {self.name} 开始处理问题: {input_text}")
-        
+
         # 1. 生成计划
         plan = self.planner.plan(input_text, **kwargs)
         if not plan:
             final_answer = "无法生成有效的行动计划，任务终止。"
             print(f"\n--- 任务终止 ---\n{final_answer}")
-            
+
             # 保存到历史记录
             self.add_message(Message(input_text, "user"))
             self.add_message(Message(final_answer, "assistant"))
-            
+
             return final_answer
-        
+
         # 2. 执行计划
         final_answer = self.executor.execute(input_text, plan, **kwargs)
         print(f"\n--- 任务完成 ---\n最终答案: {final_answer}")
-        
+
         # 保存到历史记录
         self.add_message(Message(input_text, "user"))
         self.add_message(Message(final_answer, "assistant"))
-        
+
         return final_answer

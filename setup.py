@@ -10,7 +10,7 @@ from setuptools import setup, find_packages
 setup(
     name="hello-agents",
     use_scm_version=True,
-    setup_requires=['setuptools_scm'],
-    packages=find_packages(include=['hello_agents*']),
+    setup_requires=["setuptools_scm"],
+    packages=find_packages(include=["hello_agents*"]),
     python_requires=">=3.10",
 )
