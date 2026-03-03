@@ -6,10 +6,4 @@ from .message import Message
 from .config import Config
 from .exceptions import HelloAgentsException
 
-__all__ = [
-    "Agent",
-    "HelloAgentsLLM", 
-    "Message",
-    "Config",
-    "HelloAgentsException"
-]
+__all__ = ["Agent", "HelloAgentsLLM", "Message", "Config", "HelloAgentsException"]

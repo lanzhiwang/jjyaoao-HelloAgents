@@ -10,17 +10,19 @@
 from hello_agents import SimpleAgent, HelloAgentsLLM
 from hello_agents.orchestration import SequentialOrchestrator, ParallelOrchestrator
 
+
 def main():
     """多智能体编排示例"""
     print("=== 多智能体编排示例 ===\n")
-    
+
     # TODO: 实现编排系统相关功能
     # - 顺序执行模式
     # - 并行执行模式
     # - 分层管理模式
     # - 辩论和共识模式
-    
+
     print("此示例将在第11章中详细实现...")
+
 
 if __name__ == "__main__":
     main()

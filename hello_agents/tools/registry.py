@@ -3,6 +3,7 @@
 from typing import Optional, Any, Callable
 from .base import Tool
 
+
 class ToolRegistry:
     """
     HelloAgents工具注册表
@@ -30,7 +31,9 @@ class ToolRegistry:
         self._tools[tool.name] = tool
         print(f"✅ 工具 '{tool.name}' 已注册。")
 
-    def register_function(self, name: str, description: str, func: Callable[[str], str]):
+    def register_function(
+        self, name: str, description: str, func: Callable[[str], str]
+    ):
         """
         直接注册函数作为工具（简便方式）
 
@@ -42,10 +45,7 @@ class ToolRegistry:
         if name in self._functions:
             print(f"⚠️ 警告：工具 '{name}' 已存在，将被覆盖。")
 
-        self._functions[name] = {
-            "description": description,
-            "func": func
-        }
+        self._functions[name] = {"description": description, "func": func}
         print(f"✅ 工具 '{name}' 已注册。")
 
     def unregister(self, name: str):
@@ -131,6 +131,7 @@ class ToolRegistry:
         self._tools.clear()
         self._functions.clear()
         print("🧹 所有工具已清空。")
+
 
 # 全局工具注册表
 global_registry = ToolRegistry()
