@@ -14,7 +14,7 @@ class MyLLM(HelloAgentsLLM):
         provider: Optional[str] = "auto",
         **kwargs,
     ):
-        # 检查provider是否为我们想处理的'modelscope'
+        # 检查 provider 是否为我们想处理的 'modelscope'
         if provider == "modelscope":
             print("正在使用自定义的 ModelScope Provider")
             self.provider = "modelscope"
@@ -37,7 +37,7 @@ class MyLLM(HelloAgentsLLM):
             self.max_tokens = kwargs.get("max_tokens")
             self.timeout = kwargs.get("timeout", 60)
 
-            # 使用获取的参数创建OpenAI客户端实例
+            # 使用获取的参数创建 OpenAI 客户端实例
             self._client = OpenAI(
                 api_key=self.api_key, base_url=self.base_url, timeout=self.timeout
             )
