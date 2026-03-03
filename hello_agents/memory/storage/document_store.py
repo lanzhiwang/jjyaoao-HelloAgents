@@ -1,8 +1,8 @@
 """文档存储实现
 
-支持多种文档数据库后端：
+支持多种文档数据库后端:
 - SQLite: 轻量级关系型数据库
-- PostgreSQL: 企业级关系型数据库（可扩展）
+- PostgreSQL: 企业级关系型数据库(可扩展)
 """
 
 from abc import ABC, abstractmethod
@@ -81,13 +81,13 @@ class DocumentStore(ABC):
 
 
 class SQLiteDocumentStore(DocumentStore):
-    """SQLite文档存储实现"""
+    """SQLite 文档存储实现"""
 
     _instances = {}  # 存储已创建的实例
     _initialized_dbs = set()  # 存储已初始化的数据库路径
 
     def __new__(cls, db_path: str = "./memory.db"):
-        """单例模式，同一路径只创建一个实例"""
+        """单例模式, 同一路径只创建一个实例"""
         abs_path = os.path.abspath(db_path)
         if abs_path not in cls._instances:
             instance = super(SQLiteDocumentStore, cls).__new__(cls)
@@ -105,7 +105,7 @@ class SQLiteDocumentStore(DocumentStore):
         # 确保目录存在
         os.makedirs(os.path.dirname(os.path.abspath(db_path)), exist_ok=True)
 
-        # 初始化数据库（只初始化一次）
+        # 初始化数据库(只初始化一次)
         abs_path = os.path.abspath(db_path)
         if abs_path not in self._initialized_dbs:
             self._init_database()
@@ -229,9 +229,7 @@ class SQLiteDocumentStore(DocumentStore):
         # 插入记忆
         cursor.execute(
             """
-            INSERT OR REPLACE INTO memories 
-            (id, user_id, content, memory_type, timestamp, importance, properties, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+            INSERT OR REPLACE INTO memories (id, user_id, content, memory_type, timestamp, importance, properties, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
         """,
             (
                 memory_id,
@@ -254,9 +252,7 @@ class SQLiteDocumentStore(DocumentStore):
 
         cursor.execute(
             """
-            SELECT id, user_id, content, memory_type, timestamp, importance, properties, created_at
-            FROM memories
-            WHERE id = ?
+            SELECT id, user_id, content, memory_type, timestamp, importance, properties, created_at FROM memories WHERE id = ?
         """,
             (memory_id,),
         )
@@ -319,11 +315,7 @@ class SQLiteDocumentStore(DocumentStore):
 
         cursor.execute(
             f"""
-            SELECT id, user_id, content, memory_type, timestamp, importance, properties, created_at
-            FROM memories
-            {where_clause}
-            ORDER BY importance DESC, timestamp DESC
-            LIMIT ?
+            SELECT id, user_id, content, memory_type, timestamp, importance, properties, created_at FROM memories {where_clause} ORDER BY importance DESC, timestamp DESC LIMIT ?
         """,
             params + [limit],
         )
@@ -382,9 +374,7 @@ class SQLiteDocumentStore(DocumentStore):
 
         cursor.execute(
             f"""
-            UPDATE memories
-            SET {', '.join(update_fields)}
-            WHERE id = ?
+            UPDATE memories SET {', '.join(update_fields)} WHERE id = ?
         """,
             params,
         )
@@ -424,9 +414,7 @@ class SQLiteDocumentStore(DocumentStore):
 
         # 统计记忆类型分布
         cursor.execute("""
-            SELECT memory_type, COUNT(*) as count
-            FROM memories
-            GROUP BY memory_type
+            SELECT memory_type, COUNT(*) as count FROM memories GROUP BY memory_type
         """)
         memory_types = {}
         for row in cursor.fetchall():
