@@ -1,5 +1,5 @@
 """
-Neo4j图数据库存储实现
+Neo4j 图数据库存储实现
 """
 
 import logging
@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 class Neo4jGraphStore:
-    """Neo4j图数据库存储实现"""
+    """Neo4j 图数据库存储实现"""
 
     def __init__(
         self,
@@ -33,10 +33,10 @@ class Neo4jGraphStore:
         **kwargs,
     ):
         """
-        初始化Neo4j图存储 (支持云API)
+        初始化 Neo4j 图存储 (支持云 API)
 
         Args:
-            uri: Neo4j连接URI (本地: bolt://localhost:7687, 云: neo4j+s://xxx.databases.neo4j.io)
+            uri: Neo4j 连接 URI (本地: bolt://localhost:7687, 云: neo4j+s://xxx.databases.neo4j.io)
             username: 用户名
             password: 密码
             database: 数据库名称
@@ -45,7 +45,7 @@ class Neo4jGraphStore:
             connection_acquisition_timeout: 连接获取超时(秒)
         """
         if not NEO4J_AVAILABLE:
-            raise ImportError("neo4j未安装。请运行: pip install neo4j>=5.0.0")
+            raise ImportError("neo4j 未安装. 请运行: pip install neo4j>=5.0.0")
 
         self.uri = uri
         self.username = username
@@ -64,7 +64,7 @@ class Neo4jGraphStore:
         self._create_indexes()
 
     def _initialize_driver(self, **config):
-        """初始化Neo4j驱动"""
+        """初始化 Neo4j 驱动"""
         try:
             self.driver = GraphDatabase.driver(
                 self.uri, auth=(self.username, self.password), **config
@@ -75,26 +75,26 @@ class Neo4jGraphStore:
 
             # 检查是否是云服务
             if "neo4j.io" in self.uri or "aura" in self.uri.lower():
-                logger.info(f"✅ 成功连接到Neo4j云服务: {self.uri}")
+                logger.info(f"✅ 成功连接到 Neo4j 云服务: {self.uri}")
             else:
-                logger.info(f"✅ 成功连接到Neo4j服务: {self.uri}")
+                logger.info(f"✅ 成功连接到 Neo4j 服务: {self.uri}")
 
         except AuthError as e:
-            logger.error(f"❌ Neo4j认证失败: {e}")
+            logger.error(f"❌ Neo4j 认证失败: {e}")
             logger.info("💡 请检查用户名和密码是否正确")
             raise
         except ServiceUnavailable as e:
-            logger.error(f"❌ Neo4j服务不可用: {e}")
+            logger.error(f"❌ Neo4j 服务不可用: {e}")
             if "localhost" in self.uri:
-                logger.info("💡 本地连接失败，可以考虑使用Neo4j Aura云服务")
+                logger.info("💡 本地连接失败, 可以考虑使用 Neo4j Aura 云服务")
                 logger.info(
                     "💡 或启动本地服务: docker run -p 7474:7474 -p 7687:7687 neo4j:5.14"
                 )
             else:
-                logger.info("💡 请检查URL和网络连接")
+                logger.info("💡 请检查 URL 和网络连接")
             raise
         except Exception as e:
-            logger.error(f"❌ Neo4j连接失败: {e}")
+            logger.error(f"❌ Neo4j 连接失败: {e}")
             raise
 
     def _create_indexes(self):
@@ -117,7 +117,7 @@ class Neo4jGraphStore:
                 except Exception as e:
                     logger.debug(f"索引创建跳过 (可能已存在): {e}")
 
-        logger.info("✅ Neo4j索引创建完成")
+        logger.info("✅ Neo4j 索引创建完成")
 
     def add_entity(
         self,
@@ -130,7 +130,7 @@ class Neo4jGraphStore:
         添加实体节点
 
         Args:
-            entity_id: 实体ID
+            entity_id: 实体 ID
             name: 实体名称
             entity_type: 实体类型
             properties: 附加属性
@@ -180,8 +180,8 @@ class Neo4jGraphStore:
         添加实体间关系
 
         Args:
-            from_entity_id: 源实体ID
-            to_entity_id: 目标实体ID
+            from_entity_id: 源实体 ID
+            to_entity_id: 目标实体 ID
             relationship_type: 关系类型
             properties: 关系属性
 
@@ -214,7 +214,7 @@ class Neo4jGraphStore:
 
                 if record:
                     logger.debug(
-                        f"✅ 添加关系: {from_entity_id} -{relationship_type}-> {to_entity_id}"
+                        f"✅ 添加关系: {from_entity_id} - {relationship_type} -> {to_entity_id}"
                     )
                     return True
                 return False
@@ -234,7 +234,7 @@ class Neo4jGraphStore:
         查找相关实体
 
         Args:
-            entity_id: 起始实体ID
+            entity_id: 起始实体 ID
             relationship_types: 关系类型过滤
             max_depth: 最大搜索深度
             limit: 结果限制
@@ -252,7 +252,7 @@ class Neo4jGraphStore:
             query = f"""
             MATCH path = (start:Entity {{id: $entity_id}})-[r{rel_filter}*1..{max_depth}]-(related:Entity)
             WHERE start.id <> related.id
-            RETURN DISTINCT related, 
+            RETURN DISTINCT related,
                    length(path) as distance,
                    [rel in relationships(path) | type(rel)] as relationship_path
             ORDER BY distance, related.name
@@ -327,7 +327,7 @@ class Neo4jGraphStore:
         获取实体的所有关系
 
         Args:
-            entity_id: 实体ID
+            entity_id: 实体 ID
 
         Returns:
             List[Dict]: 关系列表
@@ -335,7 +335,7 @@ class Neo4jGraphStore:
         try:
             query = """
             MATCH (e:Entity {id: $entity_id})-[r]-(other:Entity)
-            RETURN r, other, 
+            RETURN r, other,
                    CASE WHEN startNode(r).id = $entity_id THEN 'outgoing' ELSE 'incoming' END as direction
             """
 
@@ -365,7 +365,7 @@ class Neo4jGraphStore:
         删除实体及其所有关系
 
         Args:
-            entity_id: 实体ID
+            entity_id: 实体 ID
 
         Returns:
             bool: 是否成功
@@ -459,7 +459,7 @@ class Neo4jGraphStore:
             return False
 
     def __del__(self):
-        """析构函数，清理资源"""
+        """析构函数, 清理资源"""
         if hasattr(self, "driver") and self.driver:
             try:
                 self.driver.close()
