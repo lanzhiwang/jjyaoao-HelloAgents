@@ -1,6 +1,6 @@
 """工作记忆实现
 
-按照第8章架构设计的工作记忆，提供：
+按照第 8 章架构设计的工作记忆, 提供:
 - 短期上下文管理
 - 容量和时间限制
 - 优先级管理
@@ -17,9 +17,9 @@ from ..base import BaseMemory, MemoryItem, MemoryConfig
 class WorkingMemory(BaseMemory):
     """工作记忆实现
 
-    特点：
-    - 容量有限（通常10-20条记忆）
-    - 时效性强（会话级别）
+    特点:
+    - 容量有限(通常 10 - 20 条记忆)
+    - 时效性强(会话级别)
     - 优先级管理
     - 自动清理过期记忆
     """
@@ -30,12 +30,12 @@ class WorkingMemory(BaseMemory):
         # 工作记忆特定配置
         self.max_capacity = self.config.working_memory_capacity
         self.max_tokens = self.config.working_memory_tokens
-        # 纯内存TTL（分钟），可通过在 MemoryConfig 上挂载 working_memory_ttl_minutes 覆盖
+        # 纯内存 TTL(分钟), 可通过在 MemoryConfig 上挂载 working_memory_ttl_minutes 覆盖
         self.max_age_minutes = getattr(self.config, "working_memory_ttl_minutes", 120)
         self.current_tokens = 0
         self.session_start = datetime.now()
 
-        # 内存存储（工作记忆不需要持久化）
+        # 内存存储(工作记忆不需要持久化)
         self.memories: List[MemoryItem] = []
 
         # 使用优先级队列管理记忆
@@ -45,7 +45,7 @@ class WorkingMemory(BaseMemory):
         """添加工作记忆"""
         # 过期清理
         self._expire_old_memories()
-        # 计算优先级（重要性 + 时间衰减）
+        # 计算优先级(重要性 + 时间衰减)
         priority = self._calculate_priority(memory_item)
 
         # 添加到堆中
@@ -54,7 +54,7 @@ class WorkingMemory(BaseMemory):
         )
         self.memories.append(memory_item)
 
-        # 更新token计数
+        # 更新 token 计数
         self.current_tokens += len(memory_item.content.split())
 
         # 检查容量限制
@@ -76,7 +76,7 @@ class WorkingMemory(BaseMemory):
             m for m in self.memories if not m.metadata.get("forgotten", False)
         ]
 
-        # 按用户ID过滤（如果提供）
+        # 按用户 ID 过滤(如果提供)
         filtered_memories = active_memories
         if user_id:
             filtered_memories = [m for m in active_memories if m.user_id == user_id]
@@ -84,10 +84,10 @@ class WorkingMemory(BaseMemory):
         if not filtered_memories:
             return []
 
-        # 尝试语义向量检索（如果有嵌入模型）
+        # 尝试语义向量检索(如果有嵌入模型)
         vector_scores = {}
         try:
-            # 简单的语义相似度计算（使用TF-IDF或其他轻量级方法）
+            # 简单的语义相似度计算(使用 TF-IDF 或其他轻量级方法)
             from sklearn.feature_extraction.text import TfidfVectorizer
             from sklearn.metrics.pairwise import cosine_similarity
             import numpy as np
@@ -109,7 +109,7 @@ class WorkingMemory(BaseMemory):
                 vector_scores[memory.id] = similarities[i]
 
         except Exception as e:
-            # 如果向量检索失败，回退到关键词匹配
+            # 如果向量检索失败, 回退到关键词匹配
             vector_scores = {}
 
         # 计算最终分数
@@ -119,7 +119,7 @@ class WorkingMemory(BaseMemory):
         for memory in filtered_memories:
             content_lower = memory.content.lower()
 
-            # 获取向量分数（如果有）
+            # 获取向量分数(如果有)
             vector_score = vector_scores.get(memory.id, 0.0)
 
             # 关键词匹配分数
@@ -136,7 +136,7 @@ class WorkingMemory(BaseMemory):
                         len(intersection) / len(query_words.union(content_words)) * 0.8
                     )
 
-            # 混合分数：向量检索 + 关键词匹配
+            # 混合分数: 向量检索 + 关键词匹配
             if vector_score > 0:
                 base_relevance = vector_score * 0.7 + keyword_score * 0.3
             else:
@@ -171,7 +171,7 @@ class WorkingMemory(BaseMemory):
 
                 if content is not None:
                     memory.content = content
-                    # 更新token计数
+                    # 更新 token 计数
                     new_tokens = len(content.split())
                     self.current_tokens = self.current_tokens - old_tokens + new_tokens
 
@@ -194,10 +194,10 @@ class WorkingMemory(BaseMemory):
                 # 从列表中删除
                 removed_memory = self.memories.pop(i)
 
-                # 从堆中删除（标记删除）
+                # 从堆中删除(标记删除)
                 self._mark_deleted_in_heap(memory_id)
 
-                # 更新token计数
+                # 更新 token 计数
                 self.current_tokens -= len(removed_memory.content.split())
                 self.current_tokens = max(0, self.current_tokens)
 
@@ -216,10 +216,10 @@ class WorkingMemory(BaseMemory):
 
     def get_stats(self) -> Dict[str, Any]:
         """获取工作记忆统计信息"""
-        # 过期清理（惰性）
+        # 过期清理(惰性)
         self._expire_old_memories()
 
-        # 工作记忆中的记忆都是活跃的（已遗忘的记忆会被直接删除）
+        # 工作记忆中的记忆都是活跃的(已遗忘的记忆会被直接删除)
         active_memories = self.memories
 
         return {
@@ -287,7 +287,7 @@ class WorkingMemory(BaseMemory):
             else:
                 # 截断最后一个记忆
                 remaining = max_length - current_length
-                if remaining > 50:  # 至少保留50个字符
+                if remaining > 50:  # 至少保留 50 个字符
                     summary_parts.append(content[:remaining] + "...")
                 break
 
@@ -305,7 +305,7 @@ class WorkingMemory(BaseMemory):
 
         to_remove = []
 
-        # 始终先执行TTL过期（分钟级）
+        # 始终先执行TTL过期(分钟级)
         cutoff_ttl = current_time - timedelta(minutes=self.max_age_minutes)
         for memory in self.memories:
             if memory.timestamp < cutoff_ttl:
@@ -318,7 +318,7 @@ class WorkingMemory(BaseMemory):
                     to_remove.append(memory.id)
 
         elif strategy == "time_based":
-            # 删除过期记忆（工作记忆通常以小时计算）
+            # 删除过期记忆(工作记忆通常以小时计算)
             cutoff_time = current_time - timedelta(hours=max_age_days * 24)
             for memory in self.memories:
                 if memory.timestamp < cutoff_time:
@@ -327,7 +327,7 @@ class WorkingMemory(BaseMemory):
         elif strategy == "capacity_based":
             # 删除超出容量的记忆
             if len(self.memories) > self.max_capacity:
-                # 按优先级排序，删除最低的
+                # 按优先级排序, 删除最低的
                 sorted_memories = sorted(
                     self.memories, key=lambda m: self._calculate_priority(m)
                 )
@@ -358,9 +358,9 @@ class WorkingMemory(BaseMemory):
         time_diff = datetime.now() - timestamp
         hours_passed = time_diff.total_seconds() / 3600
 
-        # 指数衰减（工作记忆衰减更快）
-        decay_factor = self.config.decay_factor ** (hours_passed / 6)  # 每6小时衰减
-        return max(0.1, decay_factor)  # 最小保持10%的权重
+        # 指数衰减(工作记忆衰减更快)
+        decay_factor = self.config.decay_factor ** (hours_passed / 6)  # 每 6 小时衰减
+        return max(0.1, decay_factor)  # 最小保持 10% 的权重
 
     def _enforce_capacity_limits(self):
         """强制执行容量限制"""
@@ -368,12 +368,12 @@ class WorkingMemory(BaseMemory):
         while len(self.memories) > self.max_capacity:
             self._remove_lowest_priority_memory()
 
-        # 检查token限制
+        # 检查 token 限制
         while self.current_tokens > self.max_tokens:
             self._remove_lowest_priority_memory()
 
     def _expire_old_memories(self):
-        """按TTL清理过期记忆，并同步更新堆与token计数"""
+        """按 TTL 清理过期记忆, 并同步更新堆与 token 计数"""
         if not self.memories:
             return
         cutoff_time = datetime.now() - timedelta(minutes=self.max_age_minutes)
@@ -416,7 +416,7 @@ class WorkingMemory(BaseMemory):
 
     def _update_heap_priority(self, memory: MemoryItem):
         """更新堆中记忆的优先级"""
-        # 简单实现：重建堆
+        # 简单实现: 重建堆
         self.memory_heap = []
         for mem in self.memories:
             priority = self._calculate_priority(mem)
@@ -424,6 +424,6 @@ class WorkingMemory(BaseMemory):
 
     def _mark_deleted_in_heap(self, memory_id: str):
         """在堆中标记删除的记忆"""
-        # 由于heapq不支持直接删除，我们标记为已删除
+        # 由于 heapq 不支持直接删除, 我们标记为已删除
         # 在后续操作中会被清理
         pass
