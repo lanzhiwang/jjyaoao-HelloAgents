@@ -1,7 +1,7 @@
 from hello_agents.tools import MCPTool
 
 # 1. Memory Transport - 内存传输（用于测试）
-# 不指定任何参数，使用内置演示服务器
+# 不指定任何参数, 使用内置演示服务器
 mcp_tool = MCPTool()
 
 # 2. Stdio Transport - 标准输入输出传输（本地开发）
@@ -21,8 +21,8 @@ mcp_tool = MCPTool(
 )
 
 # 5. HTTP/SSE/StreamableHTTP Transport
-# 注意：MCPTool主要用于Stdio和Memory传输
-# 对于HTTP/SSE等远程传输，建议直接使用MCPClient
+# 注意: MCPTool主要用于Stdio和Memory传输
+# 对于HTTP/SSE等远程传输, 建议直接使用MCPClient
 
 from hello_agents.tools import MCPTool
 
@@ -41,10 +41,10 @@ print(result)
 
 from hello_agents.tools import MCPTool
 
-# 方式1：使用自定义Python服务器
+# 方式1: 使用自定义Python服务器
 mcp_tool = MCPTool(server_command=["python", "my_mcp_server.py"])
 
-# 方式2：使用社区服务器（文件系统）
+# 方式2: 使用社区服务器（文件系统）
 mcp_tool = MCPTool(
     server_command=["npx", "-y", "@modelcontextprotocol/server-filesystem", "."]
 )
@@ -64,8 +64,8 @@ result = mcp_tool.run(
 print(result)
 
 
-# 注意：MCPTool 主要用于 Stdio 和 Memory 传输
-# 对于 HTTP/SSE 等远程传输，建议使用底层的 MCPClient
+# 注意: MCPTool 主要用于 Stdio 和 Memory 传输
+# 对于 HTTP/SSE 等远程传输, 建议使用底层的 MCPClient
 
 import asyncio
 from hello_agents.protocols.mcp.client import MCPClient
@@ -87,5 +87,5 @@ async def test_http_transport():
         print(f"远程处理结果: {result}")
 
 
-# 注意：需要实际的 HTTP MCP 服务器
+# 注意: 需要实际的 HTTP MCP 服务器
 # asyncio.run(test_http_transport())

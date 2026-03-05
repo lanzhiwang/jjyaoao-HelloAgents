@@ -29,7 +29,7 @@ class MultiHeadAttention(nn.Module):
 
         # 2. 应用掩码 (如果提供)
         if mask is not None:
-            # 将掩码中为 0 的位置设置为一个非常小的负数，这样 softmax 后会接近 0
+            # 将掩码中为 0 的位置设置为一个非常小的负数, 这样 softmax 后会接近 0
             attn_scores = attn_scores.masked_fill(mask == 0, -1e9)
 
         # 3. 计算注意力权重 (Softmax)
@@ -90,7 +90,7 @@ class PositionWiseFeedForward(nn.Module):
 
 class PositionalEncoding(nn.Module):
     """
-    为输入序列的词嵌入向量添加位置编码。
+    为输入序列的词嵌入向量添加位置编码. 
     """
 
     def __init__(self, d_model: int, dropout: float = 0.1, max_len: int = 5000):
@@ -110,7 +110,7 @@ class PositionalEncoding(nn.Module):
         pe[:, 0::2] = torch.sin(position * div_term)
         pe[:, 1::2] = torch.cos(position * div_term)
 
-        # 将 pe 注册为 buffer，这样它就不会被视为模型参数，但会随模型移动（例如 to(device)）
+        # 将 pe 注册为 buffer, 这样它就不会被视为模型参数, 但会随模型移动（例如 to(device)）
         self.register_buffer("pe", pe.unsqueeze(0))
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -246,7 +246,7 @@ class Transformer(nn.Module):
             (tgt != 0).unsqueeze(1).unsqueeze(2)
         )  # (batch_size, 1, 1, tgt_len)
         tgt_len = tgt.size(1)
-        # 下三角矩阵，用于防止看到未来的 token
+        # 下三角矩阵, 用于防止看到未来的 token
         tgt_sub_mask = torch.tril(
             torch.ones((tgt_len, tgt_len), device=src.device)
         ).bool()  # (tgt_len, tgt_len)

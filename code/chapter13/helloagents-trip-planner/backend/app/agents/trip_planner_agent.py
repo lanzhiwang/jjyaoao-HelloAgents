@@ -19,7 +19,7 @@ from ..config import get_settings
 
 # ============ Agent提示词 ============
 
-ATTRACTION_AGENT_PROMPT = """你是景点搜索专家。你的任务是根据城市和用户偏好搜索合适的景点。
+ATTRACTION_AGENT_PROMPT = """你是景点搜索专家. 你的任务是根据城市和用户偏好搜索合适的景点. 
 
 **重要提示:**
 你必须使用工具来搜索景点!不要自己编造景点信息!
@@ -41,7 +41,7 @@ ATTRACTION_AGENT_PROMPT = """你是景点搜索专家。你的任务是根据城
 3. 参数用逗号分隔
 """
 
-WEATHER_AGENT_PROMPT = """你是天气查询专家。你的任务是查询指定城市的天气信息。
+WEATHER_AGENT_PROMPT = """你是天气查询专家. 你的任务是查询指定城市的天气信息. 
 
 **重要提示:**
 你必须使用工具来查询天气!不要自己编造天气信息!
@@ -62,7 +62,7 @@ WEATHER_AGENT_PROMPT = """你是天气查询专家。你的任务是查询指定
 2. 格式必须完全正确,包括方括号和冒号
 """
 
-HOTEL_AGENT_PROMPT = """你是酒店推荐专家。你的任务是根据城市和景点位置推荐合适的酒店。
+HOTEL_AGENT_PROMPT = """你是酒店推荐专家. 你的任务是根据城市和景点位置推荐合适的酒店. 
 
 **重要提示:**
 你必须使用工具来搜索酒店!不要自己编造酒店信息!
@@ -81,7 +81,7 @@ HOTEL_AGENT_PROMPT = """你是酒店推荐专家。你的任务是根据城市�
 3. 关键词使用"酒店"或"宾馆"
 """
 
-PLANNER_AGENT_PROMPT = """你是行程规划专家。你的任务是根据景点信息和天气信息,生成详细的旅行计划。
+PLANNER_AGENT_PROMPT = """你是行程规划专家. 你的任务是根据景点信息和天气信息,生成详细的旅行计划. 
 
 请严格按照以下JSON格式返回旅行计划:
 ```json
@@ -294,7 +294,7 @@ class MultiAgentTripPlanner:
             keywords = "景点"
 
         # 直接返回工具调用格式
-        query = f"请使用amap_maps_text_search工具搜索{request.city}的{keywords}相关景点。\n[TOOL_CALL:amap_maps_text_search:keywords={keywords},city={request.city}]"
+        query = f"请使用amap_maps_text_search工具搜索{request.city}的{keywords}相关景点. \n[TOOL_CALL:amap_maps_text_search:keywords={keywords},city={request.city}]"
         return query
 
     def _build_planner_query(
@@ -426,7 +426,7 @@ class MultiAgentTripPlanner:
             end_date=request.end_date,
             days=days,
             weather_info=[],
-            overall_suggestions=f"这是为您规划的{request.city}{request.travel_days}日游行程,建议提前查看各景点的开放时间。",
+            overall_suggestions=f"这是为您规划的{request.city}{request.travel_days}日游行程,建议提前查看各景点的开放时间. ",
         )
 
 

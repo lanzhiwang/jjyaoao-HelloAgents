@@ -187,7 +187,7 @@ class PerformanceMonitor:
 
             if duration > target_time:
                 print(
-                    f"⚠️ 性能警告: {operation} 耗时 {duration:.2f}s，超过目标 {target_str}"
+                    f"⚠️ 性能警告: {operation} 耗时 {duration:.2f}s, 超过目标 {target_str}"
                 )
 
         return duration
@@ -232,8 +232,8 @@ class UIHelper:
         self.display_options = config.ui_settings.get("display_options", {})
 
     def print_colored(self, text: str, color_type: str = "default"):
-        """打印彩色文本（简化版，实际可以使用colorama等库）"""
-        # 这里简化处理，实际应用中可以集成colorama
+        """打印彩色文本（简化版, 实际可以使用colorama等库）"""
+        # 这里简化处理, 实际应用中可以集成colorama
         color_prefix = {
             "user_input": "👤 ",
             "agent_response": "🤖 ",
@@ -313,13 +313,13 @@ class LoggingSetup:
 
 
 def load_demo_config(config_path: str = "demo_config.json") -> DemoConfig:
-    """便捷函数：加载演示配置"""
+    """便捷函数: 加载演示配置"""
     loader = ConfigLoader(config_path)
     return loader.load_config()
 
 
 def create_demo_helpers(config: DemoConfig):
-    """便捷函数：创建演示辅助工具"""
+    """便捷函数: 创建演示辅助工具"""
     resource_manager = ResourceManager(config)
     performance_monitor = PerformanceMonitor(config)
     ui_helper = UIHelper(config)

@@ -1,7 +1,7 @@
 """
 TerminalTool 使用示例
 
-展示 TerminalTool 的典型使用模式：
+展示 TerminalTool 的典型使用模式: 
 1. 探索式导航
 2. 数据文件分析
 3. 日志文件分析

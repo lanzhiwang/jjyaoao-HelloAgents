@@ -1,12 +1,12 @@
 """
-第十二章示例5：GAIA快速开始
+第十二章示例5: GAIA快速开始
 
-对应文档：12.3.5 在HelloAgents中实现GAIA评估 - 方式1
+对应文档: 12.3.5 在HelloAgents中实现GAIA评估 - 方式1
 
-这是最简单的GAIA评估方式，一行代码完成评估。
+这是最简单的GAIA评估方式, 一行代码完成评估. 
 
-重要提示：
-1. GAIA是受限数据集，需要先在HuggingFace上申请访问权限
+重要提示: 
+1. GAIA是受限数据集, 需要先在HuggingFace上申请访问权限
 2. 需要设置HF_TOKEN环境变量
 3. 必须使用GAIA官方系统提示词
 """
@@ -37,7 +37,7 @@ gaia_tool = GAIAEvaluationTool()
 # 4. 运行评估
 results = gaia_tool.run(
     agent=agent,
-    level=1,  # 评估级别（1=简单，2=中等，3=困难）
+    level=1,  # 评估级别（1=简单, 2=中等, 3=困难）
     max_samples=2,  # 评估样本数（0表示全部）
     export_results=True,  # 导出结果到GAIA官方格式
     generate_report=True,  # 生成详细报告
@@ -49,7 +49,7 @@ print(f"精确匹配率: {results['exact_match_rate']:.2%}")
 print(f"部分匹配率: {results['partial_match_rate']:.2%}")
 print(f"正确数: {results['correct_samples']}/{results['total_samples']}")
 
-# 运行输出示例：
+# 运行输出示例: 
 # ============================================================
 # GAIA一键评估
 # ============================================================

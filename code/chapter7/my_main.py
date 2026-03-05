@@ -9,7 +9,7 @@ load_dotenv()
 llm = MyLLM(provider="modelscope")
 
 # 准备消息
-messages = [{"role": "user", "content": "你好，请介绍一下你自己。"}]
+messages = [{"role": "user", "content": "你好, 请介绍一下你自己. "}]
 
 # 发起调用, think等方法都已从父类继承, 无需重写
 response_stream = llm.think(messages)

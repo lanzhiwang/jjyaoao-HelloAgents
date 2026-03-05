@@ -1,9 +1,9 @@
 """
-第十二章示例2：BFCL快速开始
+第十二章示例2: BFCL快速开始
 
-对应文档：12.2.5 在HelloAgents中实现BFCL评估 - 方式1
+对应文档: 12.2.5 在HelloAgents中实现BFCL评估 - 方式1
 
-这是最简单的BFCL评估方式，一行代码完成评估、报告生成和官方评估。
+这是最简单的BFCL评估方式, 一行代码完成评估、报告生成和官方评估. 
 """
 
 from hello_agents import SimpleAgent, HelloAgentsLLM
@@ -27,7 +27,7 @@ results = bfcl_tool.run(
 print(f"准确率: {results['overall_accuracy']:.2%}")
 print(f"正确数: {results['correct_samples']}/{results['total_samples']}")
 
-# 运行输出示例：
+# 运行输出示例: 
 # ============================================================
 # BFCL一键评估
 # ============================================================

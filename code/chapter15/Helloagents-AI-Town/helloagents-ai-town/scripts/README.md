@@ -183,17 +183,17 @@ Main (Node2D)
 - `main.tscn` -> 附加 `main.gd`
 
 ### 步骤3: 配置节点
-确保每个场景的节点结构与脚本要求一致。
+确保每个场景的节点结构与脚本要求一致. 
 
 ### 步骤4: 设置参数
-在Inspector中设置导出参数(如NPC名字、速度等)。
+在Inspector中设置导出参数(如NPC名字、速度等). 
 
 ---
 
 ## 🐛 调试技巧
 
 ### 查看日志
-所有脚本都使用 `Config.log_info()` 输出日志,在Godot的 **Output** 面板查看。
+所有脚本都使用 `Config.log_info()` 输出日志,在Godot的 **Output** 面板查看. 
 
 ### 常见日志:
 ```

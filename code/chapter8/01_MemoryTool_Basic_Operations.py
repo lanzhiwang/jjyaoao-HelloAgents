@@ -139,7 +139,7 @@ def memory_management_demo(memory_tool):
     memory_tool.run(
         {
             "action": "add",
-            "content": "这是一个临时的测试记忆，重要性很低",
+            "content": "这是一个临时的测试记忆, 重要性很低",
             "memory_type": "working",
             "importance": 0.1,
         }
@@ -188,7 +188,7 @@ def main():
         memory_management_demo(memory_tool)
 
         print("\n" + "=" * 60)
-        print("🎉 MemoryTool基础操作演示完成！")
+        print("🎉 MemoryTool基础操作演示完成! ")
         print("=" * 60)
 
         print("\n✨ 演示的核心功能:")
@@ -198,8 +198,8 @@ def main():
         print("4. ⚙️ 记忆整合和选择性遗忘")
 
         print("\n🎯 设计特点:")
-        print("• 统一的execute接口，操作简洁一致")
-        print("• 丰富的元数据支持，便于分类和检索")
+        print("• 统一的execute接口, 操作简洁一致")
+        print("• 丰富的元数据支持, 便于分类和检索")
         print("• 智能的重要性评估和时间衰减机制")
         print("• 模拟人类认知的记忆管理策略")
 

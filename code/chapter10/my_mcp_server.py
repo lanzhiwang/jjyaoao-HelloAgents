@@ -1,13 +1,13 @@
 """
 自定义MCP服务器示例
 
-这是一个简单的MCP服务器，提供基础的数学计算和文本处理工具。
-用于演示如何创建自己的MCP服务器。
+这是一个简单的MCP服务器, 提供基础的数学计算和文本处理工具. 
+用于演示如何创建自己的MCP服务器. 
 
-运行方式：
+运行方式: 
     python my_mcp_server.py
 
-或者作为MCP服务器被客户端调用：
+或者作为MCP服务器被客户端调用: 
     MCPClient(["python", "my_mcp_server.py"])
 """
 
@@ -177,21 +177,21 @@ def get_capabilities() -> str:
         能力列表的文本描述
     """
     capabilities = """
-服务器能力列表：
+服务器能力列表: 
 
-数学计算：
+数学计算: 
 - add: 加法计算
 - subtract: 减法计算
 - multiply: 乘法计算
 - divide: 除法计算
 
-文本处理：
+文本处理: 
 - reverse_text: 反转文本
 - count_words: 统计单词数
 - to_uppercase: 转换为大写
 - to_lowercase: 转换为小写
 
-资源：
+资源: 
 - config://server: 服务器配置
 - info://capabilities: 能力列表（本资源）
 """
@@ -209,13 +209,13 @@ def math_helper() -> str:
     Returns:
         提示词模板
     """
-    return """你是一个数学计算助手。你可以使用以下工具：
+    return """你是一个数学计算助手. 你可以使用以下工具: 
 - add(a, b): 计算两数之和
 - subtract(a, b): 计算两数之差
 - multiply(a, b): 计算两数之积
 - divide(a, b): 计算两数之商
 
-请根据用户的问题选择合适的工具进行计算。"""
+请根据用户的问题选择合适的工具进行计算. """
 
 
 @mcp.prompt()
@@ -226,13 +226,13 @@ def text_processor() -> str:
     Returns:
         提示词模板
     """
-    return """你是一个文本处理助手。你可以使用以下工具：
+    return """你是一个文本处理助手. 你可以使用以下工具: 
 - reverse_text(text): 反转文本
 - count_words(text): 统计单词数
 - to_uppercase(text): 转换为大写
 - to_lowercase(text): 转换为小写
 
-请根据用户的需求选择合适的工具处理文本。"""
+请根据用户的需求选择合适的工具处理文本. """
 
 
 # ==================== 主程序 ====================

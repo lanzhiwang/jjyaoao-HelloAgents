@@ -124,7 +124,7 @@ class SemanticMemory(BaseMemory):
         logger.info("增强语义记忆初始化完成(使用Qdrant+Neo4j专业数据库)")
 
     def _init_embedding_model(self):
-        """初始化统一嵌入模型(由 embedding_provider 管理)。"""
+        """初始化统一嵌入模型(由 embedding_provider 管理). """
         try:
             self.embedding_model = get_text_embedder()
             # 轻量健康检查与日志

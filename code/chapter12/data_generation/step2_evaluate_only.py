@@ -1,17 +1,17 @@
 """
-步骤2：仅评估已生成的AIME题目
+步骤2: 仅评估已生成的AIME题目
 
-运行方法：
+运行方法: 
 python data_generation/step2_evaluate_only.py <generated_data_path>
 
-参数：
+参数: 
 - generated_data_path: 生成数据的路径
 
-说明：
+说明: 
 - 使用AIME 2025年真题作为参考
-- 数据集来源：math-ai/aime25（JSONL格式）
+- 数据集来源: math-ai/aime25（JSONL格式）
 
-示例：
+示例: 
 python data_generation/step2_evaluate_only.py data_generation/generated_data/aime_generated_20251011_042741.json
 """
 
@@ -39,7 +39,7 @@ def run_evaluation(generated_data_path: str):
 
     # 检查文件是否存在
     if not os.path.exists(generated_data_path):
-        print(f"\n❌ 错误：文件不存在: {generated_data_path}")
+        print(f"\n❌ 错误: 文件不存在: {generated_data_path}")
         return
 
     # 加载生成数据以获取题目数量
@@ -76,7 +76,7 @@ def run_evaluation(generated_data_path: str):
         )
 
         llm_judge_result = json.loads(llm_judge_result_json)
-        print(f"\n✅ LLM Judge评估完成！")
+        print(f"\n✅ LLM Judge评估完成! ")
         print(
             f"   平均总分: {llm_judge_result['metrics']['average_total_score']:.2f}/5.0"
         )
@@ -105,7 +105,7 @@ def run_evaluation(generated_data_path: str):
         )
 
         win_rate_result = json.loads(win_rate_result_json)
-        print(f"\n✅ Win Rate评估完成！")
+        print(f"\n✅ Win Rate评估完成! ")
         print(f"   Win Rate: {win_rate_result['metrics']['win_rate']:.2%}")
     except Exception as e:
         print(f"\n❌ Win Rate评估失败: {e}")
@@ -136,7 +136,7 @@ def run_evaluation(generated_data_path: str):
 
     # ========== 完成 ==========
     print("\n" + "=" * 80)
-    print("🎉 评估流程完成！")
+    print("🎉 评估流程完成! ")
     print("=" * 80)
     print(f"\n📁 输出文件:")
     print(f"   - 评估结果目录: {evaluation_dir}")
@@ -236,11 +236,11 @@ def generate_comprehensive_report(
         overall_win_rate = win_rate_result["metrics"]["win_rate"]
 
         if overall_avg_score >= 4.5 and overall_win_rate >= 0.48:
-            report += "✅ **结论**: 生成数据质量**优秀**，达到或超过AIME真题水平。\n"
+            report += "✅ **结论**: 生成数据质量**优秀**, 达到或超过AIME真题水平. \n"
         elif overall_avg_score >= 4.0 and overall_win_rate >= 0.45:
-            report += "✅ **结论**: 生成数据质量**良好**，接近AIME真题水平。\n"
+            report += "✅ **结论**: 生成数据质量**良好**, 接近AIME真题水平. \n"
         else:
-            report += "⚠️ **结论**: 生成数据质量**需要改进**，与AIME真题仍有差距。\n"
+            report += "⚠️ **结论**: 生成数据质量**需要改进**, 与AIME真题仍有差距. \n"
 
         report += f"\n**整体指标**:\n"
         report += f"- LLM Judge得分: {overall_avg_score:.2f}/5.0\n"
@@ -264,7 +264,7 @@ def generate_comprehensive_report(
 
     # 下一步行动
     report += "\n## 7. 下一步行动\n\n"
-    report += "1. **人工验证**: 运行人工验证界面，对生成的题目进行人工审核\n"
+    report += "1. **人工验证**: 运行人工验证界面, 对生成的题目进行人工审核\n"
     report += f"   ```bash\n   python data_generation/human_verification_ui.py {generated_data_path}\n   ```\n\n"
     report += "2. **质量筛选**: 根据评估结果筛选高质量题目\n\n"
     report += "3. **迭代优化**: 根据评估反馈优化生成策略\n"

@@ -124,9 +124,9 @@ class MemoryConsolidationDemo:
         for threshold in thresholds:
             print(f"\n🔍 测试重要性阈值 {threshold}:")
 
-            # 模拟整合过程（不实际执行，只是分析）
+            # 模拟整合过程（不实际执行, 只是分析）
             working_memories = []
-            # 这里应该从实际的工作记忆中获取，简化演示
+            # 这里应该从实际的工作记忆中获取, 简化演示
 
             print(f"  阈值 {threshold} 下符合整合条件的记忆:")
             print(f"  • 重要性 >= {threshold} 的记忆将被整合")
@@ -386,7 +386,7 @@ def main():
         demo.demonstrate_consolidation_benefits()
 
         print("\n" + "=" * 60)
-        print("🎉 记忆整合机制演示完成！")
+        print("🎉 记忆整合机制演示完成! ")
         print("=" * 60)
 
         print("\n✨ 记忆整合核心特性:")

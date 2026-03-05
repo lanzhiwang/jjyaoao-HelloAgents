@@ -176,10 +176,10 @@ def main():
     print("=" * 60)
 
     if terminal_failed == 0 and browser_failed == 0:
-        print("\n✅ 所有测试通过！工具可以正常使用。")
+        print("\n✅ 所有测试通过! 工具可以正常使用. ")
         return 0
     else:
-        print("\n⚠️  部分测试失败，请检查工具实现。")
+        print("\n⚠️  部分测试失败, 请检查工具实现. ")
         return 1
 
 

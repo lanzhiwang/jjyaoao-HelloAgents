@@ -1,6 +1,6 @@
 # Accelerate配置文件说明
 
-本目录包含用于分布式训练的Accelerate配置文件。
+本目录包含用于分布式训练的Accelerate配置文件. 
 
 ## 配置文件列表
 

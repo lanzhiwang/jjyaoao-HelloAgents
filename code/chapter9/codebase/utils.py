@@ -48,7 +48,7 @@ def get_timestamp() -> str:
 
 def ensure_dir(directory: str) -> None:
     """
-    确保目录存在，不存在则创建
+    确保目录存在, 不存在则创建
 
     Args:
         directory: 目录路径

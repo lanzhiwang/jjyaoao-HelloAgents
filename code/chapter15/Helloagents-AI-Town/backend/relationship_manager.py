@@ -45,25 +45,25 @@ class RelationshipManager:
 
     def _create_analyzer_prompt(self) -> str:
         """创建情感分析Agent的系统提示词"""
-        return """你是一个情感分析专家,负责分析对话中的情感倾向,判断是否应该改变NPC对玩家的好感度。
+        return """你是一个情感分析专家,负责分析对话中的情感倾向,判断是否应该改变NPC对玩家的好感度. 
 
-【任务】
-分析玩家与NPC的对话,判断是否应该改变好感度,以及改变的幅度。
+[任务]
+分析玩家与NPC的对话,判断是否应该改变好感度,以及改变的幅度. 
 
-【分析维度】
+[分析维度]
 1. **玩家态度**: 友好/中立/不友好
 2. **对话内容**: 积极/中立/消极
 3. **互动质量**: 深入/一般/敷衍
 4. **情感倾向**: 赞美/批评/中性
 
-【好感度变化规则】
+[好感度变化规则]
 - 赞美、感谢、请教: +3 到 +8
 - 友好问候、正常交流: +1 到 +3
 - 普通闲聊、中性话题: 0
 - 批评、质疑、不耐烦: -3 到 -8
 - 侮辱、攻击、恶意: -8 到 -15
 
-【输出格式】(严格遵守JSON格式,不要添加任何其他文字)
+[输出格式](严格遵守JSON格式,不要添加任何其他文字)
 {
     "should_change": true/false,
     "change_amount": -15到+10之间的整数,
@@ -71,32 +71,32 @@ class RelationshipManager:
     "sentiment": "positive/neutral/negative"
 }
 
-【示例1】
+[示例1]
 玩家: "你好,很高兴认识你!"
-NPC: "你好!我也很高兴认识你。"
+NPC: "你好!我也很高兴认识你. "
 输出: {"should_change": true, "change_amount": 5, "reason": "友好问候", "sentiment": "positive"}
 
-【示例2】
+[示例2]
 玩家: "你这个设计太丑了!"
 NPC: "抱歉,我会改进的..."
 输出: {"should_change": true, "change_amount": -8, "reason": "批评工作", "sentiment": "negative"}
 
-【示例3】
+[示例3]
 玩家: "今天天气不错"
-NPC: "是啊,挺好的。"
+NPC: "是啊,挺好的. "
 输出: {"should_change": false, "change_amount": 0, "reason": "普通闲聊", "sentiment": "neutral"}
 
-【示例4】
+[示例4]
 玩家: "你的代码写得真棒!"
-NPC: "谢谢!我最近在研究新技术。"
+NPC: "谢谢!我最近在研究新技术. "
 输出: {"should_change": true, "change_amount": 8, "reason": "赞美工作", "sentiment": "positive"}
 
-【示例5】
+[示例5]
 玩家: "能教教我吗?"
-NPC: "当然可以!我很乐意分享。"
+NPC: "当然可以!我很乐意分享. "
 输出: {"should_change": true, "change_amount": 6, "reason": "请教学习", "sentiment": "positive"}
 
-【重要】
+[重要]
 - 只输出JSON,不要添加任何解释或其他文字
 - change_amount必须是整数
 - reason必须简短(10字以内)
@@ -160,7 +160,7 @@ NPC: "当然可以!我很乐意分享。"
 玩家: {player_message}
 {npc_name}: {npc_response}
 
-请判断是否应该改变好感度,并给出变化量。
+请判断是否应该改变好感度,并给出变化量. 
 """
 
         try:
@@ -261,7 +261,7 @@ NPC: "当然可以!我很乐意分享。"
                 }
 
             # 解析失败,返回默认值
-            print(f"⚠️  JSON解析失败,使用默认值。原始响应: {response[:100]}...")
+            print(f"⚠️  JSON解析失败,使用默认值. 原始响应: {response[:100]}...")
             return {
                 "should_change": False,
                 "change_amount": 0,

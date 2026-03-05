@@ -1,6 +1,6 @@
 # HelloAgents智能旅行助手 🌍✈️
 
-基于HelloAgents框架构建的智能旅行规划助手,集成高德地图MCP服务,提供个性化的旅行计划生成。
+基于HelloAgents框架构建的智能旅行规划助手,集成高德地图MCP服务,提供个性化的旅行计划生成. 
 
 ## ✨ 功能特点
 
@@ -183,7 +183,7 @@ Agent可以自动调用以下高德地图MCP工具:
 
 ## 📄 API文档
 
-启动后端服务后,访问 `http://localhost:8000/docs` 查看完整的API文档。
+启动后端服务后,访问 `http://localhost:8000/docs` 查看完整的API文档. 
 
 主要端点:
 - `POST /api/trip/plan` - 生成旅行计划

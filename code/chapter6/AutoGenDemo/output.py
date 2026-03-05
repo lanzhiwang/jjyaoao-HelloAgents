@@ -40,4 +40,4 @@ if current_price is not None:
     if price_change_percentage is not None:
         st.metric(label="24小时变化 (%)", value=f"{price_change_percentage:.2f}%")
 else:
-    st.error("无法获取数据，请稍后重试。")
+    st.error("无法获取数据, 请稍后重试. ")

@@ -63,8 +63,8 @@ class BrowserTool:
         return text[:200]  # 限制长度
 
     def _search_searx(self, query, limit=5):
-        """使用多个搜索引擎实例 - 稳定版，优先支持中文搜索"""
-        # 精选多个稳定的搜索引擎，优先支持中文
+        """使用多个搜索引擎实例 - 稳定版, 优先支持中文搜索"""
+        # 精选多个稳定的搜索引擎, 优先支持中文
         search_instances = [
             {
                 "name": "Searx.xyz",
@@ -103,15 +103,15 @@ class BrowserTool:
                 print(f"🔍 尝试 {instance['name']}...")
                 result = self._try_search_instance(instance, query, limit)
                 if result and len(result) > 0:
-                    print(f"✅ {instance['name']} 搜索成功，找到 {len(result)} 个结果")
+                    print(f"✅ {instance['name']} 搜索成功, 找到 {len(result)} 个结果")
                     return result, True
 
             except Exception as e:
                 print(f"⚠️ {instance['name']} 失败: {str(e)[:50]}")
-                continue  # 静默失败，快速切换
+                continue  # 静默失败, 快速切换
 
         # 快速降级到搜索建议
-        print("🔗 所有搜索引擎失败，提供搜索建议")
+        print("🔗 所有搜索引擎失败, 提供搜索建议")
         return self._get_search_suggestions(query), True
 
     def _try_search_instance(self, instance, query, limit):
@@ -459,10 +459,10 @@ class BrowserTool:
         """提取DuckDuckGo搜索结果"""
         results = []
 
-        # DuckDuckGo现在返回202状态码，需要JavaScript渲染
+        # DuckDuckGo现在返回202状态码, 需要JavaScript渲染
         # 我们尝试从HTML中提取任何有用的信息
 
-        # 方法1：查找所有外部链接
+        # 方法1: 查找所有外部链接
         all_links = soup.find_all("a", href=True)
         external_links = []
 
@@ -484,9 +484,9 @@ class BrowserTool:
                     {"title": title, "url": href, "snippet": "", "link_element": link}
                 )
 
-        # 方法2：如果外部链接不够，尝试从页面文本中提取信息
+        # 方法2: 如果外部链接不够, 尝试从页面文本中提取信息
         if len(external_links) < 2:
-            print("⚠️ 外部链接较少，尝试文本提取")
+            print("⚠️ 外部链接较少, 尝试文本提取")
 
             # 查找页面中的主要文本内容
             text_content = soup.get_text()
@@ -512,9 +512,9 @@ class BrowserTool:
                         }
                     )
 
-        # 方法3：如果还是没有足够结果，提供搜索建议
+        # 方法3: 如果还是没有足够结果, 提供搜索建议
         if len(external_links) < 2:
-            print("⚠️ 搜索结果有限，提供搜索建议")
+            print("⚠️ 搜索结果有限, 提供搜索建议")
 
             suggestions = [
                 {
@@ -584,7 +584,7 @@ class BrowserTool:
 
     def _extract_main_content(self, soup):
         """智能提取页面主要内容"""
-        # 优先级策略：从最具体到最通用
+        # 优先级策略: 从最具体到最通用
         extraction_strategies = [
             # 1. 文章相关标签
             ["article", "main article", ".article-content", ".post-content"],
@@ -639,7 +639,7 @@ class BrowserTool:
                 return False
 
         # 检查是否包含有意义的句子
-        sentences = content.split("。")
+        sentences = content.split(". ")
         meaningful_sentences = [s.strip() for s in sentences if len(s.strip()) > 10]
 
         return len(meaningful_sentences) >= 2
@@ -652,9 +652,9 @@ class BrowserTool:
         # 移除多余空白
         content = re.sub(r"\s+", " ", content.strip())
 
-        # 移除特殊字符，保留中文标点
+        # 移除特殊字符, 保留中文标点
         content = re.sub(
-            r'[^\w\s\u4e00-\u9fff.,!?;:()[\]{}"\'。，！？：；（）【】""' "-]",
+            r'[^\w\s\u4e00-\u9fff.,!?;:()[\]{}"\'. , ! ? : ; （）[]""' "-]",
             "",
             content,
         )
@@ -664,7 +664,7 @@ class BrowserTool:
         content = re.sub(r" {2,}", " ", content)
 
         # 提取前几个有意义的句子
-        sentences = re.split(r"[。！？.!?]", content)
+        sentences = re.split(r"[. ! ? .!?]", content)
         meaningful_sentences = []
 
         for sentence in sentences:
@@ -674,10 +674,10 @@ class BrowserTool:
                 if len(meaningful_sentences) >= 3:  # 最多3个句子
                     break
 
-        return "。".join(meaningful_sentences)
+        return ". ".join(meaningful_sentences)
 
     def _enhance_search_results(self, results, limit=3):
-        """增强搜索结果，提取内容预览"""
+        """增强搜索结果, 提取内容预览"""
         enhanced_results = []
 
         for i, result in enumerate(results):
@@ -703,7 +703,7 @@ class BrowserTool:
         """备用结果提取方法"""
         results = []
 
-        # 方法1：提取标题元素
+        # 方法1: 提取标题元素
         for tag in ["h1", "h2", "h3", "h4"]:
             elements = soup.find_all(tag)
             for elem in elements:
@@ -714,7 +714,7 @@ class BrowserTool:
                 if self._is_valid_result(title, ""):
                     results.append({"title": title, "url": "", "snippet": ""})
 
-        # 方法2：提取文本块
+        # 方法2: 提取文本块
         if not results:
             text_blocks = soup.get_text().split("\n")
             for block in text_blocks:
@@ -736,7 +736,7 @@ class BrowserTool:
 
         # 参数验证
         if not query or not query.strip():
-            return "错误：搜索关键词不能为空"
+            return "错误: 搜索关键词不能为空"
 
         query = query.strip()
         self.last_query = query  # 保存查询用于建议
@@ -760,23 +760,23 @@ class BrowserTool:
         # 检测是否为中文查询
         is_chinese = any("\u4e00" <= char <= "\u9fff" for char in query)
 
-        # 对于中文搜索，直接使用Searx搜索引擎，跳过DuckDuckGo（避免202问题）
+        # 对于中文搜索, 直接使用Searx搜索引擎, 跳过DuckDuckGo（避免202问题）
         if is_chinese:
-            print(f"🌐 检测到中文查询，使用多引擎搜索策略...")
+            print(f"🌐 检测到中文查询, 使用多引擎搜索策略...")
             searx_results, searx_success = self._search_searx(query, limit)
 
             if searx_success and searx_results:
                 results = searx_results
                 search_engine = "Searx多引擎"
-                print(f"✅ 中文搜索成功，找到 {len(results)} 个结果")
+                print(f"✅ 中文搜索成功, 找到 {len(results)} 个结果")
             else:
-                # 如果Searx失败，提供搜索建议
-                print("⚠️ 所有搜索引擎失败，提供搜索建议")
+                # 如果Searx失败, 提供搜索建议
+                print("⚠️ 所有搜索引擎失败, 提供搜索建议")
                 results = self._get_search_suggestions(query)
                 search_engine = "搜索建议"
         else:
-            # 英文搜索：先尝试DuckDuckGo，失败后使用Searx
-            max_retries = 2  # 减少重试次数，快速切换到Searx
+            # 英文搜索: 先尝试DuckDuckGo, 失败后使用Searx
+            max_retries = 2  # 减少重试次数, 快速切换到Searx
             duckduckgo_success = False
 
             for attempt in range(max_retries):
@@ -787,9 +787,9 @@ class BrowserTool:
 
                     response = requests.get(url, headers=headers, timeout=10)
 
-                    # DuckDuckGo经常返回202，直接跳过
+                    # DuckDuckGo经常返回202, 直接跳过
                     if response.status_code == 202:
-                        print("⚠️ DuckDuckGo返回202（需要JavaScript），切换到Searx...")
+                        print("⚠️ DuckDuckGo返回202（需要JavaScript）, 切换到Searx...")
                         break
 
                     if response.status_code != 200:
@@ -811,7 +811,7 @@ class BrowserTool:
                     if results and len(results) > 0:
                         duckduckgo_success = True
                         search_engine = "DuckDuckGo"
-                        print(f"✅ DuckDuckGo搜索成功，找到 {len(results)} 个结果")
+                        print(f"✅ DuckDuckGo搜索成功, 找到 {len(results)} 个结果")
                         break
 
                 except Exception as e:
@@ -821,23 +821,23 @@ class BrowserTool:
                         continue
                     break
 
-            # 如果DuckDuckGo失败，使用Searx
+            # 如果DuckDuckGo失败, 使用Searx
             if not duckduckgo_success:
-                print("🌐 DuckDuckGo失败，切换到Searx搜索引擎...")
+                print("🌐 DuckDuckGo失败, 切换到Searx搜索引擎...")
                 searx_results, searx_success = self._search_searx(query, limit)
 
                 if searx_success and searx_results:
                     results = searx_results
                     search_engine = "Searx多引擎"
-                    print(f"✅ Searx搜索成功，找到 {len(results)} 个结果")
+                    print(f"✅ Searx搜索成功, 找到 {len(results)} 个结果")
                 else:
-                    print("⚠️ 所有搜索引擎失败，提供搜索建议")
+                    print("⚠️ 所有搜索引擎失败, 提供搜索建议")
                     results = self._get_search_suggestions(query)
                     search_engine = "搜索建议"
 
         # 增强搜索结果（提取内容预览）
         if results:
-            print("🚀 增强搜索结果，提取内容预览...")
+            print("🚀 增强搜索结果, 提取内容预览...")
             enhanced_results = self._enhance_search_results(results, limit=3)
             results = enhanced_results
 
@@ -851,7 +851,7 @@ class BrowserTool:
                     result_text += f"\n   🔗 {result['url']}"
 
                 if result["snippet"]:
-                    # 如果是增强的结果，显示内容预览
+                    # 如果是增强的结果, 显示内容预览
                     if result.get("enhanced"):
                         result_text += f"\n   📄 内容预览: {result['snippet']}"
                     else:
@@ -861,7 +861,7 @@ class BrowserTool:
 
             return "\n\n".join(formatted_results)
         else:
-            return f"未找到关于 '{query}' 的搜索结果。请尝试使用不同的关键词。"
+            return f"未找到关于 '{query}' 的搜索结果. 请尝试使用不同的关键词. "
 
     def _get_search_suggestions(self, query):
         """快速提供搜索建议"""
@@ -880,4 +880,4 @@ class BrowserTool:
             },
         ]
 
-        return "搜索失败，已多次重试。请稍后再试。"
+        return "搜索失败, 已多次重试. 请稍后再试. "

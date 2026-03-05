@@ -28,7 +28,7 @@ def get_vote_model_cn(agents: list[AgentBase]) -> type[BaseModel]:
             description="你要投票淘汰的玩家姓名",
         )
         reason: str = Field(
-            description="投票理由，简要说明为什么选择此人",
+            description="投票理由, 简要说明为什么选择此人",
         )
         suspicion_level: int = Field(
             description="对被投票者的怀疑程度(1-10)", ge=1, le=10

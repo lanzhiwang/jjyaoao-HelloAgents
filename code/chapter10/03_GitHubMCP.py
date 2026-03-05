@@ -1,7 +1,7 @@
 """
 GitHub MCP 服务示例
 
-注意：需要设置环境变量
+注意: 需要设置环境变量
     Windows: $env:GITHUB_PERSONAL_ACCESS_TOKEN="your_token_here"
     Linux/macOS: export GITHUB_PERSONAL_ACCESS_TOKEN="your_token_here"
 """
@@ -14,12 +14,12 @@ github_tool = MCPTool(
 )
 
 # 1. 列出可用工具
-print("📋 可用工具：")
+print("📋 可用工具: ")
 result = github_tool.run({"action": "list_tools"})
 print(result)
 
 # 2. 搜索仓库
-print("\n🔍 搜索仓库：")
+print("\n🔍 搜索仓库: ")
 result = github_tool.run(
     {
         "action": "call_tool",

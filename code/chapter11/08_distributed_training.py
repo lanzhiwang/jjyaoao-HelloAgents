@@ -1,8 +1,8 @@
 """
 分布式训练示例
 
-本脚本演示如何使用Accelerate进行分布式训练。
-训练代码本身无需修改,只需通过accelerate launch启动即可。
+本脚本演示如何使用Accelerate进行分布式训练. 
+训练代码本身无需修改,只需通过accelerate launch启动即可. 
 
 使用方法:
 1. 单GPU训练:

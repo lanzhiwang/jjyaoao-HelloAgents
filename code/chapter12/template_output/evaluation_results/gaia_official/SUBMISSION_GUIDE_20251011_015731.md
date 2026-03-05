@@ -12,7 +12,7 @@
 
 **结果文件**: `gaia_level1_result_20251011_015731.jsonl`
 
-此文件包含：
+此文件包含: 
 - 每个任务的task_id
 - 模型的答案（model_answer）
 - 推理轨迹（reasoning_trace）
@@ -21,14 +21,14 @@
 
 ### 步骤1: 访问GAIA排行榜
 
-打开浏览器，访问：
+打开浏览器, 访问: 
 ```
 https://huggingface.co/spaces/gaia-benchmark/leaderboard
 ```
 
 ### 步骤2: 准备提交信息
 
-在提交表单中填写以下信息：
+在提交表单中填写以下信息: 
 
 1. **Model Name（模型名称）**: `TestAgent`
 2. **Model Family（模型家族）**: 例如 `GPT`, `Claude`, `Qwen` 等
@@ -51,36 +51,36 @@ https://huggingface.co/spaces/gaia-benchmark/leaderboard
 
 ## 📋 结果文件格式说明
 
-GAIA要求的JSONL格式（每行一个JSON对象）：
+GAIA要求的JSONL格式（每行一个JSON对象）: 
 
 ```json
 {"task_id": "xxx", "model_answer": "答案", "reasoning_trace": "推理过程"}
 ```
 
-**字段说明**：
+**字段说明**: 
 - `task_id`: 任务ID（与GAIA数据集对应）
 - `model_answer`: 模型的最终答案
 - `reasoning_trace`: 模型的推理过程（可选）
 
 ## ⚠️ 注意事项
 
-1. **答案格式**：
-   - 数字：不使用逗号分隔符，不使用单位符号
-   - 字符串：不使用冠词，使用小写
-   - 列表：逗号分隔，按字母顺序排列
+1. **答案格式**: 
+   - 数字: 不使用逗号分隔符, 不使用单位符号
+   - 字符串: 不使用冠词, 使用小写
+   - 列表: 逗号分隔, 按字母顺序排列
 
-2. **文件大小**：
+2. **文件大小**: 
    - 确保文件不超过10MB
-   - 如果文件过大，考虑移除reasoning_trace
+   - 如果文件过大, 考虑移除reasoning_trace
 
-3. **提交频率**：
+3. **提交频率**: 
    - 建议先在小样本上测试
    - 确认结果正确后再提交完整评估
 
 ## 📞 获取帮助
 
-如果遇到问题：
-1. 查看GAIA官方文档：https://huggingface.co/gaia-benchmark
+如果遇到问题: 
+1. 查看GAIA官方文档: https://huggingface.co/gaia-benchmark
 2. 在HuggingFace论坛提问
 3. 检查结果文件格式是否正确
 

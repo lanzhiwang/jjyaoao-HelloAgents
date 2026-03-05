@@ -1,7 +1,7 @@
 import re
 import random
 
-# 定义规则库：模式(正则表达式) -> 响应模板列表
+# 定义规则库: 模式(正则表达式) -> 响应模板列表
 rules = {
     r"I need (.*)": [
         "Why do you need {0}?",
@@ -80,7 +80,7 @@ def respond(user_input):
             # 从模板中随机选择一个并格式化
             response = random.choice(responses).format(swapped_group)
             return response
-    # 如果没有匹配任何特定规则，使用最后的通配符规则
+    # 如果没有匹配任何特定规则, 使用最后的通配符规则
     return random.choice(rules[r".*"])
 
 

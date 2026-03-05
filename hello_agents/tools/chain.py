@@ -18,8 +18,8 @@ class ToolChain:
 
         Args:
             tool_name: 工具名称
-            input_template: 输入模板，支持变量替换，如 "{input}" 或 "{search_result}"
-            output_key: 输出结果的键名，用于后续步骤引用
+            input_template: 输入模板, 支持变量替换, 如 "{input}" 或 "{search_result}"
+            output_key: 输出结果的键名, 用于后续步骤引用
         """
         step = {
             "tool_name": tool_name,
@@ -38,13 +38,13 @@ class ToolChain:
         Args:
             registry: 工具注册表
             input_data: 初始输入数据
-            context: 执行上下文，用于变量替换
+            context: 执行上下文, 用于变量替换
 
         Returns:
             最终执行结果
         """
         if not self.steps:
-            return "❌ 工具链为空，无法执行"
+            return "❌ 工具链为空, 无法执行"
 
         print(f"🚀 开始执行工具链: {self.name}")
 
@@ -130,17 +130,17 @@ class ToolChainManager:
 
 # 便捷函数
 def create_research_chain() -> ToolChain:
-    """创建一个研究工具链：搜索 -> 计算 -> 总结"""
+    """创建一个研究工具链: 搜索 -> 计算 -> 总结"""
     chain = ToolChain(
         name="research_and_calculate", description="搜索信息并进行相关计算"
     )
 
-    # 步骤1：搜索信息
+    # 步骤1: 搜索信息
     chain.add_step(
         tool_name="search", input_template="{input}", output_key="search_result"
     )
 
-    # 步骤2：基于搜索结果进行计算
+    # 步骤2: 基于搜索结果进行计算
     chain.add_step(
         tool_name="my_calculator",
         input_template="2 + 2",  # 简单的计算示例

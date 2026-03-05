@@ -5,14 +5,14 @@ import os
 
 class TerminalTool:
     name = "terminal_exec"
-    description = "执行终端命令查看目录、文件和系统信息（支持：pwd, ls, cat, echo, whoami, date等）"
+    description = "执行终端命令查看目录、文件和系统信息（支持: pwd, ls, cat, echo, whoami, date等）"
 
     def __init__(self, security_mode="strict"):
         """
         初始化终端工具
 
         Args:
-            security_mode: "strict"（严格模式，直接拒绝） 或 "warning"（警告模式，给出提示）
+            security_mode: "strict"（严格模式, 直接拒绝） 或 "warning"（警告模式, 给出提示）
         """
         self.security_mode = security_mode
 
@@ -40,7 +40,7 @@ class TerminalTool:
             "df": ["-h"],  # 文件系统信息
         }
 
-        # 危险关键词，用于额外安全检查
+        # 危险关键词, 用于额外安全检查
         self.dangerous_keywords = [
             "rm",
             "delete",
@@ -70,7 +70,7 @@ class TerminalTool:
         return {
             "input": {
                 "type": "str",
-                "description": "输入终端命令，如：pwd, ls -la, cat filename.txt",
+                "description": "输入终端命令, 如: pwd, ls -la, cat filename.txt",
                 "required": True,
                 "examples": [
                     "pwd",
@@ -96,16 +96,16 @@ class TerminalTool:
         cmd_lower = cmd.lower()
         for keyword in self.dangerous_keywords:
             if keyword in cmd_lower:
-                error_msg = f"检测到不安全的操作：{keyword}"
-                warning_msg = f"⚠️ 警告：此命令包含 '{keyword}' 操作，可能导致系统损坏或数据丢失！"
+                error_msg = f"检测到不安全的操作: {keyword}"
+                warning_msg = f"⚠️ 警告: 此命令包含 '{keyword}' 操作, 可能导致系统损坏或数据丢失! "
                 return False, error_msg, warning_msg
 
         # 检查是否包含管道、重定向等操作
         operators = ["|", ">", "<", "&", "&&", "||", ";"]
         for op in operators:
             if op in cmd:
-                error_msg = f"检测到不安全的操作符：{op}"
-                warning_msg = f"⚠️ 警告：此命令包含 '{op}' 操作符，可能导致意外行为！"
+                error_msg = f"检测到不安全的操作符: {op}"
+                warning_msg = f"⚠️ 警告: 此命令包含 '{op}' 操作符, 可能导致意外行为! "
                 return False, error_msg, warning_msg
 
         return True, None, None
@@ -129,7 +129,7 @@ class TerminalTool:
             if self.security_mode == "strict":
                 return f"🚫 安全拒绝: {error_msg}"
             else:  # warning mode
-                return f"{warning_msg}\n\n命令: {cmd}\n\n如需继续执行，请确认操作的安全性。\n(当前为警告模式，尚未真正执行)"
+                return f"{warning_msg}\n\n命令: {cmd}\n\n如需继续执行, 请确认操作的安全性. \n(当前为警告模式, 尚未真正执行)"
 
         # 分割命令和参数
         parts = shlex.split(cmd)
@@ -143,7 +143,7 @@ class TerminalTool:
         if command_name not in self.allowed_commands:
             allowed_list = ", ".join(sorted(self.allowed_commands.keys()))
             similar_commands = self._find_similar_commands(command_name)
-            error_msg = f"🚫 命令 '{command_name}' 不在允许列表中。"
+            error_msg = f"🚫 命令 '{command_name}' 不在允许列表中. "
             error_msg += f"\n\n✅ 允许的命令: {allowed_list}"
             if similar_commands:
                 error_msg += f"\n💡 您是否想使用: {', '.join(similar_commands)}?"
@@ -159,7 +159,7 @@ class TerminalTool:
             if not validation_result[0]:  # 验证失败
                 return validation_result[1]
 
-        # 如果允许任何参数，进行基本安全检查
+        # 如果允许任何参数, 进行基本安全检查
         elif "*" in allowed_args and args:
             validation_result = self._validate_wildcard_args(command_name, args)
             if not validation_result[0]:  # 验证失败
@@ -170,7 +170,7 @@ class TerminalTool:
             # 使用 shlex.split 可以正确处理带引号的参数
             result = subprocess.run(
                 cmd,
-                shell=True,  # 保持向后兼容，但需要更严格的白名单
+                shell=True,  # 保持向后兼容, 但需要更严格的白名单
                 capture_output=True,
                 text=True,
                 timeout=15,
@@ -189,7 +189,7 @@ class TerminalTool:
                 return f"命令执行失败 (返回码: {result.returncode})\n{output.strip()}"
 
         except subprocess.TimeoutExpired:
-            return "命令执行超时（超过15秒）。"
+            return "命令执行超时（超过15秒）. "
         except subprocess.CalledProcessError as e:
             error_output = (
                 e.stderr.decode() if isinstance(e.stderr, bytes) else e.stderr
@@ -213,9 +213,9 @@ class TerminalTool:
         # 验证选项参数
         option_args = [arg for arg in args if arg.startswith("-")]
         for arg in option_args:
-            if arg not in allowed_args and arg != "-p":  # -p 是特殊的，允许mkdir使用
+            if arg not in allowed_args and arg != "-p":  # -p 是特殊的, 允许mkdir使用
                 help_text = self._get_command_help(command_name)
-                return False, f"参数 '{arg}' 不被允许。\n{help_text}"
+                return False, f"参数 '{arg}' 不被允许. \n{help_text}"
 
         # 验证非选项参数（通常是文件路径）
         file_args = [arg for arg in args if not arg.startswith("-")]
@@ -235,7 +235,7 @@ class TerminalTool:
         Returns:
             tuple: (is_valid, error_message)
         """
-        # 对于文件操作命令，进行路径安全检查
+        # 对于文件操作命令, 进行路径安全检查
         if command_name in ["cat", "head", "tail", "grep"]:
             for arg in args:
                 if not arg.startswith("-") and self._is_dangerous_path(arg):

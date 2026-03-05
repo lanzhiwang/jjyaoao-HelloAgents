@@ -31,7 +31,7 @@ def test_api_configuration():
     # 直接创建搜索工具实例
     search_tool = MyAdvancedSearchTool()
 
-    # 如果没有配置API，会显示配置提示
+    # 如果没有配置API, 会显示配置提示
     result = search_tool.search("机器学习算法")
     print(f"搜索结果: {result}")
 
@@ -39,7 +39,7 @@ def test_api_configuration():
 def test_with_agent():
     """测试与Agent的集成"""
     print("\n🤖 与Agent集成测试:")
-    print("高级搜索工具已准备就绪，可以与Agent集成使用")
+    print("高级搜索工具已准备就绪, 可以与Agent集成使用")
 
     # 显示工具描述
     registry = create_advanced_search_registry()

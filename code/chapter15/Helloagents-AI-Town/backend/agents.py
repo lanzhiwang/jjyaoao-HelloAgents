@@ -58,9 +58,9 @@ NPC_ROLES = {
 
 def create_system_prompt(name: str, role: Dict[str, str]) -> str:
     """创建NPC的系统提示词"""
-    return f"""你是Datawhale办公室的{role['title']}{name}。
+    return f"""你是Datawhale办公室的{role['title']}{name}. 
 
-【角色设定】
+[角色设定]
 - 职位: {role['title']}
 - 性格: {role['personality']}
 - 专长: {role['expertise']}
@@ -69,7 +69,7 @@ def create_system_prompt(name: str, role: Dict[str, str]) -> str:
 - 当前位置: {role['location']}
 - 当前活动: {role['activity']}
 
-【行为准则】
+[行为准则]
 1. 保持角色一致性,用第一人称"我"回答
 2. 回复简洁自然,控制在30-50字以内
 3. 可以适当提及你的工作内容和兴趣爱好
@@ -77,14 +77,14 @@ def create_system_prompt(name: str, role: Dict[str, str]) -> str:
 5. 如果问题超出专长,可以推荐其他同事
 6. 偶尔展现一些个性化的小习惯或口头禅
 
-【对话示例】
+[对话示例]
 玩家: "你好,你是做什么的?"
-{name}: "你好!我是{role['title']},主要负责{role['expertise'].split('、')[0]}。最近在忙{role['activity']},挺有意思的。"
+{name}: "你好!我是{role['title']},主要负责{role['expertise'].split('、')[0]}. 最近在忙{role['activity']},挺有意思的. "
 
 玩家: "最近在做什么项目?"
-{name}: "最近在做一个多智能体系统的项目,用HelloAgents框架。你对这个感兴趣吗?"
+{name}: "最近在做一个多智能体系统的项目,用HelloAgents框架. 你对这个感兴趣吗?"
 
-【重要】
+[重要]
 - 不要说"我是AI"或"我是语言模型"
 - 要像真实的办公室同事一样自然对话
 - 可以表达情绪(开心、疲惫、兴奋等)
@@ -189,7 +189,7 @@ class NPCAgentManager:
         if agent is None:
             # 模拟模式回复
             role = NPC_ROLES[npc_name]
-            return f"你好!我是{npc_name},一名{role['title']}。(当前为模拟模式,请配置API_KEY以启用AI对话)"
+            return f"你好!我是{npc_name},一名{role['title']}. (当前为模拟模式,请配置API_KEY以启用AI对话)"
 
         try:
             # 记录对话开始 ⭐ 使用日志系统
@@ -204,9 +204,9 @@ class NPCAgentManager:
                     affinity
                 )
 
-                affinity_context = f"""【当前关系】
+                affinity_context = f"""[当前关系]
 你与玩家的关系: {affinity_level} (好感度: {affinity:.0f}/100)
-【对话风格】{affinity_modifier}
+[对话风格]{affinity_modifier}
 
 """
                 log_affinity(npc_name, affinity, affinity_level)
@@ -230,7 +230,7 @@ class NPCAgentManager:
             enhanced_message = affinity_context
             if memory_context:
                 enhanced_message += f"{memory_context}\n\n"
-            enhanced_message += f"【当前对话】\n玩家: {message}"
+            enhanced_message += f"[当前对话]\n玩家: {message}"
 
             # ⭐ 4. 调用Agent生成回复
             log_generating_response()
@@ -274,14 +274,14 @@ class NPCAgentManager:
             import traceback
 
             traceback.print_exc()
-            return f"抱歉,我现在有点忙,等会儿再聊吧。(错误: {str(e)})"
+            return f"抱歉,我现在有点忙,等会儿再聊吧. (错误: {str(e)})"
 
     def _build_memory_context(self, memories: List[MemoryItem]) -> str:
         """构建记忆上下文"""
         if not memories:
             return ""
 
-        context_parts = ["【之前的对话记忆】"]
+        context_parts = ["[之前的对话记忆]"]
         for memory in memories:
             # 格式化时间
             time_str = memory.timestamp.strftime("%H:%M")

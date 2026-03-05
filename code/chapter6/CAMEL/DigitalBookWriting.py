@@ -21,13 +21,13 @@ model = ModelFactory.create(
 
 # 定义协作任务
 task_prompt = """
-创作一本关于"拖延症心理学"的短篇电子书，目标读者是对心理学感兴趣的普通大众。
-要求：
-1. 内容科学严谨，基于实证研究
-2. 语言通俗易懂，避免过多专业术语
+创作一本关于"拖延症心理学"的短篇电子书, 目标读者是对心理学感兴趣的普通大众. 
+要求: 
+1. 内容科学严谨, 基于实证研究
+2. 语言通俗易懂, 避免过多专业术语
 3. 包含实用的改善建议和案例分析
 4. 篇幅控制在8000-10000字
-5. 结构清晰，包含引言、核心章节和总结
+5. 结构清晰, 包含引言、核心章节和总结
 """
 
 print(Fore.YELLOW + f"协作任务:\n{task_prompt}\n")
@@ -55,7 +55,7 @@ while n < chat_turn_limit:
 
     # 检查任务完成标志
     if "CAMEL_TASK_DONE" in user_response.msg.content:
-        print(Fore.MAGENTA + "✅ 电子书创作完成！")
+        print(Fore.MAGENTA + "✅ 电子书创作完成! ")
         break
 
     input_msg = assistant_response.msg

@@ -3,7 +3,7 @@ from hello_agents.protocols import MCPClient
 
 
 async def connect_to_server():
-    # 方式1：连接到社区提供的文件系统服务器
+    # 方式1: 连接到社区提供的文件系统服务器
     # npx会自动下载并运行@modelcontextprotocol/server-filesystem包
     client = MCPClient(
         ["npx", "-y", "@modelcontextprotocol/server-filesystem", "."]  # 指定根目录
@@ -15,7 +15,7 @@ async def connect_to_server():
         tools = await client.list_tools()
         print(f"可用工具: {[t['name'] for t in tools]}")
 
-    # 方式2：连接到自定义的Python MCP服务器
+    # 方式2: 连接到自定义的Python MCP服务器
     client = MCPClient(["python", "my_mcp_server.py"])
     async with client:
         # 使用client...
@@ -33,7 +33,7 @@ async def discover_tools():
         # 获取所有可用工具
         tools = await client.list_tools()
 
-        print(f"服务器提供了 {len(tools)} 个工具：")
+        print(f"服务器提供了 {len(tools)} 个工具: ")
         for tool in tools:
             print(f"\n工具名称: {tool['name']}")
             print(f"描述: {tool.get('description', '无描述')}")
@@ -51,8 +51,8 @@ async def discover_tools():
 
 asyncio.run(discover_tools())
 
-# 输出示例：
-# 服务器提供了 5 个工具：
+# 输出示例: 
+# 服务器提供了 5 个工具: 
 #
 # 工具名称: read_file
 # 描述: 读取文件内容
@@ -72,17 +72,17 @@ async def use_tools():
     async with client:
         # 读取文件
         result = await client.call_tool("read_file", {"path": "my_README.md"})
-        print(f"文件内容：\n{result}")
+        print(f"文件内容: \n{result}")
 
         # 列出目录
         result = await client.call_tool("list_directory", {"path": "."})
-        print(f"当前目录文件：{result}")
+        print(f"当前目录文件: {result}")
 
         # 写入文件
         result = await client.call_tool(
             "write_file", {"path": "output.txt", "content": "Hello from MCP!"}
         )
-        print(f"写入结果：{result}")
+        print(f"写入结果: {result}")
 
 
 asyncio.run(use_tools())

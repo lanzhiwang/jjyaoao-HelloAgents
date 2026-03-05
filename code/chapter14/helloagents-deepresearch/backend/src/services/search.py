@@ -94,6 +94,6 @@ def prepare_research_context(
     )
 
     if answer_text:
-        context = f"AI直接答案：\n{answer_text}\n\n{context}"
+        context = f"AI直接答案: \n{answer_text}\n\n{context}"
 
     return sources_summary, context

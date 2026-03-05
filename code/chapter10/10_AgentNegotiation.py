@@ -1,6 +1,6 @@
 """
 10.3.4 在智能体中使用A2A工具
-（3）高级用法：Agent间协商
+（3）高级用法: Agent间协商
 """
 
 from hello_agents.protocols import A2AServer, A2AClient
@@ -75,13 +75,13 @@ if __name__ == "__main__":
     negotiation = client2.execute_skill(
         "negotiate", "negotiate task:开发新功能 deadline:5"
     )
-    print(f"协商请求：{negotiation.get('result')}")
+    print(f"协商请求: {negotiation.get('result')}")
 
     # Agent1评估提案
     proposal = client1.execute_skill(
         "propose", "propose {'task': '开发新功能', 'deadline': 5}"
     )
-    print(f"提案评估：{proposal.get('result')}")
+    print(f"提案评估: {proposal.get('result')}")
 
     # 保持服务运行
     try:

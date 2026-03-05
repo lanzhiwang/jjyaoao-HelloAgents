@@ -33,7 +33,7 @@ class ChatResponse(BaseModel):
             "example": {
                 "npc_name": "张三",
                 "npc_title": "Python工程师",
-                "message": "你好!我正在写代码,调试一个多智能体系统的bug。",
+                "message": "你好!我正在写代码,调试一个多智能体系统的bug. ",
                 "success": True,
             }
         }
@@ -61,8 +61,8 @@ class NPCStatusResponse(BaseModel):
             "example": {
                 "dialogues": {
                     "张三": "终于把这个bug修复了,测试通过!",
-                    "李四": "下周的产品评审会需要准备一下资料。",
-                    "王五": "这个界面的配色方案还需要优化一下。",
+                    "李四": "下周的产品评审会需要准备一下资料. ",
+                    "王五": "这个界面的配色方案还需要优化一下. ",
                 },
                 "last_update": "2024-01-15T10:30:00",
                 "next_update_in": 25,

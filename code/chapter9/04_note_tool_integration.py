@@ -1,7 +1,7 @@
 """
 NoteTool 与 ContextBuilder 集成示例
 
-展示如何将 NoteTool 与 ContextBuilder 集成，实现：
+展示如何将 NoteTool 与 ContextBuilder 集成, 实现: 
 1. 长期项目追踪
 2. 笔记检索与上下文注入
 3. 基于历史笔记的连贯建议
@@ -213,7 +213,7 @@ class ProjectAssistant(SimpleAgent):
 
     def _build_system_instructions(self) -> str:
         """构建系统指令"""
-        return f"""你是 {self.project_name} 项目的长期助手。
+        return f"""你是 {self.project_name} 项目的长期助手. 
 
 你的职责:
 1. 基于历史笔记提供连贯的建议
@@ -253,7 +253,7 @@ def main():
     # 第一次交互:记录项目状态
     print("第一次交互:记录项目状态")
     response = assistant.run(
-        "我们已经完成了数据模型层的重构,测试覆盖率达到85%。下一步计划重构业务逻辑层。",
+        "我们已经完成了数据模型层的重构,测试覆盖率达到85%. 下一步计划重构业务逻辑层. ",
         note_as_action=True,
     )
     print(f"助手回答: {response}\n")

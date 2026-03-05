@@ -1,22 +1,22 @@
 """
 完整评估流程
 
-运行完整的数据生成和评估流程：
+运行完整的数据生成和评估流程: 
 1. 生成AIME题目
 2. LLM Judge评估
 3. Win Rate评估
 4. 生成综合报告
 
-运行方法：
+运行方法: 
 python data_generation/run_complete_evaluation.py 30 3.0
 
-参数：
+参数: 
 - 30: 生成题目数量
 - 3.0: 每次生成之间的延迟（秒）
 
-说明：
+说明: 
 - 使用AIME 2025年真题作为参考
-- 数据集来源：math-ai/aime25（JSONL格式）
+- 数据集来源: math-ai/aime25（JSONL格式）
 """
 
 import json
@@ -34,7 +34,7 @@ def run_complete_evaluation(num_problems: int = 30, delay_seconds: float = 3.0):
 
     Args:
         num_problems: 生成题目数量
-        delay_seconds: 每次生成之间的延迟（秒），避免API速率限制
+        delay_seconds: 每次生成之间的延迟（秒）, 避免API速率限制
     """
     print("\n" + "=" * 80)
     print("🚀 AIME数据生成与评估完整流程")
@@ -55,7 +55,7 @@ def run_complete_evaluation(num_problems: int = 30, delay_seconds: float = 3.0):
         num_problems=num_problems, output_dir="data_generation/generated_data"
     )
 
-    print(f"\n✅ 步骤1完成！生成数据保存在: {generated_data_path}")
+    print(f"\n✅ 步骤1完成! 生成数据保存在: {generated_data_path}")
 
     # ========== 步骤2: 评估 ==========
     # 创建评估结果目录
@@ -86,7 +86,7 @@ def run_complete_evaluation(num_problems: int = 30, delay_seconds: float = 3.0):
         )
 
         llm_judge_result = json.loads(llm_judge_result_json)
-        print(f"\n✅ LLM Judge评估完成！")
+        print(f"\n✅ LLM Judge评估完成! ")
         print(
             f"   平均总分: {llm_judge_result['metrics']['average_total_score']:.2f}/5.0"
         )
@@ -115,7 +115,7 @@ def run_complete_evaluation(num_problems: int = 30, delay_seconds: float = 3.0):
         )
 
         win_rate_result = json.loads(win_rate_result_json)
-        print(f"\n✅ Win Rate评估完成！")
+        print(f"\n✅ Win Rate评估完成! ")
         print(f"   Win Rate: {win_rate_result['metrics']['win_rate']:.2%}")
     except Exception as e:
         print(f"\n❌ Win Rate评估失败: {e}")
@@ -146,7 +146,7 @@ def run_complete_evaluation(num_problems: int = 30, delay_seconds: float = 3.0):
 
     # ========== 完成 ==========
     print("\n" + "=" * 80)
-    print("🎉 完整评估流程完成！")
+    print("🎉 完整评估流程完成! ")
     print("=" * 80)
     print(f"\n📁 输出文件:")
     print(f"   - 生成数据: {generated_data_path}")
@@ -254,11 +254,11 @@ def generate_comprehensive_report(
         overall_win_rate = win_rate_result["metrics"]["win_rate"]
 
         if overall_avg_score >= 4.5 and overall_win_rate >= 0.48:
-            report += "✅ **结论**: 生成数据质量**优秀**，达到或超过AIME真题水平。\n"
+            report += "✅ **结论**: 生成数据质量**优秀**, 达到或超过AIME真题水平. \n"
         elif overall_avg_score >= 4.0 and overall_win_rate >= 0.45:
-            report += "✅ **结论**: 生成数据质量**良好**，接近AIME真题水平。\n"
+            report += "✅ **结论**: 生成数据质量**良好**, 接近AIME真题水平. \n"
         else:
-            report += "⚠️ **结论**: 生成数据质量**需要改进**，与AIME真题仍有差距。\n"
+            report += "⚠️ **结论**: 生成数据质量**需要改进**, 与AIME真题仍有差距. \n"
 
         report += f"\n**整体指标**:\n"
         report += f"- LLM Judge得分: {overall_avg_score:.2f}/5.0\n"
@@ -282,7 +282,7 @@ def generate_comprehensive_report(
 
     # 下一步行动
     report += "\n## 7. 下一步行动\n\n"
-    report += "1. **人工验证**: 运行人工验证界面，对生成的题目进行人工审核\n"
+    report += "1. **人工验证**: 运行人工验证界面, 对生成的题目进行人工审核\n"
     report += f"   ```bash\n   python data_generation/human_verification_ui.py {generated_data_path}\n   ```\n\n"
     report += "2. **质量筛选**: 根据评估结果筛选高质量题目\n\n"
     report += "3. **迭代优化**: 根据评估反馈优化生成策略\n"

@@ -1,7 +1,7 @@
 """
 NoteTool 基本操作示例
 
-展示 NoteTool 的核心操作：
+展示 NoteTool 的核心操作: 
 1. 创建笔记 (create)
 2. 读取笔记 (read)
 3. 更新笔记 (update)
@@ -38,7 +38,7 @@ def main():
             "action": "create",
             "title": "重构项目 - 第一阶段",
             "content": """## 完成情况
-已完成数据模型层的重构,测试覆盖率达到85%。
+已完成数据模型层的重构,测试覆盖率达到85%. 
 
 ## 下一步
 重构业务逻辑层""",
@@ -55,7 +55,7 @@ def main():
             "action": "create",
             "title": "依赖冲突问题",
             "content": """## 问题描述
-发现某些第三方库版本不兼容,需要解决。
+发现某些第三方库版本不兼容,需要解决. 
 
 ## 影响范围
 业务逻辑层的3个模块
@@ -83,10 +83,10 @@ def main():
             "action": "update",
             "note_id": note_id_1,
             "content": """## 完成情况
-已完成数据模型层的重构,测试覆盖率达到85%。
+已完成数据模型层的重构,测试覆盖率达到85%. 
 
 ## 问题
-遇到依赖版本冲突,已记录到单独笔记。
+遇到依赖版本冲突,已记录到单独笔记. 
 
 ## 下一步
 先解决依赖冲突,再继续重构业务逻辑层""",
@@ -109,7 +109,7 @@ def main():
     summary_output = notes.run({"action": "summary"})
     print(summary_output + "\n")
 
-    # 7. 删除笔记 (演示，实际使用时谨慎)
+    # 7. 删除笔记 (演示, 实际使用时谨慎)
     print("7. 删除笔记 (演示)...")
     # delete_result = notes.run({
     #     "action": "delete",

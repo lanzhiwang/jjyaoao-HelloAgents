@@ -18,7 +18,7 @@ def create_custom_agent():
     @agent.skill("greet")
     def greet_user(name: str) -> str:
         """问候用户"""
-        return f"你好，{name}！我是自定义智能体。"
+        return f"你好, {name}! 我是自定义智能体. "
 
     @agent.skill("calculate")
     def simple_calculate(expression: str) -> str:

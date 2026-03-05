@@ -145,14 +145,14 @@ class AgentIntegrationDemo:
         self.rag_tool.run(
             {
                 "action": "add_text",
-                "text": "Agent工具集成是HelloAgents框架的核心特性，允许Agent使用多种工具来完成复杂任务。",
+                "text": "Agent工具集成是HelloAgents框架的核心特性, 允许Agent使用多种工具来完成复杂任务. ",
                 "document_id": "agent_integration_guide",
             }
         )
 
         rag_operations = [
             ("search", {"query": "Agent工具集成", "limit": 2}),
-            ("ask", {"question": "什么是Agent工具集成？", "limit": 2}),
+            ("ask", {"question": "什么是Agent工具集成? ", "limit": 2}),
             ("stats", {}),
         ]
 
@@ -172,20 +172,20 @@ class AgentIntegrationDemo:
         print("• 💡 知识应用 → RAG查询 + Memory更新")
         print("• 📊 学习分析 → 两工具统计整合")
 
-        # 场景1：学习新知识
-        print(f"\n📚 场景1：学习新知识")
+        # 场景1: 学习新知识
+        print(f"\n📚 场景1: 学习新知识")
 
         # 向RAG添加学习资料
-        learning_content = """# 设计模式：观察者模式
+        learning_content = """# 设计模式: 观察者模式
 
 ## 定义
-观察者模式定义了对象间的一对多依赖关系，当一个对象的状态发生改变时，所有依赖它的对象都会得到通知并自动更新。
+观察者模式定义了对象间的一对多依赖关系, 当一个对象的状态发生改变时, 所有依赖它的对象都会得到通知并自动更新. 
 
 ## 结构
-- Subject（主题）：维护观察者列表，提供注册和删除观察者的方法
-- Observer（观察者）：定义更新接口
-- ConcreteSubject（具体主题）：实现主题接口
-- ConcreteObserver（具体观察者）：实现观察者接口
+- Subject（主题）: 维护观察者列表, 提供注册和删除观察者的方法
+- Observer（观察者）: 定义更新接口
+- ConcreteSubject（具体主题）: 实现主题接口
+- ConcreteObserver（具体观察者）: 实现观察者接口
 
 ## 应用场景
 - GUI事件处理
@@ -215,8 +215,8 @@ class AgentIntegrationDemo:
         )
         print(f"Memory记录结果: {memory_result}")
 
-        # 场景2：回顾学习历程
-        print(f"\n🔍 场景2：回顾学习历程")
+        # 场景2: 回顾学习历程
+        print(f"\n🔍 场景2: 回顾学习历程")
 
         # 从记忆系统检索学习历史
         memory_search = self.memory_tool.run(
@@ -230,12 +230,12 @@ class AgentIntegrationDemo:
         )
         print(f"知识内容补充: {rag_search}")
 
-        # 场景3：知识应用
-        print(f"\n💡 场景3：知识应用")
+        # 场景3: 知识应用
+        print(f"\n💡 场景3: 知识应用")
 
         # 通过RAG查询应用方法
         application_query = self.rag_tool.run(
-            {"action": "ask", "question": "观察者模式适用于什么场景？", "limit": 2}
+            {"action": "ask", "question": "观察者模式适用于什么场景? ", "limit": 2}
         )
         print(f"应用场景查询: {application_query}")
 
@@ -243,7 +243,7 @@ class AgentIntegrationDemo:
         application_memory = self.memory_tool.run(
             {
                 "action": "add",
-                "content": "查询了观察者模式的应用场景，准备在GUI项目中使用",
+                "content": "查询了观察者模式的应用场景, 准备在GUI项目中使用",
                 "memory_type": "working",
                 "importance": 0.7,
                 "application_context": "gui_project",
@@ -251,8 +251,8 @@ class AgentIntegrationDemo:
         )
         print(f"应用记录: {application_memory}")
 
-        # 场景4：学习分析
-        print(f"\n📊 场景4：学习分析")
+        # 场景4: 学习分析
+        print(f"\n📊 场景4: 学习分析")
 
         # 获取记忆系统统计
         memory_stats = self.memory_tool.run({"action": "stats"})
@@ -281,26 +281,26 @@ class AgentIntegrationDemo:
         print(f"\n🎭 复杂任务编排示例:")
         print(f"任务: 创建一个关于机器学习的学习计划")
 
-        # 步骤1：从RAG获取机器学习知识结构
+        # 步骤1: 从RAG获取机器学习知识结构
         print(f"\n步骤1: 获取知识结构")
 
         # 添加机器学习知识
         ml_content = """# 机器学习学习路径
 
 ## 基础阶段
-1. 数学基础：线性代数、概率统计、微积分
-2. 编程基础：Python、NumPy、Pandas
-3. 机器学习概念：监督学习、无监督学习、强化学习
+1. 数学基础: 线性代数、概率统计、微积分
+2. 编程基础: Python、NumPy、Pandas
+3. 机器学习概念: 监督学习、无监督学习、强化学习
 
 ## 进阶阶段
-1. 算法实现：从零实现经典算法
-2. 深度学习：神经网络、CNN、RNN、Transformer
-3. 实践项目：端到端机器学习项目
+1. 算法实现: 从零实现经典算法
+2. 深度学习: 神经网络、CNN、RNN、Transformer
+3. 实践项目: 端到端机器学习项目
 
 ## 高级阶段
-1. 模型优化：超参数调优、模型压缩
-2. 部署运维：模型部署、监控、更新
-3. 前沿技术：最新论文、开源项目
+1. 模型优化: 超参数调优、模型压缩
+2. 部署运维: 模型部署、监控、更新
+3. 前沿技术: 最新论文、开源项目
 """
 
         self.rag_tool.run(
@@ -312,17 +312,17 @@ class AgentIntegrationDemo:
         )
 
         knowledge_structure = self.rag_tool.run(
-            {"action": "ask", "question": "机器学习的学习路径是什么？", "limit": 3}
+            {"action": "ask", "question": "机器学习的学习路径是什么? ", "limit": 3}
         )
         print(f"知识结构: {knowledge_structure[:200]}...")
 
-        # 步骤2：记录学习计划到记忆系统
+        # 步骤2: 记录学习计划到记忆系统
         print(f"\n步骤2: 记录学习计划")
 
         plan_memory = self.memory_tool.run(
             {
                 "action": "add",
-                "content": "制定了机器学习学习计划，包括基础、进阶、高级三个阶段",
+                "content": "制定了机器学习学习计划, 包括基础、进阶、高级三个阶段",
                 "memory_type": "episodic",
                 "importance": 0.9,
                 "plan_type": "learning",
@@ -331,7 +331,7 @@ class AgentIntegrationDemo:
         )
         print(f"计划记录: {plan_memory}")
 
-        # 步骤3：检索相关学习经验
+        # 步骤3: 检索相关学习经验
         print(f"\n步骤3: 检索学习经验")
 
         experience_search = self.memory_tool.run(
@@ -339,13 +339,13 @@ class AgentIntegrationDemo:
         )
         print(f"相关经验: {experience_search}")
 
-        # 步骤4：整合生成最终建议
+        # 步骤4: 整合生成最终建议
         print(f"\n步骤4: 生成最终建议")
 
         final_advice = self.rag_tool.run(
             {
                 "action": "ask",
-                "question": "如何制定有效的机器学习学习计划？",
+                "question": "如何制定有效的机器学习学习计划? ",
                 "limit": 4,
             }
         )
@@ -355,7 +355,7 @@ class AgentIntegrationDemo:
         orchestration_memory = self.memory_tool.run(
             {
                 "action": "add",
-                "content": "完成了复杂的学习计划制定任务，使用了RAG和Memory的协同编排",
+                "content": "完成了复杂的学习计划制定任务, 使用了RAG和Memory的协同编排",
                 "memory_type": "working",
                 "importance": 0.8,
                 "task_type": "orchestration",
@@ -477,7 +477,7 @@ def main():
         demo.demonstrate_performance_analysis()
 
         print("\n" + "=" * 70)
-        print("🎉 Agent工具集成演示完成！")
+        print("🎉 Agent工具集成演示完成! ")
         print("=" * 70)
 
         print("\n✨ Agent集成核心特性:")
@@ -488,7 +488,7 @@ def main():
         print("5. 📊 性能监控分析 - 全面的性能评估")
 
         print("\n🎯 设计优势:")
-        print("• 模块化 - 工具独立开发，灵活组合")
+        print("• 模块化 - 工具独立开发, 灵活组合")
         print("• 可扩展 - 支持动态添加新工具")
         print("• 高内聚 - 每个工具专注特定功能")
         print("• 低耦合 - 工具间依赖关系最小")

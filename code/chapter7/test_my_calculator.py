@@ -54,7 +54,7 @@ def test_with_simple_agent():
     final_messages = [
         {
             "role": "user",
-            "content": f"计算结果是 {calc_result}，请用自然语言回答用户的问题：{user_question}",
+            "content": f"计算结果是 {calc_result}, 请用自然语言回答用户的问题: {user_question}",
         }
     ]
 

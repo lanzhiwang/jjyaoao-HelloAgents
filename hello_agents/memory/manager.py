@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 class MemoryManager:
     """记忆管理器 - 统一的记忆操作接口
 
-    负责：
+    负责: 
     - 记忆生命周期管理
     - 记忆优先级和重要性评估
     - 记忆遗忘和清理机制
@@ -56,7 +56,7 @@ class MemoryManager:
             self.memory_types["perceptual"] = PerceptualMemory(self.config)
 
         logger.info(
-            f"MemoryManager初始化完成，启用记忆类型: {list(self.memory_types.keys())}"
+            f"MemoryManager初始化完成, 启用记忆类型: {list(self.memory_types.keys())}"
         )
 
     def add_memory(
@@ -280,7 +280,7 @@ class MemoryManager:
         for memory_type, memory_instance in self.memory_types.items():
             type_stats = memory_instance.get_stats()
             stats["memories_by_type"][memory_type] = type_stats
-            # 使用count字段（活跃记忆数），而不是total_count（包含已遗忘的）
+            # 使用count字段（活跃记忆数）, 而不是total_count（包含已遗忘的）
             stats["total_memories"] += type_stats.get("count", 0)
 
         return stats
@@ -298,7 +298,7 @@ class MemoryManager:
         if metadata and metadata.get("type"):
             return metadata["type"]
 
-        # 简单的分类逻辑，可以扩展为更复杂的分类器
+        # 简单的分类逻辑, 可以扩展为更复杂的分类器
         if self._is_episodic_content(content):
             return "episodic"
         elif self._is_semantic_content(content):

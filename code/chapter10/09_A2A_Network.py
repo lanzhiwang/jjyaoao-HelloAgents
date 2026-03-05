@@ -39,7 +39,7 @@ def write_article(text: str) -> str:
         topic = "未知主题"
         findings = content
 
-    return f"# {topic}\n\n基于研究：{findings}\n\n文章内容..."
+    return f"# {topic}\n\n基于研究: {findings}\n\n文章内容..."
 
 
 editor = A2AServer(name="editor", description="编辑")
@@ -74,15 +74,15 @@ editor_client = A2AClient("http://localhost:5002")
 
 # 4. 协作流程
 def create_content(topic):
-    # 步骤1：研究
+    # 步骤1: 研究
     research = researcher_client.execute_skill("research", f"research {topic}")
     research_data = research.get("result", "")
 
-    # 步骤2：撰写
+    # 步骤2: 撰写
     article = writer_client.execute_skill("write", f"write {research_data}")
     article_content = article.get("result", "")
 
-    # 步骤3：编辑
+    # 步骤3: 编辑
     final = editor_client.execute_skill("edit", f"edit {article_content}")
     return final.get("result", "")
 
@@ -90,4 +90,4 @@ def create_content(topic):
 # 使用
 if __name__ == "__main__":
     result = create_content("AI在医疗领域的应用")
-    print(f"\n最终结果：\n{result}")
+    print(f"\n最终结果: \n{result}")

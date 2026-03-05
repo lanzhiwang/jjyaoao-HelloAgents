@@ -22,7 +22,7 @@ class GameRoles:
         },
         "女巫": {
             "description": "女巫",
-            "ability": "拥有解药和毒药各一瓶，可以救人或杀人",
+            "ability": "拥有解药和毒药各一瓶, 可以救人或杀人",
             "win_condition": "消灭所有狼人",
             "team": "好人阵营",
         },
@@ -34,7 +34,7 @@ class GameRoles:
         },
         "村民": {
             "description": "村民",
-            "ability": "无特殊技能，依靠推理和投票",
+            "ability": "无特殊技能, 依靠推理和投票",
             "win_condition": "消灭所有狼人",
             "team": "好人阵营",
         },
@@ -47,15 +47,15 @@ class GameRoles:
     }
 
     CHARACTER_TRAITS = {
-        "刘备": "仁德宽厚，善于团结众人，说话温和有礼",
-        "关羽": "忠义刚烈，言辞直接，重情重义",
-        "张飞": "性格豪爽，说话大声直接，容易冲动",
-        "诸葛亮": "智慧超群，分析透彻，言辞谨慎",
-        "赵云": "忠勇双全，话语简洁有力",
-        "曹操": "雄才大略，善于权谋，话语犀利",
-        "司马懿": "深谋远虑，城府极深，言辞含蓄",
-        "周瑜": "才华横溢，略显傲气，分析精准",
-        "孙权": "年轻有为，善于决断，话语果决",
+        "刘备": "仁德宽厚, 善于团结众人, 说话温和有礼",
+        "关羽": "忠义刚烈, 言辞直接, 重情重义",
+        "张飞": "性格豪爽, 说话大声直接, 容易冲动",
+        "诸葛亮": "智慧超群, 分析透彻, 言辞谨慎",
+        "赵云": "忠勇双全, 话语简洁有力",
+        "曹操": "雄才大略, 善于权谋, 话语犀利",
+        "司马懿": "深谋远虑, 城府极深, 言辞含蓄",
+        "周瑜": "才华横溢, 略显傲气, 分析精准",
+        "孙权": "年轻有为, 善于决断, 话语果决",
     }
 
     @classmethod
@@ -71,7 +71,7 @@ class GameRoles:
     @classmethod
     def get_character_trait(cls, character: str) -> str:
         """获取角色性格特点"""
-        return cls.CHARACTER_TRAITS.get(character, "性格温和，说话得体")
+        return cls.CHARACTER_TRAITS.get(character, "性格温和, 说话得体")
 
     @classmethod
     def is_werewolf(cls, role: str) -> bool:
@@ -103,7 +103,7 @@ class GameRoles:
                 "村民",
             ]
         else:
-            # 默认配置：约1/3狼人
+            # 默认配置: 约1/3狼人
             werewolf_count = max(1, player_count // 3)
             roles = ["狼人"] * werewolf_count
 

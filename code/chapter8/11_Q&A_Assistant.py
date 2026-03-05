@@ -3,7 +3,7 @@
 """
 智能文档问答助手 - 基于HelloAgents的智能文档问答系统
 
-这是一个完整的PDF学习助手应用，支持：
+这是一个完整的PDF学习助手应用, 支持: 
 - 加载PDF文档并构建知识库
 - 智能问答（基于RAG）
 - 学习历程记录（基于Memory）
@@ -29,7 +29,7 @@ class PDFLearningAssistant:
         """初始化学习助手
 
         Args:
-            user_id: 用户ID，用于隔离不同用户的数据
+            user_id: 用户ID, 用于隔离不同用户的数据
         """
         self.user_id = user_id
         self.session_id = f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
@@ -94,7 +94,7 @@ class PDFLearningAssistant:
 
             return {
                 "success": True,
-                "message": f"加载成功！(耗时: {process_time:.1f}秒)",
+                "message": f"加载成功! (耗时: {process_time:.1f}秒)",
                 "document": self.current_document,
             }
         except Exception as e:
@@ -111,7 +111,7 @@ class PDFLearningAssistant:
             str: 答案
         """
         if not self.current_document:
-            return "⚠️ 请先加载文档！使用 load_document() 方法加载PDF文档。"
+            return "⚠️ 请先加载文档! 使用 load_document() 方法加载PDF文档. "
 
         # 记录问题到工作记忆
         self.memory_tool.run(
@@ -347,7 +347,7 @@ def create_gradio_ui():
         gr.Markdown("""
         # 📚 智能文档问答助手
 
-        基于HelloAgents的智能文档问答系统，支持：
+        基于HelloAgents的智能文档问答系统, 支持: 
         - 📄 加载PDF文档并构建知识库
         - 💬 智能问答（基于RAG）
         - 📝 学习笔记记录
@@ -359,7 +359,7 @@ def create_gradio_ui():
             with gr.Row():
                 user_id_input = gr.Textbox(
                     label="用户ID",
-                    placeholder="输入你的用户ID（可选，默认为web_user）",
+                    placeholder="输入你的用户ID（可选, 默认为web_user）",
                     value="web_user",
                 )
                 init_btn = gr.Button("初始化助手", variant="primary")
@@ -383,17 +383,17 @@ def create_gradio_ui():
             with gr.Row():
                 msg_input = gr.Textbox(
                     label="输入问题",
-                    placeholder="例如：什么是Transformer？ 或 我之前学过什么？",
+                    placeholder="例如: 什么是Transformer?  或 我之前学过什么? ",
                     scale=4,
                 )
                 send_btn = gr.Button("发送", variant="primary", scale=1)
 
             gr.Examples(
                 examples=[
-                    "什么是大语言模型？",
-                    "Transformer架构有哪些核心组件？",
-                    "如何训练大语言模型？",
-                    "我之前学过什么内容？",
+                    "什么是大语言模型? ",
+                    "Transformer架构有哪些核心组件? ",
+                    "如何训练大语言模型? ",
+                    "我之前学过什么内容? ",
                     "回顾一下关于注意力机制的学习",
                 ],
                 inputs=msg_input,
@@ -412,7 +412,7 @@ def create_gradio_ui():
                 label="笔记内容", placeholder="输入你的学习笔记...", lines=3
             )
             concept_input = gr.Textbox(
-                label="相关概念（可选）", placeholder="例如：transformer, attention"
+                label="相关概念（可选）", placeholder="例如: transformer, attention"
             )
             note_btn = gr.Button("保存笔记", variant="primary")
             note_output = gr.Textbox(label="保存状态", interactive=False)

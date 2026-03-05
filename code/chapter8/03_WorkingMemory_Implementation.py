@@ -79,13 +79,13 @@ class WorkingMemoryDemo:
         # 添加不同类型的记忆用于检索测试
         test_memories = [
             {
-                "content": "Python是一种高级编程语言，语法简洁清晰",
+                "content": "Python是一种高级编程语言, 语法简洁清晰",
                 "importance": 0.8,
                 "topic": "programming",
                 "language": "python",
             },
             {
-                "content": "机器学习是人工智能的重要分支，包括监督学习和无监督学习",
+                "content": "机器学习是人工智能的重要分支, 包括监督学习和无监督学习",
                 "importance": 0.9,
                 "topic": "ai",
                 "domain": "machine_learning",
@@ -230,8 +230,8 @@ class WorkingMemoryDemo:
         print("-" * 40)
 
         print("工作记忆性能特点:")
-        print("• 纯内存存储，访问速度极快")
-        print("• 无需磁盘I/O，响应时间短")
+        print("• 纯内存存储, 访问速度极快")
+        print("• 无需磁盘I/O, 响应时间短")
         print("• 适合频繁访问的临时数据")
         print("• 系统重启后数据丢失（符合设计）")
 
@@ -297,14 +297,14 @@ def main():
         demo.demonstrate_performance_characteristics()
 
         print("\n" + "=" * 60)
-        print("🎉 WorkingMemory实现演示完成！")
+        print("🎉 WorkingMemory实现演示完成! ")
         print("=" * 60)
 
         print("\n✨ 工作记忆核心特性:")
         print("1. 🧠 有限容量 - 模拟人类工作记忆限制")
-        print("2. ⚡ 高速访问 - 纯内存存储，响应迅速")
+        print("2. ⚡ 高速访问 - 纯内存存储, 响应迅速")
         print("3. 🔍 混合检索 - 语义+关键词+时间+重要性")
-        print("4. ⏰ 时间衰减 - 新信息优先，旧信息衰减")
+        print("4. ⏰ 时间衰减 - 新信息优先, 旧信息衰减")
         print("5. 🧹 自动清理 - TTL机制+优先级管理")
 
         print("\n🎯 设计理念:")

@@ -48,11 +48,11 @@ class DocumentProcessor:
     ):
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
-        self.separators = separators or ["\n\n", "\n", "。", ".", " "]
+        self.separators = separators or ["\n\n", "\n", ". ", ".", " "]
 
     def process_document(self, document: Document) -> List[DocumentChunk]:
         """
-        处理文档，分割成块
+        处理文档, 分割成块
 
         Args:
             document: 输入文档
@@ -131,7 +131,7 @@ class DocumentProcessor:
             split_point = self._find_split_point(text, start, end)
 
             if split_point == -1:
-                # 没找到合适的分割点，强制分割
+                # 没找到合适的分割点, 强制分割
                 split_point = end
 
             chunks.append(text[start:split_point])
@@ -151,7 +151,7 @@ class DocumentProcessor:
             end: 结束位置
 
         Returns:
-            分割点位置，-1表示未找到
+            分割点位置, -1表示未找到
         """
         # 从后往前寻找分隔符
         for separator in self.separators:
@@ -197,7 +197,7 @@ class DocumentProcessor:
                     current_chunk.metadata.get("total_chunks", 1) + 1
                 )
             else:
-                # 不能合并，保存当前块
+                # 不能合并, 保存当前块
                 merged_chunks.append(current_chunk)
                 current_chunk = next_chunk
 

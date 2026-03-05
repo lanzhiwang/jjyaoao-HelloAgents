@@ -580,9 +580,9 @@ class RAGTool(Tool):
         """构建用户提示词"""
         return (
             f"请基于以下上下文信息回答问题:\n\n"
-            f"【问题】{question}\n\n"
-            f"【相关上下文】\n{context}\n\n"
-            f"【要求】请提供准确、有帮助的回答. 如果上下文信息不足, 请说明需要什么额外信息."
+            f"[问题]{question}\n\n"
+            f"[相关上下文]\n{context}\n\n"
+            f"[要求]请提供准确、有帮助的回答. 如果上下文信息不足, 请说明需要什么额外信息."
         )
 
     def _format_final_answer(

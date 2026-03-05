@@ -34,7 +34,7 @@ print(f"找到 {len(nlp_services)} 个NLP服务")
 
 # 选择负载最低的服务
 best_service = min(nlp_services, key=lambda s: s.metadata.get("load", 1.0))
-print(f"最佳服务：{best_service.service_name} (负载: {best_service.metadata['load']})")
+print(f"最佳服务: {best_service.service_name} (负载: {best_service.metadata['load']})")
 
 from hello_agents.protocols import ANPNetwork
 
@@ -49,4 +49,4 @@ for service in discovery.list_all_services():
 network.connect_nodes("nlp_agent_1", "nlp_agent_2")
 
 stats = network.get_network_stats()
-print(f"✅ 网络构建完成，共 {stats['total_nodes']} 个节点")
+print(f"✅ 网络构建完成, 共 {stats['total_nodes']} 个节点")

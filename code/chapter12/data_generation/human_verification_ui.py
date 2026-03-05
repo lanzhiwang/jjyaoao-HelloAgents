@@ -1,7 +1,7 @@
 """
 人工验证界面
 
-使用Gradio创建Web界面，用于人工验证生成的AIME题目
+使用Gradio创建Web界面, 用于人工验证生成的AIME题目
 """
 
 import json
@@ -118,7 +118,7 @@ class HumanVerificationUI:
 
         self._save_verifications()
 
-        return f"✅ 题目 {problem_id} 验证完成！\n总分: {self.verifications[problem_id]['total_score']:.2f}/5.0"
+        return f"✅ 题目 {problem_id} 验证完成! \n总分: {self.verifications[problem_id]['total_score']:.2f}/5.0"
 
     def next_problem(self) -> Tuple[str, str, str, str, str, str]:
         """下一个题目"""

@@ -72,8 +72,8 @@ class ThreeKingdomsWerewolfGame:
         # 角色身份确认
         await agent.observe(
             await self.moderator.announce(
-                f"【{name}】你在这场三国狼人杀中扮演{GameRoles.get_role_desc(role)}，"
-                f"你的角色是{character}。{GameRoles.get_role_ability(role)}"
+                f"[{name}]你在这场三国狼人杀中扮演{GameRoles.get_role_desc(role)}, "
+                f"你的角色是{character}. {GameRoles.get_role_ability(role)}"
             )
         )
 
@@ -120,24 +120,24 @@ class ThreeKingdomsWerewolfGame:
 
         # 游戏开始公告
         await self.moderator.announce(
-            f"三国狼人杀游戏开始！参与者：{format_player_list(self.alive_players)}"
+            f"三国狼人杀游戏开始! 参与者: {format_player_list(self.alive_players)}"
         )
 
-        print(f"✅ 游戏设置完成，共{len(self.alive_players)}名玩家")
+        print(f"✅ 游戏设置完成, 共{len(self.alive_players)}名玩家")
 
     async def werewolf_phase(self, round_num: int):
         """狼人阶段"""
         if not self.werewolves:
             return None
 
-        await self.moderator.announce(f"🐺 狼人请睁眼，选择今晚要击杀的目标...")
+        await self.moderator.announce(f"🐺 狼人请睁眼, 选择今晚要击杀的目标...")
 
         # 狼人讨论
         async with MsgHub(
             self.werewolves,
             enable_auto_broadcast=True,
             announcement=await self.moderator.announce(
-                f"狼人们，请讨论今晚的击杀目标。存活玩家：{format_player_list(self.alive_players)}"
+                f"狼人们, 请讨论今晚的击杀目标. 存活玩家: {format_player_list(self.alive_players)}"
             ),
         ) as werewolves_hub:
             # 讨论阶段
@@ -187,7 +187,7 @@ class ThreeKingdomsWerewolfGame:
             return
 
         seer_agent = self.seer[0]
-        await self.moderator.announce("🔮 预言家请睁眼，选择要查验的玩家...")
+        await self.moderator.announce("🔮 预言家请睁眼, 选择要查验的玩家...")
 
         check_result = await seer_agent(
             structured_model=get_seer_model_cn(self.alive_players)
@@ -211,7 +211,7 @@ class ThreeKingdomsWerewolfGame:
 
         # 告知预言家结果
         result_msg = (
-            f"查验结果：{target_name}是{'狼人' if target_role == '狼人' else '好人'}"
+            f"查验结果: {target_name}是{'狼人' if target_role == '狼人' else '好人'}"
         )
         await seer_agent.observe(await self.moderator.announce(result_msg))
 
@@ -273,7 +273,7 @@ class ThreeKingdomsWerewolfGame:
 
         hunter_agent = self.hunter[0]
         if hunter_agent.name == shot_by_hunter:
-            await self.moderator.announce("🏹 猎人发动技能，可以带走一名玩家...")
+            await self.moderator.announce("🏹 猎人发动技能, 可以带走一名玩家...")
 
             hunter_action = await hunter_agent(
                 structured_model=get_hunter_model_cn(self.alive_players)
@@ -325,7 +325,7 @@ class ThreeKingdomsWerewolfGame:
             self.alive_players,
             enable_auto_broadcast=True,
             announcement=await self.moderator.announce(
-                f"现在开始自由讨论。存活玩家：{format_player_list(self.alive_players)}"
+                f"现在开始自由讨论. 存活玩家: {format_player_list(self.alive_players)}"
             ),
         ) as all_hub:
             # 每人发言一轮
@@ -410,11 +410,11 @@ class ThreeKingdomsWerewolfGame:
                     return
 
                 print(
-                    f"第{round_num}轮结束，存活玩家：{format_player_list(self.alive_players)}"
+                    f"第{round_num}轮结束, 存活玩家: {format_player_list(self.alive_players)}"
                 )
 
         except Exception as e:
-            print(f"❌ 游戏运行出错：{e}")
+            print(f"❌ 游戏运行出错: {e}")
             import traceback
 
             traceback.print_exc()
@@ -427,7 +427,7 @@ async def main():
         print("❌ 请设置环境变量 DASHSCOPE_API_KEY")
         return
 
-    print("🎮 欢迎来到三国狼人杀！")
+    print("🎮 欢迎来到三国狼人杀! ")
 
     # 创建并运行游戏
     game = ThreeKingdomsWerewolfGame()

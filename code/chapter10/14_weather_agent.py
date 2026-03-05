@@ -15,8 +15,8 @@ def create_weather_assistant():
     assistant = SimpleAgent(
         name="天气助手",
         llm=llm,
-        system_prompt="""你是天气助手，可以查询城市天气。
-使用 get_weather 工具查询天气，支持中文城市名。
+        system_prompt="""你是天气助手, 可以查询城市天气. 
+使用 get_weather 工具查询天气, 支持中文城市名. 
 """,
     )
 
@@ -32,8 +32,8 @@ def demo():
     """演示"""
     assistant = create_weather_assistant()
 
-    print("\n查询北京天气：")
-    response = assistant.run("北京今天天气怎么样？")
+    print("\n查询北京天气: ")
+    response = assistant.run("北京今天天气怎么样? ")
     print(f"回答: {response}\n")
 
 

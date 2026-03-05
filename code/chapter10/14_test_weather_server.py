@@ -35,7 +35,7 @@ async def test_weather_server():
             if "error" not in weather:
                 print(f"深圳天气: {weather['temperature']}°C, {weather['condition']}")
 
-            print("\n✅ 所有测试完成！")
+            print("\n✅ 所有测试完成! ")
 
     except Exception as e:
         print(f"❌ 测试失败: {e}")

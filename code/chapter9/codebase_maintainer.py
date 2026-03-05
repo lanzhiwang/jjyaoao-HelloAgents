@@ -1,13 +1,13 @@
 """
 CodebaseMaintainer - 代码库维护助手
 
-完整的长程智能体实现，整合:
+完整的长程智能体实现, 整合:
 1. ContextBuilder - 上下文管理
 2. NoteTool - 结构化笔记
 3. TerminalTool - 即时文件访问
 4. MemoryTool - 对话记忆
 
-关键改进：使用 Agentic 方式，让 agent 自主决定使用哪些工具
+关键改进: 使用 Agentic 方式, 让 agent 自主决定使用哪些工具
 """
 
 from typing import Dict, Any, List, Optional
@@ -28,9 +28,9 @@ class CodebaseMaintainer:
     整合 ContextBuilder + NoteTool + TerminalTool + MemoryTool
     实现跨会话的代码库维护任务管理
 
-    核心特性：
+    核心特性: 
     - Agent 自主使用工具探索代码库
-    - 不预定义工作流，完全基于 agent 决策
+    - 不预定义工作流, 完全基于 agent 决策
     - 跨会话记忆和上下文管理
     """
 
@@ -149,7 +149,7 @@ class CodebaseMaintainer:
 
     def _build_base_system_prompt(self) -> str:
         """构建基础系统提示"""
-        return f"""你是 {self.project_name} 项目的代码库维护助手。
+        return f"""你是 {self.project_name} 项目的代码库维护助手. 
 
 你的核心能力:
 1. 使用 TerminalTool 探索代码库
@@ -168,8 +168,8 @@ class CodebaseMaintainer:
 
 重要原则:
 - 你要自主决定使用哪些工具、执行什么命令
-- 探索代码库时，先了解整体结构，再深入细节
-- 发现重要信息时，主动使用 NoteTool 记录
+- 探索代码库时, 先了解整体结构, 再深入细节
+- 发现重要信息时, 主动使用 NoteTool 记录
 - 保持回答的专业性和实用性
 """
 
@@ -351,14 +351,14 @@ class CodebaseMaintainer:
 
         Agent 会自主决定使用哪些命令来探索代码库
         """
-        return self.run(f"请探索 {target} 的代码结构，了解项目组织方式", mode="explore")
+        return self.run(f"请探索 {target} 的代码结构, 了解项目组织方式", mode="explore")
 
     def analyze(self, focus: str = "") -> str:
         """分析代码质量（Agentic 方式）
 
         Agent 会自主决定如何分析代码质量
         """
-        query = f"请分析代码质量" + (f"，重点关注{focus}" if focus else "")
+        query = f"请分析代码质量" + (f", 重点关注{focus}" if focus else "")
         return self.run(query, mode="analyze")
 
     def plan_next_steps(self) -> str:
@@ -366,7 +366,7 @@ class CodebaseMaintainer:
 
         Agent 会查看历史笔记并规划下一步
         """
-        return self.run("根据我们之前的分析和当前进度，规划下一步任务", mode="plan")
+        return self.run("根据我们之前的分析和当前进度, 规划下一步任务", mode="plan")
 
     def execute_command(self, command: str) -> str:
         """执行终端命令"""
@@ -435,7 +435,7 @@ class CodebaseMaintainer:
 def main():
     """主函数 - 演示 CodebaseMaintainer 的使用（Agentic 版本）
 
-    在这个版本中：
+    在这个版本中: 
     - Agent 自主决定使用哪些工具
     - 不预定义工作流
     - Agent 根据需求灵活探索代码库

@@ -15,7 +15,7 @@ llm = HelloAgentsLLM()
 agent = SimpleAgent(name="AI 助手", llm=llm, system_prompt="你是一个有用的 AI 助手")
 
 # 基础对话
-response = agent.run("你好！请介绍一下自己")
+response = agent.run("你好! 请介绍一下自己")
 print(response)
 
 # 添加工具功能(可选)

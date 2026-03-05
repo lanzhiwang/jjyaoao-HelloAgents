@@ -6,7 +6,7 @@
       <span></span>
     </div>
 
-    <!-- 初始状态：居中输入卡片 -->
+    <!-- 初始状态: 居中输入卡片 -->
     <div v-if="!isExpanded" class="layout layout-centered">
       <section class="panel panel-form panel-centered">
         <header class="panel-head">
@@ -19,7 +19,7 @@
           </div>
           <div>
             <h1>深度研究助手</h1>
-            <p>结合多轮智能检索与总结，实时呈现洞见与引用。</p>
+            <p>结合多轮智能检索与总结, 实时呈现洞见与引用. </p>
           </div>
         </header>
 
@@ -28,7 +28,7 @@
             <span>研究主题</span>
             <textarea
               v-model="form.topic"
-              placeholder="例如：探索多模态模型在 2025 年的关键突破"
+              placeholder="例如: 探索多模态模型在 2025 年的关键突破"
               rows="4"
               required
             ></textarea>
@@ -84,14 +84,14 @@
           {{ error }}
         </p>
         <p v-else-if="loading" class="hint muted">
-          正在收集线索与证据，实时进展见右侧区域。
+          正在收集线索与证据, 实时进展见右侧区域. 
         </p>
       </section>
     </div>
 
-    <!-- 全屏状态：左右分栏布局 -->
+    <!-- 全屏状态: 左右分栏布局 -->
     <div v-else class="layout layout-fullscreen">
-      <!-- 左侧：研究信息 -->
+      <!-- 左侧: 研究信息 -->
       <aside class="sidebar">
         <div class="sidebar-header">
           <button class="back-btn" @click="goBack" :disabled="loading">
@@ -133,7 +133,7 @@
         </div>
       </aside>
 
-      <!-- 右侧：研究结果 -->
+      <!-- 右侧: 研究结果 -->
       <section
         class="panel panel-result"
         v-if="todoTasks.length || reportMarkdown || progressLogs.length"
@@ -145,7 +145,7 @@
               {{ loading ? "研究进行中" : "研究流程完成" }}
             </div>
             <span class="status-meta">
-              任务进度：{{ completedTasks }} / {{ totalTasks || todoTasks.length || 1 }}
+              任务进度: {{ completedTasks }} / {{ totalTasks || todoTasks.length || 1 }}
               · 阶段记录 {{ progressLogs.length }} 条
             </span>
           </div>
@@ -198,20 +198,20 @@
                 </p>
               </div>
               <div class="task-chip-group">
-                <span class="task-label">查询：{{ currentTaskQuery || "" }}</span>
+                <span class="task-label">查询: {{ currentTaskQuery || "" }}</span>
                 <span
                   v-if="currentTaskNoteId"
                   class="task-label note-chip"
                   :title="currentTaskNoteId"
                 >
-                  笔记：{{ currentTaskNoteId }}
+                  笔记: {{ currentTaskNoteId }}
                 </span>
                 <span
                   v-if="currentTaskNotePath"
                   class="task-label note-chip path-chip"
                   :title="currentTaskNotePath"
                 >
-                  <span class="path-label">路径：</span>
+                  <span class="path-label">路径: </span>
                   <span class="path-text">{{ currentTaskNotePath }}</span>
                   <button
                     class="chip-action"
@@ -291,11 +291,11 @@
                       v-if="entry.noteId"
                       class="tool-entry-note"
                     >
-                      笔记：{{ entry.noteId }}
+                      笔记: {{ entry.noteId }}
                     </span>
                   </div>
                   <p v-if="entry.notePath" class="tool-entry-path">
-                    笔记路径：
+                    笔记路径: 
                     <button
                       class="link-btn"
                       type="button"
@@ -317,7 +317,7 @@
           </article>
 
           <article class="task-detail" v-else>
-            <p class="muted">等待任务规划或执行结果。</p>
+            <p class="muted">等待任务规划或执行结果. </p>
           </article>
         </div>
 
@@ -623,7 +623,7 @@ async function copyNotePath(path: string | null | undefined) {
 
   try {
     await navigator.clipboard.writeText(path);
-    progressLogs.value.push(`已复制笔记路径：${path}`);
+    progressLogs.value.push(`已复制笔记路径: ${path}`);
   } catch (error) {
     console.warn("无法直接复制到剪贴板", error);
     window.prompt("复制以下笔记路径", path);
@@ -766,7 +766,7 @@ const handleSubmit = async () => {
             activeTaskId.value = todoTasks.value[0].id;
             progressLogs.value.push("已生成任务清单");
           } else {
-            progressLogs.value.push("未生成任务清单，使用默认任务继续");
+            progressLogs.value.push("未生成任务清单, 使用默认任务继续");
           }
           return;
         }
@@ -792,7 +792,7 @@ const handleSubmit = async () => {
             task.sourceItems = [];
             task.notices = [];
             activeTaskId.value = task.id;
-            progressLogs.value.push(`开始执行任务：${task.title}`);
+            progressLogs.value.push(`开始执行任务: ${task.title}`);
           } else if (status === "completed") {
             if (typeof event.summary === "string" && event.summary.trim()) {
               task.summary = event.summary.trim();
@@ -804,13 +804,13 @@ const handleSubmit = async () => {
               task.sourcesSummary = event.sources_summary.trim();
               task.sourceItems = parseSources(task.sourcesSummary);
             }
-            progressLogs.value.push(`完成任务：${task.title}`);
+            progressLogs.value.push(`完成任务: ${task.title}`);
             if (activeTaskId.value === task.id) {
               pulse(summaryHighlight);
               pulse(sourcesHighlight);
             }
           } else if (status === "skipped") {
-            progressLogs.value.push(`任务跳过：${task.title}`);
+            progressLogs.value.push(`任务跳过: ${task.title}`);
           }
           return;
         }
@@ -837,12 +837,12 @@ const handleSubmit = async () => {
             if (activeTaskId.value === task.id) {
               pulse(sourcesHighlight);
             }
-            progressLogs.value.push(`已更新任务来源：${task.title}`);
+            progressLogs.value.push(`已更新任务来源: ${task.title}`);
           }
 
           if (typeof payload.backend === "string") {
             progressLogs.value.push(
-              `当前使用搜索后端：${payload.backend}`
+              `当前使用搜索后端: ${payload.backend}`
             );
           }
 
@@ -906,7 +906,7 @@ const handleSubmit = async () => {
               task.notePath = notePath;
             }
             const logSummary = noteId
-              ? `${agent} 调用了 ${tool}（任务 ${task.id}，笔记 ${noteId}）`
+              ? `${agent} 调用了 ${tool}（任务 ${task.id}, 笔记 ${noteId}）`
               : `${agent} 调用了 ${tool}（任务 ${task.id}）`;
             progressLogs.value.push(logSummary);
             if (activeTaskId.value === task.id) {
@@ -923,7 +923,7 @@ const handleSubmit = async () => {
             typeof event.report === "string" && event.report.trim()
               ? event.report.trim()
               : "";
-          reportMarkdown.value = report || "报告生成失败，未获得有效内容";
+          reportMarkdown.value = report || "报告生成失败, 未获得有效内容";
           pulse(reportHighlight);
           progressLogs.value.push("最终报告已生成");
           return;
@@ -935,7 +935,7 @@ const handleSubmit = async () => {
               ? event.detail
               : "研究过程中发生错误";
           error.value = detail;
-          progressLogs.value.push("研究失败，已停止流程");
+          progressLogs.value.push("研究失败, 已停止流程");
         }
       },
       { signal: controller.signal }

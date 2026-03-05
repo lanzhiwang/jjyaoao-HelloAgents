@@ -462,7 +462,7 @@ class DeepResearchAgent:
         if not self.note_tool or not report or not report.strip():
             return None
 
-        note_title = f"研究报告：{state.research_topic}".strip() or "研究报告"
+        note_title = f"研究报告: {state.research_topic}".strip() or "研究报告"
         tags = ["deep_research", "report"]
         content = report.strip()
 

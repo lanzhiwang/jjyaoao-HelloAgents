@@ -1,15 +1,15 @@
 """
-第十二章示例8：LLM Judge评估
+第十二章示例8: LLM Judge评估
 
-对应文档：12.4.3 LLM Judge评估
+对应文档: 12.4.3 LLM Judge评估
 
-这个示例展示如何使用LLM Judge评估生成的AIME题目质量。
+这个示例展示如何使用LLM Judge评估生成的AIME题目质量. 
 
-LLM Judge从4个维度评估题目质量：
-1. 正确性（Correctness）：题目和答案是否正确
-2. 清晰度（Clarity）：题目表述是否清晰
-3. 难度匹配（Difficulty Match）：难度是否符合AIME水平
-4. 完整性（Completeness）：题目是否完整
+LLM Judge从4个维度评估题目质量: 
+1. 正确性（Correctness）: 题目和答案是否正确
+2. 清晰度（Clarity）: 题目表述是否清晰
+3. 难度匹配（Difficulty Match）: 难度是否符合AIME水平
+4. 完整性（Completeness）: 题目是否完整
 """
 
 import sys
@@ -89,13 +89,13 @@ print(f"  总体平均: {avg_overall:.2f}/5")
 # 5. 质量评估
 print(f"\n质量评估:")
 if avg_overall >= 4.0:
-    print("✅ 优秀 - 题目质量很高，可以直接使用")
+    print("✅ 优秀 - 题目质量很高, 可以直接使用")
 elif avg_overall >= 3.0:
-    print("⚠️ 良好 - 题目质量可用，建议人工审核")
+    print("⚠️ 良好 - 题目质量可用, 建议人工审核")
 elif avg_overall >= 2.0:
-    print("⚠️ 一般 - 题目质量一般，需要大幅改进")
+    print("⚠️ 一般 - 题目质量一般, 需要大幅改进")
 else:
-    print("❌ 较差 - 题目质量差，需要重新生成")
+    print("❌ 较差 - 题目质量差, 需要重新生成")
 
 # 6. 保存评估结果
 output_file = "./evaluation_results/llm_judge_results.json"
@@ -121,7 +121,7 @@ with open(output_file, "w", encoding="utf-8") as f:
 
 print(f"\n✅ 评估结果已保存到 {output_file}")
 
-# 运行输出示例：
+# 运行输出示例: 
 # ============================================================
 # LLM Judge评估
 # ============================================================
@@ -166,6 +166,6 @@ print(f"\n✅ 评估结果已保存到 {output_file}")
 #   总体平均: 4.62/5
 #
 # 质量评估:
-# ✅ 优秀 - 题目质量很高，可以直接使用
+# ✅ 优秀 - 题目质量很高, 可以直接使用
 #
 # ✅ 评估结果已保存到 ./evaluation_results/llm_judge_results.json

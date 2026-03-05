@@ -1,7 +1,7 @@
 """记忆工具
 
-为HelloAgents框架提供记忆能力的工具实现。
-可以作为工具添加到任何Agent中，让Agent具备记忆功能。
+为HelloAgents框架提供记忆能力的工具实现. 
+可以作为工具添加到任何Agent中, 让Agent具备记忆功能. 
 """
 
 from typing import Dict, Any, List
@@ -14,7 +14,7 @@ from ...memory import MemoryManager, MemoryConfig
 class MemoryTool(Tool):
     """记忆工具
 
-    为Agent提供记忆功能：
+    为Agent提供记忆功能: 
     - 添加记忆
     - 检索相关记忆
     - 获取记忆摘要
@@ -52,16 +52,16 @@ class MemoryTool(Tool):
         """执行工具 - Tool基类要求的接口
 
         Args:
-            parameters: 工具参数字典，必须包含action参数
+            parameters: 工具参数字典, 必须包含action参数
 
         Returns:
             执行结果字符串
         """
         if not self.validate_parameters(parameters):
-            return "❌ 参数验证失败：缺少必需的参数"
+            return "❌ 参数验证失败: 缺少必需的参数"
 
         action = parameters.get("action")
-        # 移除action参数，传递其余参数给execute方法
+        # 移除action参数, 传递其余参数给execute方法
         kwargs = {k: v for k, v in parameters.items() if k != "action"}
 
         return self.execute(action, **kwargs)
@@ -73,7 +73,7 @@ class MemoryTool(Tool):
                 name="action",
                 type="string",
                 description=(
-                    "要执行的操作："
+                    "要执行的操作: "
                     "add(添加记忆), search(搜索记忆), summary(获取摘要), stats(获取统计), "
                     "update(更新记忆), remove(删除记忆), forget(遗忘记忆), consolidate(整合记忆), clear_all(清空所有记忆)"
                 ),
@@ -82,7 +82,7 @@ class MemoryTool(Tool):
             ToolParameter(
                 name="content",
                 type="string",
-                description="记忆内容（add/update时可用；感知记忆可作描述）",
+                description="记忆内容（add/update时可用; 感知记忆可作描述）",
                 required=False,
             ),
             ToolParameter(
@@ -94,20 +94,20 @@ class MemoryTool(Tool):
             ToolParameter(
                 name="memory_type",
                 type="string",
-                description="记忆类型：working, episodic, semantic, perceptual（默认：working）",
+                description="记忆类型: working, episodic, semantic, perceptual（默认: working）",
                 required=False,
                 default="working",
             ),
             ToolParameter(
                 name="importance",
                 type="number",
-                description="重要性分数，0.0-1.0（add/update时可用）",
+                description="重要性分数, 0.0-1.0（add/update时可用）",
                 required=False,
             ),
             ToolParameter(
                 name="limit",
                 type="integer",
-                description="搜索结果数量限制（默认：5）",
+                description="搜索结果数量限制（默认: 5）",
                 required=False,
                 default=5,
             ),
@@ -120,26 +120,26 @@ class MemoryTool(Tool):
             ToolParameter(
                 name="file_path",
                 type="string",
-                description="感知记忆：本地文件路径（image/audio）",
+                description="感知记忆: 本地文件路径（image/audio）",
                 required=False,
             ),
             ToolParameter(
                 name="modality",
                 type="string",
-                description="感知记忆模态：text/image/audio（不传则按扩展名推断）",
+                description="感知记忆模态: text/image/audio（不传则按扩展名推断）",
                 required=False,
             ),
             ToolParameter(
                 name="strategy",
                 type="string",
-                description="遗忘策略：importance_based/time_based/capacity_based（forget时可用）",
+                description="遗忘策略: importance_based/time_based/capacity_based（forget时可用）",
                 required=False,
                 default="importance_based",
             ),
             ToolParameter(
                 name="threshold",
                 type="number",
-                description="遗忘阈值（forget时可用，默认0.1）",
+                description="遗忘阈值（forget时可用, 默认0.1）",
                 required=False,
                 default=0.1,
             ),
@@ -153,14 +153,14 @@ class MemoryTool(Tool):
             ToolParameter(
                 name="from_type",
                 type="string",
-                description="整合来源类型（consolidate时可用，默认working）",
+                description="整合来源类型（consolidate时可用, 默认working）",
                 required=False,
                 default="working",
             ),
             ToolParameter(
                 name="to_type",
                 type="string",
-                description="整合目标类型（consolidate时可用，默认episodic）",
+                description="整合目标类型（consolidate时可用, 默认episodic）",
                 required=False,
                 default="episodic",
             ),
@@ -176,7 +176,7 @@ class MemoryTool(Tool):
     def execute(self, action: str, **kwargs) -> str:
         """执行记忆操作
 
-        支持的操作：
+        支持的操作: 
         - add: 添加记忆
         - search: 搜索记忆
         - summary: 获取记忆摘要
@@ -202,7 +202,7 @@ class MemoryTool(Tool):
         elif action == "clear_all":
             return self._clear_all()
         else:
-            return f"不支持的操作: {action}。支持的操作: add, search, summary, stats, update, remove, forget, consolidate, clear_all"
+            return f"不支持的操作: {action}. 支持的操作: add, search, summary, stats, update, remove, forget, consolidate, clear_all"
 
     def _add_memory(
         self,
@@ -221,7 +221,7 @@ class MemoryTool(Tool):
                     f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
                 )
 
-            # 感知记忆文件支持：注入 raw_data 与模态
+            # 感知记忆文件支持: 注入 raw_data 与模态
             if memory_type == "perceptual" and file_path:
                 inferred = modality or self._infer_modality(file_path)
                 metadata.setdefault("modality", inferred)
@@ -240,7 +240,7 @@ class MemoryTool(Tool):
                 memory_type=memory_type,
                 importance=importance,
                 metadata=metadata,
-                auto_classify=False,  # 禁用自动分类，使用明确指定的类型
+                auto_classify=False,  # 禁用自动分类, 使用明确指定的类型
             )
 
             return f"✅ 记忆已添加 (ID: {memory_id[:8]}...)"
@@ -343,12 +343,12 @@ class MemoryTool(Tool):
             important_memories = self.memory_manager.retrieve_memories(
                 query="",
                 memory_types=None,  # 从所有类型中检索
-                limit=limit * 3,  # 获取更多候选，然后去重
+                limit=limit * 3,  # 获取更多候选, 然后去重
                 min_importance=0.5,  # 降低阈值以获取更多记忆
             )
 
             if important_memories:
-                # 去重：使用记忆ID和内容双重去重
+                # 去重: 使用记忆ID和内容双重去重
                 seen_ids = set()
                 seen_contents = set()
                 unique_memories = []
@@ -430,7 +430,7 @@ class MemoryTool(Tool):
             conversation_id=self.conversation_count,
         )
 
-        # 如果是重要对话，记录为情景记忆
+        # 如果是重要对话, 记录为情景记忆
         if len(agent_response) > 100 or "重要" in user_input or "记住" in user_input:
             interaction_content = f"对话 - 用户: {user_input}\n助手: {agent_response}"
             self._add_memory(
@@ -492,7 +492,7 @@ class MemoryTool(Tool):
                 to_type=to_type,
                 importance_threshold=importance_threshold,
             )
-            return f"🔄 已整合 {count} 条记忆为长期记忆（{from_type} → {to_type}，阈值={importance_threshold}）"
+            return f"🔄 已整合 {count} 条记忆为长期记忆（{from_type} → {to_type}, 阈值={importance_threshold}）"
         except Exception as e:
             return f"❌ 整合记忆失败: {str(e)}"
 
@@ -507,7 +507,7 @@ class MemoryTool(Tool):
     def add_knowledge(self, content: str, importance: float = 0.9):
         """添加知识到语义记忆
 
-        便捷方法，用于添加重要知识
+        便捷方法, 用于添加重要知识
         """
         return self._add_memory(
             content=content,

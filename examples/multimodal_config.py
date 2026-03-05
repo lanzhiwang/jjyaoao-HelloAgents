@@ -94,24 +94,24 @@ class MultimodalConfig:
 ENV_SETUP_GUIDE = """
 🔧 环境变量设置指南
 
-为了使用真实的多模态API，请设置以下环境变量：
+为了使用真实的多模态API, 请设置以下环境变量: 
 
-1. OpenAI API (推荐)：
+1. OpenAI API (推荐): 
    export OPENAI_API_KEY="your-openai-api-key"
 
-2. Google API：
+2. Google API: 
    export GOOGLE_API_KEY="your-google-api-key"
 
-3. Anthropic API：
+3. Anthropic API: 
    export ANTHROPIC_API_KEY="your-anthropic-api-key"
 
-4. 如果有CUDA GPU：
+4. 如果有CUDA GPU: 
    export CUDA_AVAILABLE="true"
 
-Windows用户请使用：
+Windows用户请使用: 
 set OPENAI_API_KEY=your-openai-api-key
 
-或者在Python中设置：
+或者在Python中设置: 
 import os
 os.environ["OPENAI_API_KEY"] = "your-api-key"
 """
@@ -169,7 +169,7 @@ def call_real_vision_api(image_path: str, prompt: str = "描述这张图片") ->
     provider = config.get_available_vision_provider()
 
     if not provider:
-        return "未配置视觉API，使用模拟结果"
+        return "未配置视觉API, 使用模拟结果"
 
     try:
         if provider == "openai_gpt4v":

@@ -4,7 +4,7 @@ from hello_agents.protocols.a2a.implementation import A2AServer, A2A_AVAILABLE
 def create_calculator_agent():
     """创建一个计算器智能体"""
     if not A2A_AVAILABLE:
-        print("❌ A2A SDK 未安装，请运行: pip install a2a-sdk")
+        print("❌ A2A SDK 未安装, 请运行: pip install a2a-sdk")
         return None
 
     print("🧮 创建计算器智能体")
@@ -55,9 +55,9 @@ def create_calculator_agent():
     @calculator.skill("info")
     def get_info(query: str) -> str:
         """获取智能体信息"""
-        return f"我是 {calculator.name}，可以进行基础数学计算。支持的技能: {list(calculator.skills.keys())}"
+        return f"我是 {calculator.name}, 可以进行基础数学计算. 支持的技能: {list(calculator.skills.keys())}"
 
-    print(f"✅ 计算器智能体创建成功，支持技能: {list(calculator.skills.keys())}")
+    print(f"✅ 计算器智能体创建成功, 支持技能: {list(calculator.skills.keys())}")
     return calculator
 
 

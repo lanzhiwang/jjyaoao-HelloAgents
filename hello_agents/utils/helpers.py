@@ -13,7 +13,7 @@ def format_time(
     格式化时间
 
     Args:
-        timestamp: 时间戳，默认为当前时间
+        timestamp: 时间戳, 默认为当前时间
         format_str: 格式字符串
 
     Returns:

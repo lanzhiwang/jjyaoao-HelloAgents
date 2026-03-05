@@ -1,6 +1,6 @@
 # 赛博小镇 - FastAPI后端
 
-基于HelloAgents框架的AI NPC对话系统后端服务。
+基于HelloAgents框架的AI NPC对话系统后端服务. 
 
 ## 🎯 功能特性
 
@@ -26,7 +26,7 @@ pip install -r requirements.txt
 ### 2. 配置环境变量
 创建`.env`文件或设置环境变量:
 
-**注意**: 如果不配置API密钥,系统将使用预设对话模式运行。
+**注意**: 如果不配置API密钥,系统将使用预设对话模式运行. 
 
 ## 🚀 启动服务
 
@@ -99,7 +99,7 @@ Content-Type: application/json
 {
   "npc_name": "张三",
   "npc_title": "Python工程师",
-  "message": "你好!我正在优化一个多智能体系统的性能,挺有意思的。",
+  "message": "你好!我正在优化一个多智能体系统的性能,挺有意思的. ",
   "success": true,
   "timestamp": "2024-01-15T10:30:00"
 }
@@ -115,8 +115,8 @@ GET /npcs/status
 {
   "dialogues": {
     "张三": "终于把这个bug修复了,测试通过!",
-    "李四": "下周的产品评审会需要准备一下资料。",
-    "王五": "这个配色方案看起来不错,再调整一下细节。"
+    "李四": "下周的产品评审会需要准备一下资料. ",
+    "王五": "这个配色方案看起来不错,再调整一下细节. "
   },
   "last_update": "2024-01-15T10:30:00",
   "next_update_in": 25
@@ -221,5 +221,5 @@ OPENAI_MODEL = "gpt-4o-mini"  # 推荐使用mini版本降低成本
 
 ## 📄 许可证
 
-本项目遵循 HelloAgents 项目的开源协议。
+本项目遵循 HelloAgents 项目的开源协议. 
 

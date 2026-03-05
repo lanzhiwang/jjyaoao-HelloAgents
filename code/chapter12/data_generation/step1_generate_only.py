@@ -1,10 +1,10 @@
 """
-步骤1：仅生成AIME题目
+步骤1: 仅生成AIME题目
 
-运行方法：
+运行方法: 
 python data_generation/step1_generate_only.py 30 3.0
 
-参数：
+参数: 
 - 30: 生成题目数量
 - 3.0: 每次生成之间的延迟（秒）
 """
@@ -34,8 +34,8 @@ def main():
         num_problems=num_problems, output_dir="data_generation/generated_data"
     )
 
-    print(f"\n✅ 步骤1完成！生成数据保存在: {generated_data_path}")
-    print(f"\n下一步：运行评估")
+    print(f"\n✅ 步骤1完成! 生成数据保存在: {generated_data_path}")
+    print(f"\n下一步: 运行评估")
     print(f"python data_generation/step2_evaluate_only.py {generated_data_path} 2024")
 
 

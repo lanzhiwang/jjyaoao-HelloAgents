@@ -59,7 +59,7 @@ class MemoryTypesDeepDive:
 
         # 演示容量限制
         print(f"\n1. 容量限制演示:")
-        print("添加大量临时记忆，观察容量管理...")
+        print("添加大量临时记忆, 观察容量管理...")
 
         for i in range(8):
             content = f"临时工作记忆 {i+1}: 当前正在处理任务步骤 {i+1}"
@@ -330,14 +330,14 @@ class MemoryTypesDeepDive:
         # 添加不同类型的概念知识
         concepts = [
             {
-                "content": "机器学习是人工智能的一个分支，通过算法让计算机从数据中学习模式",
+                "content": "机器学习是人工智能的一个分支, 通过算法让计算机从数据中学习模式",
                 "concept_type": "definition",
                 "domain": "artificial_intelligence",
                 "keywords": ["机器学习", "人工智能", "算法", "数据", "模式"],
                 "importance": 0.9,
             },
             {
-                "content": "监督学习使用标记数据训练模型，包括分类和回归两大类任务",
+                "content": "监督学习使用标记数据训练模型, 包括分类和回归两大类任务",
                 "concept_type": "category",
                 "domain": "machine_learning",
                 "parent_concept": "机器学习",
@@ -345,7 +345,7 @@ class MemoryTypesDeepDive:
                 "importance": 0.8,
             },
             {
-                "content": "梯度下降是一种优化算法，通过迭代更新参数来最小化损失函数",
+                "content": "梯度下降是一种优化算法, 通过迭代更新参数来最小化损失函数",
                 "concept_type": "algorithm",
                 "domain": "optimization",
                 "mathematical_basis": "微积分",
@@ -353,7 +353,7 @@ class MemoryTypesDeepDive:
                 "importance": 0.8,
             },
             {
-                "content": "过拟合是指模型在训练数据上表现很好，但在新数据上泛化能力差",
+                "content": "过拟合是指模型在训练数据上表现很好, 但在新数据上泛化能力差",
                 "concept_type": "problem",
                 "domain": "machine_learning",
                 "causes": ["模型复杂度过高", "训练数据不足"],
@@ -384,7 +384,7 @@ class MemoryTypesDeepDive:
         # 添加关系知识
         relationships = [
             {
-                "content": "深度学习是机器学习的子集，使用多层神经网络",
+                "content": "深度学习是机器学习的子集, 使用多层神经网络",
                 "relation_type": "is_subset_of",
                 "subject": "深度学习",
                 "object": "机器学习",
@@ -422,8 +422,8 @@ class MemoryTypesDeepDive:
         print(f"\n3. 语义相似度检索:")
 
         semantic_queries = [
-            "什么是人工智能？",
-            "如何防止模型过拟合？",
+            "什么是人工智能? ",
+            "如何防止模型过拟合? ",
             "神经网络的训练方法",
             "图像识别技术",
         ]
@@ -456,7 +456,7 @@ class MemoryTypesDeepDive:
                 "year": 2015,
             },
             {
-                "content": "PyTorch是Facebook开发的深度学习框架，以动态图著称",
+                "content": "PyTorch是Facebook开发的深度学习框架, 以动态图著称",
                 "entity_type": "framework",
                 "developer": "Facebook",
                 "domain": "deep_learning",
@@ -504,7 +504,7 @@ class MemoryTypesDeepDive:
 
         text_perceptions = [
             {
-                "content": "这是一段优美的诗歌：春江潮水连海平，海上明月共潮生",
+                "content": "这是一段优美的诗歌: 春江潮水连海平, 海上明月共潮生",
                 "modality": "text",
                 "genre": "poetry",
                 "emotion": "peaceful",
@@ -512,7 +512,7 @@ class MemoryTypesDeepDive:
                 "aesthetic_value": 0.9,
             },
             {
-                "content": "技术文档：API接口返回JSON格式数据，包含状态码和响应体",
+                "content": "技术文档: API接口返回JSON格式数据, 包含状态码和响应体",
                 "modality": "text",
                 "genre": "technical",
                 "complexity": "medium",
@@ -586,7 +586,7 @@ class MemoryTypesDeepDive:
                 "duration_seconds": 240,
             },
             {
-                "content": "技术会议的录音，讨论AI发展趋势",
+                "content": "技术会议的录音, 讨论AI发展趋势",
                 "modality": "audio",
                 "file_path": "/simulated/conference.wav",
                 "content_type": "speech",
@@ -663,7 +663,7 @@ class MemoryTypesDeepDive:
         # 模拟一个完整的学习过程
         print(f"\n完整学习过程模拟:")
 
-        # 1. 感知阶段：接收多模态信息
+        # 1. 感知阶段: 接收多模态信息
         print(f"\n1. 感知阶段 - 接收信息:")
 
         perceptual_input = self.perceptual_memory_tool.run(
@@ -680,7 +680,7 @@ class MemoryTypesDeepDive:
         )
         print(f"感知记忆: {perceptual_input}")
 
-        # 2. 工作记忆阶段：临时处理和思考
+        # 2. 工作记忆阶段: 临时处理和思考
         print(f"\n2. 工作记忆阶段 - 临时处理:")
 
         working_thoughts = [
@@ -702,13 +702,13 @@ class MemoryTypesDeepDive:
             )
             print(f"  工作记忆: {thought[:30]}... - {result}")
 
-        # 3. 情景记忆阶段：记录完整学习事件
+        # 3. 情景记忆阶段: 记录完整学习事件
         print(f"\n3. 情景记忆阶段 - 事件记录:")
 
         episodic_event = self.episodic_memory_tool.run(
             {
                 "action": "add",
-                "content": "完成了深度学习视频教程的学习，理解了CNN的核心概念",
+                "content": "完成了深度学习视频教程的学习, 理解了CNN的核心概念",
                 "memory_type": "episodic",
                 "importance": 0.9,
                 "event_type": "learning_session",
@@ -720,18 +720,18 @@ class MemoryTypesDeepDive:
         )
         print(f"情景记忆: {episodic_event}")
 
-        # 4. 语义记忆阶段：抽象知识存储
+        # 4. 语义记忆阶段: 抽象知识存储
         print(f"\n4. 语义记忆阶段 - 知识抽象:")
 
         semantic_knowledge = [
             {
-                "content": "卷积神经网络通过卷积层提取图像特征，适合计算机视觉任务",
+                "content": "卷积神经网络通过卷积层提取图像特征, 适合计算机视觉任务",
                 "concept": "CNN",
                 "domain": "deep_learning",
                 "application": "computer_vision",
             },
             {
-                "content": "反向传播算法通过链式法则计算梯度，用于更新网络参数",
+                "content": "反向传播算法通过链式法则计算梯度, 用于更新网络参数",
                 "concept": "backpropagation",
                 "domain": "optimization",
                 "mathematical_basis": "chain_rule",
@@ -814,14 +814,14 @@ def main():
         demo.demonstrate_memory_interactions()
 
         print("\n" + "=" * 80)
-        print("🎉 四种记忆类型深度解析完成！")
+        print("🎉 四种记忆类型深度解析完成! ")
         print("=" * 80)
 
         print("\n✨ 记忆类型特性总结:")
-        print("1. 💭 工作记忆 - 快速临时存储，容量有限，自动过期")
-        print("2. 📖 情景记忆 - 完整事件记录，时间序列，丰富上下文")
-        print("3. 🧠 语义记忆 - 抽象知识存储，概念关系，语义推理")
-        print("4. 👁️ 感知记忆 - 多模态支持，跨模态检索，感知理解")
+        print("1. 💭 工作记忆 - 快速临时存储, 容量有限, 自动过期")
+        print("2. 📖 情景记忆 - 完整事件记录, 时间序列, 丰富上下文")
+        print("3. 🧠 语义记忆 - 抽象知识存储, 概念关系, 语义推理")
+        print("4. 👁️ 感知记忆 - 多模态支持, 跨模态检索, 感知理解")
 
         print("\n🔄 记忆交互模式:")
         print("• 感知 → 工作 → 情景 → 语义（信息处理流程）")

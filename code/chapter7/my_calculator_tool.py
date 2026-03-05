@@ -29,7 +29,7 @@ def my_calculate(expression: str) -> str:
         result = _eval_node(node.body, operators, functions)
         return str(result)
     except:
-        return "计算失败，请检查表达式格式"
+        return "计算失败, 请检查表达式格式"
 
 
 def _eval_node(node, operators, functions):
@@ -58,7 +58,7 @@ def create_calculator_registry():
     # 注册计算器函数
     registry.register_function(
         name="my_calculator",
-        description="简单的数学计算工具，支持基本运算(+,-,*,/)和sqrt函数",
+        description="简单的数学计算工具, 支持基本运算(+,-,*,/)和sqrt函数",
         func=my_calculate,
     )
 

@@ -17,7 +17,7 @@ from typing import Dict, Any
 
 # 技术专家 Agent
 tech_expert = A2AServer(
-    name="tech_expert", description="技术专家，回答技术相关问题", version="1.0.0"
+    name="tech_expert", description="技术专家, 回答技术相关问题", version="1.0.0"
 )
 
 
@@ -30,12 +30,12 @@ def answer_tech_question(text: str) -> str:
     question = match.group(1).strip() if match else text
 
     print(f"  [技术专家] 回答问题: {question}")
-    return f"技术回答：关于'{question}'，这是一个技术问题的专业解答..."
+    return f"技术回答: 关于'{question}', 这是一个技术问题的专业解答..."
 
 
 # 销售顾问 Agent
 sales_advisor = A2AServer(
-    name="sales_advisor", description="销售顾问，回答销售问题", version="1.0.0"
+    name="sales_advisor", description="销售顾问, 回答销售问题", version="1.0.0"
 )
 
 
@@ -48,7 +48,7 @@ def answer_sales_question(text: str) -> str:
     question = match.group(1).strip() if match else text
 
     print(f"  [销售顾问] 回答问题: {question}")
-    return f"销售回答：关于'{question}'，我们有特别优惠..."
+    return f"销售回答: 关于'{question}', 我们有特别优惠..."
 
 
 # ============================================================
@@ -115,13 +115,13 @@ class A2ATool(Tool):
 # 创建工具
 tech_tool = A2ATool(
     name="tech_expert",
-    description="技术专家，回答技术相关问题",
+    description="技术专家, 回答技术相关问题",
     agent_url="http://localhost:6000",
 )
 
 sales_tool = A2ATool(
     name="sales_advisor",
-    description="销售顾问，回答销售相关问题",
+    description="销售顾问, 回答销售相关问题",
     agent_url="http://localhost:6001",
 )
 
@@ -140,16 +140,16 @@ llm = HelloAgentsLLM()
 receptionist = SimpleAgent(
     name="接待员",
     llm=llm,
-    system_prompt="""你是客服接待员，负责：
+    system_prompt="""你是客服接待员, 负责: 
 1. 分析客户问题类型（技术问题 or 销售问题）
 2. 使用合适的工具（tech_expert 或 sales_advisor）获取答案
 3. 整理答案并返回给客户
 
-可用工具：
+可用工具: 
 - tech_expert: 回答技术问题
 - sales_advisor: 回答销售问题
 
-请保持礼貌和专业。""",
+请保持礼貌和专业. """,
 )
 
 # 添加 A2A 工具
@@ -169,8 +169,8 @@ print("=" * 60)
 
 # 测试问题
 test_questions = [
-    "你们的产品有什么优惠活动吗？",
-    "如何配置服务器的SSL证书？",
+    "你们的产品有什么优惠活动吗? ",
+    "如何配置服务器的SSL证书? ",
     "我想了解一下价格方案",
 ]
 

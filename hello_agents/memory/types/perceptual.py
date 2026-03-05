@@ -4,7 +4,7 @@
 - 多模态数据存储(文本、图像、音频等)
 - 结构化元数据 + 向量索引(SQLite + Qdrant)
 - 同模态检索(跨模态在无CLIP/CLAP依赖时有限)
-- 懒加载编码: 文本用 sentence-transformers；图像/音频用轻量确定性哈希向量
+- 懒加载编码: 文本用 sentence-transformers; 图像/音频用轻量确定性哈希向量
 """
 
 from typing import List, Dict, Any, Optional, Union, Tuple
@@ -155,7 +155,7 @@ class PerceptualMemory(BaseMemory):
             distance=distance,
         )
 
-        # 编码器(轻量实现；真实场景可替换为CLIP/CLAP等)
+        # 编码器(轻量实现; 真实场景可替换为CLIP/CLAP等)
         self.encoders = self._init_encoders()
 
     def add(self, memory_item: MemoryItem) -> str:
@@ -221,7 +221,7 @@ class PerceptualMemory(BaseMemory):
         return memory_item.id
 
     def retrieve(self, query: str, limit: int = 5, **kwargs) -> List[MemoryItem]:
-        """检索感知记忆(可筛模态；同模态向量检索+时间/重要性融合)"""
+        """检索感知记忆(可筛模态; 同模态向量检索+时间/重要性融合)"""
         user_id = kwargs.get("user_id")
         target_modality = kwargs.get("target_modality")  # 可选: 限制目标模态
         query_modality = kwargs.get("query_modality", target_modality or "text")

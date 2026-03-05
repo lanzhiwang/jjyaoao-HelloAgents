@@ -1,6 +1,6 @@
 # Weather MCP Server
 
-真实天气查询 MCP 服务器，基于 HelloAgents 框架开发。
+真实天气查询 MCP 服务器, 基于 HelloAgents 框架开发. 
 
 ## 功能特性
 
@@ -48,26 +48,26 @@ agent = SimpleAgent(name="天气助手", llm=HelloAgentsLLM())
 weather_tool = MCPTool(server_command=["python", "server.py"])
 agent.add_tool(weather_tool)
 
-response = agent.run("北京今天天气怎么样？")
+response = agent.run("北京今天天气怎么样? ")
 ```
 
 ## API 工具
 
 ### get_weather
 
-获取指定城市的当前天气。
+获取指定城市的当前天气. 
 
-**参数：**
+**参数: **
 - `city` (string): 城市名称（支持中文和英文）
 
-**示例：**
+**示例: **
 ```json
 {
   "city": "北京"
 }
 ```
 
-**返回：**
+**返回: **
 ```json
 {
   "city": "北京",
@@ -83,9 +83,9 @@ response = agent.run("北京今天天气怎么样？")
 
 ### list_supported_cities
 
-列出所有支持的中文城市。
+列出所有支持的中文城市. 
 
-**返回：**
+**返回: **
 ```json
 {
   "cities": ["北京", "上海", "广州", "深圳", "杭州", "成都", "重庆", "武汉", "西安", "南京", "天津", "苏州"],
@@ -95,9 +95,9 @@ response = agent.run("北京今天天气怎么样？")
 
 ### get_server_info
 
-获取服务器信息。
+获取服务器信息. 
 
-**返回：**
+**返回: **
 ```json
 {
   "name": "Weather MCP Server",
@@ -110,7 +110,7 @@ response = agent.run("北京今天天气怎么样？")
 
 北京、上海、广州、深圳、杭州、成都、重庆、武汉、西安、南京、天津、苏州
 
-也支持使用英文城市名查询全球任意城市。
+也支持使用英文城市名查询全球任意城市. 
 
 ## 许可证
 

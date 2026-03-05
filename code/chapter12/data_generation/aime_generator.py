@@ -57,11 +57,11 @@ Please output in the following JSON format, avoid using special escape character
 
         Args:
             llm: LLM实例（可选）
-            delay_seconds: 每次生成之间的延迟（秒），避免API速率限制
+            delay_seconds: 每次生成之间的延迟（秒）, 避免API速率限制
             use_reference_examples: 是否使用真题作为参考样例
-            reference_dataset: 参考数据集名称，默认使用TianHongZXY/aime-1983-2025（900+道题）
+            reference_dataset: 参考数据集名称, 默认使用TianHongZXY/aime-1983-2025（900+道题）
         """
-        # 如果没有提供llm，创建默认的HelloAgentsLLM
+        # 如果没有提供llm, 创建默认的HelloAgentsLLM
         if llm is None:
             self.llm = HelloAgentsLLM()
         else:
@@ -70,7 +70,7 @@ Please output in the following JSON format, avoid using special escape character
         self.agent = SimpleAgent(
             name="AIME Generator",
             llm=self.llm,
-            system_prompt="你是一位专业的数学竞赛题目设计专家。",
+            system_prompt="你是一位专业的数学竞赛题目设计专家. ",
         )
         self.delay_seconds = delay_seconds
         self.use_reference_examples = use_reference_examples
@@ -126,11 +126,11 @@ Please output in the following JSON format, avoid using special escape character
             except Exception as e:
                 if attempt < max_retries - 1:
                     tqdm.write(
-                        f"⚠️ 生成失败（尝试 {attempt + 1}/{max_retries}），{self.delay_seconds}秒后重试..."
+                        f"⚠️ 生成失败（尝试 {attempt + 1}/{max_retries}）, {self.delay_seconds}秒后重试..."
                     )
                     time.sleep(self.delay_seconds)
                 else:
-                    tqdm.write(f"❌ 生成失败，已达最大重试次数: {e}")
+                    tqdm.write(f"❌ 生成失败, 已达最大重试次数: {e}")
                     return self._get_default_problem()
 
     def _build_prompt(self) -> str:
@@ -146,7 +146,7 @@ Please output in the following JSON format, avoid using special escape character
         # 构建带参考样例的提示词（英文）
         prompt = f"""You are a professional mathematics competition problem designer, skilled in creating AIME (American Invitational Mathematics Examination) style problems.
 
-【Reference Example】(For style reference only, please generate a completely different problem)
+[Reference Example](For style reference only, please generate a completely different problem)
 Problem: {example_problem}
 Answer: {example_answer}
 
@@ -192,22 +192,22 @@ Important Notes:
             json_str = response.strip()
 
         # 使用json.loads的strict=False来处理转义字符
-        # 但这还不够，我们需要更智能的处理
+        # 但这还不够, 我们需要更智能的处理
         try:
             problem_data = json.loads(json_str)
         except json.JSONDecodeError as e:
-            # 如果解析失败，尝试修复常见的LaTeX转义问题
-            # 方法：先将字符串中的单个反斜杠替换为双反斜杠（但保留已经转义的）
-            # 这样LaTeX的 \frac 会变成 \\frac，在JSON中是合法的
+            # 如果解析失败, 尝试修复常见的LaTeX转义问题
+            # 方法: 先将字符串中的单个反斜杠替换为双反斜杠（但保留已经转义的）
+            # 这样LaTeX的 \frac 会变成 \\frac, 在JSON中是合法的
 
-            # 使用正则表达式：找到所有未转义的反斜杠（不是\\的\）
+            # 使用正则表达式: 找到所有未转义的反斜杠（不是\\的\）
             # 并将其替换为\\
             fixed_json_str = re.sub(r'(?<!\\)\\(?!["\\/bfnrtu])', r"\\\\", json_str)
 
             try:
                 problem_data = json.loads(fixed_json_str)
             except json.JSONDecodeError:
-                # 如果还是失败，打印错误信息并抛出
+                # 如果还是失败, 打印错误信息并抛出
                 print(f"❌ JSON解析失败:")
                 print(f"原始响应: {response[:500]}...")
                 print(f"提取的JSON: {json_str[:500]}...")
@@ -220,7 +220,7 @@ Important Notes:
         # 验证答案范围
         answer = int(problem_data.get("answer", 0))
         if not (0 <= answer <= 999):
-            print(f"⚠️ 答案超出范围: {answer}，调整为0-999范围内")
+            print(f"⚠️ 答案超出范围: {answer}, 调整为0-999范围内")
             answer = max(0, min(999, answer))
             problem_data["answer"] = answer
 
@@ -233,7 +233,7 @@ Important Notes:
     def _get_default_problem(self) -> Dict[str, Any]:
         """获取默认题目（生成失败时使用）"""
         return {
-            "problem": "生成失败，请重新生成",
+            "problem": "生成失败, 请重新生成",
             "answer": 0,
             "solution": "N/A",
             "topic": "未知",
@@ -262,16 +262,16 @@ Important Notes:
         start_index = 0
 
         if checkpoint_path and os.path.exists(checkpoint_path):
-            print(f"\n📂 发现检查点文件，尝试恢复...")
+            print(f"\n📂 发现检查点文件, 尝试恢复...")
             try:
                 with open(checkpoint_path, "r", encoding="utf-8") as f:
                     problems = json.load(f)
                 start_index = len(problems)
                 print(
-                    f"   ✓ 已恢复 {start_index} 个题目，从第 {start_index + 1} 个继续"
+                    f"   ✓ 已恢复 {start_index} 个题目, 从第 {start_index + 1} 个继续"
                 )
             except Exception as e:
-                print(f"   ⚠️ 恢复失败: {e}，从头开始")
+                print(f"   ⚠️ 恢复失败: {e}, 从头开始")
                 problems = []
                 start_index = 0
 
@@ -285,7 +285,7 @@ Important Notes:
                 # 计算距离上次调用的时间
                 if last_call_time > 0:
                     elapsed = time.time() - last_call_time
-                    # 如果距离上次调用不足delay_seconds，则等待
+                    # 如果距离上次调用不足delay_seconds, 则等待
                     if elapsed < self.delay_seconds:
                         wait_time = self.delay_seconds - elapsed
                         tqdm.write(f"⏳ 等待 {wait_time:.1f} 秒以避免速率限制...")
@@ -323,7 +323,7 @@ Important Notes:
                     except Exception as e:
                         tqdm.write(f"⚠️ 保存检查点失败: {e}")
 
-        print(f"\n✅ 生成完成！共 {len(problems)} 个题目")
+        print(f"\n✅ 生成完成! 共 {len(problems)} 个题目")
         return problems
 
     def save_problems(self, problems: List[Dict[str, Any]], output_path: str):
@@ -431,7 +431,7 @@ Important Notes:
             report += f"| {problem.get('id', 'N/A')} | {problem.get('topic', 'N/A')} | {problem.get('answer', 'N/A')} |\n"
 
         if len(problems) > 10:
-            report += f"\n*（仅显示前10个题目，完整列表请查看JSON文件）*\n"
+            report += f"\n*（仅显示前10个题目, 完整列表请查看JSON文件）*\n"
 
         report += f"""
 ---
@@ -454,4 +454,4 @@ if __name__ == "__main__":
     # 生成30个题目
     output_path = generator.generate_and_save(num_problems=30)
 
-    print(f"\n✅ 完成！生成的题目保存在: {output_path}")
+    print(f"\n✅ 完成! 生成的题目保存在: {output_path}")
