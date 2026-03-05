@@ -294,9 +294,9 @@ class RAGPipelineComplete:
         long_document = """# 人工智能发展史
 
 ## 引言
-人工智能（Artificial Intelligence, AI）的发展历程可以追溯到20世纪50年代. 从最初的符号主义方法到现代的深度学习, AI经历了多次重要的发展阶段. 
+人工智能(Artificial Intelligence, AI)的发展历程可以追溯到20世纪50年代. 从最初的符号主义方法到现代的深度学习, AI经历了多次重要的发展阶段. 
 
-## 第一阶段: 符号主义时代（1950s-1980s）
+## 第一阶段: 符号主义时代(1950s-1980s)
 ### 起源与发展
 1950年, 阿兰·图灵发表了著名的论文《计算机器与智能》, 提出了"图灵测试"的概念. 这标志着人工智能研究的正式开始. 
 
@@ -308,7 +308,7 @@ class RAGPipelineComplete:
 ### 局限性
 符号主义方法虽然在某些领域取得了成功, 但面临着知识获取瓶颈和常识推理困难等问题. 
 
-## 第二阶段: 连接主义复兴（1980s-2000s）
+## 第二阶段: 连接主义复兴(1980s-2000s)
 ### 神经网络的回归
 1986年, Rumelhart等人重新发现了反向传播算法, 使得多层神经网络的训练成为可能. 
 
@@ -320,7 +320,7 @@ class RAGPipelineComplete:
 ### 技术限制
 由于计算能力和数据量的限制, 神经网络在这一时期的应用仍然有限. 
 
-## 第三阶段: 深度学习革命（2000s-至今）
+## 第三阶段: 深度学习革命(2000s-至今)
 ### 深度学习的兴起
 2006年, Geoffrey Hinton等人提出了深度信念网络, 开启了深度学习的新时代. 
 
@@ -335,14 +335,14 @@ class RAGPipelineComplete:
 - 2017年Transformer架构的提出
 - 2020年GPT-3等大语言模型的出现
 
-## 第四阶段: 通用人工智能探索（2020s-未来）
+## 第四阶段: 通用人工智能探索(2020s-未来)
 ### 当前趋势
 - 多模态AI的发展
 - 自监督学习方法的普及
 - 神经符号结合的新方法
 
 ### 未来展望
-人工智能正朝着更加通用、可解释和安全的方向发展. 通用人工智能（AGI）的实现仍然是一个长期目标. 
+人工智能正朝着更加通用、可解释和安全的方向发展. 通用人工智能(AGI)的实现仍然是一个长期目标. 
 
 ## 结论
 人工智能的发展是一个螺旋上升的过程, 每个阶段都有其独特的贡献和局限性. 理解这一发展历程有助于我们更好地把握AI技术的未来方向. 
@@ -458,13 +458,13 @@ class RAGPipelineComplete:
         print("-" * 60)
 
         print("🔍 高级检索特点:")
-        print("• 🎯 多查询扩展（MQE）")
-        print("• 💭 假设文档嵌入（HyDE）")
+        print("• 🎯 多查询扩展(MQE)")
+        print("• 💭 假设文档嵌入(HyDE)")
         print("• 🔄 混合检索策略")
         print("• 📊 相关性重排序")
 
         # 演示多查询扩展
-        print(f"\n1. 多查询扩展（MQE）演示:")
+        print(f"\n1. 多查询扩展(MQE)演示:")
 
         base_query = "如何提高机器学习模型的性能? "
         print(f"原始查询: {base_query}")
@@ -490,14 +490,14 @@ class RAGPipelineComplete:
             all_results.append((query, results))
             print(f"  查询结果 '{query[:20]}...': {results[:80]}...")
 
-        # 演示假设文档嵌入（HyDE）
-        print(f"\n2. 假设文档嵌入（HyDE）演示:")
+        # 演示假设文档嵌入(HyDE)
+        print(f"\n2. 假设文档嵌入(HyDE)演示:")
 
         user_question = "什么是深度学习? "
         print(f"用户问题: {user_question}")
 
         # 生成假设答案
-        hypothetical_answer = """深度学习是机器学习的一个子领域, 它使用多层神经网络来学习数据的复杂模式. 深度学习模型通过多个隐藏层来提取数据的层次化特征表示. 常见的深度学习架构包括卷积神经网络（CNN）、循环神经网络（RNN）和Transformer. 深度学习在图像识别、自然语言处理、语音识别等领域取得了突破性进展. """
+        hypothetical_answer = """深度学习是机器学习的一个子领域, 它使用多层神经网络来学习数据的复杂模式. 深度学习模型通过多个隐藏层来提取数据的层次化特征表示. 常见的深度学习架构包括卷积神经网络(CNN)、循环神经网络(RNN)和Transformer. 深度学习在图像识别、自然语言处理、语音识别等领域取得了突破性进展. """
 
         print(f"假设答案: {hypothetical_answer[:100]}...")
 
@@ -550,7 +550,7 @@ class RAGPipelineComplete:
         )
         print(f"初始检索结果: {initial_results[:150]}...")
 
-        # 模拟重排序过程（基于多个因素）
+        # 模拟重排序过程(基于多个因素)
         print(f"重排序因素:")
         print(f"  • 语义相似度权重: 0.6")
         print(f"  • 文档新鲜度权重: 0.2")
@@ -757,7 +757,7 @@ class RAGPipelineComplete:
 
         print(f"  单个处理耗时: {individual_time:.4f}秒")
 
-        # 模拟批量处理（实际实现中可能有优化）
+        # 模拟批量处理(实际实现中可能有优化)
         start_time = time.time()
         batch_results = []
         for query in batch_queries:
@@ -775,7 +775,7 @@ class RAGPipelineComplete:
 
         cache_query = "机器学习算法分类"
 
-        # 第一次查询（无缓存）
+        # 第一次查询(无缓存)
         start_time = time.time()
         first_result = self.rag_tool.run(
             {"action": "search", "query": cache_query, "limit": 3}
@@ -783,7 +783,7 @@ class RAGPipelineComplete:
         first_time = time.time() - start_time
         print(f"  首次查询: {first_time:.4f}秒")
 
-        # 第二次查询（可能有缓存）
+        # 第二次查询(可能有缓存)
         start_time = time.time()
         second_result = self.rag_tool.run(
             {"action": "search", "query": cache_query, "limit": 3}

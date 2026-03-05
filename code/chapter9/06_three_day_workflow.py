@@ -2,27 +2,27 @@
 CodebaseMaintainer 三天工作流演示
 
 完整展示长程智能体在三天内的工作流程:
-- 第一天: 探索代码库（Agent 自主探索）
-- 第二天: 分析代码质量（Agent 自主分析）
-- 第三天: 规划重构任务（Agent 自主规划）
+- 第一天: 探索代码库(Agent 自主探索)
+- 第二天: 分析代码质量(Agent 自主分析)
+- 第三天: 规划重构任务(Agent 自主规划)
 - 一周后: 检查进度
 
 """
 
 import os
 
-# 配置嵌入模型（三选一）
-# 方案一: TF-IDF（最简单, 无需额外依赖）
+# 配置嵌入模型(三选一)
+# 方案一: TF-IDF(最简单, 无需额外依赖)
 os.environ["EMBED_MODEL_TYPE"] = "tfidf"
 os.environ["EMBED_MODEL_NAME"] = ""  # 重要: 必须清空, 否则会传递不兼容的参数
 from dotenv import load_dotenv
 
 load_dotenv()
-# 方案二: 本地Transformer（需要: pip install sentence-transformers 和 HF token）
+# 方案二: 本地Transformer(需要: pip install sentence-transformers 和 HF token)
 # os.environ['EMBED_MODEL_TYPE'] = 'local'
 # os.environ['EMBED_MODEL_NAME'] = 'sentence-transformers/all-MiniLM-L6-v2'
 # os.environ['HF_TOKEN'] = 'your_hf_token_here'  # 或使用 huggingface-cli login
-# 方案三: 通义千问（需要API key）
+# 方案三: 通义千问(需要API key)
 # os.environ['EMBED_MODEL_TYPE'] = 'dashscope'
 # os.environ['EMBED_MODEL_NAME'] = 'text-embedding-v3'
 # os.environ['EMBED_API_KEY'] = 'your_api_key_here'
@@ -40,7 +40,7 @@ from codebase_maintainer import CodebaseMaintainer
 
 
 def day_1_exploration(maintainer):
-    """第一天: 探索代码库（Agentic 方式）
+    """第一天: 探索代码库(Agentic 方式)
 
     在这个阶段, 我们只给 Agent 高层次的目标, 
     Agent 会自主决定: 
@@ -49,12 +49,12 @@ def day_1_exploration(maintainer):
     - 是否记录笔记
     """
     print("\n" + "=" * 80)
-    print("第一天: 探索代码库（Agent 自主探索）")
+    print("第一天: 探索代码库(Agent 自主探索)")
     print("=" * 80 + "\n")
 
     # 1. 初步探索 - Agent 自主决定如何探索
     print("### 1. 初步探索项目结构 ###")
-    print("💡 提示: Agent 会自主决定使用哪些命令（如 find, ls, cat）\n")
+    print("💡 提示: Agent 会自主决定使用哪些命令(如 find, ls, cat)\n")
     response = maintainer.explore()
     print(f"\n助手总结:\n{response[:500]}...\n")
 
@@ -69,20 +69,20 @@ def day_1_exploration(maintainer):
 
 
 def day_2_analysis(maintainer):
-    """第二天: 分析代码质量（Agentic 方式）
+    """第二天: 分析代码质量(Agentic 方式)
 
     Agent 会自主决定: 
-    - 使用什么方法分析代码质量（grep TODO? 统计行数? 检查复杂度?）
+    - 使用什么方法分析代码质量(grep TODO? 统计行数? 检查复杂度?)
     - 是否需要创建笔记记录问题
     - 如何组织分析结果
     """
     print("\n" + "=" * 80)
-    print("第二天: 分析代码质量（Agent 自主分析）")
+    print("第二天: 分析代码质量(Agent 自主分析)")
     print("=" * 80 + "\n")
 
     # 1. 整体质量分析 - Agent 自主决定分析方法
     print("### 1. 分析代码质量 ###")
-    print("💡 提示: Agent 会自主决定如何分析（如 grep TODO, wc -l, 复杂度分析）\n")
+    print("💡 提示: Agent 会自主决定如何分析(如 grep TODO, wc -l, 复杂度分析)\n")
     response = maintainer.analyze()
     print(f"\n助手总结:\n{response[:500]}...\n")
 
@@ -99,7 +99,7 @@ def day_2_analysis(maintainer):
 
 
 def day_3_planning(maintainer):
-    """第三天: 规划重构任务（Agentic 方式）
+    """第三天: 规划重构任务(Agentic 方式)
 
     Agent 会自主决定: 
     - 回顾哪些历史笔记
@@ -108,7 +108,7 @@ def day_3_planning(maintainer):
     - 如何安排优先级
     """
     print("\n" + "=" * 80)
-    print("第三天: 规划重构任务（Agent 自主规划）")
+    print("第三天: 规划重构任务(Agent 自主规划)")
     print("=" * 80 + "\n")
 
     # 1. 回顾进度 - Agent 自主查看历史笔记并规划
@@ -117,7 +117,7 @@ def day_3_planning(maintainer):
     response = maintainer.plan_next_steps()
     print(f"\n助手总结:\n{response[:500]}...\n")
 
-    # 2. 询问 Agent 创建详细计划（Agent 会自主决定是否使用 NoteTool）
+    # 2. 询问 Agent 创建详细计划(Agent 会自主决定是否使用 NoteTool)
     print("### 2. 让 Agent 创建详细的重构计划 ###")
     print("💡 提示: Agent 会自主决定如何创建和组织重构计划\n")
     response = maintainer.run(
@@ -205,7 +205,7 @@ def demonstrate_cross_session_continuity():
 
 
 def demonstrate_tool_synergy():
-    """演示三大工具的协同（Agentic 方式）
+    """演示三大工具的协同(Agentic 方式)
 
     在这个演示中: 
     - 我们不再手动调用工具
@@ -213,7 +213,7 @@ def demonstrate_tool_synergy():
     - Agent 会根据任务自动协同使用多个工具
     """
     print("\n" + "=" * 80)
-    print("演示三大工具的协同（Agent 自主协调）")
+    print("演示三大工具的协同(Agent 自主协调)")
     print("=" * 80 + "\n")
 
     maintainer = CodebaseMaintainer(
@@ -247,7 +247,7 @@ def demonstrate_tool_synergy():
 def main():
     """主函数"""
     print("=" * 80)
-    print("CodebaseMaintainer 三天工作流演示（Agentic 版本）")
+    print("CodebaseMaintainer 三天工作流演示(Agentic 版本)")
     print("=" * 80)
 
     print("\n✨ 核心特性: Agent 自主决策")

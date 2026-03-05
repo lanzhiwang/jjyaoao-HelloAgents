@@ -35,7 +35,7 @@ class MySimpleAgent(SimpleAgent):
         # 构建消息列表
         messages = []
 
-        # 添加系统消息（可能包含工具信息）
+        # 添加系统消息(可能包含工具信息)
         enhanced_system_prompt = self._get_enhanced_system_prompt()
         messages.append({"role": "system", "content": enhanced_system_prompt})
 
@@ -241,7 +241,7 @@ class MySimpleAgent(SimpleAgent):
         print(f"✅ {self.name} 流式响应完成")
 
     def add_tool(self, tool) -> None:
-        """添加工具到Agent（便利方法）"""
+        """添加工具到Agent(便利方法)"""
         if not self.tool_registry:
             from hello_agents import ToolRegistry
 
@@ -256,7 +256,7 @@ class MySimpleAgent(SimpleAgent):
         return self.enable_tool_calling and self.tool_registry is not None
 
     def remove_tool(self, tool_name: str) -> bool:
-        """移除工具（便利方法）"""
+        """移除工具(便利方法)"""
         if self.tool_registry:
             self.tool_registry.unregister(tool_name)
             return True

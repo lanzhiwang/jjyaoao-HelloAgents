@@ -15,17 +15,17 @@ import os
 from hello_agents import SimpleAgent, HelloAgentsLLM
 from hello_agents.tools import GAIAEvaluationTool
 
-# GAIA官方系统提示词（必须使用）
+# GAIA官方系统提示词(必须使用)
 GAIA_SYSTEM_PROMPT = """You are a general AI assistant. I will ask you a question. Report your thoughts, and finish your answer with the following template: FINAL ANSWER: [YOUR FINAL ANSWER].
 YOUR FINAL ANSWER should be a number OR as few words as possible OR a comma separated list of numbers and/or strings.
 If you are asked for a number, don't use comma to write your number neither use units such as $ or percent sign unless specified otherwise.
 If you are asked for a string, don't use articles, neither abbreviations (e.g. for cities), and write the digits in plain text unless specified otherwise.
 If you are asked for a comma separated list, apply the above rules depending of whether the element to be put in the list is a number or a string."""
 
-# 1. 设置HuggingFace Token（如果还没设置）
+# 1. 设置HuggingFace Token(如果还没设置)
 # os.environ["HF_TOKEN"] = "your_huggingface_token_here"
 
-# 2. 创建智能体（必须使用GAIA官方系统提示词）
+# 2. 创建智能体(必须使用GAIA官方系统提示词)
 llm = HelloAgentsLLM()
 agent = SimpleAgent(
     name="TestAgent", llm=llm, system_prompt=GAIA_SYSTEM_PROMPT  # 必须使用官方提示词
@@ -37,8 +37,8 @@ gaia_tool = GAIAEvaluationTool()
 # 4. 运行评估
 results = gaia_tool.run(
     agent=agent,
-    level=1,  # 评估级别（1=简单, 2=中等, 3=困难）
-    max_samples=2,  # 评估样本数（0表示全部）
+    level=1,  # 评估级别(1=简单, 2=中等, 3=困难)
+    max_samples=2,  # 评估样本数(0表示全部)
     export_results=True,  # 导出结果到GAIA官方格式
     generate_report=True,  # 生成详细报告
 )

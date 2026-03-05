@@ -23,7 +23,7 @@ class ContextAwareAgent(SimpleAgent):
     def __init__(self, name: str, llm: HelloAgentsLLM, **kwargs):
         super().__init__(name=name, llm=llm, **kwargs)
 
-        # （Optional）
+        # (Optional)
         # self.memory_tool = MemoryTool(user_id=kwargs.get("user_id", "default"))
         # self.rag_tool = RAGTool(knowledge_base_path=kwargs.get("knowledge_base_path", "./kb"))
 

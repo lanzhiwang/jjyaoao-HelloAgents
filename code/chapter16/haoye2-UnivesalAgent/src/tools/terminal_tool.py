@@ -5,18 +5,18 @@ import os
 
 class TerminalTool:
     name = "terminal_exec"
-    description = "执行终端命令查看目录、文件和系统信息（支持: pwd, ls, cat, echo, whoami, date等）"
+    description = "执行终端命令查看目录、文件和系统信息(支持: pwd, ls, cat, echo, whoami, date等)"
 
     def __init__(self, security_mode="strict"):
         """
         初始化终端工具
 
         Args:
-            security_mode: "strict"（严格模式, 直接拒绝） 或 "warning"（警告模式, 给出提示）
+            security_mode: "strict"(严格模式, 直接拒绝) 或 "warning"(警告模式, 给出提示)
         """
         self.security_mode = security_mode
 
-        # 扩展的白名单命令列表（无参数或安全参数的命令）
+        # 扩展的白名单命令列表(无参数或安全参数的命令)
         self.allowed_commands = {
             "ls": [],  # ls 可以带参数如 -l, -a
             "pwd": [],
@@ -165,7 +165,7 @@ class TerminalTool:
             if not validation_result[0]:  # 验证失败
                 return validation_result[1]
 
-        # 执行命令（使用 shell=False 提高安全性）
+        # 执行命令(使用 shell=False 提高安全性)
         try:
             # 使用 shlex.split 可以正确处理带引号的参数
             result = subprocess.run(
@@ -184,12 +184,12 @@ class TerminalTool:
 
             # 返回执行结果
             if result.returncode == 0:
-                return output.strip() if output.strip() else "命令执行成功（无输出）"
+                return output.strip() if output.strip() else "命令执行成功(无输出)"
             else:
                 return f"命令执行失败 (返回码: {result.returncode})\n{output.strip()}"
 
         except subprocess.TimeoutExpired:
-            return "命令执行超时（超过15秒）. "
+            return "命令执行超时(超过15秒). "
         except subprocess.CalledProcessError as e:
             error_output = (
                 e.stderr.decode() if isinstance(e.stderr, bytes) else e.stderr
@@ -217,7 +217,7 @@ class TerminalTool:
                 help_text = self._get_command_help(command_name)
                 return False, f"参数 '{arg}' 不被允许. \n{help_text}"
 
-        # 验证非选项参数（通常是文件路径）
+        # 验证非选项参数(通常是文件路径)
         file_args = [arg for arg in args if not arg.startswith("-")]
         for arg in file_args:
             if self._is_dangerous_path(arg):
@@ -226,7 +226,7 @@ class TerminalTool:
         return True, None
 
     def _validate_wildcard_args(self, command_name, args):
-        """验证通配符参数（适用于cat、echo等）
+        """验证通配符参数(适用于cat、echo等)
 
         Args:
             command_name: 命令名称

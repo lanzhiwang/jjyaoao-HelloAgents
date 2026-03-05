@@ -1,10 +1,10 @@
 from hello_agents.tools import MCPTool
 
-# 1. Memory Transport - 内存传输（用于测试）
+# 1. Memory Transport - 内存传输(用于测试)
 # 不指定任何参数, 使用内置演示服务器
 mcp_tool = MCPTool()
 
-# 2. Stdio Transport - 标准输入输出传输（本地开发）
+# 2. Stdio Transport - 标准输入输出传输(本地开发)
 # 使用命令列表启动本地服务器
 mcp_tool = MCPTool(server_command=["python", "examples/mcp_example_server.py"])
 
@@ -14,7 +14,7 @@ mcp_tool = MCPTool(
     server_command=["python", "examples/mcp_example_server.py", "--debug"]
 )
 
-# 4. Stdio Transport - 社区服务器（npx方式）
+# 4. Stdio Transport - 社区服务器(npx方式)
 # 使用npx启动社区MCP服务器
 mcp_tool = MCPTool(
     server_command=["npx", "-y", "@modelcontextprotocol/server-filesystem", "."]
@@ -26,7 +26,7 @@ mcp_tool = MCPTool(
 
 from hello_agents.tools import MCPTool
 
-# 使用内置演示服务器（Memory传输）
+# 使用内置演示服务器(Memory传输)
 mcp_tool = MCPTool()
 
 # 列出可用工具
@@ -44,7 +44,7 @@ from hello_agents.tools import MCPTool
 # 方式1: 使用自定义Python服务器
 mcp_tool = MCPTool(server_command=["python", "my_mcp_server.py"])
 
-# 方式2: 使用社区服务器（文件系统）
+# 方式2: 使用社区服务器(文件系统)
 mcp_tool = MCPTool(
     server_command=["npx", "-y", "@modelcontextprotocol/server-filesystem", "."]
 )

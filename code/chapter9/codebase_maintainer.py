@@ -98,11 +98,11 @@ class CodebaseMaintainer:
         print(f"🔧 可用工具: {', '.join(self.tool_registry.list_tools())}")
 
     def run(self, user_input: str, mode: str = "auto") -> str:
-        """运行助手（Agentic 方式）
+        """运行助手(Agentic 方式)
 
         Args:
             user_input: 用户输入
-            mode: 运行模式提示（给 agent 提供方向性建议）
+            mode: 运行模式提示(给 agent 提供方向性建议)
                 - "auto": 自动决策是否使用工具
                 - "explore": 建议 agent 侧重代码探索
                 - "analyze": 建议 agent 侧重问题分析
@@ -115,7 +115,7 @@ class CodebaseMaintainer:
         print(f"👤 用户: {user_input}")
         print(f"{'='*80}\n")
 
-        # 第一步: 检索相关笔记（为 agent 提供上下文）
+        # 第一步: 检索相关笔记(为 agent 提供上下文)
         relevant_notes = self._retrieve_relevant_notes(user_input)
         note_packets = self._notes_to_packets(relevant_notes)
 
@@ -130,10 +130,10 @@ class CodebaseMaintainer:
         # 第三步: 让 Agent 自主决策和使用工具
         print("🤖 Agent 正在思考并决定使用哪些工具...\n")
 
-        # 更新 agent 的系统提示（包含上下文）
+        # 更新 agent 的系统提示(包含上下文)
         self.agent.system_prompt = context
 
-        # 调用 agent（agent 会自主决定是否使用工具）
+        # 调用 agent(agent 会自主决定是否使用工具)
         response = self.agent.run(user_input)
 
         # 第四步: 统计工具使用情况
@@ -291,7 +291,7 @@ class CodebaseMaintainer:
         return packets
 
     def _build_system_instructions(self, mode: str) -> str:
-        """构建系统指令（Agentic 方式）"""
+        """构建系统指令(Agentic 方式)"""
         base_instructions = self._build_base_system_prompt()
 
         mode_hints = {
@@ -299,15 +299,15 @@ class CodebaseMaintainer:
 用户当前关注: 探索代码库
 
 建议策略:
-- 考虑使用 TerminalTool 了解代码结构（如 find, ls, tree）
-- 查看关键文件（如 README, 主要模块）
+- 考虑使用 TerminalTool 了解代码结构(如 find, ls, tree)
+- 查看关键文件(如 README, 主要模块)
 - 将架构信息记录到笔记方便后续查阅
 """,
             "analyze": """
 用户当前关注: 分析代码质量
 
 建议策略:
-- 考虑使用 grep 查找潜在问题（TODO, FIXME, BUG）
+- 考虑使用 grep 查找潜在问题(TODO, FIXME, BUG)
 - 分析代码复杂度和结构
 - 将发现的问题记录为 blocker 或 action 笔记
 """,
@@ -347,14 +347,14 @@ class CodebaseMaintainer:
     # === 便捷方法 ===
 
     def explore(self, target: str = ".") -> str:
-        """探索代码库（Agentic 方式）
+        """探索代码库(Agentic 方式)
 
         Agent 会自主决定使用哪些命令来探索代码库
         """
         return self.run(f"请探索 {target} 的代码结构, 了解项目组织方式", mode="explore")
 
     def analyze(self, focus: str = "") -> str:
-        """分析代码质量（Agentic 方式）
+        """分析代码质量(Agentic 方式)
 
         Agent 会自主决定如何分析代码质量
         """
@@ -362,7 +362,7 @@ class CodebaseMaintainer:
         return self.run(query, mode="analyze")
 
     def plan_next_steps(self) -> str:
-        """规划下一步任务（Agentic 方式）
+        """规划下一步任务(Agentic 方式)
 
         Agent 会查看历史笔记并规划下一步
         """
@@ -433,7 +433,7 @@ class CodebaseMaintainer:
 
 
 def main():
-    """主函数 - 演示 CodebaseMaintainer 的使用（Agentic 版本）
+    """主函数 - 演示 CodebaseMaintainer 的使用(Agentic 版本)
 
     在这个版本中: 
     - Agent 自主决定使用哪些工具
@@ -441,7 +441,7 @@ def main():
     - Agent 根据需求灵活探索代码库
     """
     print("=" * 80)
-    print("CodebaseMaintainer 演示（Agentic 版本）")
+    print("CodebaseMaintainer 演示(Agentic 版本)")
     print("=" * 80 + "\n")
 
     # 初始化助手
@@ -451,16 +451,16 @@ def main():
         llm=HelloAgentsLLM(),
     )
 
-    # 探索代码库（Agent 自主决定如何探索）
-    print("\n### 探索代码库（Agent 自主探索）###")
+    # 探索代码库(Agent 自主决定如何探索)
+    print("\n### 探索代码库(Agent 自主探索)###")
     response = maintainer.explore()
 
-    # 分析代码质量（Agent 自主决定分析方法）
-    print("\n### 分析代码质量（Agent 自主分析）###")
+    # 分析代码质量(Agent 自主决定分析方法)
+    print("\n### 分析代码质量(Agent 自主分析)###")
     response = maintainer.analyze()
 
-    # 规划下一步（Agent 基于历史信息规划）
-    print("\n### 规划下一步任务（Agent 自主规划）###")
+    # 规划下一步(Agent 基于历史信息规划)
+    print("\n### 规划下一步任务(Agent 自主规划)###")
     response = maintainer.plan_next_steps()
 
     # 生成报告

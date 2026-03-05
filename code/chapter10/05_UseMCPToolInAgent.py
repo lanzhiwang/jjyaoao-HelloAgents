@@ -17,7 +17,7 @@ response = agent.run("计算 123 + 456")
 print(response)  # 智能体会自动调用add工具
 
 print("\n" + "=" * 70)
-print("方式2: 连接外部MCP服务器（使用多个服务器）")
+print("方式2: 连接外部MCP服务器(使用多个服务器)")
 print("=" * 70)
 
 # 重要: 为每个MCP服务器指定不同的name, 避免工具名称冲突

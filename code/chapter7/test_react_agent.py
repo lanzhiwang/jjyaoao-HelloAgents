@@ -30,7 +30,7 @@ def test_react_agent():
     except ImportError:
         print("⚠️ 计算器工具未找到, 跳过注册")
 
-    # 注册搜索工具（如果可用）
+    # 注册搜索工具(如果可用)
     try:
         from hello_agents import search
 
@@ -68,7 +68,7 @@ def test_react_agent():
     except Exception as e:
         print(f"❌ 测试2失败: {e}")
 
-    # 测试3: 复合问题（需要多步推理）
+    # 测试3: 复合问题(需要多步推理)
     print("\n🧠 测试3: 复合推理问题")
     complex_question = "如果一个班级有30个学生, 其中60%是女生, 那么男生有多少人? 请先计算女生人数, 再计算男生人数. "
 
@@ -109,7 +109,7 @@ def test_custom_prompt():
     except ImportError:
         pass
 
-    # 自定义提示词（更简洁的版本）
+    # 自定义提示词(更简洁的版本)
     custom_prompt = """你是一个数学专家AI助手. 
 
 可用工具: {tools}

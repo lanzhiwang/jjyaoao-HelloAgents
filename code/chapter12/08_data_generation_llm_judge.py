@@ -6,10 +6,10 @@
 这个示例展示如何使用LLM Judge评估生成的AIME题目质量. 
 
 LLM Judge从4个维度评估题目质量: 
-1. 正确性（Correctness）: 题目和答案是否正确
-2. 清晰度（Clarity）: 题目表述是否清晰
-3. 难度匹配（Difficulty Match）: 难度是否符合AIME水平
-4. 完整性（Completeness）: 题目是否完整
+1. 正确性(Correctness): 题目和答案是否正确
+2. 清晰度(Clarity): 题目表述是否清晰
+3. 难度匹配(Difficulty Match): 难度是否符合AIME水平
+4. 完整性(Completeness): 题目是否完整
 """
 
 import sys

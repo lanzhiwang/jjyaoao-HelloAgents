@@ -14,8 +14,8 @@
 
 此文件包含: 
 - 每个任务的task_id
-- 模型的答案（model_answer）
-- 推理轨迹（reasoning_trace）
+- 模型的答案(model_answer)
+- 推理轨迹(reasoning_trace)
 
 ## 🚀 如何提交到GAIA排行榜
 
@@ -30,12 +30,12 @@ https://huggingface.co/spaces/gaia-benchmark/leaderboard
 
 在提交表单中填写以下信息: 
 
-1. **Model Name（模型名称）**: `TestAgent`
-2. **Model Family（模型家族）**: 例如 `GPT`, `Claude`, `Qwen` 等
-3. **Model Type（模型类型）**:
+1. **Model Name(模型名称)**: `TestAgent`
+2. **Model Family(模型家族)**: 例如 `GPT`, `Claude`, `Qwen` 等
+3. **Model Type(模型类型)**:
    - `Open-source` (开源)
    - `Proprietary` (专有)
-4. **Results File（结果文件）**: 上传 `gaia_level1_result_20251011_015731.jsonl`
+4. **Results File(结果文件)**: 上传 `gaia_level1_result_20251011_015731.jsonl`
 
 ### 步骤3: 上传结果文件
 
@@ -47,20 +47,20 @@ https://huggingface.co/spaces/gaia-benchmark/leaderboard
 
 1. 检查所有信息是否正确
 2. 点击 "Submit" 按钮
-3. 等待评估结果（通常需要几分钟）
+3. 等待评估结果(通常需要几分钟)
 
 ## 📋 结果文件格式说明
 
-GAIA要求的JSONL格式（每行一个JSON对象）: 
+GAIA要求的JSONL格式(每行一个JSON对象): 
 
 ```json
 {"task_id": "xxx", "model_answer": "答案", "reasoning_trace": "推理过程"}
 ```
 
 **字段说明**: 
-- `task_id`: 任务ID（与GAIA数据集对应）
+- `task_id`: 任务ID(与GAIA数据集对应)
 - `model_answer`: 模型的最终答案
-- `reasoning_trace`: 模型的推理过程（可选）
+- `reasoning_trace`: 模型的推理过程(可选)
 
 ## ⚠️ 注意事项
 

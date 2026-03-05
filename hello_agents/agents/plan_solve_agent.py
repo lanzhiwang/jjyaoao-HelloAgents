@@ -1,4 +1,4 @@
-"""Plan and Solve Agent实现 - 分解规划与逐步执行的智能体"""
+"""Plan and Solve Agent 实现 - 分解规划与逐步执行的智能体"""
 
 import ast
 from typing import Optional, List, Dict
@@ -9,9 +9,9 @@ from ..core.message import Message
 
 # 默认规划器提示词模板
 DEFAULT_PLANNER_PROMPT = """
-你是一个顶级的AI规划专家. 你的任务是将用户提出的复杂问题分解成一个由多个简单步骤组成的行动计划. 
-请确保计划中的每个步骤都是一个独立的、可执行的子任务, 并且严格按照逻辑顺序排列. 
-你的输出必须是一个Python列表, 其中每个元素都是一个描述子任务的字符串. 
+你是一个顶级的 AI 规划专家. 你的任务是将用户提出的复杂问题分解成一个由多个简单步骤组成的行动计划.
+请确保计划中的每个步骤都是一个独立的、可执行的子任务, 并且严格按照逻辑顺序排列.
+你的输出必须是一个 Python 列表, 其中每个元素都是一个描述子任务的字符串.
 
 问题: {question}
 
@@ -23,9 +23,9 @@ DEFAULT_PLANNER_PROMPT = """
 
 # 默认执行器提示词模板
 DEFAULT_EXECUTOR_PROMPT = """
-你是一位顶级的AI执行专家. 你的任务是严格按照给定的计划, 一步步地解决问题. 
-你将收到原始问题、完整的计划、以及到目前为止已经完成的步骤和结果. 
-请你专注于解决"当前步骤", 并仅输出该步骤的最终答案, 不要输出任何额外的解释或对话. 
+你是一位顶级的 AI 执行专家. 你的任务是严格按照给定的计划, 一步步地解决问题.
+你将收到原始问题、完整的计划、以及到目前为止已经完成的步骤和结果.
+请你专注于解决"当前步骤", 并仅输出该步骤的最终答案, 不要输出任何额外的解释或对话.
 
 # 原始问题:
 {question}
@@ -60,7 +60,7 @@ class Planner:
 
         Args:
             question: 要解决的问题
-            **kwargs: LLM调用参数
+            **kwargs: LLM 调用参数
 
         Returns:
             步骤列表
@@ -73,7 +73,7 @@ class Planner:
         print(f"✅ 计划已生成:\n{response_text}")
 
         try:
-            # 提取Python代码块中的列表
+            # 提取 Python 代码块中的列表
             plan_str = response_text.split("```python")[1].split("```")[0].strip()
             plan = ast.literal_eval(plan_str)
             return plan if isinstance(plan, list) else []
@@ -104,7 +104,7 @@ class Executor:
         Args:
             question: 原始问题
             plan: 执行计划
-            **kwargs: LLM调用参数
+            **kwargs: LLM 调用参数
 
         Returns:
             最终答案
@@ -136,13 +136,13 @@ class PlanAndSolveAgent(Agent):
     """
     Plan and Solve Agent - 分解规划与逐步执行的智能体
 
-    这个Agent能够: 
+    这个 Agent 能够:
     1. 将复杂问题分解为简单步骤
     2. 按照计划逐步执行
     3. 维护执行历史和上下文
     4. 得出最终答案
 
-    特别适合多步骤推理、数学问题、复杂分析等任务. 
+    特别适合多步骤推理、数学问题、复杂分析等任务.
     """
 
     def __init__(
@@ -154,11 +154,11 @@ class PlanAndSolveAgent(Agent):
         custom_prompts: Optional[Dict[str, str]] = None,
     ):
         """
-        初始化PlanAndSolveAgent
+        初始化 PlanAndSolveAgent
 
         Args:
-            name: Agent名称
-            llm: LLM实例
+            name: Agent 名称
+            llm: LLM 实例
             system_prompt: 系统提示词
             config: 配置对象
             custom_prompts: 自定义提示词模板 {"planner": "", "executor": ""}
@@ -178,7 +178,7 @@ class PlanAndSolveAgent(Agent):
 
     def run(self, input_text: str, **kwargs) -> str:
         """
-        运行Plan and Solve Agent
+        运行 Plan and Solve Agent
 
         Args:
             input_text: 要解决的问题
@@ -192,7 +192,7 @@ class PlanAndSolveAgent(Agent):
         # 1. 生成计划
         plan = self.planner.plan(input_text, **kwargs)
         if not plan:
-            final_answer = "无法生成有效的行动计划, 任务终止. "
+            final_answer = "无法生成有效的行动计划, 任务终止."
             print(f"\n--- 任务终止 ---\n{final_answer}")
 
             # 保存到历史记录

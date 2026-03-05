@@ -16,11 +16,11 @@ agent = SimpleAgent(name="TestAgent", llm=llm)
 # 2. 创建BFCL评估工具
 bfcl_tool = BFCLEvaluationTool()
 
-# 3. 运行评估（自动完成所有步骤）
+# 3. 运行评估(自动完成所有步骤)
 results = bfcl_tool.run(
     agent=agent,
     category="simple_python",  # 评估类别
-    max_samples=5,  # 评估样本数（0表示全部）
+    max_samples=5,  # 评估样本数(0表示全部)
 )
 
 # 4. 查看结果

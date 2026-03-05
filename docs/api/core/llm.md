@@ -49,7 +49,7 @@ class HelloAgentsLLM:
 
 ## 配置方式
 
-### 1. 统一配置（推荐）
+### 1. 统一配置(推荐)
 
 ```python
 # .env文件
@@ -152,10 +152,10 @@ def think(self, messages: list[dict[str, str]], temperature: Optional[float] = N
 
 ### 检测优先级
 
-1. **特定提供商环境变量**（最高优先级）
+1. **特定提供商环境变量**(最高优先级)
 2. **API密钥格式识别**
 3. **Base URL域名识别**
-4. **默认为auto**（通用配置）
+4. **默认为auto**(通用配置)
 
 ### 检测规则
 

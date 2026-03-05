@@ -182,10 +182,10 @@ class AgentIntegrationDemo:
 观察者模式定义了对象间的一对多依赖关系, 当一个对象的状态发生改变时, 所有依赖它的对象都会得到通知并自动更新. 
 
 ## 结构
-- Subject（主题）: 维护观察者列表, 提供注册和删除观察者的方法
-- Observer（观察者）: 定义更新接口
-- ConcreteSubject（具体主题）: 实现主题接口
-- ConcreteObserver（具体观察者）: 实现观察者接口
+- Subject(主题): 维护观察者列表, 提供注册和删除观察者的方法
+- Observer(观察者): 定义更新接口
+- ConcreteSubject(具体主题): 实现主题接口
+- ConcreteObserver(具体观察者): 实现观察者接口
 
 ## 应用场景
 - GUI事件处理

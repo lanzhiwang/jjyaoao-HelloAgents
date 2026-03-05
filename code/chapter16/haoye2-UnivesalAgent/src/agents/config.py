@@ -7,8 +7,8 @@
 
 # 终端工具安全模式
 # 可选值: 
-#   - "strict" : 严格模式, 危险命令直接拒绝执行（推荐用于生产环境）
-#   - "warning": 警告模式, 危险命令给出警告提示（适合开发调试）
+#   - "strict" : 严格模式, 危险命令直接拒绝执行(推荐用于生产环境)
+#   - "warning": 警告模式, 危险命令给出警告提示(适合开发调试)
 TERMINAL_SECURITY_MODE = "strict"
 # TERMINAL_SECURITY_MODE = "warning"
 # ==================== 网页搜索工具配置 ====================
@@ -16,7 +16,7 @@ TERMINAL_SECURITY_MODE = "strict"
 # 搜索结果的默认返回数量
 BROWSER_SEARCH_LIMIT = 3
 
-# 网页搜索超时时间（秒）
+# 网页搜索超时时间(秒)
 BROWSER_SEARCH_TIMEOUT = 10
 
 # 网页搜索最大重试次数
@@ -56,7 +56,7 @@ AI: /Users/qinbohua/Developing/universal_hello_agent_llm_decision
 ### 示例2: 目录检查
 用户: 查看当前目录文件
 AI: [TOOL_CALL:terminal_exec:ls -la]
-AI: total 48...（文件列表）
+AI: total 48...(文件列表)
 
 ### 示例3: 学习环境检查
 用户: 我想学Python, 检查环境并找教程

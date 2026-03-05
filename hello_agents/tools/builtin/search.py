@@ -1,4 +1,4 @@
-"""搜索工具 - HelloAgents原生搜索实现"""
+"""搜索工具 - HelloAgents 原生搜索实现"""
 
 import os
 from typing import Optional, Dict, Any, List
@@ -10,10 +10,10 @@ class SearchTool(Tool):
     """
     智能混合搜索工具
 
-    支持多种搜索引擎后端, 智能选择最佳搜索源: 
-    1. 混合模式 (hybrid) - 智能选择TAVILY或SERPAPI
-    2. Tavily API (tavily) - 专业AI搜索
-    3. SerpApi (serpapi) - 传统Google搜索
+    支持多种搜索引擎后端, 智能选择最佳搜索源:
+    1. 混合模式 (hybrid) - 智能选择 TAVILY 或 SERPAPI
+    2. Tavily API (tavily) - 专业 AI 搜索
+    3. SerpApi (serpapi) - 传统 Google 搜索
     """
 
     def __init__(
@@ -24,7 +24,7 @@ class SearchTool(Tool):
     ):
         super().__init__(
             name="search",
-            description="一个智能网页搜索引擎. 支持混合搜索模式, 自动选择最佳搜索源. 当你需要回答关于时事、事实以及在你的知识库中找不到的信息时, 应使用此工具. ",
+            description="一个智能网页搜索引擎. 支持混合搜索模式, 自动选择最佳搜索源. 当你需要回答关于时事、事实以及在你的知识库中找不到的信息时, 应使用此工具.",
         )
         self.backend = backend
         self.tavily_key = tavily_key or os.getenv("TAVILY_API_KEY")
@@ -34,20 +34,20 @@ class SearchTool(Tool):
 
     def _setup_backends(self):
         """设置搜索后端"""
-        # 检查Tavily可用性
+        # 检查 Tavily 可用性
         if self.tavily_key:
             try:
                 from tavily import TavilyClient
 
                 self.tavily_client = TavilyClient(api_key=self.tavily_key)
                 self.available_backends.append("tavily")
-                print("✅ Tavily搜索引擎已初始化")
+                print("✅ Tavily 搜索引擎已初始化")
             except ImportError:
-                print("⚠️ Tavily未安装, 无法使用Tavily搜索")
+                print("⚠️ Tavily 未安装, 无法使用 Tavily 搜索")
         else:
-            print("⚠️ TAVILY_API_KEY未设置")
+            print("⚠️ TAVILY_API_KEY 未设置")
 
-        # 检查SerpApi可用性
+        # 检查 SerpApi 可用性
         if self.serpapi_key:
             try:
                 import serpapi
@@ -55,9 +55,9 @@ class SearchTool(Tool):
                 self.available_backends.append("serpapi")
                 print("✅ SerpApi搜索引擎已初始化")
             except ImportError:
-                print("⚠️ SerpApi未安装, 无法使用SerpApi搜索")
+                print("⚠️ SerpApi 未安装, 无法使用 SerpApi 搜索")
         else:
-            print("⚠️ SERPAPI_API_KEY未设置")
+            print("⚠️ SERPAPI_API_KEY 未设置")
 
         # 确定最终使用的后端
         if self.backend == "hybrid":
@@ -66,13 +66,13 @@ class SearchTool(Tool):
                     f"🔧 混合搜索模式已启用, 可用后端: {', '.join(self.available_backends)}"
                 )
             else:
-                print("⚠️ 没有可用的搜索后端, 请配置API密钥")
+                print("⚠️ 没有可用的搜索后端, 请配置 API 密钥")
         elif self.backend == "tavily" and "tavily" not in self.available_backends:
-            print("⚠️ Tavily不可用, 请检查TAVILY_API_KEY配置")
+            print("⚠️ Tavily 不可用, 请检查 TAVILY_API_KEY 配置")
         elif self.backend == "serpapi" and "serpapi" not in self.available_backends:
-            print("⚠️ SerpApi不可用, 请检查SERPAPI_API_KEY配置")
+            print("⚠️ SerpApi 不可用, 请检查 SERPAPI_API_KEY 配置")
         elif self.backend not in ["tavily", "serpapi", "hybrid"]:
-            print("⚠️ 不支持的搜索后端, 将使用hybrid模式")
+            print("⚠️ 不支持的搜索后端, 将使用 hybrid 模式")
             self.backend = "hybrid"
 
     def run(self, parameters: Dict[str, Any]) -> str:
@@ -80,7 +80,7 @@ class SearchTool(Tool):
         执行搜索
 
         Args:
-            parameters: 包含input参数的字典
+            parameters: 包含 input 参数的字典
 
         Returns:
             搜索结果
@@ -113,36 +113,36 @@ class SearchTool(Tool):
         if not self.available_backends:
             return self._get_api_config_message()
 
-        # 优先使用Tavily（AI优化的搜索）
+        # 优先使用 Tavily(AI 优化的搜索)
         if "tavily" in self.available_backends:
             try:
-                print("🎯 使用Tavily进行AI优化搜索")
+                print("🎯 使用 Tavily 进行 AI 优化搜索")
                 return self._search_tavily(query)
             except Exception as e:
-                print(f"⚠️ Tavily搜索失败: {e}")
-                # 如果Tavily失败, 尝试SerpApi
+                print(f"⚠️ Tavily 搜索失败: {e}")
+                # 如果 Tavily 失败, 尝试 SerpApi
                 if "serpapi" in self.available_backends:
-                    print("🔄 切换到SerpApi搜索")
+                    print("🔄 切换到 SerpApi 搜索")
                     return self._search_serpapi(query)
 
-        # 如果Tavily不可用, 使用SerpApi
+        # 如果 Tavily 不可用, 使用 SerpApi
         elif "serpapi" in self.available_backends:
             try:
-                print("🎯 使用SerpApi进行Google搜索")
+                print("🎯 使用 SerpApi 进行 Google 搜索")
                 return self._search_serpapi(query)
             except Exception as e:
-                print(f"⚠️ SerpApi搜索失败: {e}")
+                print(f"⚠️ SerpApi 搜索失败: {e}")
 
-        # 如果都失败了, 返回API配置提示
-        return "❌ 所有搜索源都失败了, 请检查网络连接和API密钥配置"
+        # 如果都失败了, 返回 API 配置提示
+        return "❌ 所有搜索源都失败了, 请检查网络连接和 API 密钥配置"
 
     def _search_tavily(self, query: str) -> str:
-        """使用Tavily搜索"""
+        """使用 Tavily 搜索"""
         response = self.tavily_client.search(
             query=query, search_depth="basic", include_answer=True, max_results=3
         )
 
-        result = f"🎯 Tavily AI搜索结果: {response.get('answer', '未找到直接答案')}\n\n"
+        result = f"🎯 Tavily AI 搜索结果: {response.get('answer', '未找到直接答案')}\n\n"
 
         for i, item in enumerate(response.get("results", [])[:3], 1):
             result += f"[{i}] {item.get('title', '')}\n"
@@ -152,11 +152,11 @@ class SearchTool(Tool):
         return result
 
     def _search_serpapi(self, query: str) -> str:
-        """使用SerpApi搜索"""
+        """使用 SerpApi 搜索"""
         try:
             from serpapi import SerpApiClient
         except ImportError:
-            return "错误: SerpApi未安装, 请运行 pip install serpapi"
+            return "错误: SerpApi 未安装, 请运行 pip install serpapi"
 
         params = {
             "engine": "google",
@@ -169,7 +169,7 @@ class SearchTool(Tool):
         client = SerpApiClient(params)
         results = client.get_dict()
 
-        result_text = "🔍 SerpApi Google搜索结果: \n\n"
+        result_text = "🔍 SerpApi Google 搜索结果:\n\n"
 
         # 智能解析: 优先寻找最直接的答案
         if "answer_box" in results and "answer" in results["answer_box"]:
@@ -181,23 +181,23 @@ class SearchTool(Tool):
             )
 
         if "organic_results" in results and results["organic_results"]:
-            result_text += "🔗 相关结果: \n"
+            result_text += "🔗 相关结果:\n"
             for i, res in enumerate(results["organic_results"][:3], 1):
                 result_text += f"[{i}] {res.get('title', '')}\n"
                 result_text += f"    {res.get('snippet', '')}\n"
                 result_text += f"    来源: {res.get('link', '')}\n\n"
             return result_text
 
-        return f"对不起, 没有找到关于 '{query}' 的信息. "
+        return f"对不起, 没有找到关于 '{query}' 的信息."
 
     def _get_api_config_message(self) -> str:
-        """获取API配置提示信息"""
+        """获取 API 配置提示信息"""
         tavily_key = os.getenv("TAVILY_API_KEY")
         serpapi_key = os.getenv("SERPAPI_API_KEY")
 
-        message = "❌ 没有可用的搜索源, 请检查以下配置: \n\n"
+        message = "❌ 没有可用的搜索源, 请检查以下配置:\n\n"
 
-        # 检查Tavily
+        # 检查 Tavily
         message += "1. Tavily API:\n"
         if not tavily_key:
             message += "   ❌ 环境变量 TAVILY_API_KEY 未设置\n"
@@ -206,15 +206,15 @@ class SearchTool(Tool):
             try:
                 import tavily
 
-                message += "   ✅ API密钥已配置, 包已安装\n"
+                message += "   ✅ API 密钥已配置, 包已安装\n"
             except ImportError:
                 message += (
-                    "   ❌ API密钥已配置, 但需要安装包: pip install tavily-python\n"
+                    "   ❌ API 密钥已配置, 但需要安装包: pip install tavily-python\n"
                 )
 
         message += "\n"
 
-        # 检查SerpAPI
+        # 检查 SerpAPI
         message += "2. SerpAPI:\n"
         if not serpapi_key:
             message += "   ❌ 环境变量 SERPAPI_API_KEY 未设置\n"
@@ -223,14 +223,14 @@ class SearchTool(Tool):
             try:
                 import serpapi
 
-                message += "   ✅ API密钥已配置, 包已安装\n"
+                message += "   ✅ API 密钥已配置, 包已安装\n"
             except ImportError:
-                message += "   ❌ API密钥已配置, 但需要安装包: pip install google-search-results\n"
+                message += "   ❌ API 密钥已配置, 但需要安装包: pip install google-search-results\n"
 
-        message += "\n配置方法: \n"
-        message += "- 在.env文件中添加: TAVILY_API_KEY=your_key_here\n"
+        message += "\n配置方法:\n"
+        message += "- 在 .env 文件中添加: TAVILY_API_KEY=your_key_here\n"
         message += "- 或在环境变量中设置: export TAVILY_API_KEY=your_key_here\n"
-        message += "\n配置后重新运行程序. "
+        message += "\n配置后重新运行程序."
 
         return message
 
@@ -261,13 +261,13 @@ def search(query: str, backend: str = "hybrid") -> str:
 
 # 专用搜索函数
 def search_tavily(query: str) -> str:
-    """使用Tavily进行AI优化搜索"""
+    """使用 Tavily 进行 AI 优化搜索"""
     tool = SearchTool(backend="tavily")
     return tool.run({"input": query})
 
 
 def search_serpapi(query: str) -> str:
-    """使用SerpApi进行Google搜索"""
+    """使用 SerpApi 进行 Google 搜索"""
     tool = SearchTool(backend="serpapi")
     return tool.run({"input": query})
 

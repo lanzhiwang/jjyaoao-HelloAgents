@@ -121,5 +121,5 @@ class SummarizationService:
             f"检索查询: {task.query}\n"
             f"任务上下文: \n{context}\n"
             f"{build_note_guidance(task)}\n"
-            "请按照以上协作要求先同步笔记, 然后返回一份面向用户的 Markdown 总结（仍遵循任务总结模板）. "
+            "请按照以上协作要求先同步笔记, 然后返回一份面向用户的 Markdown 总结(仍遵循任务总结模板). "
         )

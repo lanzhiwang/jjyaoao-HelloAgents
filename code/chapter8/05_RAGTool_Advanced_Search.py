@@ -34,7 +34,7 @@ class AdvancedSearchDemo:
                 "content": """# Transformer架构详解
 
 ## 注意力机制
-Transformer的核心是自注意力机制（Self-Attention）, 它允许模型在处理序列时关注到序列中的不同位置. 
+Transformer的核心是自注意力机制(Self-Attention), 它允许模型在处理序列时关注到序列中的不同位置. 
 
 ### 多头注意力
 多头注意力机制将输入投影到多个不同的子空间, 每个头关注不同的表示子空间. 
@@ -60,7 +60,7 @@ Transformer的核心是自注意力机制（Self-Attention）, 它允许模型�
 ## 梯度下降算法
 梯度下降是深度学习中最基础的优化算法. 
 
-### 随机梯度下降（SGD）
+### 随机梯度下降(SGD)
 - 每次使用单个样本更新参数
 - 计算效率高, 但收敛不稳定
 
@@ -91,7 +91,7 @@ Transformer的核心是自注意力机制（Self-Attention）, 它允许模型�
 文本分类是NLP中的基础任务, 包括情感分析、主题分类、垃圾邮件检测等. 
 
 ### 传统方法
-- 词袋模型（Bag of Words）
+- 词袋模型(Bag of Words)
 - TF-IDF特征
 - 朴素贝叶斯分类器
 
@@ -100,7 +100,7 @@ Transformer的核心是自注意力机制（Self-Attention）, 它允许模型�
 - RNN和LSTM处理序列信息
 - BERT等预训练模型
 
-## 命名实体识别（NER）
+## 命名实体识别(NER)
 识别文本中的人名、地名、组织名等实体. 
 
 ### 序列标注方法
@@ -128,7 +128,7 @@ Transformer的核心是自注意力机制（Self-Attention）, 它允许模型�
 ## 图像分类
 图像分类是计算机视觉的基础任务, 目标是将图像分配到预定义的类别中. 
 
-### 卷积神经网络（CNN）
+### 卷积神经网络(CNN)
 - 卷积层: 提取局部特征
 - 池化层: 降低维度和计算量
 - 全连接层: 进行最终分类
@@ -211,8 +211,8 @@ Transformer的核心是自注意力机制（Self-Attention）, 它允许模型�
             print(f"结果: {result[:200]}...")
 
     def demonstrate_mqe_search(self):
-        """演示多查询扩展（MQE）搜索"""
-        print("\n🔄 多查询扩展（MQE）搜索演示")
+        """演示多查询扩展(MQE)搜索"""
+        print("\n🔄 多查询扩展(MQE)搜索演示")
         print("-" * 50)
 
         print("MQE搜索原理:")
@@ -262,8 +262,8 @@ Transformer的核心是自注意力机制（Self-Attention）, 它允许模型�
             print(f"性能对比: MQE搜索耗时是基础搜索的 {mqe_time/basic_time:.1f} 倍")
 
     def demonstrate_hyde_search(self):
-        """演示假设文档嵌入（HyDE）搜索"""
-        print("\n📝 假设文档嵌入（HyDE）搜索演示")
+        """演示假设文档嵌入(HyDE)搜索"""
+        print("\n📝 假设文档嵌入(HyDE)搜索演示")
         print("-" * 50)
 
         print("HyDE搜索原理:")
@@ -282,7 +282,7 @@ Transformer的核心是自注意力机制（Self-Attention）, 它允许模型�
         for query, description in hyde_queries:
             print(f"\n查询: '{query}' ({description})")
 
-            # 使用智能问答（内部使用HyDE）
+            # 使用智能问答(内部使用HyDE)
             start_time = time.time()
             hyde_result = self.rag_tool.run(
                 {

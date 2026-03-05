@@ -6,8 +6,8 @@
 
 - [ ] README.md 完整且清晰
 - [ ] LICENSE 文件存在
-- [ ] Dockerfile 配置正确（推荐）
-- [ ] pyproject.toml 配置正确（必需）
+- [ ] Dockerfile 配置正确(推荐)
+- [ ] pyproject.toml 配置正确(必需)
 - [ ] requirements.txt 包含所有依赖
 - [ ] smithery.yaml 配置正确
 - [ ] server.py 可以正常运行
@@ -56,7 +56,7 @@
 3. 点击 "Submit Server"
 4. 输入仓库 URL
 5. 确认信息并提交
-6. 等待审核（1-3天）
+6. 等待审核(1-3天)
 
 ## 审核后
 

@@ -1,4 +1,4 @@
-"""Agent基类"""
+"""Agent 基类"""
 
 from abc import ABC, abstractmethod
 from typing import Optional
@@ -8,7 +8,7 @@ from .config import Config
 
 
 class Agent(ABC):
-    """Agent基类"""
+    """Agent 基类"""
 
     def __init__(
         self,
@@ -25,7 +25,7 @@ class Agent(ABC):
 
     @abstractmethod
     def run(self, input_text: str, **kwargs) -> str:
-        """运行Agent"""
+        """运行 Agent"""
         pass
 
     def add_message(self, message: Message):

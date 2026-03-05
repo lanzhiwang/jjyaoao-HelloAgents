@@ -5,8 +5,8 @@
 
 这是一个完整的PDF学习助手应用, 支持: 
 - 加载PDF文档并构建知识库
-- 智能问答（基于RAG）
-- 学习历程记录（基于Memory）
+- 智能问答(基于RAG)
+- 学习历程记录(基于Memory)
 - 学习回顾和报告生成
 """
 
@@ -105,7 +105,7 @@ class PDFLearningAssistant:
 
         Args:
             question: 用户问题
-            use_advanced_search: 是否使用高级检索（MQE + HyDE）
+            use_advanced_search: 是否使用高级检索(MQE + HyDE)
 
         Returns:
             str: 答案
@@ -157,7 +157,7 @@ class PDFLearningAssistant:
 
         Args:
             content: 笔记内容
-            concept: 相关概念（可选）
+            concept: 相关概念(可选)
         """
         self.memory_tool.run(
             {
@@ -349,7 +349,7 @@ def create_gradio_ui():
 
         基于HelloAgents的智能文档问答系统, 支持: 
         - 📄 加载PDF文档并构建知识库
-        - 💬 智能问答（基于RAG）
+        - 💬 智能问答(基于RAG)
         - 📝 学习笔记记录
         - 🧠 学习历程回顾
         - 📊 学习报告生成
@@ -359,7 +359,7 @@ def create_gradio_ui():
             with gr.Row():
                 user_id_input = gr.Textbox(
                     label="用户ID",
-                    placeholder="输入你的用户ID（可选, 默认为web_user）",
+                    placeholder="输入你的用户ID(可选, 默认为web_user)",
                     value="web_user",
                 )
                 init_btn = gr.Button("初始化助手", variant="primary")
@@ -412,7 +412,7 @@ def create_gradio_ui():
                 label="笔记内容", placeholder="输入你的学习笔记...", lines=3
             )
             concept_input = gr.Textbox(
-                label="相关概念（可选）", placeholder="例如: transformer, attention"
+                label="相关概念(可选)", placeholder="例如: transformer, attention"
             )
             note_btn = gr.Button("保存笔记", variant="primary")
             note_output = gr.Textbox(label="保存状态", interactive=False)

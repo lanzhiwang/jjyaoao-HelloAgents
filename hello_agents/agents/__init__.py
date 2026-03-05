@@ -1,4 +1,4 @@
-"""Agent实现模块 - HelloAgents原生Agent范式"""
+"""Agent 实现模块 - HelloAgents 原生 Agent 范式"""
 
 from .simple_agent import SimpleAgent
 from .react_agent import ReActAgent

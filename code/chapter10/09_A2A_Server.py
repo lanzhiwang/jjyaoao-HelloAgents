@@ -1,6 +1,6 @@
 """
 10.3.3 使用 HelloAgents A2A 工具
-（1）创建A2A Agent服务端
+(1)创建A2A Agent服务端
 """
 
 from hello_agents.protocols import A2AServer
@@ -22,7 +22,7 @@ def handle_research(text: str) -> str:
     match = re.search(r"research\s+(.+)", text, re.IGNORECASE)
     topic = match.group(1).strip() if match else text
 
-    # 实际的研究逻辑（这里简化）
+    # 实际的研究逻辑(这里简化)
     result = {
         "topic": topic,
         "findings": f"关于{topic}的研究结果...",

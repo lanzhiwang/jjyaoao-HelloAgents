@@ -12,11 +12,11 @@ python data_generation/run_complete_evaluation.py 30 3.0
 
 参数: 
 - 30: 生成题目数量
-- 3.0: 每次生成之间的延迟（秒）
+- 3.0: 每次生成之间的延迟(秒)
 
 说明: 
 - 使用AIME 2025年真题作为参考
-- 数据集来源: math-ai/aime25（JSONL格式）
+- 数据集来源: math-ai/aime25(JSONL格式)
 """
 
 import json
@@ -34,7 +34,7 @@ def run_complete_evaluation(num_problems: int = 30, delay_seconds: float = 3.0):
 
     Args:
         num_problems: 生成题目数量
-        delay_seconds: 每次生成之间的延迟（秒）, 避免API速率限制
+        delay_seconds: 每次生成之间的延迟(秒), 避免API速率限制
     """
     print("\n" + "=" * 80)
     print("🚀 AIME数据生成与评估完整流程")
@@ -42,7 +42,7 @@ def run_complete_evaluation(num_problems: int = 30, delay_seconds: float = 3.0):
     print(f"\n配置信息:")
     print(f"  - 生成题目数量: {num_problems}")
     print(f"  - API延迟: {delay_seconds}秒/题")
-    print(f"  - 生成参考数据: TianHongZXY/aime-1983-2025（900+道题）")
+    print(f"  - 生成参考数据: TianHongZXY/aime-1983-2025(900+道题)")
     print(f"  - 评估参考: AIME 2025真题")
 
     # ========== 步骤1: 生成AIME题目 ==========
@@ -299,7 +299,7 @@ def main():
         print("用法: python run_complete_evaluation.py <num_problems> [delay_seconds]")
         print("\n说明:")
         print("  - 使用AIME 2025年真题作为参考")
-        print("  - 数据集来源: math-ai/aime25（JSONL格式）")
+        print("  - 数据集来源: math-ai/aime25(JSONL格式)")
         print("\n示例:")
         print("python run_complete_evaluation.py 30 3.0")
         sys.exit(1)

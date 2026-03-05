@@ -52,9 +52,9 @@ class MemoryTypesDeepDive:
         print("-" * 60)
 
         print("🔍 工作记忆特点:")
-        print("• ⚡ 访问速度极快（纯内存存储）")
-        print("• 📏 容量有限（默认50条记忆）")
-        print("• ⏰ 自动过期（TTL机制）")
+        print("• ⚡ 访问速度极快(纯内存存储)")
+        print("• 📏 容量有限(默认50条记忆)")
+        print("• ⏰ 自动过期(TTL机制)")
         print("• 🔄 适合临时信息存储")
 
         # 演示容量限制
@@ -79,7 +79,7 @@ class MemoryTypesDeepDive:
         print(f"\n当前工作记忆状态: {stats}")
 
         # 演示TTL机制
-        print(f"\n2. TTL（生存时间）机制演示:")
+        print(f"\n2. TTL(生存时间)机制演示:")
 
         # 添加一些带时间戳的记忆
         current_time = datetime.now()
@@ -131,7 +131,7 @@ class MemoryTypesDeepDive:
         before_stats = self.working_memory_tool.run({"action": "stats"})
         print(f"清理前: {before_stats}")
 
-        # 触发清理（通过遗忘低重要性记忆）
+        # 触发清理(通过遗忘低重要性记忆)
         forget_result = self.working_memory_tool.run(
             {"action": "forget", "strategy": "importance_based", "threshold": 0.4}
         )
@@ -297,7 +297,7 @@ class MemoryTypesDeepDive:
                 }
             )
 
-            # 提取记忆ID（简化处理）
+            # 提取记忆ID(简化处理)
             memory_id = f"{chain_type}_memory"
             chain_memories[chain_type] = memory_id
             print(f"  链条记忆: {content} (类型: {chain_type})")
@@ -533,8 +533,8 @@ class MemoryTypesDeepDive:
             )
             print(f"  文本感知: {perception['genre']} - {result}")
 
-        # 演示图像感知记忆（模拟）
-        print(f"\n2. 图像感知记忆（模拟）:")
+        # 演示图像感知记忆(模拟)
+        print(f"\n2. 图像感知记忆(模拟):")
 
         # 模拟图像数据
         image_perceptions = [
@@ -571,8 +571,8 @@ class MemoryTypesDeepDive:
             )
             print(f"  图像感知: {perception['content']} - {result}")
 
-        # 演示音频感知记忆（模拟）
-        print(f"\n3. 音频感知记忆（模拟）:")
+        # 演示音频感知记忆(模拟)
+        print(f"\n3. 音频感知记忆(模拟):")
 
         audio_perceptions = [
             {
@@ -655,10 +655,10 @@ class MemoryTypesDeepDive:
         print("-" * 60)
 
         print("🔍 记忆交互模式:")
-        print("• 🔄 工作记忆 → 情景记忆（重要事件固化）")
-        print("• 📚 情景记忆 → 语义记忆（经验抽象化）")
-        print("• 👁️ 感知记忆 → 其他记忆（多模态信息整合）")
-        print("• 🧠 语义记忆 → 工作记忆（知识激活）")
+        print("• 🔄 工作记忆 → 情景记忆(重要事件固化)")
+        print("• 📚 情景记忆 → 语义记忆(经验抽象化)")
+        print("• 👁️ 感知记忆 → 其他记忆(多模态信息整合)")
+        print("• 🧠 语义记忆 → 工作记忆(知识激活)")
 
         # 模拟一个完整的学习过程
         print(f"\n完整学习过程模拟:")
@@ -824,9 +824,9 @@ def main():
         print("4. 👁️ 感知记忆 - 多模态支持, 跨模态检索, 感知理解")
 
         print("\n🔄 记忆交互模式:")
-        print("• 感知 → 工作 → 情景 → 语义（信息处理流程）")
-        print("• 语义 → 工作（知识激活和应用）")
-        print("• 跨类型检索和整合（智能记忆管理）")
+        print("• 感知 → 工作 → 情景 → 语义(信息处理流程)")
+        print("• 语义 → 工作(知识激活和应用)")
+        print("• 跨类型检索和整合(智能记忆管理)")
 
         print("\n💡 设计价值:")
         print("• 模拟人类认知过程")

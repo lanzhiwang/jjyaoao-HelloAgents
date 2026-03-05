@@ -29,7 +29,7 @@ class MultimodalConfig:
                 "model": "claude-3-opus-20240229",
                 "enabled": bool(os.getenv("ANTHROPIC_API_KEY")),
             },
-            # 本地模型（如果有GPU）
+            # 本地模型(如果有GPU)
             "local_vision": {
                 "model_path": "./models/blip2",
                 "device": "cuda" if os.getenv("CUDA_AVAILABLE") else "cpu",
@@ -162,7 +162,7 @@ def check_multimodal_capabilities():
     }
 
 
-# 真实API调用示例（需要API密钥）
+# 真实API调用示例(需要API密钥)
 def call_real_vision_api(image_path: str, prompt: str = "描述这张图片") -> str:
     """调用真实的视觉API"""
     config = MultimodalConfig()

@@ -11,7 +11,7 @@
 
 2. **activepieces**
    - **描述**: AI Agents & MCPs & AI Workflow Automation • (~400 MCP servers for AI agents) • AI Automation / AI Agent with MCPs • AI Workflows & AI Agents • MCPs for AI Agents
-   - **特点**: 支持AI代理和MCP（多云平台）服务器的集成, 提供丰富的自动化工作流和代理功能. 
+   - **特点**: 支持AI代理和MCP(多云平台)服务器的集成, 提供丰富的自动化工作流和代理功能. 
 
 3. **AgentGPT**
    - **描述**: 🤖 Assemble, configure, and deploy autonomous AI Agents in your browser.

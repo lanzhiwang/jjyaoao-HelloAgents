@@ -193,7 +193,7 @@ def get_capabilities() -> str:
 
 资源: 
 - config://server: 服务器配置
-- info://capabilities: 能力列表（本资源）
+- info://capabilities: 能力列表(本资源)
 """
     return capabilities.strip()
 

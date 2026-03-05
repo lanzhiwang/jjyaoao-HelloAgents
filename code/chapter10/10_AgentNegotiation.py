@@ -1,6 +1,6 @@
 """
 10.3.4 在智能体中使用A2A工具
-（3）高级用法: Agent间协商
+(3)高级用法: Agent间协商
 """
 
 from hello_agents.protocols import A2AServer, A2AClient

@@ -19,7 +19,7 @@ from datasets import load_dataset
 class AIMEGenerator:
     """AIME题目生成器"""
 
-    # AIME题目生成提示词（英文）
+    # AIME题目生成提示词(英文)
     GENERATION_PROMPT = """You are a professional mathematics competition problem designer, skilled in creating AIME (American Invitational Mathematics Examination) style problems.
 
 AIME Problem Characteristics:
@@ -56,10 +56,10 @@ Please output in the following JSON format, avoid using special escape character
         初始化生成器
 
         Args:
-            llm: LLM实例（可选）
-            delay_seconds: 每次生成之间的延迟（秒）, 避免API速率限制
+            llm: LLM实例(可选)
+            delay_seconds: 每次生成之间的延迟(秒), 避免API速率限制
             use_reference_examples: 是否使用真题作为参考样例
-            reference_dataset: 参考数据集名称, 默认使用TianHongZXY/aime-1983-2025（900+道题）
+            reference_dataset: 参考数据集名称, 默认使用TianHongZXY/aime-1983-2025(900+道题)
         """
         # 如果没有提供llm, 创建默认的HelloAgentsLLM
         if llm is None:
@@ -90,7 +90,7 @@ Please output in the following JSON format, avoid using special escape character
                 self.reference_examples = list(dataset)
                 print(f"   ✓ 已加载 {len(self.reference_examples)} 道参考题目")
 
-                # 统计年份分布（如果有year字段）
+                # 统计年份分布(如果有year字段)
                 year_counts = {}
                 for item in self.reference_examples:
                     year = item.get("year")
@@ -126,7 +126,7 @@ Please output in the following JSON format, avoid using special escape character
             except Exception as e:
                 if attempt < max_retries - 1:
                     tqdm.write(
-                        f"⚠️ 生成失败（尝试 {attempt + 1}/{max_retries}）, {self.delay_seconds}秒后重试..."
+                        f"⚠️ 生成失败(尝试 {attempt + 1}/{max_retries}), {self.delay_seconds}秒后重试..."
                     )
                     time.sleep(self.delay_seconds)
                 else:
@@ -143,7 +143,7 @@ Please output in the following JSON format, avoid using special escape character
         example_problem = example.get("problem", "Example problem")
         example_answer = example.get("answer", 0)
 
-        # 构建带参考样例的提示词（英文）
+        # 构建带参考样例的提示词(英文)
         prompt = f"""You are a professional mathematics competition problem designer, skilled in creating AIME (American Invitational Mathematics Examination) style problems.
 
 [Reference Example](For style reference only, please generate a completely different problem)
@@ -180,7 +180,7 @@ Important Notes:
         return prompt
 
     def _parse_response(self, response: str) -> Dict[str, Any]:
-        """解析LLM响应（支持LaTeX数学公式）"""
+        """解析LLM响应(支持LaTeX数学公式)"""
         import re
 
         # 提取JSON部分
@@ -197,10 +197,10 @@ Important Notes:
             problem_data = json.loads(json_str)
         except json.JSONDecodeError as e:
             # 如果解析失败, 尝试修复常见的LaTeX转义问题
-            # 方法: 先将字符串中的单个反斜杠替换为双反斜杠（但保留已经转义的）
+            # 方法: 先将字符串中的单个反斜杠替换为双反斜杠(但保留已经转义的)
             # 这样LaTeX的 \frac 会变成 \\frac, 在JSON中是合法的
 
-            # 使用正则表达式: 找到所有未转义的反斜杠（不是\\的\）
+            # 使用正则表达式: 找到所有未转义的反斜杠(不是\\的\)
             # 并将其替换为\\
             fixed_json_str = re.sub(r'(?<!\\)\\(?!["\\/bfnrtu])', r"\\\\", json_str)
 
@@ -231,7 +231,7 @@ Important Notes:
         return problem_data
 
     def _get_default_problem(self) -> Dict[str, Any]:
-        """获取默认题目（生成失败时使用）"""
+        """获取默认题目(生成失败时使用)"""
         return {
             "problem": "生成失败, 请重新生成",
             "answer": 0,
@@ -247,7 +247,7 @@ Important Notes:
 
         Args:
             num_problems: 生成题目数量
-            checkpoint_path: 检查点文件路径（用于保存进度）
+            checkpoint_path: 检查点文件路径(用于保存进度)
 
         Returns:
             题目列表
@@ -275,7 +275,7 @@ Important Notes:
                 problems = []
                 start_index = 0
 
-        # 生成题目（使用tqdm显示进度）
+        # 生成题目(使用tqdm显示进度)
         with tqdm(
             total=num_problems, initial=start_index, desc="生成AIME题目", unit="题"
         ) as pbar:
@@ -357,7 +357,7 @@ Important Notes:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         checkpoint_path = os.path.join(output_dir, f"checkpoint_{timestamp}.json")
 
-        # 生成题目（带检查点）
+        # 生成题目(带检查点)
         problems = self.generate_batch(num_problems, checkpoint_path=checkpoint_path)
 
         # 保存题目
@@ -431,7 +431,7 @@ Important Notes:
             report += f"| {problem.get('id', 'N/A')} | {problem.get('topic', 'N/A')} | {problem.get('answer', 'N/A')} |\n"
 
         if len(problems) > 10:
-            report += f"\n*（仅显示前10个题目, 完整列表请查看JSON文件）*\n"
+            report += f"\n*(仅显示前10个题目, 完整列表请查看JSON文件)*\n"
 
         report += f"""
 ---

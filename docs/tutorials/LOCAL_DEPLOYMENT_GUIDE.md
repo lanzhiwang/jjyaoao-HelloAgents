@@ -209,7 +209,7 @@ llm = HelloAgentsLLM()  # 自动检测本地部署
 agent = SimpleAgent("本地助手", llm)
 response = agent.run("介绍一下你自己")
 
-# 2. 工具调用（本地模型也支持）
+# 2. 工具调用(本地模型也支持)
 from hello_agents.tools.builtin import calculate
 
 tool_registry = ToolRegistry()

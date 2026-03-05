@@ -280,7 +280,7 @@ class MemoryManager:
         for memory_type, memory_instance in self.memory_types.items():
             type_stats = memory_instance.get_stats()
             stats["memories_by_type"][memory_type] = type_stats
-            # 使用count字段（活跃记忆数）, 而不是total_count（包含已遗忘的）
+            # 使用count字段(活跃记忆数), 而不是total_count(包含已遗忘的)
             stats["total_memories"] += type_stats.get("count", 0)
 
         return stats

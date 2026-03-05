@@ -24,7 +24,7 @@ def create_custom_agent():
     def simple_calculate(expression: str) -> str:
         """简单计算"""
         try:
-            # 安全的计算（仅支持基本运算）
+            # 安全的计算(仅支持基本运算)
             allowed_chars = set("0123456789+-*/(). ")
             if all(c in allowed_chars for c in expression):
                 result = eval(expression)

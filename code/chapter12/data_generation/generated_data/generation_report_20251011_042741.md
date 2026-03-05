@@ -37,7 +37,7 @@
 | gen_aime_9  | Number Theory | 15   |
 | gen_aime_10 | Geometry      | 34   |
 
-*（仅显示前10个题目, 完整列表请查看JSON文件）*
+*(仅显示前10个题目, 完整列表请查看JSON文件)*
 
 ---
 

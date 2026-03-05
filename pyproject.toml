@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "hello-agents"
 version = "0.2.0"
-description = "灵活、可扩展的多智能体框架 - 基于OpenAI原生API"
+description = "灵活、可扩展的多智能体框架 - 基于 OpenAI 原生 API"
 readme = "README.md"
 license = {text = "CC-BY-NC-SA-4.0"}
 authors = [
@@ -18,7 +18,7 @@ dependencies = [
     "requests>=2.25.0",
     "python-dotenv>=0.19.0",
     "pydantic>=2.0.0",
-    
+
     # 基础工具库
     "beautifulsoup4>=4.9.0",
     "numpy>=1.21.0",
@@ -36,22 +36,22 @@ search = [
 memory = [
     "qdrant-client>=1.6.0",      # 向量数据库
     "neo4j>=5.0.0",              # 图数据库
-    "spacy>=3.4.0",              # NLP和实体识别
+    "spacy>=3.4.0",              # NLP 和实体识别
     "scikit-learn>=1.0.0",       # 机器学习工具
 ]
 
-# RAG系统依赖
+# RAG 系统依赖
 rag = [
-    "scikit-learn>=1.0.0",       # TF-IDF支持
-    "transformers>=4.20.0",      # Transformer模型
+    "scikit-learn>=1.0.0",       # TF-IDF 支持
+    "transformers>=4.20.0",      # Transformer 模型
     "torch>=1.12.0",             # PyTorch
     "sentence-transformers>=2.2.0",  # 句子嵌入
     "markitdown>=0.0.1",         # 文档转换
-    "pypdf>=3.9.0",              # PDF处理
-    "pdfminer.six>=20221105",    # PDF解析备选
+    "pypdf>=3.9.0",              # PDF 处理
+    "pdfminer.six>=20221105",    # PDF 解析备选
 ]
 
-# 完整记忆和RAG功能
+# 完整记忆和 RAG 功能
 memory-rag = [
     "hello-agents[memory,rag]",
 ]

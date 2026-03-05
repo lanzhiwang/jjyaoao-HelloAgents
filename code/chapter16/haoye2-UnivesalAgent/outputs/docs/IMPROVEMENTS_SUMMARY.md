@@ -31,12 +31,12 @@ AGENT_SYSTEM_PROMPT_TEMPLATE = """你是一个通用智能助手, 能够使用�
 
 #### 改进前: 
 ```python
-description = "执行受限的终端命令（白名单）"
+description = "执行受限的终端命令(白名单)"
 ```
 
 #### 改进后: 
 ```python
-description = "执行终端命令查看目录、文件和系统信息（支持: pwd, ls, cat, echo, whoami, date等）"
+description = "执行终端命令查看目录、文件和系统信息(支持: pwd, ls, cat, echo, whoami, date等)"
 ```
 
 ### 3. 参数描述优化 (`src/tools/terminal_tool.py`)
@@ -72,7 +72,7 @@ def get_parameters(self):
 ✅ 工具 'terminal_exec' 已注册. 
 ✅ 智能体初始化成功
 
-📝 工具描述: 执行终端命令查看目录、文件和系统信息（支持: pwd, ls, cat, echo, whoami, date等）
+📝 工具描述: 执行终端命令查看目录、文件和系统信息(支持: pwd, ls, cat, echo, whoami, date等)
 🔧 支持参数: {'input': {'type': 'str', 'description': '输入终端命令, 如: pwd, ls -la, cat filename.txt', 'required': True, 'examples': ['pwd', 'ls -la', 'cat README.md', 'echo hello', 'whoami', 'date']}}
 ```
 

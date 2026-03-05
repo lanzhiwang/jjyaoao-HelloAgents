@@ -47,7 +47,7 @@ def safe_import(module_name: str, class_name: Optional[str] = None) -> Any:
 
     Args:
         module_name: 模块名
-        class_name: 类名（可选）
+        class_name: 类名(可选)
 
     Returns:
         导入的模块或类

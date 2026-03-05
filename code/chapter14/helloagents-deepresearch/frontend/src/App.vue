@@ -906,8 +906,8 @@ const handleSubmit = async () => {
               task.notePath = notePath;
             }
             const logSummary = noteId
-              ? `${agent} 调用了 ${tool}（任务 ${task.id}, 笔记 ${noteId}）`
-              : `${agent} 调用了 ${tool}（任务 ${task.id}）`;
+              ? `${agent} 调用了 ${tool}(任务 ${task.id}, 笔记 ${noteId})`
+              : `${agent} 调用了 ${tool}(任务 ${task.id})`;
             progressLogs.value.push(logSummary);
             if (activeTaskId.value === task.id) {
               pulse(toolHighlight);

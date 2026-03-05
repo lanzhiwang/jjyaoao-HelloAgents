@@ -10,15 +10,15 @@
 ### 核心功能
 - ✅ **智能网络搜索**: 支持多引擎搜索和内容提取
 - ✅ **安全终端执行**: 20+种安全命令, 智能参数验证和错误提示
-- ✅ **记忆功能**: 支持用户偏好和重要信息记忆（未来）
+- ✅ **记忆功能**: 支持用户偏好和重要信息记忆(未来)
 - ✅ **多引擎支持**: DuckDuckGo、Brave、Ecosia、Searx
 
 ## 🛠️ 技术栈
 
-- HelloAgents框架（SimpleAgent + ToolRegistry）
-- Python AST模块（代码解析）
-- ModelScope API（Qwen模型）
-- Beautiful Soup（网页内容提取）
+- HelloAgents框架(SimpleAgent + ToolRegistry)
+- Python AST模块(代码解析)
+- ModelScope API(Qwen模型)
+- Beautiful Soup(网页内容提取)
 
 
 ## 🚀 快速开始
@@ -46,7 +46,7 @@ LLM_API_KEY=your_api_key_here
 
 ### 运行项目
 
-**方式1: Jupyter Notebook（推荐）**
+**方式1: Jupyter Notebook(推荐)**
 ```bash
 jupyter lab
 # 打开main.ipynb并运行
@@ -71,7 +71,7 @@ python main.py
 输出: /Users/qinbohua/Developing/universal_hello_agent_llm_decision
 
 输入: ls -la
-输出: total 48...（文件列表）
+输出: total 48...(文件列表)
 
 输入: mkdir test_project && cd test_project
 输出: 目录创建成功并切换完成
@@ -93,10 +93,10 @@ universal_hello_agent_llm_decision/
 ├── README.md              # 项目说明文档
 ├── requirements.txt       # Python依赖列表
 ├── main.ipynb            # 主要的Jupyter Notebook
-├── main.py               # 命令行入口（可选）
-├── data/                 # 数据文件（可选）
+├── main.py               # 命令行入口(可选)
+├── data/                 # 数据文件(可选)
 │   └── sample_queries.txt
-├── outputs/              # 输出结果（可选）
+├── outputs/              # 输出结果(可选)
 │   ├── demo_results.md
 │   ├── docs/             # 文档文件
 │   │   ├── CONTRIBUTING.md
@@ -104,7 +104,7 @@ universal_hello_agent_llm_decision/
 │   └── tests/            # 测试文件
 │       ├── test_agent_improvements.py
 │       └── test_tools.py
-└── src/                  # 源代码（可选, 如果代码较多）
+└── src/                  # 源代码(可选, 如果代码较多)
     ├── __init__.py
     ├── agents/           # 智能体模块
     │   ├── __init__.py
@@ -128,7 +128,7 @@ universal_hello_agent_llm_decision/
 
 ## 🔮 未来计划
 
-- [ ] 添加更多工具（文件操作、数据库查询等）
+- [ ] 添加更多工具(文件操作、数据库查询等)
 - [ ] 实现真正的记忆功能集成
 - [ ] 优化搜索引擎的响应速度
 - [ ] 添加Web界面支持
@@ -179,16 +179,16 @@ MIT License
 # config.py
 TERMINAL_SECURITY_MODE = "strict"  # 或 "warning"
 ```
-- **strict**（严格模式）: 危险命令直接拒绝执行（推荐用于生产环境）
-- **warning**（警告模式）: 给出警告提示（适合开发调试）
+- **strict**(严格模式): 危险命令直接拒绝执行(推荐用于生产环境)
+- **warning**(警告模式): 给出警告提示(适合开发调试)
 
 详细说明请参考: [CONFIG_GUIDE.md](./CONFIG_GUIDE.md)
 
-### 注意事项（安全）
+### 注意事项(安全)
 
 - 请勿把真实 API Key 上传到公有仓库. 
 - `terminal_exec` 只执行列入白名单的命令, 仍建议在容器或受控环境中运行. 
-- DuckDuckGo HTML 抓取仅用于演示, 生产环境请使用正规 Search API（SerpApi/Tavily 等）. 
+- DuckDuckGo HTML 抓取仅用于演示, 生产环境请使用正规 Search API(SerpApi/Tavily 等). 
 
 ### 问题排查
 

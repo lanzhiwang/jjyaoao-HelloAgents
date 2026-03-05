@@ -33,5 +33,5 @@ for i in range(num_merges):
     best = max(pairs, key=pairs.get)
     vocab = merge_vocab(best, vocab)
     print(f"第{i+1}次合并: {best} -> {''.join(best)}")
-    print(f"新词表（部分）: {list(vocab.keys())}")
+    print(f"新词表(部分): {list(vocab.keys())}")
     print("-" * 20)

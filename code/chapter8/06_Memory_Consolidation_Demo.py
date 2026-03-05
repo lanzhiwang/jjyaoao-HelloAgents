@@ -124,7 +124,7 @@ class MemoryConsolidationDemo:
         for threshold in thresholds:
             print(f"\n🔍 测试重要性阈值 {threshold}:")
 
-            # 模拟整合过程（不实际执行, 只是分析）
+            # 模拟整合过程(不实际执行, 只是分析)
             working_memories = []
             # 这里应该从实际的工作记忆中获取, 简化演示
 

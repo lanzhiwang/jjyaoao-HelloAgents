@@ -14,7 +14,7 @@ python 07_data_generation_complete_flow.py 30 3.0
 
 参数说明: 
 - 30: 生成30道题目
-- 3.0: 每道题目之间延迟3秒（避免速率限制）
+- 3.0: 每道题目之间延迟3秒(避免速率限制)
 """
 
 import sys

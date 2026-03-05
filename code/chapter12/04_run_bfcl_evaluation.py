@@ -12,9 +12,9 @@
     python examples/04_run_bfcl_evaluation.py
 
 可选参数: 
-    --category: 评估类别（默认: simple_python）
-    --samples: 样本数量（默认: 5, 设为0表示全部）
-    --model-name: 模型名称（默认: HelloAgents）
+    --category: 评估类别(默认: simple_python)
+    --samples: 样本数量(默认: 5, 设为0表示全部)
+    --model-name: 模型名称(默认: HelloAgents)
 """
 
 import sys
@@ -103,7 +103,7 @@ def run_evaluation(category: str, max_samples: int, model_name: str) -> dict:
     # 创建评估器
     evaluator = BFCLEvaluator(dataset=dataset, category=category)
 
-    # 运行评估（传递max_samples参数）
+    # 运行评估(传递max_samples参数)
     print(f"\n🔄 开始评估...")
     if max_samples > 0:
         print(f"   样本数量: {max_samples}")
@@ -133,7 +133,7 @@ def export_bfcl_format(results: dict, category: str, model_name: str) -> Path:
     # 输出文件
     output_file = output_dir / f"BFCL_v4_{category}_result.json"
 
-    # 创建评估器（用于导出）
+    # 创建评估器(用于导出)
     bfcl_data_dir = (
         project_root
         / "temp_gorilla"
@@ -270,11 +270,11 @@ def main():
     """主函数"""
     parser = argparse.ArgumentParser(description="BFCL一键评估脚本")
     parser.add_argument("--category", default="simple_python", help="评估类别")
-    parser.add_argument("--samples", type=int, default=5, help="样本数量（0表示全部）")
+    parser.add_argument("--samples", type=int, default=5, help="样本数量(0表示全部)")
     parser.add_argument(
         "--model-name",
         default="Qwen/Qwen3-8B",
-        help="模型名称（必须是BFCL支持的模型, 运行'bfcl models'查看）",
+        help="模型名称(必须是BFCL支持的模型, 运行'bfcl models'查看)",
     )
 
     args = parser.parse_args()

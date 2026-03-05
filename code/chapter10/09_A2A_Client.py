@@ -1,6 +1,6 @@
 """
 10.3.3 使用 HelloAgents A2A 工具
-（2）创建A2A Agent客户端
+(2)创建A2A Agent客户端
 """
 
 from hello_agents.protocols import A2AClient

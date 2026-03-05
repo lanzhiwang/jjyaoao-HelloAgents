@@ -9,7 +9,7 @@ python data_generation/step2_evaluate_only.py <generated_data_path>
 
 说明: 
 - 使用AIME 2025年真题作为参考
-- 数据集来源: math-ai/aime25（JSONL格式）
+- 数据集来源: math-ai/aime25(JSONL格式)
 
 示例: 
 python data_generation/step2_evaluate_only.py data_generation/generated_data/aime_generated_20251011_042741.json
@@ -281,7 +281,7 @@ def main():
         print("用法: python step2_evaluate_only.py <generated_data_path>")
         print("\n说明:")
         print("  - 使用AIME 2025年真题作为参考")
-        print("  - 数据集来源: math-ai/aime25（JSONL格式）")
+        print("  - 数据集来源: math-ai/aime25(JSONL格式)")
         print("  - 需要安装: pip install pandas pyarrow datasets")
         print("\n示例:")
         print(

@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 from src.agents.agent_universal import UniversalAgent
 
-load_dotenv()  # 从 .env 读取配置（LLM相关）
+load_dotenv()  # 从 .env 读取配置(LLM相关)
 
 
 def main():

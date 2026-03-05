@@ -1,4 +1,4 @@
-"""HelloAgents统一LLM接口 - 基于OpenAI原生API"""
+"""HelloAgents 统一 LLM 接口 - 基于 OpenAI 原生 API"""
 
 import os
 from typing import Literal, Optional, Iterator
@@ -23,13 +23,13 @@ SUPPORTED_PROVIDERS = Literal[
 
 class HelloAgentsLLM:
     """
-    为HelloAgents定制的LLM客户端. 
-    它用于调用任何兼容OpenAI接口的服务, 并默认使用流式响应. 
+    为 HelloAgents 定制的 LLM 客户端.
+    它用于调用任何兼容 OpenAI 接口的服务, 并默认使用流式响应.
 
-    设计理念: 
+    设计理念:
     - 参数优先, 环境变量兜底
     - 流式响应为默认, 提供更好的用户体验
-    - 支持多种LLM提供商
+    - 支持多种 LLM 提供商
     - 统一的调用接口
     """
 
@@ -45,17 +45,17 @@ class HelloAgentsLLM:
         **kwargs,
     ):
         """
-        初始化客户端. 优先使用传入参数, 如果未提供, 则从环境变量加载. 
-        支持自动检测provider或使用统一的LLM_*环境变量配置. 
+        初始化客户端. 优先使用传入参数, 如果未提供, 则从环境变量加载.
+        支持自动检测 provider 或使用统一的 LLM_* 环境变量配置.
 
         Args:
-            model: 模型名称, 如果未提供则从环境变量LLM_MODEL_ID读取
-            api_key: API密钥, 如果未提供则从环境变量读取
-            base_url: 服务地址, 如果未提供则从环境变量LLM_BASE_URL读取
-            provider: LLM提供商, 如果未提供则自动检测
+            model: 模型名称, 如果未提供则从环境变量 LLM_MODEL_ID 读取
+            api_key: API 密钥, 如果未提供则从环境变量读取
+            base_url: 服务地址, 如果未提供则从环境变量 LLM_BASE_URL 读取
+            provider: LLM 提供商, 如果未提供则自动检测
             temperature: 温度参数
-            max_tokens: 最大token数
-            timeout: 超时时间, 从环境变量LLM_TIMEOUT读取, 默认60秒
+            max_tokens: 最大 token 数
+            timeout: 超时时间, 从环境变量 LLM_TIMEOUT 读取, 默认 60 秒
         """
         # 优先使用传入参数, 如果未提供, 则从环境变量加载
         self.model = model or os.getenv("LLM_MODEL_ID")
@@ -64,10 +64,10 @@ class HelloAgentsLLM:
         self.timeout = timeout or int(os.getenv("LLM_TIMEOUT", "60"))
         self.kwargs = kwargs
 
-        # 自动检测provider或使用指定的provider
+        # 自动检测 provider 或使用指定的 provider
         self.provider = provider or self._auto_detect_provider(api_key, base_url)
 
-        # 根据provider确定API密钥和base_url
+        # 根据 provider 确定 API 密钥和 base_url
         self.api_key, self.base_url = self._resolve_credentials(api_key, base_url)
 
         # 验证必要参数
@@ -75,22 +75,22 @@ class HelloAgentsLLM:
             self.model = self._get_default_model()
         if not all([self.api_key, self.base_url]):
             raise HelloAgentsException(
-                "API密钥和服务地址必须被提供或在.env文件中定义. "
+                "API 密钥和服务地址必须被提供或在 .env 文件中定义."
             )
 
-        # 创建OpenAI客户端
+        # 创建 OpenAI 客户端
         self._client = self._create_client()
 
     def _auto_detect_provider(
         self, api_key: Optional[str], base_url: Optional[str]
     ) -> str:
         """
-        自动检测LLM提供商
+        自动检测 LLM 提供商
 
-        检测逻辑: 
+        检测逻辑:
         1. 优先检查特定提供商的环境变量
-        2. 根据API密钥格式判断
-        3. 根据base_url判断
+        2. 根据 API 密钥格式判断
+        3. 根据 base_url 判断
         4. 默认返回通用配置
         """
         # 1. 检查特定提供商的环境变量
@@ -111,7 +111,7 @@ class HelloAgentsLLM:
         if os.getenv("VLLM_API_KEY") or os.getenv("VLLM_HOST"):
             return "vllm"
 
-        # 2. 根据API密钥格式判断
+        # 2. 根据 API 密钥格式判断
         actual_api_key = api_key or os.getenv("LLM_API_KEY")
         if actual_api_key:
             actual_key_lower = actual_api_key.lower()
@@ -124,13 +124,13 @@ class HelloAgentsLLM:
             elif actual_key_lower == "local":
                 return "local"
             elif actual_api_key.startswith("sk-") and len(actual_api_key) > 50:
-                # 可能是OpenAI、DeepSeek或Kimi, 需要进一步判断
+                # 可能是 OpenAI、DeepSeek 或 Kimi, 需要进一步判断
                 pass
             elif actual_api_key.endswith(".") or "." in actual_api_key[-20:]:
-                # 智谱AI的API密钥格式通常包含点号
+                # 智谱 AI 的 API 密钥格式通常包含点号
                 return "zhipu"
 
-        # 3. 根据base_url判断
+        # 3. 根据 base_url 判断
         actual_base_url = base_url or os.getenv("LLM_BASE_URL")
         if actual_base_url:
             base_url_lower = actual_base_url.lower()
@@ -155,7 +155,7 @@ class HelloAgentsLLM:
                 elif ":8080" in base_url_lower or ":7860" in base_url_lower:
                     return "local"
                 else:
-                    # 根据API密钥进一步判断
+                    # 根据 API 密钥进一步判断
                     if actual_api_key and actual_api_key.lower() == "ollama":
                         return "ollama"
                     elif actual_api_key and actual_api_key.lower() == "vllm":
@@ -166,13 +166,13 @@ class HelloAgentsLLM:
                 # 常见的本地部署端口
                 return "local"
 
-        # 4. 默认返回auto, 使用通用配置
+        # 4. 默认返回 auto, 使用通用配置
         return "auto"
 
     def _resolve_credentials(
         self, api_key: Optional[str], base_url: Optional[str]
     ) -> tuple[str, str]:
-        """根据provider解析API密钥和base_url"""
+        """根据 provider 解析 API 密钥和 base_url"""
         if self.provider == "openai":
             resolved_api_key = (
                 api_key or os.getenv("OPENAI_API_KEY") or os.getenv("LLM_API_KEY")
@@ -277,13 +277,13 @@ class HelloAgentsLLM:
             return resolved_api_key, resolved_base_url
 
         else:
-            # auto或其他情况: 使用通用配置, 支持任何OpenAI兼容的服务
+            # auto 或其他情况: 使用通用配置, 支持任何 OpenAI 兼容的服务
             resolved_api_key = api_key or os.getenv("LLM_API_KEY")
             resolved_base_url = base_url or os.getenv("LLM_BASE_URL")
             return resolved_api_key, resolved_base_url
 
     def _create_client(self) -> OpenAI:
-        """创建OpenAI客户端"""
+        """创建 OpenAI 客户端"""
         return OpenAI(
             api_key=self.api_key, base_url=self.base_url, timeout=self.timeout
         )
@@ -303,13 +303,13 @@ class HelloAgentsLLM:
         elif self.provider == "zhipu":
             return "glm-4"
         elif self.provider == "ollama":
-            return "llama3.2"  # Ollama常用模型
+            return "llama3.2"  # Ollama 常用模型
         elif self.provider == "vllm":
-            return "meta-llama/Llama-2-7b-chat-hf"  # vLLM常用模型
+            return "meta-llama/Llama-2-7b-chat-hf"  # vLLM 常用模型
         elif self.provider == "local":
             return "local-model"  # 本地模型占位符
         else:
-            # auto或其他情况: 根据base_url智能推断默认模型
+            # auto 或其他情况: 根据 base_url 智能推断默认模型
             base_url = os.getenv("LLM_BASE_URL", "")
             base_url_lower = base_url.lower()
             if "modelscope" in base_url_lower:
@@ -335,8 +335,8 @@ class HelloAgentsLLM:
         self, messages: list[dict[str, str]], temperature: Optional[float] = None
     ) -> Iterator[str]:
         """
-        调用大语言模型进行思考, 并返回流式响应. 
-        这是主要的调用方法, 默认使用流式响应以获得更好的用户体验. 
+        调用大语言模型进行思考, 并返回流式响应.
+        这是主要的调用方法, 默认使用流式响应以获得更好的用户体验.
 
         Args:
             messages: 消息列表
@@ -367,13 +367,13 @@ class HelloAgentsLLM:
             print()  # 在流式输出结束后换行
 
         except Exception as e:
-            print(f"❌ 调用LLM API时发生错误: {e}")
-            raise HelloAgentsException(f"LLM调用失败: {str(e)}")
+            print(f"❌ 调用 LLM API 时发生错误: {e}")
+            raise HelloAgentsException(f"LLM 调用失败: {str(e)}")
 
     def invoke(self, messages: list[dict[str, str]], **kwargs) -> str:
         """
-        非流式调用LLM, 返回完整响应. 
-        适用于不需要流式输出的场景. 
+        非流式调用 LLM, 返回完整响应.
+        适用于不需要流式输出的场景.
         """
         try:
             response = self._client.chat.completions.create(
@@ -389,12 +389,12 @@ class HelloAgentsLLM:
             )
             return response.choices[0].message.content
         except Exception as e:
-            raise HelloAgentsException(f"LLM调用失败: {str(e)}")
+            raise HelloAgentsException(f"LLM 调用失败: {str(e)}")
 
     def stream_invoke(self, messages: list[dict[str, str]], **kwargs) -> Iterator[str]:
         """
-        流式调用LLM的别名方法, 与think方法功能相同. 
-        保持向后兼容性. 
+        流式调用 LLM 的别名方法, 与 think 方法功能相同.
+        保持向后兼容性.
         """
         temperature = kwargs.get("temperature")
         yield from self.think(messages, temperature)

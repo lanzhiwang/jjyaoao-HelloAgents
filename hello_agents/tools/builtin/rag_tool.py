@@ -75,6 +75,17 @@ class RAGTool(Tool):
                 collection_name=self.collection_name,
                 rag_namespace=self.rag_namespace,
             )
+            """
+            {
+                "store": QdrantVectorStore,
+                "namespace": rag_namespace,
+                "add_documents": def add_documents,
+                "search": def search,
+                "search_advanced": def search_advanced,
+                "get_stats": def get_stats,
+            }
+            """
+
             self._pipelines[self.rag_namespace] = default_pipeline
 
             # 初始化 LLM 用于回答生成
@@ -137,7 +148,7 @@ class RAGTool(Tool):
             ToolParameter(
                 name="file_path",
                 type="string",
-                description="文档文件路径(支持PDF、Word、Excel、PPT、图片、音频等多种格式)",
+                description="文档文件路径(支持 PDF、Word、Excel、PPT、图片、音频等多种格式)",
                 required=False,
             ),
             ToolParameter(

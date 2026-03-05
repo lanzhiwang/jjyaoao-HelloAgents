@@ -1,4 +1,4 @@
-"""Reflection Agent实现 - 自我反思与迭代优化的智能体"""
+"""Reflection Agent 实现 - 自我反思与迭代优化的智能体"""
 
 from typing import Optional, List, Dict, Any
 from ..core.agent import Agent
@@ -9,14 +9,15 @@ from ..core.message import Message
 # 默认提示词模板
 DEFAULT_PROMPTS = {
     "initial": """
-请根据以下要求完成任务: 
+请根据以下要求完成任务:
 
 任务: {task}
 
-请提供一个完整、准确的回答. 
+请提供一个完整、准确的回答.
 """,
+
     "reflect": """
-请仔细审查以下回答, 并找出可能的问题或改进空间: 
+请仔细审查以下回答, 并找出可能的问题或改进空间:
 
 # 原始任务:
 {task}
@@ -24,11 +25,12 @@ DEFAULT_PROMPTS = {
 # 当前回答:
 {content}
 
-请分析这个回答的质量, 指出不足之处, 并提出具体的改进建议. 
-如果回答已经很好, 请回答"无需改进". 
+请分析这个回答的质量, 指出不足之处, 并提出具体的改进建议.
+如果回答已经很好, 请回答"无需改进".
 """,
+
     "refine": """
-请根据反馈意见改进你的回答: 
+请根据反馈意见改进你的回答:
 
 # 原始任务:
 {task}
@@ -39,14 +41,14 @@ DEFAULT_PROMPTS = {
 # 反馈意见:
 {feedback}
 
-请提供一个改进后的回答. 
+请提供一个改进后的回答.
 """,
 }
 
 
 class Memory:
     """
-    简单的短期记忆模块, 用于存储智能体的行动与反思轨迹. 
+    简单的短期记忆模块, 用于存储智能体的行动与反思轨迹.
     """
 
     def __init__(self):
@@ -55,7 +57,7 @@ class Memory:
     def add_record(self, record_type: str, content: str):
         """向记忆中添加一条新记录"""
         self.records.append({"type": record_type, "content": content})
-        print(f"📝 记忆已更新, 新增一条 '{record_type}' 记录. ")
+        print(f"📝 记忆已更新, 新增一条 '{record_type}' 记录.")
 
     def get_trajectory(self) -> str:
         """将所有记忆记录格式化为一个连贯的字符串文本"""
@@ -79,15 +81,15 @@ class ReflectionAgent(Agent):
     """
     Reflection Agent - 自我反思与迭代优化的智能体
 
-    这个Agent能够: 
+    这个 Agent 能够:
     1. 执行初始任务
     2. 对结果进行自我反思
     3. 根据反思结果进行优化
     4. 迭代改进直到满意
 
-    特别适合代码生成、文档写作、分析报告等需要迭代优化的任务. 
+    特别适合代码生成、文档写作、分析报告等需要迭代优化的任务.
 
-    支持多种专业领域的提示词模板, 用户可以自定义或使用内置模板. 
+    支持多种专业领域的提示词模板, 用户可以自定义或使用内置模板.
     """
 
     def __init__(
@@ -100,11 +102,11 @@ class ReflectionAgent(Agent):
         custom_prompts: Optional[Dict[str, str]] = None,
     ):
         """
-        初始化ReflectionAgent
+        初始化 ReflectionAgent
 
         Args:
-            name: Agent名称
-            llm: LLM实例
+            name: Agent 名称
+            llm: LLM 实例
             system_prompt: 系统提示词
             config: 配置对象
             max_iterations: 最大迭代次数
@@ -119,7 +121,7 @@ class ReflectionAgent(Agent):
 
     def run(self, input_text: str, **kwargs) -> str:
         """
-        运行Reflection Agent
+        运行 Reflection Agent
 
         Args:
             input_text: 任务描述
@@ -154,7 +156,7 @@ class ReflectionAgent(Agent):
 
             # b. 检查是否需要停止
             if "无需改进" in feedback or "no need for improvement" in feedback.lower():
-                print("\n✅ 反思认为结果已无需改进, 任务完成. ")
+                print("\n✅ 反思认为结果已无需改进, 任务完成.")
                 break
 
             # c. 优化
@@ -175,6 +177,6 @@ class ReflectionAgent(Agent):
         return final_result
 
     def _get_llm_response(self, prompt: str, **kwargs) -> str:
-        """调用LLM并获取完整响应"""
+        """调用 LLM 并获取完整响应"""
         messages = [{"role": "user", "content": prompt}]
         return self.llm.invoke(messages, **kwargs) or ""

@@ -29,10 +29,10 @@ class WorkingMemoryDemo:
         print("=" * 50)
 
         print("工作记忆特点:")
-        print("• 容量有限（默认50条）")
-        print("• TTL机制（默认60分钟）")
+        print("• 容量有限(默认50条)")
+        print("• TTL机制(默认60分钟)")
         print("• 自动清理过期记忆")
-        print("• 优先级管理（重要性排序）")
+        print("• 优先级管理(重要性排序)")
 
         # 添加多条记忆来演示容量管理
         print(f"\n📝 添加测试记忆...")
@@ -150,7 +150,7 @@ class WorkingMemoryDemo:
         print("• 模拟人类记忆特点")
         print("• 平衡新旧信息重要性")
 
-        # 添加不同时间的记忆（模拟）
+        # 添加不同时间的记忆(模拟)
         time_test_memories = [
             ("最新的重要信息 - 刚刚学习的概念", 0.7, "newest"),
             ("较新的信息 - 昨天学习的内容", 0.7, "recent"),
@@ -181,7 +181,7 @@ class WorkingMemoryDemo:
                 "limit": 4,
             }
         )
-        print("搜索结果（注意时间因素对排序的影响）:")
+        print("搜索结果(注意时间因素对排序的影响):")
         print(result)
 
     def demonstrate_automatic_cleanup(self):
@@ -233,7 +233,7 @@ class WorkingMemoryDemo:
         print("• 纯内存存储, 访问速度极快")
         print("• 无需磁盘I/O, 响应时间短")
         print("• 适合频繁访问的临时数据")
-        print("• 系统重启后数据丢失（符合设计）")
+        print("• 系统重启后数据丢失(符合设计)")
 
         # 性能测试
         print(f"\n⏱️ 性能测试:")

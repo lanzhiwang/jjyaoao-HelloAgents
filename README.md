@@ -12,12 +12,12 @@ HelloAgents是一个专为学习和教学设计的多智能体框架, 基于Open
 
 ### 系统要求
 
-- **Python 3.10+** （必需）
+- **Python 3.10+** (必需)
 - 支持的操作系统: Windows、macOS、Linux
 
 ### 安装
 
-#### 🚀 交互式安装（推荐新手）
+#### 🚀 交互式安装(推荐新手)
 ```bash
 # 下载并运行交互式安装脚本
 python -c "import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/your-repo/hello-agents/main/install.py', 'install.py')"
@@ -26,7 +26,7 @@ python install.py
 
 #### 📦 标准安装方式
 
-**基础功能（核心Agent）**
+**基础功能(核心Agent)**
 ```bash
 pip install hello-agents
 ```
@@ -45,7 +45,7 @@ pip install hello-agents[rag]
 # 记忆+RAG完整功能
 pip install hello-agents[memory-rag]
 
-# 全部功能（推荐）
+# 全部功能(推荐)
 pip install hello-agents[all]
 ```
 
@@ -82,7 +82,7 @@ from hello_agents import SimpleAgent, HelloAgentsLLM
 # 创建LLM实例 - 框架自动检测provider
 llm = HelloAgentsLLM()
 
-# 或手动指定provider（可选）
+# 或手动指定provider(可选)
 # llm = HelloAgentsLLM(provider="modelscope")
 
 # 创建SimpleAgent
@@ -178,12 +178,12 @@ HelloAgents提供了完整的工具生态系统:
 ```python
 from hello_agents import ToolRegistry, SearchTool, CalculatorTool
 
-# 方式1: 使用Tool对象（推荐）
+# 方式1: 使用Tool对象(推荐)
 registry = ToolRegistry()
 registry.register_tool(SearchTool())
 registry.register_tool(CalculatorTool())
 
-# 方式2: 直接注册函数（简便）
+# 方式2: 直接注册函数(简便)
 def my_tool(input_text: str) -> str:
     return f"处理结果: {input_text}"
 
@@ -192,15 +192,15 @@ registry.register_function("my_tool", "自定义工具描述", my_tool)
 
 ### 目前支持的工具
 
-- **🔍 SearchTool**: 网页搜索（支持Tavily、SerpApi、模拟搜索）
-- **🧮 CalculatorTool**: 数学计算（支持复杂表达式和数学函数）
+- **🔍 SearchTool**: 网页搜索(支持Tavily、SerpApi、模拟搜索)
+- **🧮 CalculatorTool**: 数学计算(支持复杂表达式和数学函数)
 - **🔧 自定义工具**: 支持任意Python函数注册为工具
 
 ## ⚙️ 配置详解
 
 HelloAgents支持灵活的配置方式, **参数优先, 环境变量兜底**: 
 
-### 🎯 统一配置格式（推荐）
+### 🎯 统一配置格式(推荐)
 
 编辑 `.env` 文件, 配置你的API密钥. 
 

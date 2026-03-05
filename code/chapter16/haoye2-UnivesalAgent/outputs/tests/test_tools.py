@@ -46,7 +46,7 @@ def test_terminal_tool():
         {
             "name": "测试不在白名单的命令",
             "input": "python --version",
-            "expected": "应该被拒绝（不在白名单）",
+            "expected": "应该被拒绝(不在白名单)",
         },
     ]
 
@@ -65,14 +65,14 @@ def test_terminal_tool():
             # 简单判断测试是否通过
             if "错误" in result or "拒绝" in result or "警告" in result:
                 if "rm" in test["input"] or "python" in test["input"]:
-                    print("✅ 测试通过（正确拒绝）")
+                    print("✅ 测试通过(正确拒绝)")
                     passed += 1
                 else:
-                    print("❌ 测试失败（不应该被拒绝）")
+                    print("❌ 测试失败(不应该被拒绝)")
                     failed += 1
             else:
                 if "rm" in test["input"] or "python" in test["input"]:
-                    print("❌ 测试失败（应该被拒绝）")
+                    print("❌ 测试失败(应该被拒绝)")
                     failed += 1
                 else:
                     print("✅ 测试通过")
@@ -121,10 +121,10 @@ def test_browser_tool():
             if not test["input"]:
                 # 空输入测试
                 if "错误" in result or "不能为空" in result:
-                    print("✅ 测试通过（正确检测到空输入）")
+                    print("✅ 测试通过(正确检测到空输入)")
                     passed += 1
                 else:
-                    print("❌ 测试失败（应该检测到空输入）")
+                    print("❌ 测试失败(应该检测到空输入)")
                     failed += 1
             else:
                 # 正常搜索测试

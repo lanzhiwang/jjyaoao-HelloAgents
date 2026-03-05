@@ -45,7 +45,7 @@ network = ANPNetwork(network_id="ai_cluster")
 for service in discovery.list_all_services():
     network.add_node(service.service_id, service.endpoint)
 
-# 建立连接（根据能力匹配）
+# 建立连接(根据能力匹配)
 network.connect_nodes("nlp_agent_1", "nlp_agent_2")
 
 stats = network.get_network_stats()

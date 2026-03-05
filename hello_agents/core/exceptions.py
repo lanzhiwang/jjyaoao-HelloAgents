@@ -2,19 +2,19 @@
 
 
 class HelloAgentsException(Exception):
-    """HelloAgents基础异常类"""
+    """HelloAgents 基础异常类"""
 
     pass
 
 
 class LLMException(HelloAgentsException):
-    """LLM相关异常"""
+    """LLM 相关异常"""
 
     pass
 
 
 class AgentException(HelloAgentsException):
-    """Agent相关异常"""
+    """Agent 相关异常"""
 
     pass
 

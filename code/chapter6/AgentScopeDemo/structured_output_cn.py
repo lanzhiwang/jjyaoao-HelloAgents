@@ -43,7 +43,7 @@ class WitchActionModelCN(BaseModel):
     use_antidote: bool = Field(description="是否使用解药救人", default=False)
     use_poison: bool = Field(description="是否使用毒药杀人", default=False)
     target_name: Optional[str] = Field(
-        description="目标玩家姓名（救人或毒杀的对象）", default=None
+        description="目标玩家姓名(救人或毒杀的对象)", default=None
     )
     action_reason: Optional[str] = Field(description="行动理由", default=None)
 

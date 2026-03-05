@@ -6,7 +6,7 @@ python data_generation/step1_generate_only.py 30 3.0
 
 参数: 
 - 30: 生成题目数量
-- 3.0: 每次生成之间的延迟（秒）
+- 3.0: 每次生成之间的延迟(秒)
 """
 
 import sys
@@ -24,7 +24,7 @@ def main():
     print(f"\n配置信息:")
     print(f"  - 生成题目数量: {num_problems}")
     print(f"  - API延迟: {delay_seconds}秒/题")
-    print(f"  - 生成参考数据: TianHongZXY/aime-1983-2025（900+道题）")
+    print(f"  - 生成参考数据: TianHongZXY/aime-1983-2025(900+道题)")
 
     # 创建生成器
     generator = AIMEGenerator(delay_seconds=delay_seconds)

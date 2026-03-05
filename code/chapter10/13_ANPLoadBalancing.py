@@ -33,5 +33,5 @@ for i in range(10):
     server = get_best_server()
     print(f"请求 {i+1} -> {server.service_name} (负载: {server.metadata['load']:.2f})")
 
-    # 更新负载（模拟）
+    # 更新负载(模拟)
     server.metadata["load"] += 0.1

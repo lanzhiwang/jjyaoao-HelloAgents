@@ -1,4 +1,4 @@
-"""工具注册表 - HelloAgents原生工具系统"""
+"""工具注册表 - HelloAgents 原生工具系统"""
 
 from typing import Optional, Any, Callable
 from .base import Tool
@@ -6,12 +6,12 @@ from .base import Tool
 
 class ToolRegistry:
     """
-    HelloAgents工具注册表
+    HelloAgents 工具注册表
 
-    提供工具的注册、管理和执行功能. 
-    支持两种工具注册方式: 
-    1. Tool对象注册（推荐）
-    2. 函数直接注册（简便）
+    提供工具的注册、管理和执行功能.
+    支持两种工具注册方式:
+    1. Tool 对象注册(推荐)
+    2. 函数直接注册(简便)
     """
 
     def __init__(self):
@@ -20,22 +20,22 @@ class ToolRegistry:
 
     def register_tool(self, tool: Tool):
         """
-        注册Tool对象
+        注册 Tool 对象
 
         Args:
-            tool: Tool实例
+            tool: Tool 实例
         """
         if tool.name in self._tools:
-            print(f"⚠️ 警告: 工具 '{tool.name}' 已存在, 将被覆盖. ")
+            print(f"⚠️ 警告: 工具 '{tool.name}' 已存在, 将被覆盖.")
 
         self._tools[tool.name] = tool
-        print(f"✅ 工具 '{tool.name}' 已注册. ")
+        print(f"✅ 工具 '{tool.name}' 已注册.")
 
     def register_function(
         self, name: str, description: str, func: Callable[[str], str]
     ):
         """
-        直接注册函数作为工具（简便方式）
+        直接注册函数作为工具(简便方式)
 
         Args:
             name: 工具名称
@@ -43,24 +43,24 @@ class ToolRegistry:
             func: 工具函数, 接受字符串参数, 返回字符串结果
         """
         if name in self._functions:
-            print(f"⚠️ 警告: 工具 '{name}' 已存在, 将被覆盖. ")
+            print(f"⚠️ 警告: 工具 '{name}' 已存在, 将被覆盖.")
 
         self._functions[name] = {"description": description, "func": func}
-        print(f"✅ 工具 '{name}' 已注册. ")
+        print(f"✅ 工具 '{name}' 已注册.")
 
     def unregister(self, name: str):
         """注销工具"""
         if name in self._tools:
             del self._tools[name]
-            print(f"🗑️ 工具 '{name}' 已注销. ")
+            print(f"🗑️ 工具 '{name}' 已注销.")
         elif name in self._functions:
             del self._functions[name]
-            print(f"🗑️ 工具 '{name}' 已注销. ")
+            print(f"🗑️ 工具 '{name}' 已注销.")
         else:
-            print(f"⚠️ 工具 '{name}' 不存在. ")
+            print(f"⚠️ 工具 '{name}' 不存在.")
 
     def get_tool(self, name: str) -> Optional[Tool]:
-        """获取Tool对象"""
+        """获取 Tool 对象"""
         return self._tools.get(name)
 
     def get_function(self, name: str) -> Optional[Callable]:
@@ -79,7 +79,7 @@ class ToolRegistry:
         Returns:
             工具执行结果
         """
-        # 优先查找Tool对象
+        # 优先查找 Tool 对象
         if name in self._tools:
             tool = self._tools[name]
             try:
@@ -97,7 +97,7 @@ class ToolRegistry:
                 return f"错误: 执行工具 '{name}' 时发生异常: {str(e)}"
 
         else:
-            return f"错误: 未找到名为 '{name}' 的工具. "
+            return f"错误: 未找到名为 '{name}' 的工具."
 
     def get_tools_description(self) -> str:
         """
@@ -108,7 +108,7 @@ class ToolRegistry:
         """
         descriptions = []
 
-        # Tool对象描述
+        # Tool 对象描述
         for tool in self._tools.values():
             descriptions.append(f"- {tool.name}: {tool.description}")
 
@@ -123,14 +123,14 @@ class ToolRegistry:
         return list(self._tools.keys()) + list(self._functions.keys())
 
     def get_all_tools(self) -> list[Tool]:
-        """获取所有Tool对象"""
+        """获取所有 Tool 对象"""
         return list(self._tools.values())
 
     def clear(self):
         """清空所有工具"""
         self._tools.clear()
         self._functions.clear()
-        print("🧹 所有工具已清空. ")
+        print("🧹 所有工具已清空.")
 
 
 # 全局工具注册表

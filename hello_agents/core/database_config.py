@@ -1,6 +1,6 @@
 """
 数据库配置管理
-支持Qdrant向量数据库和Neo4j图数据库的配置
+支持 Qdrant 向量数据库和 Neo4j 图数据库的配置
 """
 
 import os
@@ -16,14 +16,14 @@ load_dotenv()
 
 
 class QdrantConfig(BaseModel):
-    """Qdrant向量数据库配置"""
+    """Qdrant 向量数据库配置"""
 
     # 连接配置
     url: Optional[str] = Field(
-        default=None, description="Qdrant服务URL (云服务或自定义URL)"
+        default=None, description="Qdrant 服务 URL (云服务或自定义 URL)"
     )
     api_key: Optional[str] = Field(
-        default=None, description="Qdrant API密钥 (云服务需要)"
+        default=None, description="Qdrant API 密钥 (云服务需要)"
     )
 
     # 集合配置
@@ -56,10 +56,10 @@ class QdrantConfig(BaseModel):
 
 
 class Neo4jConfig(BaseModel):
-    """Neo4j图数据库配置"""
+    """Neo4j 图数据库配置"""
 
     # 连接配置
-    uri: str = Field(default="bolt://localhost:7687", description="Neo4j连接URI")
+    uri: str = Field(default="bolt://localhost:7687", description="Neo4j 连接 URI")
     username: str = Field(default="neo4j", description="用户名")
     password: str = Field(default="hello-agents-password", description="密码")
     database: str = Field(default="neo4j", description="数据库名称")
@@ -101,10 +101,10 @@ class DatabaseConfig(BaseModel):
     """数据库配置管理器"""
 
     qdrant: QdrantConfig = Field(
-        default_factory=QdrantConfig, description="Qdrant向量数据库配置"
+        default_factory=QdrantConfig, description="Qdrant 向量数据库配置"
     )
     neo4j: Neo4jConfig = Field(
-        default_factory=Neo4jConfig, description="Neo4j图数据库配置"
+        default_factory=Neo4jConfig, description="Neo4j 图数据库配置"
     )
 
     @classmethod
@@ -113,29 +113,29 @@ class DatabaseConfig(BaseModel):
         return cls(qdrant=QdrantConfig.from_env(), neo4j=Neo4jConfig.from_env())
 
     def get_qdrant_config(self) -> Dict[str, Any]:
-        """获取Qdrant配置字典"""
+        """获取 Qdrant 配置字典"""
         return self.qdrant.to_dict()
 
     def get_neo4j_config(self) -> Dict[str, Any]:
-        """获取Neo4j配置字典"""
+        """获取 Neo4j 配置字典"""
         return self.neo4j.to_dict()
 
     def validate_connections(self) -> Dict[str, bool]:
         """验证数据库连接配置"""
         results = {}
 
-        # 验证Qdrant配置
+        # 验证 Qdrant 配置
         try:
             from ..memory.storage.qdrant_store import QdrantVectorStore
 
             qdrant_store = QdrantVectorStore(**self.get_qdrant_config())
             results["qdrant"] = qdrant_store.health_check()
-            logger.info(f"✅ Qdrant连接验证: {'成功' if results['qdrant'] else '失败'}")
+            logger.info(f"✅ Qdrant 连接验证: {'成功' if results['qdrant'] else '失败'}")
         except Exception as e:
             results["qdrant"] = False
-            logger.error(f"❌ Qdrant连接验证失败: {e}")
+            logger.error(f"❌ Qdrant 连接验证失败: {e}")
 
-        # 验证Neo4j配置
+        # 验证 Neo4j 配置
         try:
             from ..memory.storage.neo4j_store import Neo4jGraphStore
 

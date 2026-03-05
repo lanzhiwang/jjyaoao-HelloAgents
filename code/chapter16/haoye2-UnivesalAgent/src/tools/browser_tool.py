@@ -8,7 +8,7 @@ import html
 
 class BrowserTool:
     name = "browser_search"
-    description = "执行网页搜索（支持多种搜索引擎和内容提取）"
+    description = "执行网页搜索(支持多种搜索引擎和内容提取)"
 
     def get_parameters(self):
         return {"input": {"type": "str", "description": "搜索关键词", "required": True}}
@@ -274,7 +274,7 @@ class BrowserTool:
 
             if response.status_code == 200:
                 soup = BeautifulSoup(response.text, "html.parser")
-                # Brave搜索结果提取（需要根据实际HTML结构调整）
+                # Brave搜索结果提取(需要根据实际HTML结构调整)
                 results = []
                 result_divs = soup.find_all("div", class_=["result", "web-result"])
 
@@ -327,7 +327,7 @@ class BrowserTool:
 
             if response.status_code == 200:
                 soup = BeautifulSoup(response.text, "html.parser")
-                # Ecosia搜索结果提取（需要根据实际HTML结构调整）
+                # Ecosia搜索结果提取(需要根据实际HTML结构调整)
                 results = []
                 result_divs = soup.find_all(
                     "div", class_=["result", "web-result", "result__body"]
@@ -470,7 +470,7 @@ class BrowserTool:
             href = link.get("href", "")
             title = self._clean_text(link.get_text(strip=True))
 
-            # 过滤外部链接（非DuckDuckGo内部链接）
+            # 过滤外部链接(非DuckDuckGo内部链接)
             if (
                 href
                 and not href.startswith("javascript:")
@@ -654,7 +654,7 @@ class BrowserTool:
 
         # 移除特殊字符, 保留中文标点
         content = re.sub(
-            r'[^\w\s\u4e00-\u9fff.,!?;:()[\]{}"\'. , ! ? : ; （）[]""' "-]",
+            r'[^\w\s\u4e00-\u9fff.,!?;:()[\]{}"\'. , ! ? : ; ()[]""' "-]",
             "",
             content,
         )
@@ -760,7 +760,7 @@ class BrowserTool:
         # 检测是否为中文查询
         is_chinese = any("\u4e00" <= char <= "\u9fff" for char in query)
 
-        # 对于中文搜索, 直接使用Searx搜索引擎, 跳过DuckDuckGo（避免202问题）
+        # 对于中文搜索, 直接使用Searx搜索引擎, 跳过DuckDuckGo(避免202问题)
         if is_chinese:
             print(f"🌐 检测到中文查询, 使用多引擎搜索策略...")
             searx_results, searx_success = self._search_searx(query, limit)
@@ -789,7 +789,7 @@ class BrowserTool:
 
                     # DuckDuckGo经常返回202, 直接跳过
                     if response.status_code == 202:
-                        print("⚠️ DuckDuckGo返回202（需要JavaScript）, 切换到Searx...")
+                        print("⚠️ DuckDuckGo返回202(需要JavaScript), 切换到Searx...")
                         break
 
                     if response.status_code != 200:
@@ -835,7 +835,7 @@ class BrowserTool:
                     results = self._get_search_suggestions(query)
                     search_engine = "搜索建议"
 
-        # 增强搜索结果（提取内容预览）
+        # 增强搜索结果(提取内容预览)
         if results:
             print("🚀 增强搜索结果, 提取内容预览...")
             enhanced_results = self._enhance_search_results(results, limit=3)

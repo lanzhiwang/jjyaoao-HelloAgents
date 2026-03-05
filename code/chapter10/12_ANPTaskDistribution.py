@@ -65,8 +65,8 @@ def assign_task(task_description):
 {task_description}
 
 步骤: 
-1. 使用 service_discovery 工具查看所有可用的计算节点（service_type="compute"）
-2. 分析每个节点的特点（负载、CPU核心数、内存、GPU等）
+1. 使用 service_discovery 工具查看所有可用的计算节点(service_type="compute")
+2. 分析每个节点的特点(负载、CPU核心数、内存、GPU等)
 3. 根据任务需求选择最合适的节点
 4. 说明选择理由
 

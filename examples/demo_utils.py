@@ -232,7 +232,7 @@ class UIHelper:
         self.display_options = config.ui_settings.get("display_options", {})
 
     def print_colored(self, text: str, color_type: str = "default"):
-        """打印彩色文本（简化版, 实际可以使用colorama等库）"""
+        """打印彩色文本(简化版, 实际可以使用colorama等库)"""
         # 这里简化处理, 实际应用中可以集成colorama
         color_prefix = {
             "user_input": "👤 ",

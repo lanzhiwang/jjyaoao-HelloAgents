@@ -557,7 +557,7 @@ class PerceptualMemory(BaseMemory):
         # 简单的内容组合
         if target_modality == "text":
             contents = [memory.content for memory in relevant_memories]
-            return f"基于感知记忆生成的内容: \n" + "\n".join(contents)
+            return f"基于感知记忆生成的内容:\n" + "\n".join(contents)
 
         return f"生成的{target_modality}内容(基于{len(relevant_memories)}个相关记忆)"
 

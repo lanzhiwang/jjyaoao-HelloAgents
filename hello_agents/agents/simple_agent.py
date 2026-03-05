@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 class SimpleAgent(Agent):
-    """简单的对话Agent, 支持可选的工具调用"""
+    """简单的对话 Agent, 支持可选的工具调用"""
 
     def __init__(
         self,
@@ -25,15 +25,15 @@ class SimpleAgent(Agent):
         enable_tool_calling: bool = True,
     ):
         """
-        初始化SimpleAgent
+        初始化 SimpleAgent
 
         Args:
-            name: Agent名称
-            llm: LLM实例
+            name: Agent 名称
+            llm: LLM 实例
             system_prompt: 系统提示词
             config: 配置对象
-            tool_registry: 工具注册表（可选, 如果提供则启用工具调用）
-            enable_tool_calling: 是否启用工具调用（只有在提供tool_registry时生效）
+            tool_registry: 工具注册表(可选, 如果提供则启用工具调用)
+            enable_tool_calling: 是否启用工具调用(只有在提供 tool_registry 时生效)
         """
         super().__init__(name, llm, system_prompt, config)
         self.tool_registry = tool_registry
@@ -41,7 +41,7 @@ class SimpleAgent(Agent):
 
     def _get_enhanced_system_prompt(self) -> str:
         """构建增强的系统提示词, 包含工具信息"""
-        base_prompt = self.system_prompt or "你是一个有用的AI助手. "
+        base_prompt = self.system_prompt or "你是一个有用的 AI 助手. "
 
         if not self.enable_tool_calling or not self.tool_registry:
             return base_prompt
@@ -52,15 +52,15 @@ class SimpleAgent(Agent):
             return base_prompt
 
         tools_section = "\n\n## 可用工具\n"
-        tools_section += "你可以使用以下工具来帮助回答问题: \n"
+        tools_section += "你可以使用以下工具来帮助回答问题:\n"
         tools_section += tools_description + "\n"
 
         tools_section += "\n## 工具调用格式\n"
-        tools_section += "当需要使用工具时, 请使用以下格式: \n"
+        tools_section += "当需要使用工具时, 请使用以下格式:\n"
         tools_section += "`[TOOL_CALL:{tool_name}:{parameters}]`\n"
         tools_section += "例如: `[TOOL_CALL:search:Python编程]` 或 `[TOOL_CALL:memory:recall=用户信息]`\n\n"
         tools_section += (
-            "工具调用结果会自动插入到对话中, 然后你可以基于结果继续回答. \n"
+            "工具调用结果会自动插入到对话中, 然后你可以基于结果继续回答.\n"
         )
 
         return base_prompt + tools_section
@@ -88,7 +88,7 @@ class SimpleAgent(Agent):
             return f"❌ 错误: 未配置工具注册表"
 
         try:
-            # 获取Tool对象
+            # 获取 Tool 对象
             tool = self.tool_registry.get_tool(tool_name)
             if not tool:
                 return f"❌ 错误: 未找到工具 '{tool_name}'"
@@ -98,7 +98,7 @@ class SimpleAgent(Agent):
 
             # 调用工具
             result = tool.run(param_dict)
-            return f"🔧 工具 {tool_name} 执行结果: \n{result}"
+            return f"🔧 工具 {tool_name} 执行结果:\n{result}"
 
         except Exception as e:
             return f"❌ 工具调用失败: {str(e)}"
@@ -121,7 +121,7 @@ class SimpleAgent(Agent):
                 key, value = parameters.split("=", 1)
                 param_dict[key.strip()] = value.strip()
 
-            # 智能推断action（如果没有指定）
+            # 智能推断action(如果没有指定)
             if "action" not in param_dict:
                 param_dict = self._infer_action(tool_name, param_dict)
         else:
@@ -131,7 +131,7 @@ class SimpleAgent(Agent):
         return param_dict
 
     def _infer_action(self, tool_name: str, param_dict: dict) -> dict:
-        """根据工具类型和参数推断action"""
+        """根据工具类型和参数推断 action"""
         if tool_name == "memory":
             if "recall" in param_dict:
                 param_dict["action"] = "search"
@@ -165,20 +165,20 @@ class SimpleAgent(Agent):
 
     def run(self, input_text: str, max_tool_iterations: int = 3, **kwargs) -> str:
         """
-        运行SimpleAgent, 支持可选的工具调用
+        运行 SimpleAgent, 支持可选的工具调用
 
         Args:
             input_text: 用户输入
-            max_tool_iterations: 最大工具调用迭代次数（仅在启用工具时有效）
+            max_tool_iterations: 最大工具调用迭代次数(仅在启用工具时有效)
             **kwargs: 其他参数
 
         Returns:
-            Agent响应
+            Agent 响应
         """
         # 构建消息列表
         messages = []
 
-        # 添加系统消息（可能包含工具信息）
+        # 添加系统消息(可能包含工具信息)
         enhanced_system_prompt = self._get_enhanced_system_prompt()
         messages.append({"role": "system", "content": enhanced_system_prompt})
 
@@ -192,6 +192,7 @@ class SimpleAgent(Agent):
         # 如果没有启用工具调用, 使用原有逻辑
         if not self.enable_tool_calling:
             response = self.llm.invoke(messages, **kwargs)
+            # 添加消息到历史记录
             self.add_message(Message(input_text, "user"))
             self.add_message(Message(response, "assistant"))
             return response
@@ -201,11 +202,21 @@ class SimpleAgent(Agent):
         final_response = ""
 
         while current_iteration < max_tool_iterations:
-            # 调用LLM
+            # 调用 LLM
             response = self.llm.invoke(messages, **kwargs)
 
             # 检查是否有工具调用
             tool_calls = self._parse_tool_calls(response)
+            """
+            [
+                {
+                    "tool_name": "",
+                    "parameters": "",
+                    "original": "",
+                },
+                {}
+            ]
+            """
 
             if tool_calls:
                 # 执行所有工具调用并收集结果
@@ -228,7 +239,7 @@ class SimpleAgent(Agent):
                 messages.append(
                     {
                         "role": "user",
-                        "content": f"工具执行结果: \n{tool_results_text}\n\n请基于这些结果给出完整的回答. ",
+                        "content": f"工具执行结果:\n{tool_results_text}\n\n请基于这些结果给出完整的回答. ",
                     }
                 )
 
@@ -250,7 +261,7 @@ class SimpleAgent(Agent):
         return final_response
 
     def add_tool(self, tool) -> None:
-        """添加工具到Agent（便利方法）"""
+        """添加工具到 Agent (便利方法)"""
         if not self.tool_registry:
             from ..tools.registry import ToolRegistry
 
@@ -260,7 +271,7 @@ class SimpleAgent(Agent):
         self.tool_registry.register_tool(tool)
 
     def remove_tool(self, tool_name: str) -> bool:
-        """移除工具（便利方法）"""
+        """移除工具(便利方法)"""
         if self.tool_registry:
             return self.tool_registry.unregister_tool(tool_name)
         return False
@@ -277,14 +288,14 @@ class SimpleAgent(Agent):
 
     def stream_run(self, input_text: str, **kwargs) -> Iterator[str]:
         """
-        流式运行Agent
+        流式运行 Agent
 
         Args:
             input_text: 用户输入
             **kwargs: 其他参数
 
         Yields:
-            Agent响应片段
+            Agent 响应片段
         """
         # 构建消息列表
         messages = []
@@ -297,7 +308,7 @@ class SimpleAgent(Agent):
 
         messages.append({"role": "user", "content": input_text})
 
-        # 流式调用LLM
+        # 流式调用 LLM
         full_response = ""
         for chunk in self.llm.stream_invoke(messages, **kwargs):
             full_response += chunk

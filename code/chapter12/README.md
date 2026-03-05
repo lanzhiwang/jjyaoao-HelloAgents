@@ -7,10 +7,10 @@
 | 文件名                                | 对应章节 | 说明                             |
 | ------------------------------------- | -------- | -------------------------------- |
 | `01_basic_agent_example.py`           | 12.1.1   | 基础智能体示例, 说明为何需要评估 |
-| `02_bfcl_quick_start.py`              | 12.2.5   | BFCL快速开始（一键评估）         |
-| `03_bfcl_custom_evaluation.py`        | 12.2.5   | BFCL自定义评估（底层组件）       |
+| `02_bfcl_quick_start.py`              | 12.2.5   | BFCL快速开始(一键评估)           |
+| `03_bfcl_custom_evaluation.py`        | 12.2.5   | BFCL自定义评估(底层组件)         |
 | `04_run_bfcl_evaluation.py`           | 12.2.9   | BFCL评估最佳实践                 |
-| `05_gaia_quick_start.py`              | 12.3.5   | GAIA快速开始（一键评估）         |
+| `05_gaia_quick_start.py`              | 12.3.5   | GAIA快速开始(一键评估)           |
 | `06_gaia_best_practices.py`           | 12.3.9   | GAIA评估最佳实践                 |
 | `07_data_generation_complete_flow.py` | 12.4.6   | 数据生成完整评估流程             |
 | `08_data_generation_llm_judge.py`     | 12.4.3   | LLM Judge评估                    |
@@ -27,14 +27,14 @@
 
 2. **设置环境变量**: 
    ```bash
-   # OpenAI API Key（用于GPT-4o）
+   # OpenAI API Key(用于GPT-4o)
    export OPENAI_API_KEY="your_openai_api_key"
    
-   # HuggingFace Token（用于GAIA数据集）
+   # HuggingFace Token(用于GAIA数据集)
    export HF_TOKEN="your_huggingface_token"
    ```
 
-3. **下载BFCL数据集**（可选, 首次运行会自动下载）: 
+3. **下载BFCL数据集**(可选, 首次运行会自动下载): 
    ```bash
    cd ../HelloAgents
    git clone https://github.com/ShishirPatil/gorilla.git temp_gorilla
@@ -90,7 +90,7 @@ python 04_run_bfcl_evaluation.py
 
 1. 访问 https://huggingface.co/datasets/gaia-benchmark/GAIA
 2. 点击"Request Access"申请访问权限
-3. 等待审核通过（通常1-2天）
+3. 等待审核通过(通常1-2天)
 4. 设置HF_TOKEN环境变量
 
 ```bash
@@ -186,12 +186,12 @@ Loss Rate: 45.00%
    - 运行 `01_basic_agent_example.py`
 
 2. **学习BFCL评估**: 
-   - 运行 `02_bfcl_quick_start.py`（快速开始）
-   - 运行 `04_run_bfcl_evaluation.py`（最佳实践）
+   - 运行 `02_bfcl_quick_start.py`(快速开始)
+   - 运行 `04_run_bfcl_evaluation.py`(最佳实践)
 
 3. **学习GAIA评估**: 
-   - 运行 `05_gaia_quick_start.py`（快速开始）
-   - 运行 `06_gaia_best_practices.py`（最佳实践）
+   - 运行 `05_gaia_quick_start.py`(快速开始)
+   - 运行 `06_gaia_best_practices.py`(最佳实践)
 
 ### 进阶路径
 
@@ -199,9 +199,9 @@ Loss Rate: 45.00%
    - 运行 `03_bfcl_custom_evaluation.py`
 
 2. **数据生成评估**: 
-   - 运行 `08_data_generation_llm_judge.py`（LLM Judge）
-   - 运行 `09_data_generation_win_rate.py`（Win Rate）
-   - 运行 `07_data_generation_complete_flow.py`（完整流程）
+   - 运行 `08_data_generation_llm_judge.py`(LLM Judge)
+   - 运行 `09_data_generation_win_rate.py`(Win Rate)
+   - 运行 `07_data_generation_complete_flow.py`(完整流程)
 
 ## 💡 常见问题
 
@@ -250,12 +250,12 @@ A: 评估成本主要来自LLM API调用:
 **BFCL评估**: 
 - 每个样本约1次API调用
 - 成本约0.01-0.02元/样本
-- 完整评估（400样本）约4-8元
+- 完整评估(400样本)约4-8元
 
 **GAIA评估**: 
-- 每个样本约1-5次API调用（取决于任务复杂度）
+- 每个样本约1-5次API调用(取决于任务复杂度)
 - 成本约0.05-0.20元/样本
-- 完整评估（466样本）约23-93元
+- 完整评估(466样本)约23-93元
 
 **数据生成评估**: 
 - 生成: 约0.05元/题

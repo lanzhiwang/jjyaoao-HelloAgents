@@ -82,7 +82,7 @@ def check_winning_cn(
 
 
 def analyze_speech_pattern(speech: str) -> Dict[str, Any]:
-    """分析发言模式（中文优化）"""
+    """分析发言模式(中文优化)"""
     analysis = {
         "word_count": len(speech),
         "confidence_keywords": 0,

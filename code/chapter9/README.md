@@ -12,7 +12,7 @@ chapter9/
 ├── 04_note_tool_integration.py          # NoteTool 高级集成
 ├── 05_terminal_tool_examples.py         # TerminalTool 使用示例
 ├── 06_three_day_workflow.py             # 完整三天工作流演示
-├── codebase_maintainer.py               # 代码库维护助手（核心组件）
+├── codebase_maintainer.py               # 代码库维护助手(核心组件)
 ├── codebase/                            # 示例代码库
 │   ├── data_processor.py
 │   ├── api_client.py
@@ -35,7 +35,7 @@ chapter9/
 
 ```python
 import os
-# 使用 TF-IDF（无需额外依赖或下载）
+# 使用 TF-IDF(无需额外依赖或下载)
 os.environ['EMBED_MODEL_TYPE'] = 'tfidf'
 os.environ['EMBED_MODEL_NAME'] = ''  # 必须清空
 ```
@@ -46,13 +46,13 @@ os.environ['EMBED_MODEL_NAME'] = ''  # 必须清空
 # 进入 chapter9 目录
 cd code/chapter9
 
-# 运行 TerminalTool 示例（无需 LLM）
+# 运行 TerminalTool 示例(无需 LLM)
 python 05_terminal_tool_examples.py
 
-# 运行 NoteTool 基本操作（无需 LLM）
+# 运行 NoteTool 基本操作(无需 LLM)
 python 03_note_tool_operations.py
 
-# 运行完整工作流演示（需要配置 LLM）
+# 运行完整工作流演示(需要配置 LLM)
 python 06_three_day_workflow.py
 ```
 
@@ -62,7 +62,7 @@ python 06_three_day_workflow.py
 
 #### 01_context_builder_basic.py
 - ContextBuilder 的基本用法
-- 上下文包（ContextPacket）的创建和管理
+- 上下文包(ContextPacket)的创建和管理
 - Token 限制和上下文优先级
 
 #### 02_context_builder_with_agent.py
@@ -99,18 +99,18 @@ python 06_three_day_workflow.py
 - 跨会话连贯性演示
 - 三大工具协同演示
 
-使用我们创建的示例代码库（`./codebase`）, 包含: 
-- `data_processor.py` - 数据处理模块（含多个 TODO）
-- `api_client.py` - API 客户端（需要改进错误处理）
-- `utils.py` - 工具函数（需要优化）
-- `models.py` - 数据模型（需要补充验证）
+使用我们创建的示例代码库(`./codebase`), 包含: 
+- `data_processor.py` - 数据处理模块(含多个 TODO)
+- `api_client.py` - API 客户端(需要改进错误处理)
+- `utils.py` - 工具函数(需要优化)
+- `models.py` - 数据模型(需要补充验证)
 
 #### codebase_maintainer.py
 **核心组件: 代码库维护助手**, 集成了: 
 - ContextBuilder - 上下文管理
 - NoteTool - 结构化笔记
 - TerminalTool - 即时文件访问
-- MemoryTool - 对话记忆（仅使用 working 记忆）
+- MemoryTool - 对话记忆(仅使用 working 记忆)
 
 ## ⚙️ 配置说明
 
@@ -118,7 +118,7 @@ python 06_three_day_workflow.py
 
 有三种选择: 
 
-#### 方案一: TF-IDF（推荐用于测试）
+#### 方案一: TF-IDF(推荐用于测试)
 
 ```python
 import os
@@ -134,7 +134,7 @@ os.environ['EMBED_MODEL_NAME'] = ''  # 重要!
 **缺点**: 
 - ⚠️ 语义理解能力较弱
 
-#### 方案二: 本地 Transformer（推荐用于离线使用）
+#### 方案二: 本地 Transformer(推荐用于离线使用)
 
 ```python
 import os
@@ -145,12 +145,12 @@ os.environ['HF_TOKEN'] = 'your_huggingface_token'
 
 **需要**: 
 1. 安装依赖: `pip install sentence-transformers`
-2. Hugging Face Token（从 https://huggingface.co/settings/tokens 获取）
-3. 首次运行会下载模型（约 90MB）
+2. Hugging Face Token(从 https://huggingface.co/settings/tokens 获取)
+3. 首次运行会下载模型(约 90MB)
 
 **配置 HF Token 的方式**: 
 ```bash
-# 方式一: 使用 huggingface-cli（推荐, 一次配置永久使用）
+# 方式一: 使用 huggingface-cli(推荐, 一次配置永久使用)
 pip install huggingface-hub
 huggingface-cli login
 
@@ -161,7 +161,7 @@ os.environ['HF_TOKEN'] = 'hf_your_token_here'
 export HF_TOKEN="hf_your_token_here"
 ```
 
-#### 方案三: 通义千问 DashScope（推荐用于生产环境）
+#### 方案三: 通义千问 DashScope(推荐用于生产环境)
 
 ```python
 import os
@@ -182,7 +182,7 @@ os.environ['EMBED_API_KEY'] = 'your_dashscope_api_key'
 ```python
 from hello_agents import HelloAgentsLLM
 
-# 使用默认配置（需要设置 OPENAI_API_KEY）
+# 使用默认配置(需要设置 OPENAI_API_KEY)
 llm = HelloAgentsLLM()
 
 # 或者明确指定
@@ -207,7 +207,7 @@ self.memory_tool = MemoryTool(
 )
 ```
 
-如果需要更强大的记忆功能（episodic, semantic）, 需要安装并启动 Qdrant: 
+如果需要更强大的记忆功能(episodic, semantic), 需要安装并启动 Qdrant: 
 
 ```bash
 # 使用 Docker 启动 Qdrant
@@ -220,18 +220,18 @@ docker run -p 6333:6333 qdrant/qdrant
 
 #### data/sales_2024.csv
 包含 40+ 条销售数据, 字段包括: 
-- date（日期）
-- product（产品）
-- category（类别: Electronics, Furniture）
-- quantity（数量）
-- price（价格）
-- customer_id（客户ID）
-- region（地区: North, South, East, West）
+- date(日期)
+- product(产品)
+- category(类别: Electronics, Furniture)
+- quantity(数量)
+- price(价格)
+- customer_id(客户ID)
+- region(地区: North, South, East, West)
 
 #### logs/app.log
 模拟一天的应用日志, 包含: 
-- 多种日志级别（INFO, WARNING, ERROR）
-- 多种错误类型（DatabaseConnectionError, ValidationError 等）
+- 多种日志级别(INFO, WARNING, ERROR)
+- 多种错误类型(DatabaseConnectionError, ValidationError 等)
 - 时间戳从 2024-01-19 14:00 到 23:30
 
 #### codebase/
@@ -258,7 +258,7 @@ os.environ['EMBED_MODEL_NAME'] = ''  # 必须有这行!
 
 **原因**: 默认配置尝试连接 Qdrant 向量数据库. 
 
-**解决方案一**（推荐）: 使用只需 working 记忆的配置（已在 codebase_maintainer.py 中配置）
+**解决方案一**(推荐): 使用只需 working 记忆的配置(已在 codebase_maintainer.py 中配置)
 
 **解决方案二**: 安装并启动 Qdrant: 
 ```bash
@@ -270,7 +270,7 @@ docker run -p 6333:6333 qdrant/qdrant
 **原因**: 网络问题或缺少 Token. 
 
 **解决方案**: 
-1. 配置 HF Token（见上文"方案二"）
+1. 配置 HF Token(见上文"方案二")
 2. 或使用镜像: `export HF_ENDPOINT=https://hf-mirror.com`
 3. 或改用 TF-IDF: `os.environ['EMBED_MODEL_TYPE'] = 'tfidf'`
 

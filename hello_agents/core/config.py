@@ -6,9 +6,9 @@ from pydantic import BaseModel
 
 
 class Config(BaseModel):
-    """HelloAgents配置类"""
+    """HelloAgents 配置类"""
 
-    # LLM配置
+    # LLM 配置
     default_model: str = "gpt-3.5-turbo"
     default_provider: str = "openai"
     temperature: float = 0.7

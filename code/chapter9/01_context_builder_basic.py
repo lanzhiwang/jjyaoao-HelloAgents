@@ -22,7 +22,7 @@ def main():
     print("ContextBuilder 基础使用示例")
     print("=" * 80 + "\n")
 
-    # 1. 初始化工具（Optional）
+    # 1. 初始化工具(Optional)
     print("1. 初始化工具...")
     # memory_tool = MemoryTool(user_id="user123")
     # rag_tool = RAGTool(knowledge_base_path="./knowledge_base")
