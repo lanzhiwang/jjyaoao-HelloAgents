@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 class MemoryManager:
     """记忆管理器 - 统一的记忆操作接口
 
-    负责: 
+    负责:
     - 记忆生命周期管理
     - 记忆优先级和重要性评估
     - 记忆遗忘和清理机制
@@ -56,7 +56,7 @@ class MemoryManager:
             self.memory_types["perceptual"] = PerceptualMemory(self.config)
 
         logger.info(
-            f"MemoryManager初始化完成, 启用记忆类型: {list(self.memory_types.keys())}"
+            f"MemoryManager 初始化完成, 启用记忆类型: {list(self.memory_types.keys())}"
         )
 
     def add_memory(

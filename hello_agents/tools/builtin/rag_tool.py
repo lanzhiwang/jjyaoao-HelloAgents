@@ -198,8 +198,41 @@ class RAGTool(Tool):
 
         主要操作流程:
         1. add_document/add_text: 数据 → 解析 → 分块 → 向量化 → 存储
-        2. ask: 问题 → 检索 → 上下文注入 → LLM生成答案
+        2. ask: 问题 → 检索 → 上下文注入 → LLM 生成答案
         3. search: 查询 → 向量检索 → 返回相关片段
+
+        # 体验 RAG 功能
+        # 添加第一个知识
+        rag_tool.execute(
+            "add_text",
+            text="Python 是一种高级编程语言, 由 Guido van Rossum 于 1991 年首次发布. Python 的设计哲学强调代码的可读性和简洁的语法.",
+            document_id="python_intro"
+        )
+
+        # 添加第二个知识
+        rag_tool.execute(
+            "add_text",
+            text="机器学习是人工智能的一个分支, 通过算法让计算机从数据中学习模式. 主要包括监督学习、无监督学习和强化学习三种类型.",
+            document_id="ml_basics"
+        )
+
+        # 添加第三个知识
+        rag_tool.execute(
+            "add_text",
+            text="RAG(检索增强生成)是一种结合信息检索和文本生成的AI技术. 它通过检索相关知识来增强大语言模型的生成能力.",
+            document_id="rag_concept"
+        )
+
+        # 搜索知识
+        rag_tool.execute(
+            "search",
+            query="Python 编程语言的历史",
+            limit=3,
+            min_score=0.1
+        )
+
+        # 知识库统计
+        rag_tool.execute("stats")
         """
 
         if not self.initialized:
@@ -444,7 +477,7 @@ class RAGTool(Tool):
         namespace: Optional[str] = None,
         **kwargs,
     ) -> str:
-        """智能问答: 检索 → 上下文注入 → LLM生成答案
+        """智能问答: 检索 → 上下文注入 → LLM 生成答案
 
         核心流程:
         1. 解析用户问题
@@ -531,7 +564,7 @@ class RAGTool(Tool):
             llm_time = int((time.time() - llm_start) * 1000)
 
             if not answer or not answer.strip():
-                return "❌ LLM未能生成有效答案, 请稍后重试"
+                return "❌ LLM 未能生成有效答案, 请稍后重试"
 
             # 6. 构建最终回答
             final_answer = self._format_final_answer(
@@ -558,7 +591,25 @@ class RAGTool(Tool):
         return content
 
     def _smart_truncate_context(self, context: str, max_chars: int) -> str:
-        """智能截断上下文, 保持段落完整性"""
+        """
+        智能截断上下文, 保持段落完整性
+        >>> context = "The official and recommended way to interact with a Kubernetes cluster programmatically from Python is the official\n\nKubernetes Python client library. This library, maintained by the Kubernetes community, allows you to automate tasks, manage\n\nresources (like Pods, Deployments, and Services), and build custom tools using Python code\n"
+        >>> max_chars = 200
+        >>> len(context)
+        334
+        >>> len(context) <= max_chars
+        False
+        >>>
+        >>> truncated = context[:max_chars]
+        >>> truncated
+        'The official and recommended way to interact with a Kubernetes cluster programmatically from Python is the official\n\nKubernetes Python client library. This library, maintained by the Kubernetes commun'
+        >>> last_break = truncated.rfind("\n\n")
+        >>> last_break
+        115
+        >>> max_chars * 0.7
+        140.0
+        >>>
+        """
         if len(context) <= max_chars:
             return context
 

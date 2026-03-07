@@ -181,6 +181,109 @@ class MemoryTool(Tool):
         - search: 搜索记忆
         - summary: 获取记忆摘要
         - stats: 获取统计信息
+
+        #################################################
+        对每个记忆类型, 我们提供了不同的使用示例:
+
+        # 1. 工作记忆 - 临时信息, 容量有限
+        memory_tool.execute("add",
+            content="用户刚才问了关于 Python 函数的问题",
+            memory_type="working",
+            importance=0.6
+        )
+
+        # 2. 情景记忆 - 具体事件和经历
+        memory_tool.execute("add",
+            content="2024 年 3 月 15 日, 用户张三完成了第一个 Python 项目",
+            memory_type="episodic",
+            importance=0.8,
+            event_type="milestone",
+            location="在线学习平台"
+        )
+
+        # 3. 语义记忆 - 抽象知识和概念
+        memory_tool.execute("add",
+            content="Python 是一种解释型、面向对象的编程语言",
+            memory_type="semantic",
+            importance=0.9,
+            knowledge_type="factual"
+        )
+
+        # 4. 感知记忆 - 多模态信息
+        memory_tool.execute("add",
+            content="用户上传了一张 Python 代码截图, 包含函数定义",
+            memory_type="perceptual",
+            importance=0.7,
+            modality="image",
+            file_path="./uploads/code_screenshot.png"
+        )
+
+        #################################################
+
+        search 操作是记忆系统的核心功能, 它需要在大量记忆中快速找到与查询最相关的内容.
+        它涉及语义理解、相关性计算和结果排序等多个环节.
+
+        # 基础搜索
+        result = memory_tool.execute("search", query="Python 编程", limit=5)
+
+        # 指定记忆类型搜索
+        result = memory_tool.execute("search",
+            query="学习进度",
+            memory_type="episodic",
+            limit=3
+        )
+
+        # 多类型搜索
+        result = memory_tool.execute("search",
+            query="函数定义",
+            memory_types=["semantic", "episodic"],
+            min_importance=0.5
+        )
+
+        #################################################
+
+        遗忘机制是最具认知科学色彩的功能, 它模拟人类大脑的选择性遗忘过程, 支持三种策略:
+        基于重要性(删除不重要的记忆)
+        基于时间(删除过时的记忆)
+        基于容量(当存储接近上限时删除最不重要的记忆)
+
+        # 1. 基于重要性的遗忘 - 删除重要性低于阈值的记忆
+        memory_tool.execute("forget",
+            strategy="importance_based",
+            threshold=0.2
+        )
+
+        # 2. 基于时间的遗忘 - 删除超过指定天数的记忆
+        memory_tool.execute("forget",
+            strategy="time_based",
+            max_age_days=30
+        )
+
+        # 3. 基于容量的遗忘 - 当记忆数量超限时删除最不重要的
+        memory_tool.execute("forget",
+            strategy="capacity_based",
+            threshold=0.3
+        )
+
+        #################################################
+
+        consolidate 操作借鉴了神经科学中的记忆固化概念, 模拟人类大脑将短期记忆转化为长期记忆的过程.
+        默认设置是将重要性超过 0.7 的工作记忆转换为情景记忆, 这个阈值确保只有真正重要的信息才会被长期保存.
+        整个过程是自动化的, 用户无需手动选择具体的记忆, 系统会智能地识别符合条件的记忆并执行类型转换.
+
+        # 将重要的工作记忆转为情景记忆
+        memory_tool.execute("consolidate",
+            from_type="working",
+            to_type="episodic",
+            importance_threshold=0.7
+        )
+
+        # 将重要的情景记忆转为语义记忆
+        memory_tool.execute("consolidate",
+            from_type="episodic",
+            to_type="semantic",
+            importance_threshold=0.8
+        )
         """
 
         if action == "add":

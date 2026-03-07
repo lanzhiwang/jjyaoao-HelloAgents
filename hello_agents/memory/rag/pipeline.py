@@ -94,16 +94,24 @@ def _convert_to_markdown(path: str) -> str:
     """
     Universal document reader using MarkItDown with enhanced PDF processing.
     Converts any supported file format to markdown text.
+
+    通用文档阅读器, 采用 MarkItDown 技术, 并增强了 PDF 处理能力.
+    可将任何支持的文件格式转换为 Markdown 文本.
+
+    RAG 系统的核心优势之一是其强大的多模态文档处理能力.
+    系统使用 MarkItDown 作为统一的文档转换引擎, 支持几乎所有常见的文档格式.
+    MarkItDown 是微软开源的通用文档转换工具, 它是 HelloAgents RAG 系统的核心组件, 负责将任意格式的文档统一转换为结构化的 Markdown 文本.
+    无论输入是 PDF、Word、Excel、图片还是音频, 最终都会转换为标准的 Markdown 格式, 然后进入统一的分块、向量化和存储流程.
     """
     if not os.path.exists(path):
         return ""
 
-    # 对PDF文件使用增强处理
+    # 对 PDF 文件使用增强处理
     ext = (os.path.splitext(path)[1] or "").lower()
     if ext == ".pdf":
         return _enhanced_pdf_processing(path)
 
-    # 其他格式使用原有MarkItDown
+    # 其他格式使用原有 MarkItDown
     md_instance = _get_markitdown_instance()
     if md_instance is None:
         return _fallback_text_reader(path)
@@ -122,10 +130,12 @@ def _convert_to_markdown(path: str) -> str:
 def _enhanced_pdf_processing(path: str) -> str:
     """
     Enhanced PDF processing with post-processing cleanup.
+
+    增强型 PDF 处理, 并带有后期处理清理功能.
     """
     print(f"[RAG] Using enhanced PDF processing for: {path}")
 
-    # 使用原有MarkItDown提取
+    # 使用原有 MarkItDown 提取
     md_instance = _get_markitdown_instance()
     if md_instance is None:
         return _fallback_text_reader(path)
@@ -151,6 +161,7 @@ def _enhanced_pdf_processing(path: str) -> str:
 def _post_process_pdf_text(text: str) -> str:
     """
     Post-process PDF text to improve quality.
+    对 PDF 文本进行后处理以提高质量.
     """
     import re
 
@@ -211,7 +222,7 @@ def _post_process_pdf_text(text: str) -> str:
         # 检查是否是新段落的开始
         if (
             line.startswith("#")  # 标题
-            or line.endswith(": ")  # 中文冒号结尾
+            or line.endswith("：")  # 中文冒号结尾
             or line.endswith(":")  # 英文冒号结尾
             or len(line) > 150  # 长句通常是段落开始
             or not current_paragraph
@@ -236,6 +247,8 @@ def _post_process_pdf_text(text: str) -> str:
 def _fallback_text_reader(path: str) -> str:
     """
     Simple fallback reader for basic text files when MarkItDown is unavailable.
+
+    当 MarkItDown 不可用时, 这是一个用于读取基本文本文件的简单备用阅读器.
     """
     try:
         with open(path, "r", encoding="utf-8", errors="ignore") as f:
@@ -249,6 +262,9 @@ def _fallback_text_reader(path: str) -> str:
 
 
 def _detect_lang(sample: str) -> str:
+    """
+    语言检测功能
+    """
     try:
         from langdetect import detect
 
@@ -271,6 +287,9 @@ def _is_cjk(ch: str) -> bool:
 
 
 def _approx_token_len(text: str) -> int:
+    """
+    同时为了兼容不同语言, 系统实现了针对中英文混合文本的 Token 估算算法, 这对于准确控制分块大小至关重要
+    """
     # 近似估计: CJK字符按1 token, 其他按空白分词
     cjk = sum(1 for ch in text if _is_cjk(ch))
     non_cjk_tokens = len([t for t in text.split() if t])
@@ -278,6 +297,19 @@ def _approx_token_len(text: str) -> int:
 
 
 def _split_paragraphs_with_headings(text: str) -> List[Dict]:
+    """
+    经过 MarkItDown 转换后, 所有文档都统一为标准的 Markdown 格式. 这为后续的智能分块提供了结构化的基础.
+    HelloAgents 实现了专门针对 Markdown 格式的智能分块策略, 充分利用 Markdown 的结构化特性进行精确分割.
+
+    Markdown 结构感知的分块流程:
+
+    标准 Markdown 文本 → 标题层次解析 → 段落语义分割 → Token 计算分块 → 重叠策略优化 → 向量化准备
+           ↓                ↓              ↓            ↓           ↓            ↓
+       统一格式          #/##/###        语义边界      大小控制     信息连续性    嵌入向量
+       结构清晰          层次识别        完整性保证      检索优化     上下文保持    相似度匹配
+
+    由于所有文档都已转换为 Markdown 格式, 系统可以利用 Markdown 的标题结构(#、##、### 等)进行精确的语义分割
+    """
     lines = text.splitlines()
     heading_stack: List[str] = []
     paragraphs: List[Dict] = []
@@ -331,6 +363,10 @@ def _split_paragraphs_with_headings(text: str) -> List[Dict]:
 def _chunk_paragraphs(
     paragraphs: List[Dict], chunk_tokens: int, overlap_tokens: int
 ) -> List[Dict]:
+    """
+    在 Markdown 段落分割的基础上, 系统进一步根据 Token 数量进行智能分块.
+    由于输入已经是结构化的 Markdown 文本, 系统可以更精确地控制分块边界, 确保每个分块既适合向量化处理, 又保持 Markdown 结构的完整性
+    """
     chunks: List[Dict] = []
     cur: List[Dict] = []
     cur_tokens = 0
@@ -402,6 +438,9 @@ def load_and_chunk_texts(
     """
     Universal document loader and chunker using MarkItDown.
     Converts all supported formats to markdown, then chunks intelligently.
+
+    一款基于 MarkItDown 的通用文档加载器和分块器.
+    它能将所有支持的格式转换为 Markdown, 然后智能地进行分块处理.
     """
     print(
         f"[RAG] Universal loader start: files={len(paths)} chunk_size={chunk_size} overlap={chunk_overlap} ns={namespace or 'default'}"
@@ -427,6 +466,7 @@ def load_and_chunk_texts(
         doc_id = hashlib.md5(f"{path}|{len(markdown_text)}".encode("utf-8")).hexdigest()
 
         # Always use markdown-aware chunking for better structure preservation
+        # 为了更好地保持结构, 请始终使用 Markdown 感知型分块.
         para = _split_paragraphs_with_headings(markdown_text)
         token_chunks = _chunk_paragraphs(
             para, chunk_tokens=max(1, chunk_size), overlap_tokens=max(0, chunk_overlap)
@@ -545,7 +585,7 @@ def _preprocess_markdown_for_embedding(text: str) -> str:
 def _create_default_vector_store(dimension: int = None) -> QdrantVectorStore:
     """
     Create default Qdrant vector store with RAG-optimized settings.
-    使用连接管理器避免重复连接. 
+    使用连接管理器避免重复连接.
     """
     if dimension is None:
         dimension = get_dimension(384)
@@ -579,6 +619,31 @@ def index_chunks(
     """
     Index markdown chunks with unified embedding and Qdrant storage.
     Uses百炼 API with fallback to sentence-transformers.
+
+    嵌入模型是 RAG 系统的核心, 它负责将文本转换为高维向量, 使得计算机能够理解和比较文本的语义相似性.
+    RAG 系统的检索能力很大程度上取决于嵌入模型的质量和向量存储的效率. HelloAgents 实现了统一的嵌入接口.
+    在这里为了演示, 使用百炼 API, 如果尚未配置可以切换为本地的 all-MiniLM-L6-v2 模型, 如果两种方案都不支持, 也配置了 TF-IDF 算法来兜底.
+    实际使用可以替换为自己想要的模型或者 API, 也可以尝试去扩展框架内容
+
+    {
+        "id": chunk_id,
+        "content": content,
+        "metadata": {
+            "source_path": path,
+            "file_ext": ext,
+            "doc_id": doc_id,
+            "lang": lang,
+            "start": start,
+            "end": end,
+            "content_hash": content_hash,
+            "namespace": namespace or "default",
+            "source": source_label,
+            "external": True,
+            "heading_path": ch.get("heading_path"),
+            "format": "markdown",  # Mark all content as markdown-processed
+        },
+    }
+
     """
     if not chunks:
         print("[RAG] No chunks to index")
@@ -614,7 +679,7 @@ def index_chunks(
 
             # Normalize to List[List[float]]
             if not isinstance(part_vecs, list):
-                # 单个numpy数组转为列表中的列表
+                # 单个 numpy 数组转为列表中的列表
                 if hasattr(part_vecs, "tolist"):
                     part_vecs = [part_vecs.tolist()]
                 else:
@@ -626,7 +691,7 @@ def index_chunks(
                     and not isinstance(part_vecs[0], (list, tuple))
                     and hasattr(part_vecs[0], "__len__")
                 ):
-                    # numpy数组列表 -> 转换每个数组
+                    # numpy 数组列表 -> 转换每个数组
                     normalized_vecs = []
                     for v in part_vecs:
                         if hasattr(v, "tolist"):
@@ -643,7 +708,7 @@ def index_chunks(
 
             for v in part_vecs:
                 try:
-                    # 确保向量是float列表
+                    # 确保向量是 float 列表
                     if hasattr(v, "tolist"):
                         v = v.tolist()
                     v_norm = [float(x) for x in v]
@@ -672,7 +737,7 @@ def index_chunks(
                 try:
                     import time
 
-                    time.sleep(2)  # 等待2秒避免频率限制
+                    time.sleep(2)  # 等待 2 秒避免频率限制
 
                     small_vecs = embedder.encode(small_part)
                     # Normalize to List[List[float]]
@@ -816,6 +881,21 @@ def search_vectors(
 
 
 def _prompt_mqe(query: str, n: int) -> List[str]:
+    """
+    RAG 系统的检索能力是其核心竞争力. 在实际应用中, 用户的查询表述与文档中的实际内容可能存在用词差异, 导致相关文档无法被检索到.
+    为了解决这个问题, HelloAgents 实现了三种互补的高级检索策略: 多查询扩展(MQE)、假设文档嵌入(HyDE)和统一的扩展检索框架.
+
+    (1) 多查询扩展(MQE)
+
+    多查询扩展(Multi-Query Expansion)是一种通过生成语义等价的多样化查询来提高检索召回率的技术.
+    这种方法的核心洞察是: 同一个问题可以有多种不同的表述方式, 而不同的表述可能匹配到不同的相关文档.
+
+    例如, "如何学习 Python" 可以扩展为 "Python 入门教程"、"Python 学习方法"、"Python 编程指南" 等多个查询.
+    通过并行执行这些扩展查询并合并结果, 系统能够覆盖更广泛的相关文档, 避免因用词差异而遗漏重要信息.
+
+    MQE 的优势在于它能够自动理解用户查询的多种可能含义, 特别是对于模糊查询或专业术语查询效果显著.
+    系统使用 LLM 生成扩展查询, 确保扩展的多样性和语义相关性
+    """
     try:
         from ...core.llm import HelloAgentsLLM
 
@@ -839,6 +919,19 @@ def _prompt_mqe(query: str, n: int) -> List[str]:
 
 
 def _prompt_hyde(query: str) -> Optional[str]:
+    """
+    RAG 系统的检索能力是其核心竞争力. 在实际应用中, 用户的查询表述与文档中的实际内容可能存在用词差异, 导致相关文档无法被检索到.
+    为了解决这个问题, HelloAgents 实现了三种互补的高级检索策略: 多查询扩展(MQE)、假设文档嵌入(HyDE)和统一的扩展检索框架.
+
+    (2) 假设文档嵌入(HyDE)
+
+    假设文档嵌入(Hypothetical Document Embeddings, HyDE)是一种创新的检索技术, 它的核心思想是"用答案找答案".
+    传统的检索方法是用问题去匹配文档, 但问题和答案在语义空间中的分布往往存在差异 - 问题通常是疑问句, 而文档内容是陈述句.
+    HyDE 通过让 LLM 先生成一个假设性的答案段落, 然后用这个答案段落去检索真实文档, 从而缩小了查询和文档之间的语义鸿沟.
+    这种方法的优势在于, 假设答案与真实答案在语义空间中更加接近, 因此能够更准确地匹配到相关文档.
+    即使假设答案的内容不完全正确, 它所包含的关键术语、概念和表述风格也能有效引导检索系统找到正确的文档.
+    特别是对于专业领域的查询, HyDE 能够生成包含领域术语的假设文档, 显著提升检索精度
+    """
     try:
         from ...core.llm import HelloAgentsLLM
 
@@ -872,6 +965,19 @@ def search_vectors_expanded(
 ) -> List[Dict]:
     """
     Search with query expansion using unified embedding and Qdrant.
+
+    RAG 系统的检索能力是其核心竞争力. 在实际应用中, 用户的查询表述与文档中的实际内容可能存在用词差异, 导致相关文档无法被检索到.
+    为了解决这个问题, HelloAgents 实现了三种互补的高级检索策略: 多查询扩展(MQE)、假设文档嵌入(HyDE)和统一的扩展检索框架.
+
+    (3)扩展检索框架
+
+    HelloAgents 将 MQE 和 HyDE 两种策略整合到统一的扩展检索框架中.
+    系统通过 enable_mqe 和 enable_hyde 参数让用户可以根据具体场景选择启用哪些策略: 对于需要高召回率的场景可以同时启用两种策略, 对于性能敏感的场景可以只使用基础检索.
+    扩展检索的核心机制是"扩展-检索-合并"三步流程.
+    首先, 系统根据原始查询生成多个扩展查询(包括 MQE 生成的多样化查询和 HyDE 生成的假设文档);
+    然后, 对每个扩展查询并行执行向量检索, 获取候选文档池;
+    最后, 通过去重和分数排序合并所有结果, 返回最相关的 top-k 文档.
+    这种设计的巧妙之处在于, 它通过 candidate_pool_multiplier 参数(默认为 4)扩大候选池, 确保有足够的候选文档进行筛选, 同时通过智能去重避免返回重复内容.
     """
     if not query:
         return []

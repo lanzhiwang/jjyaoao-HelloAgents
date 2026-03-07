@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-智能文档问答助手 - 基于HelloAgents的智能文档问答系统
+智能文档问答助手 - 基于 HelloAgents 的智能文档问答系统
 
-这是一个完整的PDF学习助手应用, 支持: 
-- 加载PDF文档并构建知识库
-- 智能问答(基于RAG)
-- 学习历程记录(基于Memory)
+这是一个完整的 PDF 学习助手应用, 支持:
+- 加载 PDF 文档并构建知识库
+- 智能问答(基于 RAG)
+- 学习历程记录(基于 Memory)
 - 学习回顾和报告生成
 """
 
@@ -29,7 +29,7 @@ class PDFLearningAssistant:
         """初始化学习助手
 
         Args:
-            user_id: 用户ID, 用于隔离不同用户的数据
+            user_id: 用户 ID, 用于隔离不同用户的数据
         """
         self.user_id = user_id
         self.session_id = f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
@@ -50,13 +50,13 @@ class PDFLearningAssistant:
         self.current_document = None
 
     def load_document(self, pdf_path: str) -> Dict[str, Any]:
-        """加载PDF文档到知识库
+        """加载 PDF 文档到知识库
 
         Args:
-            pdf_path: PDF文件路径
+            pdf_path: PDF 文件路径
 
         Returns:
-            Dict: 包含success和message的结果
+            Dict: 包含 success 和 message 的结果
         """
         if not os.path.exists(pdf_path):
             return {"success": False, "message": f"文件不存在: {pdf_path}"}
@@ -64,7 +64,7 @@ class PDFLearningAssistant:
         start_time = time.time()
 
         try:
-            # 使用RAG工具处理PDF
+            # 使用 RAG 工具处理 PDF
             result = self.rag_tool.run(
                 {
                     "action": "add_document",
@@ -76,11 +76,21 @@ class PDFLearningAssistant:
 
             process_time = time.time() - start_time
 
-            # RAG工具返回的是字符串消息
+            # RAG 工具返回的是字符串消息
             self.current_document = os.path.basename(pdf_path)
             self.stats["documents_loaded"] += 1
 
             # 记录到学习记忆
+            """
+            文档加载成功后, 我们使用 MemoryTool 记录到情景记忆
+            为什么用情景记忆?
+            因为这是一个具体的、有时间戳的事件, 适合用情景记忆记录.
+            session_id 参数将这个事件关联到当前学习会话, 便于后续回顾学习历程.
+
+            这个记忆记录为后续的个性化服务奠定了基础:
+            用户询问"我之前加载过哪些文档?" → 从情景记忆中检索
+            系统可以追踪用户的学习历程和文档使用情况
+            """
             self.memory_tool.run(
                 {
                     "action": "add",
@@ -342,14 +352,14 @@ def create_gradio_ui():
 
         return result
 
-    # 创建Gradio界面
+    # 创建 Gradio 界面
     with gr.Blocks(title="智能文档问答助手", theme=gr.themes.Soft()) as demo:
         gr.Markdown("""
         # 📚 智能文档问答助手
 
-        基于HelloAgents的智能文档问答系统, 支持: 
-        - 📄 加载PDF文档并构建知识库
-        - 💬 智能问答(基于RAG)
+        基于 HelloAgents 的智能文档问答系统, 支持:
+        - 📄 加载 PDF 文档并构建知识库
+        - 💬 智能问答(基于 RAG)
         - 📝 学习笔记记录
         - 🧠 学习历程回顾
         - 📊 学习报告生成
@@ -358,8 +368,8 @@ def create_gradio_ui():
         with gr.Tab("🏠 开始使用"):
             with gr.Row():
                 user_id_input = gr.Textbox(
-                    label="用户ID",
-                    placeholder="输入你的用户ID(可选, 默认为web_user)",
+                    label="用户 ID",
+                    placeholder="输入你的用户 ID(可选, 默认为 web_user)",
                     value="web_user",
                 )
                 init_btn = gr.Button("初始化助手", variant="primary")
@@ -369,9 +379,9 @@ def create_gradio_ui():
                 init_assistant, inputs=[user_id_input], outputs=[init_output]
             )
 
-            gr.Markdown("### 📄 加载PDF文档")
+            gr.Markdown("### 📄 加载 PDF 文档")
             pdf_upload = gr.File(
-                label="上传PDF文件", file_types=[".pdf"], type="filepath"
+                label="上传 PDF 文件", file_types=[".pdf"], type="filepath"
             )
             load_btn = gr.Button("加载文档", variant="primary")
             load_output = gr.Textbox(label="加载状态", interactive=False)
@@ -383,17 +393,17 @@ def create_gradio_ui():
             with gr.Row():
                 msg_input = gr.Textbox(
                     label="输入问题",
-                    placeholder="例如: 什么是Transformer?  或 我之前学过什么? ",
+                    placeholder="例如: 什么是 Transformer? 或 我之前学过什么?",
                     scale=4,
                 )
                 send_btn = gr.Button("发送", variant="primary", scale=1)
 
             gr.Examples(
                 examples=[
-                    "什么是大语言模型? ",
-                    "Transformer架构有哪些核心组件? ",
-                    "如何训练大语言模型? ",
-                    "我之前学过什么内容? ",
+                    "什么是大语言模型?",
+                    "Transformer 架构有哪些核心组件?",
+                    "如何训练大语言模型?",
+                    "我之前学过什么内容?",
                     "回顾一下关于注意力机制的学习",
                 ],
                 inputs=msg_input,
@@ -435,11 +445,11 @@ def create_gradio_ui():
 
 
 def main():
-    """主函数 - 启动Gradio Web UI"""
+    """主函数 - 启动 Gradio Web UI"""
     print("\n" + "=" * 60)
     print("智能文档问答助手")
     print("=" * 60)
-    print("正在启动Web界面...\n")
+    print("正在启动 Web 界面...\n")
 
     demo = create_gradio_ui()
     demo.launch(server_name="0.0.0.0", server_port=7860, share=False, show_error=True)

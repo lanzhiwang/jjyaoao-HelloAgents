@@ -90,7 +90,7 @@ class Relation:
 class SemanticMemory(BaseMemory):
     """增强语义记忆实现
 
-    特点: 
+    特点:
     - 使用HuggingFace中文预训练模型进行文本嵌入
     - 向量检索进行快速相似度匹配
     - 知识图谱存储实体和关系
