@@ -20,7 +20,7 @@ HelloAgents 支持三种核心通信协议, 每种协议都有其特定的应用
 # 安装核心依赖
 pip install fastmcp>=2.0.0
 
-# 安装 A2A SDK（可选）
+# 安装 A2A SDK(可选)
 pip install a2a-sdk
 
 # 验证安装
@@ -130,7 +130,7 @@ print(f"网络状态: {status['health_status']}")
 ## 🎯 协议选择指南
 
 ### 选择 MCP 当你需要: 
-- ✅ 集成外部工具和服务（文件系统、数据库、API）
+- ✅ 集成外部工具和服务(文件系统、数据库、API)
 - ✅ 标准化的工具调用接口
 - ✅ 访问结构化资源和提示词
 - ✅ 与现有 MCP 生态系统兼容
@@ -208,17 +208,17 @@ async with MCPClient("http://localhost:8000") as client:
 
 ### 核心依赖
 ```bash
-# MCP 协议（必需）
+# MCP 协议(必需)
 pip install fastmcp>=2.0.0
 
-# A2A 协议（可选）
+# A2A 协议(可选)
 pip install a2a-sdk
 
 # 开发和测试工具
 pip install pytest asyncio
 ```
 
-### 官方 MCP 服务器（Node.js）
+### 官方 MCP 服务器(Node.js)
 ```bash
 # 安装 Node.js 和 npm
 # 然后安装官方服务器

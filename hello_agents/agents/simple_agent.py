@@ -32,8 +32,8 @@ class SimpleAgent(Agent):
             llm: LLM实例
             system_prompt: 系统提示词
             config: 配置对象
-            tool_registry: 工具注册表（可选, 如果提供则启用工具调用）
-            enable_tool_calling: 是否启用工具调用（只有在提供tool_registry时生效）
+            tool_registry: 工具注册表(可选, 如果提供则启用工具调用)
+            enable_tool_calling: 是否启用工具调用(只有在提供tool_registry时生效)
         """
         super().__init__(name, llm, system_prompt, config)
         self.tool_registry = tool_registry
@@ -152,7 +152,7 @@ class SimpleAgent(Agent):
             # 类型转换
             param_dict = self._convert_parameter_types(tool_name, param_dict)
 
-            # 智能推断action（如果没有指定）
+            # 智能推断action(如果没有指定)
             if "action" not in param_dict:
                 param_dict = self._infer_action(tool_name, param_dict)
         else:
@@ -259,7 +259,7 @@ class SimpleAgent(Agent):
 
         Args:
             input_text: 用户输入
-            max_tool_iterations: 最大工具调用迭代次数（仅在启用工具时有效）
+            max_tool_iterations: 最大工具调用迭代次数(仅在启用工具时有效)
             **kwargs: 其他参数
 
         Returns:
@@ -268,7 +268,7 @@ class SimpleAgent(Agent):
         # 构建消息列表
         messages = []
 
-        # 添加系统消息（可能包含工具信息）
+        # 添加系统消息(可能包含工具信息)
         enhanced_system_prompt = self._get_enhanced_system_prompt()
         messages.append({"role": "system", "content": enhanced_system_prompt})
 
@@ -341,7 +341,7 @@ class SimpleAgent(Agent):
 
     def add_tool(self, tool) -> None:
         """
-        添加工具到Agent（便利方法）
+        添加工具到Agent(便利方法)
 
         如果是MCP工具且启用了auto_expand, 会自动展开为多个独立工具
         """
@@ -368,7 +368,7 @@ class SimpleAgent(Agent):
         self.tool_registry.register_tool(tool)
 
     def remove_tool(self, tool_name: str) -> bool:
-        """移除工具（便利方法）"""
+        """移除工具(便利方法)"""
         if self.tool_registry:
             return self.tool_registry.unregister_tool(tool_name)
         return False

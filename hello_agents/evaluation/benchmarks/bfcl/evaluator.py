@@ -94,7 +94,7 @@ class BFCLEvaluator:
                 sample_result = self.evaluate_sample(agent, sample)
                 results.append(sample_result)
 
-                # 按类别统计（使用评估器的category, 而不是样本的category）
+                # 按类别统计(使用评估器的category, 而不是样本的category)
                 category = (
                     self.category
                     if self.category
@@ -329,7 +329,7 @@ class BFCLEvaluator:
                 # BFCL v4格式
                 return self._evaluate_bfcl_v4_format(predicted, expected)
             else:
-                # 字符串格式（旧版）
+                # 字符串格式(旧版)
                 return self._evaluate_string_format(predicted, expected)
 
         except Exception as e:
@@ -411,7 +411,7 @@ class BFCLEvaluator:
     def _evaluate_string_format(
         self, predicted: List[Dict], expected: List[str]
     ) -> tuple[bool, float]:
-        """评估字符串格式的ground truth（旧版）"""
+        """评估字符串格式的ground truth(旧版)"""
         # 将预测结果转换为字符串形式
         predicted_strs = []
         for call in predicted:
@@ -457,7 +457,7 @@ class BFCLEvaluator:
     def _evaluate_execution(
         self, predicted: List[Dict], expected: List[str], functions: List[Dict]
     ) -> tuple[bool, float]:
-        """执行评估（简化版本）"""
+        """执行评估(简化版本)"""
         # 这里实现简化的执行评估
         # 在实际应用中, 需要安全的代码执行环境
         return self._evaluate_ast_matching(predicted, expected)
@@ -521,7 +521,7 @@ class BFCLEvaluator:
                 "result": result_string,  # BFCL期望的是单个字符串
             }
 
-            # 添加推理日志（如果需要）
+            # 添加推理日志(如果需要)
             if include_inference_log:
                 question = detail.get("question", "")
                 response = detail.get("response", "")
@@ -533,7 +533,7 @@ class BFCLEvaluator:
 
             bfcl_results.append(bfcl_item)
 
-        # 写入JSONL格式（每行一个JSON对象）
+        # 写入JSONL格式(每行一个JSON对象)
         with open(output_path, "w", encoding="utf-8") as f:
             for item in bfcl_results:
                 f.write(json.dumps(item, ensure_ascii=False) + "\n")

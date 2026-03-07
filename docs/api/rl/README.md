@@ -20,7 +20,7 @@
 
 ## 安装
 
-### 方式1: 安装完整的RL功能（推荐）
+### 方式1: 安装完整的RL功能(推荐)
 
 ```bash
 pip install hello-agents[rl]
@@ -34,8 +34,8 @@ pip install hello-agents[rl]
 - `accelerate`: 分布式训练加速
 - `peft`: LoRA等参数高效微调
 - `bitsandbytes`: 量化支持
-- `wandb`: 训练监控（可选）
-- `tensorboard`: TensorBoard支持（可选）
+- `wandb`: 训练监控(可选)
+- `tensorboard`: TensorBoard支持(可选)
 
 ### 方式2: 单独安装TRL
 
@@ -202,7 +202,7 @@ sft_result = rl_tool.run({
     "output_dir": "./output/sft"
 })
 
-# 步骤2: GRPO训练（使用SFT后的模型）
+# 步骤2: GRPO训练(使用SFT后的模型)
 print("步骤2: GRPO训练...")
 grpo_result = rl_tool.run({
     "action": "train",
@@ -221,7 +221,7 @@ print("训练完成!最终模型: ./output/grpo")
 使用少量样本快速测试训练流程: 
 
 ```python
-# 快速SFT测试（10个样本, 1轮）
+# 快速SFT测试(10个样本, 1轮)
 rl_tool.run({
     "action": "train",
     "algorithm": "sft",
@@ -322,7 +322,7 @@ reward_fn = CustomReward()
 
 **A**: 取决于模型大小和配置: 
 
-- **Qwen3-0.6B + LoRA**: 约4-6GB（单GPU可训练）
+- **Qwen3-0.6B + LoRA**: 约4-6GB(单GPU可训练)
 - **Qwen3-0.6B 全参数**: 约8-12GB
 - **Qwen2-1.5B + LoRA**: 约8-12GB
 - **Qwen2-7B + LoRA**: 约16-24GB
@@ -338,7 +338,7 @@ reward_fn = CustomReward()
 
 - **100样本, 1轮, 单GPU**: 约5-10分钟
 - **1000样本, 3轮, 单GPU**: 约30-60分钟
-- **全量GSM8K（7.5K）, 3轮, 单GPU**: 约3-6小时
+- **全量GSM8K(7.5K), 3轮, 单GPU**: 约3-6小时
 
 ### Q3: SFT和GRPO有什么区别? 
 
@@ -354,7 +354,7 @@ reward_fn = CustomReward()
 - 不需要Value Model, 实现更简单
 - 内存占用更少
 - 训练速度更快
-- 性能接近PPO（90%+）
+- 性能接近PPO(90%+)
 
 ### Q5: 如何评估训练效果? 
 

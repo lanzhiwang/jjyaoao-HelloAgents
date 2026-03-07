@@ -74,7 +74,7 @@ class BFCLMetrics:
 
     @staticmethod
     def _calculate_string_similarity(s1: str, s2: str) -> float:
-        """计算字符串相似度（简化版Levenshtein距离）"""
+        """计算字符串相似度(简化版Levenshtein距离)"""
         if s1 == s2:
             return 1.0
         if not s1 or not s2:

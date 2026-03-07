@@ -5,14 +5,14 @@
 本文件整合了第十章中介绍的三种智能体通信协议的所有实用案例:
 
 🔧 MCP (Model Context Protocol)
-- 官方服务器使用案例（文件系统、GitHub等）
-- 自定义服务器开发（天气查询服务器）
-- 多种传输方式演示（Stdio、HTTP、SSE等）
+- 官方服务器使用案例(文件系统、GitHub等)
+- 自定义服务器开发(天气查询服务器)
+- 多种传输方式演示(Stdio、HTTP、SSE等)
 - 在 HelloAgents 中的集成使用
 
 🤝 A2A (Agent-to-Agent Protocol)
 - 基于官方 a2a-sdk 的智能体创建
-- 多智能体协作工作流（内容创作团队）
+- 多智能体协作工作流(内容创作团队)
 - 智能体间技能共享和调用
 - 实际业务场景应用
 
@@ -162,8 +162,8 @@ def check_dependencies():
     print_section("环境检查")
 
     dependencies = {
-        "fastmcp": "FastMCP 库（MCP 协议支持）",
-        "a2a": "A2A SDK（A2A 协议支持）",
+        "fastmcp": "FastMCP 库(MCP 协议支持)",
+        "a2a": "A2A SDK(A2A 协议支持)",
     }
 
     missing_deps = []
@@ -190,7 +190,7 @@ def check_dependencies():
             elif dep == "a2a":
                 print(f"  pip install a2a-sdk")
 
-        choice = input("\n是否继续（某些功能可能不可用）? (y/n): ").lower()
+        choice = input("\n是否继续(某些功能可能不可用)? (y/n): ").lower()
         if choice != "y":
             print("退出程序. 请安装依赖后重新运行. ")
             sys.exit(1)
@@ -378,7 +378,7 @@ def lesson_1_4_transport_methods():
     transport_info = """
 🚀 MCP 支持多种传输方式, 适应不同的使用场景: 
 
-1️⃣ Stdio 传输（默认）
+1️⃣ Stdio 传输(默认)
    - 通过标准输入输出通信
    - 适用于本地进程
    - 使用场景: 开发测试、本地工具集成
@@ -619,11 +619,11 @@ def lesson_2_3_multi_agent_collaboration():
         (
             "研究员",
             "开始研究主题: 人工智能在教育中的应用",
-            "生成研究报告（4个关键发现）",
+            "生成研究报告(4个关键发现)",
         ),
-        ("撰写员", "基于研究报告创作文章", "完成文章初稿（1,500字）"),
-        ("编辑", "优化文章内容和结构", "完成内容编辑（质量评分: 89/100）"),
-        ("编辑", "进行最终审核", "批准发布（状态: 已通过）"),
+        ("撰写员", "基于研究报告创作文章", "完成文章初稿(1,500字)"),
+        ("编辑", "优化文章内容和结构", "完成内容编辑(质量评分: 89/100)"),
+        ("编辑", "进行最终审核", "批准发布(状态: 已通过)"),
     ]
 
     for agent, action, result in workflow_steps:
@@ -942,10 +942,10 @@ ANP 支持多种负载均衡算法:
 
     print("\n🔀 负载均衡决策: ")
     balancing_decisions = [
-        ("请求 1", "选择 agent-02（负载最低）"),
-        ("请求 2", "选择 agent-04（响应时间优）"),
-        ("请求 3", "选择 agent-01（轮询策略）"),
-        ("请求 4", "选择 agent-02（负载均衡）"),
+        ("请求 1", "选择 agent-02(负载最低)"),
+        ("请求 2", "选择 agent-04(响应时间优)"),
+        ("请求 3", "选择 agent-01(轮询策略)"),
+        ("请求 4", "选择 agent-02(负载均衡)"),
     ]
 
     for request, decision in balancing_decisions:
@@ -1036,7 +1036,7 @@ def lesson_4_1_protocol_comparison():
 │  通信模式   │ 客户端-服务器     │ 点对点、多对多    │ 网络拓扑管理      │
 │  适用规模   │ 单一工具集成      │ 小到中型团队协作  │ 大规模分布式网络  │
 │  实现复杂度 │ 简单             │ 中等             │ 复杂             │
-│  标准化程度 │ 高（官方协议）    │ 中等（社区标准）  │ 低（概念性实现）  │
+│  标准化程度 │ 高(官方协议)    │ 中等(社区标准)  │ 低(概念性实现)  │
 │  学习难度   │ 容易             │ 中等             │ 困难             │
 │  开发效率   │ 高               │ 中等             │ 低               │
 │  运维复杂度 │ 低               │ 中等             │ 高               │
@@ -1076,7 +1076,7 @@ def lesson_4_2_scenario_selection():
 
 1️⃣ 个人助手应用
    推荐协议: MCP
-   理由: 主要需要调用外部工具（日历、邮件、文件等）
+   理由: 主要需要调用外部工具(日历、邮件、文件等)
    示例: 智能文档助手、代码分析工具
 
 2️⃣ 团队协作系统
@@ -1122,7 +1122,7 @@ from hello_agents.tools.builtin.protocol_tools import MCPTool, A2ATool
 # 创建智能体
 agent = SimpleAgent(name="多协议助手", llm=HelloAgentsLLM())
 
-# 添加 MCP 工具（外部服务访问）
+# 添加 MCP 工具(外部服务访问)
 weather_tool = MCPTool(
     server_command=["python", "weather_server.py"],
     name="天气查询工具"
@@ -1135,7 +1135,7 @@ file_tool = MCPTool(
 )
 agent.add_tool(file_tool)
 
-# 添加 A2A 工具（智能体协作）
+# 添加 A2A 工具(智能体协作)
 research_agent = A2ATool(
     agent_endpoint="http://localhost:8001",
     name="研究智能体"
@@ -1148,7 +1148,7 @@ analysis_agent = A2ATool(
 )
 agent.add_tool(analysis_agent)
 
-# ANP 在后台管理网络（透明）
+# ANP 在后台管理网络(透明)
 # 智能体可以同时使用多种协议
 response = agent.run("""
 请帮我完成以下任务: 
@@ -1268,10 +1268,10 @@ def show_main_menu():
 
 特殊选项: 
   0   - 课程概览
-  all - 完整学习（按顺序学习所有内容）
+  all - 完整学习(按顺序学习所有内容)
   q   - 退出程序
 
-请输入选项（如 1.1, 2.3, all 等）: """
+请输入选项(如 1.1, 2.3, all 等): """
 
     return menu
 

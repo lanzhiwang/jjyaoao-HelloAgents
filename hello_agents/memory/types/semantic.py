@@ -100,7 +100,7 @@ class SemanticMemory(BaseMemory):
     def __init__(self, config: MemoryConfig, storage_backend=None):
         super().__init__(config, storage_backend)
 
-        # 嵌入模型（统一提供）
+        # 嵌入模型(统一提供)
         self.embedding_model = None
         self._init_embedding_model()
 
@@ -121,10 +121,10 @@ class SemanticMemory(BaseMemory):
         self.semantic_memories: List[MemoryItem] = []
         self.memory_embeddings: Dict[str, np.ndarray] = {}
 
-        logger.info("增强语义记忆初始化完成（使用Qdrant+Neo4j专业数据库）")
+        logger.info("增强语义记忆初始化完成(使用Qdrant+Neo4j专业数据库)")
 
     def _init_embedding_model(self):
-        """初始化统一嵌入模型（由 embedding_provider 管理）."""
+        """初始化统一嵌入模型(由 embedding_provider 管理)."""
         try:
             self.embedding_model = get_text_embedder()
             # 轻量健康检查与日志
@@ -144,7 +144,7 @@ class SemanticMemory(BaseMemory):
             # 获取数据库配置
             db_config = get_database_config()
 
-            # 初始化Qdrant向量数据库（使用连接管理器避免重复连接）
+            # 初始化Qdrant向量数据库(使用连接管理器避免重复连接)
             from ..storage.qdrant_store import QdrantConnectionManager
 
             qdrant_config = db_config.get_qdrant_config() or {}
@@ -289,7 +289,7 @@ class SemanticMemory(BaseMemory):
                 vector_results, graph_results, query, limit
             )
 
-            # 3.1 计算概率（对 combined_score 做 softmax 归一化）
+            # 3.1 计算概率(对 combined_score 做 softmax 归一化)
             scores = [
                 r.get("combined_score", r.get("vector_score", 0.0))
                 for r in combined_results
@@ -328,7 +328,7 @@ class SemanticMemory(BaseMemory):
                 else:
                     timestamp = datetime.now()
 
-                # 直接从结果数据构建MemoryItem（附带分数与概率）
+                # 直接从结果数据构建MemoryItem(附带分数与概率)
                 memory_item = MemoryItem(
                     id=result["memory_id"],
                     content=result["content"],
@@ -547,7 +547,7 @@ class SemanticMemory(BaseMemory):
             importance = result.get("importance", 0.5)
 
             # 新评分算法: 向量检索纯基于相似度, 重要性作为加权因子
-            # 基础相似度得分（不受重要性影响）
+            # 基础相似度得分(不受重要性影响)
             base_relevance = vector_score * 0.7 + graph_score * 0.3
 
             # 重要性作为乘法加权因子, 范围 [0.8, 1.2]
@@ -595,7 +595,7 @@ class SemanticMemory(BaseMemory):
 
     def _detect_language(self, text: str) -> str:
         """简单的语言检测"""
-        # 统计中文字符比例（无正则, 逐字符判断范围）
+        # 统计中文字符比例(无正则, 逐字符判断范围)
         chinese_chars = sum(1 for ch in text if "\u4e00" <= ch <= "\u9fff")
         total_chars = len(text.replace(" ", ""))
 
@@ -693,7 +693,7 @@ class SemanticMemory(BaseMemory):
                     name=token.text,
                     entity_type="TOKEN",
                     properties={
-                        "pos": token.pos_,  # 词性（NOUN, VERB等）
+                        "pos": token.pos_,  # 词性(NOUN, VERB等)
                         "tag": token.tag_,  # 细粒度标签
                         "lemma": token.lemma_,  # 词元原形
                         "is_alpha": token.is_alpha,
@@ -1012,7 +1012,7 @@ class SemanticMemory(BaseMemory):
         threshold: float = 0.1,
         max_age_days: int = 30,
     ) -> int:
-        """语义记忆遗忘机制（硬删除）"""
+        """语义记忆遗忘机制(硬删除)"""
         forgotten_count = 0
         current_time = datetime.now()
 
@@ -1031,7 +1031,7 @@ class SemanticMemory(BaseMemory):
                 if memory.timestamp < cutoff_time:
                     should_forget = True
             elif strategy == "capacity_based":
-                # 基于容量遗忘（保留最重要的）
+                # 基于容量遗忘(保留最重要的)
                 if len(self.semantic_memories) > self.config.max_capacity:
                     sorted_memories = sorted(
                         self.semantic_memories, key=lambda m: m.importance

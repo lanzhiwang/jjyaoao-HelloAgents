@@ -33,7 +33,7 @@ class MemoryConfig(BaseModel):
     # 存储路径
     storage_path: str = "./memory_data"
 
-    # 统计显示用的基础配置（仅用于展示）
+    # 统计显示用的基础配置(仅用于展示)
     max_capacity: int = 100
     importance_threshold: float = 0.1
     decay_factor: float = 0.95

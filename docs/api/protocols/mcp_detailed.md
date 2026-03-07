@@ -77,7 +77,7 @@ from hello_agents.protocols.mcp.client import MCPClient
 import asyncio
 
 async def use_mcp_client():
-    # 方式1: 连接到 Python 脚本（Stdio 传输）
+    # 方式1: 连接到 Python 脚本(Stdio 传输)
     async with MCPClient("calculator_server.py") as client:
         tools = await client.list_tools()
         result = await client.call_tool("calculate", {"expression": "10 + 5"})
@@ -88,7 +88,7 @@ async def use_mcp_client():
         info = await client.call_tool("get_server_info", {})
         print(f"服务器信息: {info}")
 
-    # 方式3: 连接到 FastMCP 实例（内存传输）
+    # 方式3: 连接到 FastMCP 实例(内存传输)
     from fastmcp import FastMCP
     memory_server = FastMCP("memory-server")
 
@@ -106,7 +106,7 @@ asyncio.run(use_mcp_client())
 
 ## 🔧 传输方式详解
 
-### 1. Stdio 传输（默认）
+### 1. Stdio 传输(默认)
 通过标准输入输出进行通信, 适用于本地进程. 
 
 ```python

@@ -80,7 +80,7 @@ class WinRateEvaluator:
 
         Args:
             generated_problems: 生成的问题列表
-            reference_problems: 参考问题列表（如AIME真题）
+            reference_problems: 参考问题列表(如AIME真题)
             num_comparisons: 对比次数, 如果为None则对比所有可能的配对
 
         Returns:

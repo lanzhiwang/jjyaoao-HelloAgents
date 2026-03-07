@@ -350,7 +350,7 @@ def network_management_example():
         {"role": "storage", "priority": 8}
     )
     
-    # 2. 建立连接（星型拓扑）
+    # 2. 建立连接(星型拓扑)
     print("\n=== Establishing Connections ===")
     for i in range(1, 4):
         network.connect_nodes("coordinator", f"worker{i}")
@@ -413,7 +413,7 @@ network.connect_nodes("node1", "node2")
 network.connect_nodes("node2", "node3")
 network.connect_nodes("node3", "node4")
 
-# 路由消息（需要中转）
+# 路由消息(需要中转)
 message = {"type": "data", "payload": "important data"}
 path = network.route_message("node1", "node3", message)
 
@@ -439,7 +439,7 @@ def routing_example():
     """消息路由完整示例"""
     network = ANPNetwork(network_id="routing_network")
     
-    # 1. 构建网络（网状拓扑）
+    # 1. 构建网络(网状拓扑)
     print("=== Building Network ===")
     nodes = ["A", "B", "C", "D", "E"]
     for node in nodes:
@@ -464,7 +464,7 @@ def routing_example():
     # 一跳路�?    path = network.route_message("A", "D", {"msg": "one hop"})
     print(f"A -> D (one hop): {' -> '.join(path) if path else 'No route'}")
     
-    # 无法路由（没有连接）
+    # 无法路由(没有连接)
     path = network.route_message("E", "A", {"msg": "no route"})
     print(f"E -> A (no route): {' -> '.join(path) if path else 'No route'}")
     

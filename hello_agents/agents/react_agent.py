@@ -66,7 +66,7 @@ class ReActAgent(Agent):
         Args:
             name: Agent名称
             llm: LLM实例
-            tool_registry: 工具注册表（可选, 如果不提供则创建空的工具注册表）
+            tool_registry: 工具注册表(可选, 如果不提供则创建空的工具注册表)
             system_prompt: 系统提示词
             config: 配置对象
             max_steps: 最大执行步数

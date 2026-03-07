@@ -64,7 +64,7 @@ class ToolAwareSimpleAgent(SimpleAgent):
 
         Args:
             tool_name: 工具名称
-            parameters: 工具参数（字符串格式）
+            parameters: 工具参数(字符串格式)
 
         Returns:
             工具执行结果的格式化字符串

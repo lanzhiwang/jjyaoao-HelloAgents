@@ -2,7 +2,7 @@
 
 支持多种文档数据库后端:
 - SQLite: 轻量级关系型数据库
-- PostgreSQL: 企业级关系型数据库（可扩展）
+- PostgreSQL: 企业级关系型数据库(可扩展)
 """
 
 from abc import ABC, abstractmethod
@@ -105,7 +105,7 @@ class SQLiteDocumentStore(DocumentStore):
         # 确保目录存在
         os.makedirs(os.path.dirname(os.path.abspath(db_path)), exist_ok=True)
 
-        # 初始化数据库（只初始化一次）
+        # 初始化数据库(只初始化一次)
         abs_path = os.path.abspath(db_path)
         if abs_path not in self._initialized_dbs:
             self._init_database()

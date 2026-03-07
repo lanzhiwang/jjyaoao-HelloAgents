@@ -31,7 +31,7 @@ from hello_agents.tools import MemoryTool, RAGTool
 
 def demo_simple_agent_with_memory():
     """演示1: SimpleAgent + MemoryTool - 智能记忆助手"""
-    print("🧠 演示1: SimpleAgent + 记忆工具（自动工具调用）")
+    print("🧠 演示1: SimpleAgent + 记忆工具(自动工具调用)")
     print("=" * 50)
 
     # 创建LLM
@@ -59,7 +59,7 @@ def demo_simple_agent_with_memory():
 - 当用户询问历史对话时, 使用 [TOOL_CALL:memory:action=summary] 获取摘要
 
 重要原则: 
-- 主动记录用户的重要信息（姓名、职业、兴趣等）
+- 主动记录用户的重要信息(姓名、职业、兴趣等)
 - 在回答时参考相关的历史记忆
 - 提供个性化的建议和服务""",
     )
@@ -92,13 +92,13 @@ def demo_simple_agent_with_memory():
 
 def demo_simple_agent_with_rag():
     """演示2: SimpleAgent + RAGTool - 智能知识助手"""
-    print("\n\n🔍 演示2: SimpleAgent + RAG工具（自动工具调用）")
+    print("\n\n🔍 演示2: SimpleAgent + RAG工具(自动工具调用)")
     print("=" * 50)
 
     # 创建LLM
     llm = HelloAgentsLLM()
 
-    # 创建RAG工具 - 使用本地嵌入（推荐）
+    # 创建RAG工具 - 使用本地嵌入(推荐)
     rag_tool = RAGTool(
         knowledge_base_path="./demo_knowledge_base",
         embedding_model="local",  # 使用本地sentence-transformers, 避免网络超时
@@ -182,7 +182,7 @@ def demo_simple_agent_with_rag():
 
 def demo_combined_memory_and_rag():
     """演示3: Memory + RAG 组合 - 超级智能助手"""
-    print("\n\n🚀 演示3: Memory + RAG 组合（超级智能助手）")
+    print("\n\n🚀 演示3: Memory + RAG 组合(超级智能助手)")
     print("=" * 50)
 
     # 创建LLM
@@ -654,7 +654,7 @@ def demo_enhanced_pdf_and_local_embedding():
         pdf_file = pdf_files[0]
         print(f"处理文件: {pdf_file}")
 
-        # 添加PDF文档（使用增强处理）
+        # 添加PDF文档(使用增强处理)
         result = rag_tool.run(
             {"action": "add_document", "file_path": pdf_file, "namespace": "pdf_test"}
         )
@@ -673,7 +673,7 @@ def demo_enhanced_pdf_and_local_embedding():
             "深度学习的核心概念",
         ]
 
-        print(f"\n💬 测试智能问答（基于PDF内容）...")
+        print(f"\n💬 测试智能问答(基于PDF内容)...")
         for i, question in enumerate(test_questions[:2], 1):  # 测试前2个问题
             print(f"\n--- 问答 {i} ---")
             print(f"❓ 问题: {question}")
@@ -692,7 +692,7 @@ def demo_enhanced_pdf_and_local_embedding():
         print(f"\n📝 没有PDF文件, 演示文本添加和本地嵌入...")
 
         sample_texts = [
-            "大语言模型（LLM）是基于Transformer架构的深度学习模型, 通过海量文本数据预训练获得强大的自然语言理解和生成能力. ",
+            "大语言模型(LLM)是基于Transformer架构的深度学习模型, 通过海量文本数据预训练获得强大的自然语言理解和生成能力. ",
             "机器学习是人工智能的核心分支, 包括监督学习、无监督学习和强化学习三大范式, 广泛应用于图像识别、自然语言处理等领域. ",
             "Python是机器学习和数据科学的首选编程语言, 拥有丰富的生态系统, 包括NumPy、Pandas、Scikit-learn、TensorFlow等强大库. ",
         ]
@@ -786,7 +786,7 @@ def demo_real_world_scenario():
             "python_basics",
         ),
         (
-            "机器学习入门需要掌握数学基础（线性代数、概率统计）、Python编程、以及主要算法（线性回归、决策树、神经网络等）. ",
+            "机器学习入门需要掌握数学基础(线性代数、概率统计)、Python编程、以及主要算法(线性回归、决策树、神经网络等). ",
             "ml_intro",
         ),
         (
@@ -850,7 +850,7 @@ def show_system_capabilities():
     print("  ✅ 智能降级: local → sentence-transformers → huggingface → tfidf")
     print("  ✅ 完整操作集: add_document/add_text/search/ask/stats/clear")
     print("  ✅ 文档处理: 自动分块、元数据管理、多格式支持")
-    print("  ✅ 向量检索: 高效的相似度搜索和过滤（384维高质量向量）")
+    print("  ✅ 向量检索: 高效的相似度搜索和过滤(384维高质量向量)")
     print("  ✅ 知识管理: 文档添加、命名空间隔离、统计、清理")
 
     print(f"\n🤖 SimpleAgent 增强能力:")

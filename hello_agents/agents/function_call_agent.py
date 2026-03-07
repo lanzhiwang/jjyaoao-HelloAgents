@@ -101,7 +101,7 @@ class FunctionCallAgent(Agent):
                 schema["function"]["parameters"]["required"] = required
             schemas.append(schema)
 
-        # register_function 注册的工具（直接访问内部结构）
+        # register_function 注册的工具(直接访问内部结构)
         function_map = getattr(self.tool_registry, "_functions", {})
         for name, info in function_map.items():
             schemas.append(

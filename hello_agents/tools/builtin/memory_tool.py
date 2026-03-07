@@ -82,92 +82,92 @@ class MemoryTool(Tool):
             ToolParameter(
                 name="content",
                 type="string",
-                description="记忆内容（add/update时可用; 感知记忆可作描述）",
+                description="记忆内容(add/update时可用; 感知记忆可作描述)",
                 required=False,
             ),
             ToolParameter(
                 name="query",
                 type="string",
-                description="搜索查询（search时可用）",
+                description="搜索查询(search时可用)",
                 required=False,
             ),
             ToolParameter(
                 name="memory_type",
                 type="string",
-                description="记忆类型: working, episodic, semantic, perceptual（默认: working）",
+                description="记忆类型: working, episodic, semantic, perceptual(默认: working)",
                 required=False,
                 default="working",
             ),
             ToolParameter(
                 name="importance",
                 type="number",
-                description="重要性分数, 0.0-1.0（add/update时可用）",
+                description="重要性分数, 0.0-1.0(add/update时可用)",
                 required=False,
             ),
             ToolParameter(
                 name="limit",
                 type="integer",
-                description="搜索结果数量限制（默认: 5）",
+                description="搜索结果数量限制(默认: 5)",
                 required=False,
                 default=5,
             ),
             ToolParameter(
                 name="memory_id",
                 type="string",
-                description="目标记忆ID（update/remove时必需）",
+                description="目标记忆ID(update/remove时必需)",
                 required=False,
             ),
             ToolParameter(
                 name="file_path",
                 type="string",
-                description="感知记忆: 本地文件路径（image/audio）",
+                description="感知记忆: 本地文件路径(image/audio)",
                 required=False,
             ),
             ToolParameter(
                 name="modality",
                 type="string",
-                description="感知记忆模态: text/image/audio（不传则按扩展名推断）",
+                description="感知记忆模态: text/image/audio(不传则按扩展名推断)",
                 required=False,
             ),
             ToolParameter(
                 name="strategy",
                 type="string",
-                description="遗忘策略: importance_based/time_based/capacity_based（forget时可用）",
+                description="遗忘策略: importance_based/time_based/capacity_based(forget时可用)",
                 required=False,
                 default="importance_based",
             ),
             ToolParameter(
                 name="threshold",
                 type="number",
-                description="遗忘阈值（forget时可用, 默认0.1）",
+                description="遗忘阈值(forget时可用, 默认0.1)",
                 required=False,
                 default=0.1,
             ),
             ToolParameter(
                 name="max_age_days",
                 type="integer",
-                description="最大保留天数（forget策略为time_based时可用）",
+                description="最大保留天数(forget策略为time_based时可用)",
                 required=False,
                 default=30,
             ),
             ToolParameter(
                 name="from_type",
                 type="string",
-                description="整合来源类型（consolidate时可用, 默认working）",
+                description="整合来源类型(consolidate时可用, 默认working)",
                 required=False,
                 default="working",
             ),
             ToolParameter(
                 name="to_type",
                 type="string",
-                description="整合目标类型（consolidate时可用, 默认episodic）",
+                description="整合目标类型(consolidate时可用, 默认episodic)",
                 required=False,
                 default="episodic",
             ),
             ToolParameter(
                 name="importance_threshold",
                 type="number",
-                description="整合重要性阈值（默认0.7）",
+                description="整合重要性阈值(默认0.7)",
                 required=False,
                 default=0.7,
             ),
@@ -249,7 +249,7 @@ class MemoryTool(Tool):
             return f"❌ 添加记忆失败: {str(e)}"
 
     def _infer_modality(self, path: str) -> str:
-        """根据扩展名推断模态（默认image/audio/text）"""
+        """根据扩展名推断模态(默认image/audio/text)"""
         try:
             ext = (path.rsplit(".", 1)[-1] or "").lower()
             if ext in {"png", "jpg", "jpeg", "bmp", "gif", "webp"}:
@@ -358,7 +358,7 @@ class MemoryTool(Tool):
                     if memory.id in seen_ids:
                         continue
 
-                    # 使用内容去重（防止相同内容的不同记忆）
+                    # 使用内容去重(防止相同内容的不同记忆)
                     content_key = memory.content.strip().lower()
                     if content_key in seen_contents:
                         continue
@@ -470,12 +470,12 @@ class MemoryTool(Tool):
         threshold: float = 0.1,
         max_age_days: int = 30,
     ) -> str:
-        """遗忘记忆（支持多种策略）"""
+        """遗忘记忆(支持多种策略)"""
         try:
             count = self.memory_manager.forget_memories(
                 strategy=strategy, threshold=threshold, max_age_days=max_age_days
             )
-            return f"🧹 已遗忘 {count} 条记忆（策略: {strategy}）"
+            return f"🧹 已遗忘 {count} 条记忆(策略: {strategy})"
         except Exception as e:
             return f"❌ 遗忘记忆失败: {str(e)}"
 
@@ -485,14 +485,14 @@ class MemoryTool(Tool):
         to_type: str = "episodic",
         importance_threshold: float = 0.7,
     ) -> str:
-        """整合记忆（将重要的短期记忆提升为长期记忆）"""
+        """整合记忆(将重要的短期记忆提升为长期记忆)"""
         try:
             count = self.memory_manager.consolidate_memories(
                 from_type=from_type,
                 to_type=to_type,
                 importance_threshold=importance_threshold,
             )
-            return f"🔄 已整合 {count} 条记忆为长期记忆（{from_type} → {to_type}, 阈值={importance_threshold}）"
+            return f"🔄 已整合 {count} 条记忆为长期记忆({from_type} → {to_type}, 阈值={importance_threshold})"
         except Exception as e:
             return f"❌ 整合记忆失败: {str(e)}"
 

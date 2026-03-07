@@ -10,7 +10,7 @@
     >>> from hello_agents.protocols import A2AServer, A2AClient, AgentNetwork
     >>> from hello_agents.protocols import ANPDiscovery, ANPNetwork
 
-完整导入示例（向后兼容）:
+完整导入示例(向后兼容):
     >>> from hello_agents.protocols.mcp import MCPClient, MCPServer
     >>> from hello_agents.protocols.a2a import A2AServer, A2AClient
     >>> from hello_agents.protocols.anp import ANPDiscovery, ANPNetwork
@@ -18,7 +18,7 @@
 
 from .base import Protocol
 
-# MCP 协议 - 导出所有常用类（可选, 需要 fastmcp）
+# MCP 协议 - 导出所有常用类(可选, 需要 fastmcp)
 try:
     from .mcp import (
         MCPClient,
@@ -72,12 +72,12 @@ from .anp import (
 __all__ = [
     # 基础协议
     "Protocol",
-    # MCP 协议（可选）
+    # MCP 协议(可选)
     "MCPClient",
     "MCPServer",
     "create_context",
     "parse_context",
-    # A2A 协议（可选）
+    # A2A 协议(可选)
     "A2AAgent",
     "A2AServer",
     "A2AClient",

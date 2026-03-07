@@ -58,7 +58,7 @@ tiktoken>=0.5.0
 # accelerate>=0.20.0               # 分布式训练加速
 # peft>=0.5.0                      # LoRA等参数高效微调
 # bitsandbytes>=0.41.0             # 量化支持
-# wandb>=0.15.0                    # 训练监控（可选）
-# tensorboard>=2.13.0              # TensorBoard支持（可选）
+# wandb>=0.15.0                    # 训练监控(可选)
+# tensorboard>=2.13.0              # TensorBoard支持(可选)
 
 # 完整功能安装: pip install hello-agents[all]

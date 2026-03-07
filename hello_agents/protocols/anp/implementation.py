@@ -102,8 +102,8 @@ class ANPDiscovery:
         发现服务
 
         Args:
-            service_type: 服务类型（可选）
-            filters: 过滤条件（可选）
+            service_type: 服务类型(可选)
+            filters: 过滤条件(可选)
 
         Returns:
             服务列表
@@ -213,7 +213,7 @@ class ANPNetwork:
         self, from_node: str, to_node: str, message: Dict[str, Any]
     ) -> Optional[List[str]]:
         """
-        路由消息（简单的直接路由）
+        路由消息(简单的直接路由)
 
         Args:
             from_node: 源节点 ID

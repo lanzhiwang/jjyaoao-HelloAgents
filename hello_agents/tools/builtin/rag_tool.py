@@ -32,7 +32,7 @@ class RAGTool(Tool):
     """RAG工具
 
     提供完整的 RAG 能力:
-    - 添加多格式文档（PDF、Office、图片、音频等）
+    - 添加多格式文档(PDF、Office、图片、音频等)
     - 智能检索与召回
     - LLM 增强问答
     - 知识库管理
@@ -136,7 +136,7 @@ class RAGTool(Tool):
             ToolParameter(
                 name="file_path",
                 type="string",
-                description="文档文件路径（支持PDF、Word、Excel、PPT、图片、音频等多种格式）",
+                description="文档文件路径(支持PDF、Word、Excel、PPT、图片、音频等多种格式)",
                 required=False,
             ),
             ToolParameter(
@@ -148,34 +148,34 @@ class RAGTool(Tool):
             ToolParameter(
                 name="question",
                 type="string",
-                description="用户问题（用于智能问答）",
+                description="用户问题(用于智能问答)",
                 required=False,
             ),
             ToolParameter(
                 name="query",
                 type="string",
-                description="搜索查询词（用于基础搜索）",
+                description="搜索查询词(用于基础搜索)",
                 required=False,
             ),
             # 可选配置参数
             ToolParameter(
                 name="namespace",
                 type="string",
-                description="知识库命名空间（用于隔离不同项目, 默认: default）",
+                description="知识库命名空间(用于隔离不同项目, 默认: default)",
                 required=False,
                 default="default",
             ),
             ToolParameter(
                 name="limit",
                 type="integer",
-                description="返回结果数量（默认: 5）",
+                description="返回结果数量(默认: 5)",
                 required=False,
                 default=5,
             ),
             ToolParameter(
                 name="include_citations",
                 type="boolean",
-                description="是否包含引用来源（默认: true）",
+                description="是否包含引用来源(默认: true)",
                 required=False,
                 default=True,
             ),
@@ -264,7 +264,7 @@ class RAGTool(Tool):
         chunk_overlap: int = 100,
         **kwargs,
     ) -> str:
-        """添加文档到知识库（支持多格式）"""
+        """添加文档到知识库(支持多格式)"""
         try:
             if not file_path or not os.path.exists(file_path):
                 return f"❌ 文件不存在: {file_path}"
@@ -442,7 +442,7 @@ class RAGTool(Tool):
         5. 添加引用来源
         """
         try:
-            # 获取用户问题（question 优先级高于 query）
+            # 获取用户问题(question 优先级高于 query)
             user_question = question or query
             if not user_question or not user_question.strip():
                 return "❌ 请提供要询问的问题"
@@ -498,7 +498,7 @@ class RAGTool(Tool):
                             }
                         )
 
-            # 3. 构建上下文（智能截断）
+            # 3. 构建上下文(智能截断)
             context = "\n\n".join(context_parts)
             if len(context) > max_chars:
                 # 智能截断, 保持完整性
@@ -609,7 +609,7 @@ class RAGTool(Tool):
                     f"{score_emoji} [{citation['index']}] {citation['source']} (相似度: {citation['score']:.3f})"
                 )
 
-        # 添加性能信息（调试模式）
+        # 添加性能信息(调试模式)
         result.append(
             f"\n⚡ 检索: {search_time}ms | 生成: {llm_time}ms | 平均相似度: {avg_score:.3f}"
         )
@@ -640,7 +640,7 @@ class RAGTool(Tool):
                     collection_name=self.collection_name,
                     rag_namespace=namespace_id,
                 )
-                return f"✅ 知识库已成功清空（命名空间: {namespace_id}）"
+                return f"✅ 知识库已成功清空(命名空间: {namespace_id})"
             else:
                 return "❌ 清空知识库失败"
 
@@ -819,7 +819,7 @@ class RAGTool(Tool):
             return f"❌ 清空所有命名空间失败: {str(e)}"
 
     # ========================================
-    # 便捷接口方法（简化用户调用）
+    # 便捷接口方法(简化用户调用)
     # ========================================
 
     def add_document(self, file_path: str, namespace: str = "default") -> str:

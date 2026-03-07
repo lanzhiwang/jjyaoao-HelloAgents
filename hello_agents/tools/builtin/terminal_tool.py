@@ -1,23 +1,23 @@
 """TerminalTool - 命令行工具
 
-为Agent提供安全的命令行执行能力, 支持:
-- 文件系统操作（ls, cat, head, tail, find, grep）
-- 文本处理（wc, sort, uniq）
-- 目录导航（pwd, cd）
-- 安全限制（白名单命令、路径限制、超时控制）
+为 Agent 提供安全的命令行执行能力, 支持:
+- 文件系统操作(ls, cat, head, tail, find, grep)
+- 文本处理(wc, sort, uniq)
+- 目录导航(pwd, cd)
+- 安全限制(白名单命令、路径限制、超时控制)
 
 使用场景:
-- JIT（即时）文件检索与分析
+- JIT(即时)文件检索与分析
 - 代码仓库探索
 - 日志文件分析
 - 数据文件预览
 
 安全特性:
-- 命令白名单（只允许安全的只读命令）
-- 工作目录限制（沙箱）
+- 命令白名单(只允许安全的只读命令)
+- 工作目录限制(沙箱)
 - 超时控制
 - 输出大小限制
-- 禁止危险操作（rm, mv, chmod等）
+- 禁止危险操作(rm, mv, chmod等)
 """
 
 from typing import Dict, Any, List, Optional
@@ -37,8 +37,8 @@ class TerminalTool(Tool):
     安全限制:
     - 只允许白名单中的命令
     - 限制在指定工作目录内
-    - 超时控制（默认30秒）
-    - 输出大小限制（默认10MB）
+    - 超时控制(默认 30 秒)
+    - 输出大小限制(默认 10MB)
 
     用法示例:
     ```python
@@ -110,7 +110,7 @@ class TerminalTool(Tool):
     ):
         super().__init__(
             name="terminal",
-            description="命令行工具 - 执行安全的文件系统、文本处理和代码执行命令（ls, cat, grep, head, tail等）",
+            description="命令行工具 - 执行安全的文件系统、文本处理和代码执行命令(ls, cat, grep, head, tail等)",
         )
 
         self.workspace = Path(workspace).resolve()
@@ -118,7 +118,7 @@ class TerminalTool(Tool):
         self.max_output_size = max_output_size
         self.allow_cd = allow_cd
 
-        # 当前工作目录（相对于workspace）
+        # 当前工作目录(相对于workspace)
         self.current_dir = self.workspace
 
         # 确保工作目录存在
@@ -163,7 +163,7 @@ class TerminalTool(Tool):
                 name="command",
                 type="string",
                 description=(
-                    f"要执行的命令（白名单: {', '.join(sorted(list(self.ALLOWED_COMMANDS)[:10]))}...）\n"
+                    f"要执行的命令(白名单: {', '.join(sorted(list(self.ALLOWED_COMMANDS)[:10]))}...)\n"
                     "示例: 'ls -la', 'cat file.txt', 'grep pattern *.py', 'head -n 20 data.csv'"
                 ),
                 required=True,
@@ -230,16 +230,16 @@ class TerminalTool(Tool):
             # 检查输出大小
             if len(output) > self.max_output_size:
                 output = output[: self.max_output_size]
-                output += f"\n\n⚠️ 输出被截断（超过 {self.max_output_size} 字节）"
+                output += f"\n\n⚠️ 输出被截断(超过 {self.max_output_size} 字节)"
 
             # 添加返回码信息
             if result.returncode != 0:
                 output = f"⚠️ 命令返回码: {result.returncode}\n\n{output}"
 
-            return output if output else "✅ 命令执行成功（无输出）"
+            return output if output else "✅ 命令执行成功(无输出)"
 
         except subprocess.TimeoutExpired:
-            return f"❌ 命令执行超时（超过 {self.timeout} 秒）"
+            return f"❌ 命令执行超时(超过 {self.timeout} 秒)"
         except Exception as e:
             return f"❌ 命令执行失败: {e}"
 

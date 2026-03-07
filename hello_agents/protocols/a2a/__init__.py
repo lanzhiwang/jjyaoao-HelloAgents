@@ -43,10 +43,10 @@ MessageType = str
 
 
 def create_message(*args, **kwargs):
-    """创建 A2A 消息（占位符）"""
+    """创建 A2A 消息(占位符)"""
     raise ImportError("Please install a2a library: pip install a2a")
 
 
 def parse_message(*args, **kwargs):
-    """解析 A2A 消息（占位符）"""
+    """解析 A2A 消息(占位符)"""
     raise ImportError("Please install a2a library: pip install a2a")

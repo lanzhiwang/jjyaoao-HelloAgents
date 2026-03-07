@@ -84,7 +84,7 @@ for msg in history:
 
 ## ReActAgent
 
-基于ReAct（Reasoning and Acting）范式的Agent, 支持工具调用和推理. 
+基于ReAct(Reasoning and Acting)范式的Agent, 支持工具调用和推理. 
 
 ### 类定义
 
@@ -124,7 +124,7 @@ llm = HelloAgentsLLM()
 registry = ToolRegistry()
 registry.register_function("calculate", "数学计算工具", calculate)
 
-# 创建ReActAgent（使用默认提示词）
+# 创建ReActAgent(使用默认提示词)
 agent = ReActAgent(
     name="工具助手",
     llm=llm,
@@ -169,9 +169,9 @@ print(response)
 
 ### ReAct工作流程
 
-1. **思考（Think）**: 分析问题, 决定下一步行动
-2. **行动（Act）**: 调用工具或给出答案
-3. **观察（Observe）**: 观察工具执行结果
+1. **思考(Think)**: 分析问题, 决定下一步行动
+2. **行动(Act)**: 调用工具或给出答案
+3. **观察(Observe)**: 观察工具执行结果
 4. **重复**: 直到找到答案或达到最大步数
 
 ### 特点
@@ -216,7 +216,7 @@ from hello_agents import HelloAgentsLLM, ReflectionAgent
 # 创建LLM
 llm = HelloAgentsLLM()
 
-# 创建ReflectionAgent（使用默认提示词）
+# 创建ReflectionAgent(使用默认提示词)
 agent = ReflectionAgent(
     name="反思助手",
     llm=llm,
@@ -319,7 +319,7 @@ from hello_agents import HelloAgentsLLM, PlanAndSolveAgent
 # 创建LLM
 llm = HelloAgentsLLM()
 
-# 创建PlanAndSolveAgent（使用默认提示词）
+# 创建PlanAndSolveAgent(使用默认提示词)
 agent = PlanAndSolveAgent(
     name="规划助手",
     llm=llm
@@ -652,7 +652,7 @@ from hello_agents.tools.builtin import calculate
 # 1. 创建LLM
 llm = HelloAgentsLLM()
 
-# 2. 创建不同类型的Agent（使用默认配置）
+# 2. 创建不同类型的Agent(使用默认配置)
 simple_agent = SimpleAgent("聊天助手", llm)
 react_agent = ReActAgent("工具助手", llm, ToolRegistry())
 reflection_agent = ReflectionAgent("反思助手", llm, max_iterations=2)

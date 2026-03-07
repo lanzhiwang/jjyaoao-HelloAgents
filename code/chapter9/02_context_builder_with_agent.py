@@ -84,11 +84,11 @@ def main():
 
     # 使用示例
     agent = ContextAwareAgent(
-        name="数据分析顾问", llm=llm, system_prompt="你是一位资深的Python数据工程顾问. "
+        name="数据分析顾问", llm=llm, system_prompt="你是一位资深的 Python 数据工程顾问."
     )
 
     # 进行对话
-    response = agent.run("如何优化Pandas的内存占用?")
+    response = agent.run("如何优化 Pandas 的内存占用?")
     print(f"助手回答:\n{response}\n")
 
     # 继续对话

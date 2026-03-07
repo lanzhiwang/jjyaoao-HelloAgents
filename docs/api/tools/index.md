@@ -2,7 +2,7 @@
 
 ## 概述
 
-HelloAgents提供了强大的工具系统, 支持两种工具注册方式: Tool对象注册（推荐）和函数直接注册（简便）. 
+HelloAgents提供了强大的工具系统, 支持两种工具注册方式: Tool对象注册(推荐)和函数直接注册(简便). 
 
 ## 核心组件
 
@@ -37,7 +37,7 @@ class Tool(ABC):
 
 ## 工具注册
 
-### 方式1: Tool对象注册（推荐）
+### 方式1: Tool对象注册(推荐)
 
 ```python
 from hello_agents.tools.base import Tool
@@ -62,7 +62,7 @@ registry = ToolRegistry()
 registry.register_tool(CalculatorTool())
 ```
 
-### 方式2: 函数直接注册（简便）
+### 方式2: 函数直接注册(简便)
 
 ```python
 from hello_agents import ToolRegistry
@@ -115,7 +115,7 @@ calculate("2 ** 3")      # 8.0
 calculate("sqrt(16)")    # 4.0
 ```
 
-### 搜索工具（可选）
+### 搜索工具(可选)
 
 需要安装额外依赖和配置API密钥. 
 
@@ -337,7 +337,7 @@ class SafeCalculatorTool(Tool):
 3. **错误处理**: 在工具中处理可能的异常
 4. **参数验证**: 验证输入参数的有效性
 5. **返回格式**: 保持一致的返回格式
-6. **安全性**: 避免执行不安全的代码（如eval）
+6. **安全性**: 避免执行不安全的代码(如eval)
 7. **性能**: 对于耗时操作, 考虑添加超时机制
 
 ## 高级功能

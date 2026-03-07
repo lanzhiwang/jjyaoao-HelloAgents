@@ -21,7 +21,7 @@ except ImportError:
 
 
 class A2AServer:
-    """A2A 服务器（使用 Flask 提供 HTTP API）"""
+    """A2A 服务器(使用 Flask 提供 HTTP API)"""
 
     def __init__(
         self,
@@ -60,7 +60,7 @@ class A2AServer:
         return decorator
 
     def run(self, host: str = "0.0.0.0", port: int = 5000):
-        """运行服务器（使用 Flask 提供 HTTP API）"""
+        """运行服务器(使用 Flask 提供 HTTP API)"""
         try:
             from flask import Flask, request, jsonify
         except ImportError:
@@ -70,7 +70,7 @@ class A2AServer:
 
         app = Flask(self.name)
 
-        # 禁用 Flask 的日志输出（可选）
+        # 禁用 Flask 的日志输出(可选)
         import logging
 
         log = logging.getLogger("werkzeug")
@@ -120,7 +120,7 @@ class A2AServer:
 
         @app.route("/ask", methods=["POST"])
         def ask():
-            """通用问答接口（自动选择技能）"""
+            """通用问答接口(自动选择技能)"""
             try:
                 data = request.get_json() or {}
                 question = data.get("question", data.get("text", ""))
@@ -181,20 +181,20 @@ class A2AServer:
 
 
 class A2AClient:
-    """A2A 客户端（通过 HTTP 与 A2AServer 通信）"""
+    """A2A 客户端(通过 HTTP 与 A2AServer 通信)"""
 
     def __init__(self, server_url: str):
         """
         初始化 A2A 客户端
 
         Args:
-            server_url: 服务器 URL（例如: http://localhost:5000）
+            server_url: 服务器 URL(例如: http://localhost:5000)
         """
         self.server_url = server_url.rstrip("/")
 
     def ask(self, question: str) -> str:
         """
-        向 Agent 提问（通用接口）
+        向 Agent 提问(通用接口)
 
         Args:
             question: 问题文本
@@ -261,7 +261,7 @@ class A2AClient:
 
 
 class AgentNetwork:
-    """基于官方 a2a-sdk 库的 Agent 网络（概念性实现）"""
+    """基于官方 a2a-sdk 库的 Agent 网络(概念性实现)"""
 
     def __init__(self, name: str = "Agent Network"):
         """
@@ -326,7 +326,7 @@ class AgentNetwork:
 
 
 class AgentRegistry:
-    """基于官方 a2a-sdk 库的 Agent 注册中心（概念性实现）"""
+    """基于官方 a2a-sdk 库的 Agent 注册中心(概念性实现)"""
 
     def __init__(
         self, name: str = "Agent Registry", description: str = "Central agent registry"
@@ -402,7 +402,7 @@ def create_example_agent() -> A2AServer:
         if match:
             expression = match.group(1).strip()
             try:
-                # 安全的表达式求值（仅支持基本运算）
+                # 安全的表达式求值(仅支持基本运算)
                 allowed_chars = set("0123456789+-*/() .")
                 if not all(c in allowed_chars for c in expression):
                     return "Error: Invalid characters in expression"

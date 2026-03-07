@@ -42,8 +42,8 @@ class MCPServer:
 
         Args:
             func: 工具函数
-            name: 工具名称（可选, 默认使用函数名）
-            description: 工具描述（可选, 默认使用函数文档字符串）
+            name: 工具名称(可选, 默认使用函数名)
+            description: 工具描述(可选, 默认使用函数文档字符串)
         """
         # 使用装饰器注册工具
         if name or description:
@@ -63,9 +63,9 @@ class MCPServer:
 
         Args:
             func: 资源处理函数
-            uri: 资源 URI（可选）
-            name: 资源名称（可选）
-            description: 资源描述（可选）
+            uri: 资源 URI(可选)
+            name: 资源名称(可选)
+            description: 资源描述(可选)
         """
         # 使用装饰器注册资源
         if uri:
@@ -84,8 +84,8 @@ class MCPServer:
 
         Args:
             func: 提示词生成函数
-            name: 提示词名称（可选）
-            description: 提示词描述（可选）
+            name: 提示词名称(可选)
+            description: 提示词描述(可选)
         """
         # 使用装饰器注册提示词
         if name or description:
@@ -99,12 +99,12 @@ class MCPServer:
         Args:
             transport: 传输方式 ("stdio", "http", "sse")
             **kwargs: 传输特定的参数
-                - host: HTTP 服务器主机（默认 "127.0.0.1"）
-                - port: HTTP 服务器端口（默认 8000）
+                - host: HTTP 服务器主机(默认 "127.0.0.1")
+                - port: HTTP 服务器端口(默认 8000)
                 - 其他 FastMCP.run() 支持的参数
 
         Examples:
-            # Stdio 传输（默认）
+            # Stdio 传输(默认)
             server.run()
 
             # HTTP 传输
@@ -138,7 +138,7 @@ class MCPServerBuilder:
         name: Optional[str] = None,
         description: Optional[str] = None,
     ) -> "MCPServerBuilder":
-        """添加工具（链式调用）"""
+        """添加工具(链式调用)"""
         self.server.add_tool(func, name, description)
         return self
 
@@ -149,7 +149,7 @@ class MCPServerBuilder:
         name: Optional[str] = None,
         description: Optional[str] = None,
     ) -> "MCPServerBuilder":
-        """添加资源（链式调用）"""
+        """添加资源(链式调用)"""
         self.server.add_resource(func, uri, name, description)
         return self
 
@@ -159,7 +159,7 @@ class MCPServerBuilder:
         name: Optional[str] = None,
         description: Optional[str] = None,
     ) -> "MCPServerBuilder":
-        """添加提示词（链式调用）"""
+        """添加提示词(链式调用)"""
         self.server.add_prompt(func, name, description)
         return self
 
@@ -188,7 +188,7 @@ def create_example_server() -> MCPServer:
             expression: 要计算的数学表达式, 例如 "2 + 2" 或 "10 * 5"
         """
         try:
-            # 安全的表达式求值（仅支持基本运算）
+            # 安全的表达式求值(仅支持基本运算)
             allowed_chars = set("0123456789+-*/() .")
             if not all(c in allowed_chars for c in expression):
                 return f"Error: Invalid characters in expression"

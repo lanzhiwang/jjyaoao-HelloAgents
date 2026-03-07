@@ -136,7 +136,7 @@ class DocumentProcessor:
 
             chunks.append(text[start:split_point])
 
-            # 计算下一块的开始位置（考虑重叠）
+            # 计算下一块的开始位置(考虑重叠)
             start = max(start + 1, split_point - self.chunk_overlap)
 
         return chunks

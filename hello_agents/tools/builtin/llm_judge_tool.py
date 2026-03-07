@@ -43,23 +43,23 @@ class LLMJudgeTool(Tool):
                 },
                 "reference_data_path": {
                     "type": "string",
-                    "description": "参考数据的JSON文件路径（可选, 用于对比）",
+                    "description": "参考数据的JSON文件路径(可选, 用于对比)",
                 },
                 "reference_year": {
                     "type": "integer",
-                    "description": "AIME真题年份（可选, 如2024, 2025）",
+                    "description": "AIME真题年份(可选, 如2024, 2025)",
                 },
                 "max_samples": {
                     "type": "integer",
-                    "description": "最大评估样本数（可选, 默认评估所有）",
+                    "description": "最大评估样本数(可选, 默认评估所有)",
                 },
                 "output_dir": {
                     "type": "string",
-                    "description": "输出目录（可选, 默认为evaluation_results/llm_judge）",
+                    "description": "输出目录(可选, 默认为evaluation_results/llm_judge)",
                 },
                 "judge_model": {
                     "type": "string",
-                    "description": "评委模型名称（可选, 默认为gpt-4o）",
+                    "description": "评委模型名称(可选, 默认为gpt-4o)",
                 },
             },
             "required": ["generated_data_path"],
@@ -99,20 +99,20 @@ class LLMJudgeTool(Tool):
             gen_problems = gen_problems[:max_samples]
             print(f"   限制评估样本数: {max_samples}")
 
-        # 2. 加载参考数据（可选）
+        # 2. 加载参考数据(可选)
         ref_problems = None
         if reference_data_path:
-            print(f"\n📥 步骤2: 加载参考数据（本地文件）")
+            print(f"\n📥 步骤2: 加载参考数据(本地文件)")
             ref_dataset = AIDataset(
                 dataset_type="generated", data_path=reference_data_path
             )
             ref_problems = ref_dataset.load()
         elif reference_year:
-            print(f"\n📥 步骤2: 加载参考数据（AIME {reference_year}真题）")
+            print(f"\n📥 步骤2: 加载参考数据(AIME {reference_year}真题)")
             ref_dataset = AIDataset(dataset_type="real", year=reference_year)
             ref_problems = ref_dataset.load()
         else:
-            print(f"\n⏭️  步骤2: 跳过参考数据加载（无对比）")
+            print(f"\n⏭️  步骤2: 跳过参考数据加载(无对比)")
 
         # 3. 创建评估器
         print(f"\n🔧 步骤3: 创建LLM Judge评估器")
@@ -200,7 +200,7 @@ class LLMJudgeTool(Tool):
 """
 
         if len(results["results"]) > 10:
-            report += f"\n*（仅显示前10个题目的详细评分, 完整结果请查看JSON文件）*\n"
+            report += f"\n*(仅显示前10个题目的详细评分, 完整结果请查看JSON文件)*\n"
 
         report += f"""
 ## 结论

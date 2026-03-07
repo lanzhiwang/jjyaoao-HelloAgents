@@ -49,17 +49,17 @@ def main():
             content="我正在开发一个数据分析工具", role="user", timestamp=datetime.now()
         ),
         Message(
-            content="很好!数据分析工具通常需要处理大量数据. 您计划使用什么技术栈?",
+            content="很好! 数据分析工具通常需要处理大量数据. 您计划使用什么技术栈?",
             role="assistant",
             timestamp=datetime.now(),
         ),
         Message(
-            content="我打算使用Python和Pandas,已经完成了CSV读取模块",
+            content="我打算使用 Python 和 Pandas, 已经完成了 CSV 读取模块",
             role="user",
             timestamp=datetime.now(),
         ),
         Message(
-            content="不错的选择!Pandas在数据处理方面非常强大. 接下来您可能需要考虑数据清洗和转换. ",
+            content="不错的选择! Pandas 在数据处理方面非常强大. 接下来您可能需要考虑数据清洗和转换.",
             role="assistant",
             timestamp=datetime.now(),
         ),
@@ -69,14 +69,14 @@ def main():
     print("4. 添加记忆...")
     # memory_tool.run({
     #     "action": "add",
-    #     "content": "用户正在开发数据分析工具,使用Python和Pandas",
+    #     "content": "用户正在开发数据分析工具, 使用 Python 和 Pandas",
     #     "memory_type": "semantic",
     #     "importance": 0.8
     # })
 
     # memory_tool.run({
     #     "action": "add",
-    #     "content": "已完成CSV读取模块的开发",
+    #     "content": "已完成 CSV 读取模块的开发",
     #     "memory_type": "episodic",
     #     "importance": 0.7
     # })
@@ -84,9 +84,9 @@ def main():
     # 5. 构建上下文
     print("5. 构建上下文...\n")
     context_str = builder.build(
-        user_query="如何优化Pandas的内存占用?",
+        user_query="如何优化 Pandas 的内存占用?",
         conversation_history=conversation_history,
-        system_instructions="你是一位资深的Python数据工程顾问. 你的回答需要:1) 提供具体可行的建议 2) 解释技术原理 3) 给出代码示例",
+        system_instructions="你是一位资深的 Python 数据工程顾问. 你的回答需要:1) 提供具体可行的建议 2) 解释技术原理 3) 给出代码示例",
     )
 
     print("=" * 80)
@@ -112,7 +112,7 @@ def main():
 
     print("✅ ContextBuilder 演示完成!")
     print("\n提示: ContextBuilder 返回的是结构化的上下文字符串,")
-    print("      可以直接作为 system message 传给 LLM. ")
+    print("      可以直接作为 system message 传给 LLM.")
 
 
 if __name__ == "__main__":

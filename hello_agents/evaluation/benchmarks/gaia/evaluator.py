@@ -258,7 +258,7 @@ class GAIAEvaluator:
         return prompt
 
     def _extract_answer(self, response: str) -> str:
-        """从响应中提取答案（GAIA格式）
+        """从响应中提取答案(GAIA格式)
 
         GAIA要求答案格式为: FINAL ANSWER: [答案]
         """
@@ -329,7 +329,7 @@ class GAIAEvaluator:
         return overlap / len(exp_words) >= 0.7
 
     def _normalize_answer(self, answer: str) -> str:
-        """标准化答案字符串（GAIA官方标准化规则）
+        """标准化答案字符串(GAIA官方标准化规则)
 
         根据GAIA论文的标准化规则:
         1. 数字: 移除逗号分隔符和单位符号
@@ -347,14 +347,14 @@ class GAIAEvaluator:
             parts = [
                 self._normalize_single_answer(p.strip()) for p in answer.split(",")
             ]
-            # 按字母顺序排序（GAIA要求）
+            # 按字母顺序排序(GAIA要求)
             parts.sort()
             return ",".join(parts)
         else:
             return self._normalize_single_answer(answer)
 
     def _normalize_single_answer(self, answer: str) -> str:
-        """标准化单个答案（不包含逗号的答案）"""
+        """标准化单个答案(不包含逗号的答案)"""
         answer = answer.strip().lower()
 
         # 移除常见的冠词
@@ -369,7 +369,7 @@ class GAIAEvaluator:
             answer.replace("$", "").replace("%", "").replace("€", "").replace("£", "")
         )
 
-        # 移除数字中的逗号分隔符（如 1,000 -> 1000）
+        # 移除数字中的逗号分隔符(如 1,000 -> 1000)
         # 但保留小数点
         answer = re.sub(r"(\d),(\d)", r"\1\2", answer)
 
@@ -390,8 +390,8 @@ class GAIAEvaluator:
         """导出为GAIA官方格式
 
         GAIA格式要求:
-        - JSONL格式（每行一个JSON对象）
-        - 每个对象包含: task_id, model_answer, reasoning_trace（可选）
+        - JSONL格式(每行一个JSON对象)
+        - 每个对象包含: task_id, model_answer, reasoning_trace(可选)
 
         Args:
             results: 评估结果

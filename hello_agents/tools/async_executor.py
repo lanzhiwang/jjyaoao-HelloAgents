@@ -154,7 +154,7 @@ async def run_batch_tool(
         return await executor.execute_tools_batch(tool_name, input_list)
 
 
-# 同步包装函数（为了兼容性）
+# 同步包装函数(为了兼容性)
 def run_parallel_tools_sync(
     registry: ToolRegistry, tasks: List[Dict[str, str]], max_workers: int = 4
 ) -> List[Dict[str, Any]]:
@@ -174,7 +174,7 @@ async def demo_parallel_execution():
     """演示并行执行的示例"""
     from .registry import ToolRegistry
 
-    # 创建注册表（这里假设已经注册了工具）
+    # 创建注册表(这里假设已经注册了工具)
     registry = ToolRegistry()
 
     # 定义并行任务

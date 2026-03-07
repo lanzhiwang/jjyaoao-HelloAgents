@@ -318,14 +318,14 @@ def start_agent_server(name: str, port: int):
 
 def network_example():
     """Agent 网络示例"""
-    # 启动多个 Agent（在实际应用中, 这些可能在不同的机器上）
+    # 启动多个 Agent(在实际应用中, 这些可能在不同的机器上)
     agents_config = [
         ("Agent1", 5001),
         ("Agent2", 5002),
         ("Agent3", 5003)
     ]
     
-    # 启动 Agent 服务器（在实际应用中使用多进程）
+    # 启动 Agent 服务器(在实际应用中使用多进程)
     threads = []
     for name, port in agents_config:
         thread = threading.Thread(

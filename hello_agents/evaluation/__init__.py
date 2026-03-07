@@ -4,12 +4,12 @@ HelloAgents 智能体评估模块
 本模块提供了完整的智能体评估框架,包括:
 - BFCL (Berkeley Function Calling Leaderboard): 工具调用能力评估
 - GAIA (General AI Assistants): 通用AI助手能力评估
-- Data Generation: 数据生成质量评估（LLM Judge & Win Rate）
+- Data Generation: 数据生成质量评估(LLM Judge & Win Rate)
 
 主要组件:
 - benchmarks: 各种评估基准测试
-  - bfcl: BFCL评估（包含专用metrics）
-  - gaia: GAIA评估（包含专用metrics）
+  - bfcl: BFCL评估(包含专用metrics)
+  - gaia: GAIA评估(包含专用metrics)
   - data_generation: 数据生成质量评估
 
 使用示例:

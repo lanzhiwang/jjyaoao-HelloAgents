@@ -19,16 +19,16 @@ class GAIAEvaluationTool(Tool):
 
     用于评估智能体的通用AI助手能力.
     支持三个难度级别:
-    - Level 1: 简单任务（0步推理）
-    - Level 2: 中等任务（1-5步推理）
-    - Level 3: 困难任务（5+步推理）
+    - Level 1: 简单任务(0步推理)
+    - Level 2: 中等任务(1-5步推理)
+    - Level 3: 困难任务(5+步推理)
     """
 
     def __init__(self, local_data_path: Optional[str] = None):
         """初始化GAIA评估工具
 
         Args:
-            local_data_path: 本地数据路径（可选）
+            local_data_path: 本地数据路径(可选)
         """
         super().__init__(
             name="gaia_evaluation",
@@ -234,8 +234,8 @@ class GAIAEvaluationTool(Tool):
 
 此文件包含: 
 - 每个任务的task_id
-- 模型的答案（model_answer）
-- 推理轨迹（reasoning_trace）
+- 模型的答案(model_answer)
+- 推理轨迹(reasoning_trace)
 
 ## 🚀 如何提交到GAIA排行榜
 
@@ -250,12 +250,12 @@ https://huggingface.co/spaces/gaia-benchmark/leaderboard
 
 在提交表单中填写以下信息: 
 
-1. **Model Name（模型名称）**: `{agent_name}`
-2. **Model Family（模型家族）**: 例如 `GPT`, `Claude`, `Qwen` 等
-3. **Model Type（模型类型）**:
+1. **Model Name(模型名称)**: `{agent_name}`
+2. **Model Family(模型家族)**: 例如 `GPT`, `Claude`, `Qwen` 等
+3. **Model Type(模型类型)**:
    - `Open-source` (开源)
    - `Proprietary` (专有)
-4. **Results File（结果文件）**: 上传 `{result_file.name}`
+4. **Results File(结果文件)**: 上传 `{result_file.name}`
 
 ### 步骤3: 上传结果文件
 
@@ -267,20 +267,20 @@ https://huggingface.co/spaces/gaia-benchmark/leaderboard
 
 1. 检查所有信息是否正确
 2. 点击 "Submit" 按钮
-3. 等待评估结果（通常需要几分钟）
+3. 等待评估结果(通常需要几分钟)
 
 ## 📋 结果文件格式说明
 
-GAIA要求的JSONL格式（每行一个JSON对象）: 
+GAIA要求的JSONL格式(每行一个JSON对象): 
 
 ```json
 {{"task_id": "xxx", "model_answer": "答案", "reasoning_trace": "推理过程"}}
 ```
 
 **字段说明**: 
-- `task_id`: 任务ID（与GAIA数据集对应）
+- `task_id`: 任务ID(与GAIA数据集对应)
 - `model_answer`: 模型的最终答案
-- `reasoning_trace`: 模型的推理过程（可选）
+- `reasoning_trace`: 模型的推理过程(可选)
 
 ## ⚠️ 注意事项
 
@@ -327,7 +327,7 @@ GAIA要求的JSONL格式（每行一个JSON对象）:
 
         Args:
             results: 评估结果
-            output_file: 输出文件路径（可选）
+            output_file: 输出文件路径(可选)
 
         Returns:
             Markdown格式的报告
@@ -376,8 +376,8 @@ GAIA要求的JSONL格式（每行一个JSON对象）:
 
             report += f"- **Level {level_num}**: {exact_rate:.2%} 精确 / {partial_rate:.2%} 部分 ({exact}/{total})\n"
 
-        # 添加样本详情（前10个）
-        report += "\n## 📝 样本详情（前10个）\n\n"
+        # 添加样本详情(前10个)
+        report += "\n## 📝 样本详情(前10个)\n\n"
         report += "| 任务ID | 级别 | 预测答案 | 正确答案 | 精确匹配 | 部分匹配 |\n"
         report += "|--------|------|----------|----------|----------|----------|\n"
 

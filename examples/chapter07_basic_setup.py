@@ -3,7 +3,7 @@
 
 本示例展示如何:
 1. 配置HelloAgents环境
-2. 使用四种不同的Agent范式（默认配置）
+2. 使用四种不同的Agent范式(默认配置)
 3. 自定义Agent配置的高级用法
 4. 工具系统的集成和使用
 5. 交互式Agent体验
@@ -358,12 +358,12 @@ def interactive_demo():
     # 创建LLM实例
     llm = HelloAgentsLLM()
 
-    # 创建工具注册表（为ReAct Agent准备）
+    # 创建工具注册表(为ReAct Agent准备)
     tool_registry = ToolRegistry()
     tool_registry.register_function("search", "网页搜索工具", search)
     tool_registry.register_function("calculate", "数学计算工具", calculate)
 
-    # 创建不同类型的Agent（展示默认配置的简洁性）
+    # 创建不同类型的Agent(展示默认配置的简洁性)
     agents = {
         "1": SimpleAgent("简单助手", llm, "你是一个有用的AI助手. "),
         "2": ReActAgent("工具助手", llm, tool_registry, max_steps=3),
@@ -481,13 +481,13 @@ def main():
         # 1. SimpleAgent演示
         demo_simple_agent()
 
-        # 2. ReActAgent演示（默认 + 自定义）
+        # 2. ReActAgent演示(默认 + 自定义)
         demo_react_agent()
 
-        # 3. ReflectionAgent演示（默认 + 自定义）
+        # 3. ReflectionAgent演示(默认 + 自定义)
         demo_reflection_agent()
 
-        # 4. PlanAndSolveAgent演示（默认 + 自定义）
+        # 4. PlanAndSolveAgent演示(默认 + 自定义)
         demo_plan_solve_agent()
 
         # 5. 自定义 vs 默认配置对比

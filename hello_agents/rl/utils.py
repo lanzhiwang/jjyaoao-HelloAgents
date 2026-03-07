@@ -124,7 +124,7 @@ TRL (Transformer Reinforcement Learning) 未安装.
 
 请使用以下命令安装: 
 
-方式1: 安装HelloAgents的RL功能（推荐）
+方式1: 安装HelloAgents的RL功能(推荐)
     pip install hello-agents[rl]
 
 方式2: 单独安装TRL
@@ -134,10 +134,10 @@ TRL (Transformer Reinforcement Learning) 未安装.
     pip install git+https://github.com/huggingface/trl.git
 
 安装完成后, 您可以使用以下功能: 
-- SFT训练（监督微调）
-- GRPO训练（群体相对策略优化）
-- PPO训练（近端策略优化）
-- DPO训练（直接偏好优化）
+- SFT训练(监督微调)
+- GRPO训练(群体相对策略优化)
+- PPO训练(近端策略优化)
+- DPO训练(直接偏好优化)
 - Reward Model训练
 
 更多信息请访问: https://huggingface.co/docs/trl

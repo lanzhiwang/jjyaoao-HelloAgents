@@ -145,7 +145,7 @@ class BFCLIntegration:
         Args:
             model_name: 模型名称
             category: 评估类别
-            result_file: 结果文件路径（可选, 如果提供则先准备文件）
+            result_file: 结果文件路径(可选, 如果提供则先准备文件)
 
         Returns:
             True如果评估成功, False否则

@@ -163,12 +163,12 @@ def _post_process_pdf_text(text: str) -> str:
         if not line:
             continue
 
-        # 移除单个字符的行（通常是噪音）
+        # 移除单个字符的行(通常是噪音)
         if len(line) <= 2 and not line.isdigit():
             continue
 
         # 移除明显的页眉页脚噪音
-        if re.match(r"^\d+$", line):  # 纯数字行（页码）
+        if re.match(r"^\d+$", line):  # 纯数字行(页码)
             continue
         if line.lower() in ["github", "project", "forks", "stars", "language"]:
             continue
@@ -846,7 +846,7 @@ def _prompt_hyde(query: str) -> Optional[str]:
         prompt = [
             {
                 "role": "system",
-                "content": "根据用户问题, 先写一段可能的答案性段落, 用于向量检索的查询文档（不要分析过程）. ",
+                "content": "根据用户问题, 先写一段可能的答案性段落, 用于向量检索的查询文档(不要分析过程). ",
             },
             {
                 "role": "user",
@@ -1286,7 +1286,7 @@ def tldr_summarize(text: str, bullets: int = 3) -> Optional[str]:
         prompt = [
             {
                 "role": "system",
-                "content": "请将以下内容概括为简洁的要点列表（最多3-5条）, 用中文, 避免重复, 突出关键信息. ",
+                "content": "请将以下内容概括为简洁的要点列表(最多3-5条), 用中文, 避免重复, 突出关键信息. ",
             },
             {
                 "role": "user",

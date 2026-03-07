@@ -1,6 +1,6 @@
 # Chapter 9 - 上下文工程示例代码
 
-本目录包含第九章"上下文工程"的所有示例代码和演示文件. 
+本目录包含第九章"上下文工程"的所有示例代码和演示文件.
 
 ## 📁 目录结构
 
@@ -31,7 +31,7 @@ chapter9/
 
 ### 1. 配置嵌入模型
 
-所有使用记忆功能的示例都需要配置嵌入模型. 最简单的方式: 
+所有使用记忆功能的示例都需要配置嵌入模型. 最简单的方式:
 
 ```python
 import os
@@ -91,7 +91,7 @@ python 06_three_day_workflow.py
 ### 高级示例
 
 #### 06_three_day_workflow.py
-**完整的长程智能体工作流演示**, 包括: 
+**完整的长程智能体工作流演示**, 包括:
 - 第一天: 探索代码库
 - 第二天: 分析代码质量
 - 第三天: 规划重构任务
@@ -99,14 +99,14 @@ python 06_three_day_workflow.py
 - 跨会话连贯性演示
 - 三大工具协同演示
 
-使用我们创建的示例代码库(`./codebase`), 包含: 
+使用我们创建的示例代码库(`./codebase`), 包含:
 - `data_processor.py` - 数据处理模块(含多个 TODO)
 - `api_client.py` - API 客户端(需要改进错误处理)
 - `utils.py` - 工具函数(需要优化)
 - `models.py` - 数据模型(需要补充验证)
 
 #### codebase_maintainer.py
-**核心组件: 代码库维护助手**, 集成了: 
+**核心组件: 代码库维护助手**, 集成了:
 - ContextBuilder - 上下文管理
 - NoteTool - 结构化笔记
 - TerminalTool - 即时文件访问
@@ -116,22 +116,22 @@ python 06_three_day_workflow.py
 
 ### 嵌入模型配置
 
-有三种选择: 
+有三种选择:
 
 #### 方案一: TF-IDF(推荐用于测试)
 
 ```python
 import os
 os.environ['EMBED_MODEL_TYPE'] = 'tfidf'
-os.environ['EMBED_MODEL_NAME'] = ''  # 重要! 
+os.environ['EMBED_MODEL_NAME'] = ''  # 重要!
 ```
 
-**优点**: 
+**优点**:
 - ✅ 无需额外依赖
 - ✅ 无需 API key
 - ✅ 无需下载模型
 
-**缺点**: 
+**缺点**:
 - ⚠️ 语义理解能力较弱
 
 #### 方案二: 本地 Transformer(推荐用于离线使用)
@@ -143,12 +143,12 @@ os.environ['EMBED_MODEL_NAME'] = 'sentence-transformers/all-MiniLM-L6-v2'
 os.environ['HF_TOKEN'] = 'your_huggingface_token'
 ```
 
-**需要**: 
+**需要**:
 1. 安装依赖: `pip install sentence-transformers`
 2. Hugging Face Token(从 https://huggingface.co/settings/tokens 获取)
 3. 首次运行会下载模型(约 90MB)
 
-**配置 HF Token 的方式**: 
+**配置 HF Token 的方式**:
 ```bash
 # 方式一: 使用 huggingface-cli(推荐, 一次配置永久使用)
 pip install huggingface-hub
@@ -170,14 +170,14 @@ os.environ['EMBED_MODEL_NAME'] = 'text-embedding-v3'
 os.environ['EMBED_API_KEY'] = 'your_dashscope_api_key'
 ```
 
-**需要**: 
+**需要**:
 1. 注册: https://dashscope.aliyun.com/
 2. 获取 API key
 3. 安装依赖: `pip install dashscope`
 
 ### LLM 配置
 
-如果使用需要 LLM 的示例, 需要配置: 
+如果使用需要 LLM 的示例, 需要配置:
 
 ```python
 from hello_agents import HelloAgentsLLM
@@ -192,13 +192,11 @@ llm = HelloAgentsLLM(
     model="gpt-4"
 )
 ```
-建议直接在'.env'文件中设置. 
-    
-
+建议直接在'.env'文件中设置.
 
 ### 记忆功能配置
 
-`codebase_maintainer.py` 已配置为只使用 `working` 记忆, 避免需要 Qdrant 向量数据库: 
+`codebase_maintainer.py` 已配置为只使用 `working` 记忆, 避免需要 Qdrant 向量数据库:
 
 ```python
 self.memory_tool = MemoryTool(
@@ -207,7 +205,7 @@ self.memory_tool = MemoryTool(
 )
 ```
 
-如果需要更强大的记忆功能(episodic, semantic), 需要安装并启动 Qdrant: 
+如果需要更强大的记忆功能(episodic, semantic), 需要安装并启动 Qdrant:
 
 ```bash
 # 使用 Docker 启动 Qdrant
@@ -219,7 +217,7 @@ docker run -p 6333:6333 qdrant/qdrant
 ### 演示数据文件
 
 #### data/sales_2024.csv
-包含 40+ 条销售数据, 字段包括: 
+包含 40+ 条销售数据, 字段包括:
 - date(日期)
 - product(产品)
 - category(类别: Electronics, Furniture)
@@ -229,13 +227,13 @@ docker run -p 6333:6333 qdrant/qdrant
 - region(地区: North, South, East, West)
 
 #### logs/app.log
-模拟一天的应用日志, 包含: 
+模拟一天的应用日志, 包含:
 - 多种日志级别(INFO, WARNING, ERROR)
 - 多种错误类型(DatabaseConnectionError, ValidationError 等)
 - 时间戳从 2024-01-19 14:00 到 23:30
 
 #### codebase/
-包含 4 个 Python 模块, 共 10+ 个 TODO 注释, 适合演示: 
+包含 4 个 Python 模块, 共 10+ 个 TODO 注释, 适合演示:
 - 代码分析
 - TODO 查找
 - 函数定义搜索
@@ -245,51 +243,51 @@ docker run -p 6333:6333 qdrant/qdrant
 
 ### Q1: RuntimeError: 所有嵌入模型都不可用
 
-**原因**: 嵌入模型配置不正确. 
+**原因**: 嵌入模型配置不正确.
 
-**解决**: 确保设置了 `EMBED_MODEL_NAME` 为空字符串: 
+**解决**: 确保设置了 `EMBED_MODEL_NAME` 为空字符串:
 
 ```python
 os.environ['EMBED_MODEL_TYPE'] = 'tfidf'
-os.environ['EMBED_MODEL_NAME'] = ''  # 必须有这行! 
+os.environ['EMBED_MODEL_NAME'] = ''  # 必须有这行!
 ```
 
 ### Q2: Qdrant 连接失败
 
-**原因**: 默认配置尝试连接 Qdrant 向量数据库. 
+**原因**: 默认配置尝试连接 Qdrant 向量数据库.
 
 **解决方案一**(推荐): 使用只需 working 记忆的配置(已在 codebase_maintainer.py 中配置)
 
-**解决方案二**: 安装并启动 Qdrant: 
+**解决方案二**: 安装并启动 Qdrant:
 ```bash
 docker run -p 6333:6333 qdrant/qdrant
 ```
 
 ### Q3: 下载 Hugging Face 模型失败
 
-**原因**: 网络问题或缺少 Token. 
+**原因**: 网络问题或缺少 Token.
 
-**解决方案**: 
+**解决方案**:
 1. 配置 HF Token(见上文"方案二")
 2. 或使用镜像: `export HF_ENDPOINT=https://hf-mirror.com`
 3. 或改用 TF-IDF: `os.environ['EMBED_MODEL_TYPE'] = 'tfidf'`
 
 ### Q4: TerminalTool 提示"不允许的命令"
 
-**原因**: TerminalTool 有白名单限制, 只允许安全的命令. 
+**原因**: TerminalTool 有白名单限制, 只允许安全的命令.
 
-**解决**: 使用允许的命令列表中的命令, 如: 
+**解决**: 使用允许的命令列表中的命令, 如:
 - 文件操作: ls, cat, head, tail, grep, find
 - 文本处理: awk, sed, cut, sort, uniq, wc
 - 其他: pwd, cd, tree, stat
 
 ## 📝 运行顺序建议
 
-1. **先运行无需 LLM 的示例**: 
+1. **先运行无需 LLM 的示例**:
    - `03_note_tool_operations.py` - 了解 NoteTool
    - `05_terminal_tool_examples.py` - 了解 TerminalTool
 
-2. **配置嵌入模型后运行**: 
+2. **配置嵌入模型后运行**:
    - `01_context_builder_basic.py` - 理解上下文管理
 
 3. **配置 LLM 后运行**: 
@@ -320,5 +318,4 @@ docker run -p 6333:6333 qdrant/qdrant
 
 ## 🤝 贡献
 
-如有问题或建议, 欢迎提 Issue 或 PR! 
-
+如有问题或建议, 欢迎提 Issue 或 PR!

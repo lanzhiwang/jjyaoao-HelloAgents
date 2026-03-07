@@ -10,8 +10,8 @@ class ToolRegistry:
 
     提供工具的注册、管理和执行功能.
     支持两种工具注册方式:
-    1. Tool对象注册（推荐）
-    2. 函数直接注册（简便）
+    1. Tool对象注册(推荐)
+    2. 函数直接注册(简便)
     """
 
     def __init__(self):
@@ -35,7 +35,7 @@ class ToolRegistry:
         self, name: str, description: str, func: Callable[[str], str]
     ):
         """
-        直接注册函数作为工具（简便方式）
+        直接注册函数作为工具(简便方式)
 
         Args:
             name: 工具名称

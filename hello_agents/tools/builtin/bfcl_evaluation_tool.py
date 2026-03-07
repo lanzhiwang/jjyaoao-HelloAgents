@@ -6,7 +6,7 @@ Berkeley Function Calling Leaderboard (BFCL) 一键评估工具
 1. 自动检查和准备BFCL数据
 2. 运行HelloAgents评估
 3. 导出BFCL格式结果
-4. 调用BFCL官方评估工具（可选）
+4. 调用BFCL官方评估工具(可选)
 5. 生成评估报告
 
 使用示例:
@@ -20,7 +20,7 @@ Berkeley Function Calling Leaderboard (BFCL) 一键评估工具
     # 创建评估工具
     bfcl_tool = BFCLEvaluationTool()
 
-    # 运行评估（默认会运行BFCL官方评估）
+    # 运行评估(默认会运行BFCL官方评估)
     results = bfcl_tool.run(
         agent=agent,
         category="simple_python",
@@ -45,13 +45,13 @@ class BFCLEvaluationTool(Tool):
     封装了完整的BFCL评估流程, 提供简单易用的接口.
 
     支持的评估类别:
-    - simple_python: 简单Python函数调用（400样本）
-    - simple_java: 简单Java函数调用（400样本）
-    - simple_javascript: 简单JavaScript函数调用（400样本）
-    - multiple: 多函数调用（240样本）
-    - parallel: 并行函数调用（280样本）
-    - parallel_multiple: 并行多函数调用（200样本）
-    - irrelevance: 无关检测（200样本）
+    - simple_python: 简单Python函数调用(400样本)
+    - simple_java: 简单Java函数调用(400样本)
+    - simple_javascript: 简单JavaScript函数调用(400样本)
+    - multiple: 多函数调用(240样本)
+    - parallel: 并行函数调用(280样本)
+    - parallel_multiple: 并行多函数调用(200样本)
+    - irrelevance: 无关检测(200样本)
     """
 
     def __init__(
@@ -60,8 +60,8 @@ class BFCLEvaluationTool(Tool):
         """初始化BFCL评估工具
 
         Args:
-            bfcl_data_dir: BFCL数据目录路径（默认: ./temp_gorilla/berkeley-function-call-leaderboard/bfcl_eval/data）
-            project_root: 项目根目录（默认: 当前目录）
+            bfcl_data_dir: BFCL数据目录路径(默认: ./temp_gorilla/berkeley-function-call-leaderboard/bfcl_eval/data)
+            project_root: 项目根目录(默认: 当前目录)
         """
         super().__init__(
             name="bfcl_evaluation",
@@ -103,7 +103,7 @@ class BFCLEvaluationTool(Tool):
             ToolParameter(
                 name="max_samples",
                 type="integer",
-                description="评估样本数（默认: 5, 设为0表示全部）",
+                description="评估样本数(默认: 5, 设为0表示全部)",
                 required=False,
                 default=5,
             ),
@@ -117,7 +117,7 @@ class BFCLEvaluationTool(Tool):
             ToolParameter(
                 name="model_name",
                 type="string",
-                description="模型名称（用于BFCL官方评估）",
+                description="模型名称(用于BFCL官方评估)",
                 required=False,
                 default="Qwen/Qwen3-8B",
             ),
@@ -135,10 +135,10 @@ class BFCLEvaluationTool(Tool):
 
         Args:
             agent: 要评估的智能体
-            category: 评估类别（默认: simple_python）
-            max_samples: 评估样本数（默认: 5, 设为0表示全部）
-            run_official_eval: 是否运行BFCL官方评估（默认: True）
-            model_name: 模型名称（用于BFCL官方评估, 默认: Qwen/Qwen3-8B）
+            category: 评估类别(默认: simple_python)
+            max_samples: 评估样本数(默认: 5, 设为0表示全部)
+            run_official_eval: 是否运行BFCL官方评估(默认: True)
+            model_name: 模型名称(用于BFCL官方评估, 默认: Qwen/Qwen3-8B)
 
         Returns:
             评估结果字典, 包含:
@@ -190,7 +190,7 @@ class BFCLEvaluationTool(Tool):
 
         evaluator.export_to_bfcl_format(results, output_file)
 
-        # 步骤4: 运行BFCL官方评估（可选）
+        # 步骤4: 运行BFCL官方评估(可选)
         if run_official_eval:
             if not model_name:
                 model_name = "Qwen/Qwen3-8B"
@@ -336,10 +336,10 @@ class BFCLEvaluationTool(Tool):
 
         Args:
             results: 评估结果字典
-            output_file: 输出文件路径（可选, 默认: evaluation_reports/bfcl_report_{timestamp}.md）
+            output_file: 输出文件路径(可选, 默认: evaluation_reports/bfcl_report_{timestamp}.md)
 
         Returns:
-            报告内容（Markdown格式）
+            报告内容(Markdown格式)
         """
         from datetime import datetime
 
@@ -393,7 +393,7 @@ class BFCLEvaluationTool(Tool):
                 if len(question_str) > 60:
                     question_str = question_str[:60] + "..."
 
-                # 提取预测结果（字段名是predicted）
+                # 提取预测结果(字段名是predicted)
                 prediction = detail.get("predicted", "N/A")
                 if prediction and prediction != "N/A":
                     pred_str = str(prediction)
@@ -402,7 +402,7 @@ class BFCLEvaluationTool(Tool):
                 else:
                     pred_str = "N/A"
 
-                # 提取正确答案（字段名是expected）
+                # 提取正确答案(字段名是expected)
                 ground_truth = detail.get("expected", "N/A")
                 if ground_truth and ground_truth != "N/A":
                     gt_str = str(ground_truth)
@@ -411,7 +411,7 @@ class BFCLEvaluationTool(Tool):
                 else:
                     gt_str = "N/A"
 
-                # 判断是否正确（字段名是success）
+                # 判断是否正确(字段名是success)
                 is_correct = "✅" if detail.get("success", False) else "❌"
 
                 report += f"| {sample_id} | {question_str} | {pred_str} | {gt_str} | {is_correct} |\n"
@@ -422,7 +422,7 @@ class BFCLEvaluationTool(Tool):
                 )
             report += "\n"
 
-        # 添加可视化（ASCII图表）
+        # 添加可视化(ASCII图表)
         report += "## 📊 准确率可视化\n\n"
         report += "```\n"
         accuracy = results["overall_accuracy"]

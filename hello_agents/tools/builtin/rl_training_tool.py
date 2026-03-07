@@ -79,13 +79,13 @@ class RLTrainingTool(Tool):
 
                 训练参数 (action="train"):
                 - algorithm: 训练算法 ("sft", "grpo")
-                - model_name: 模型名称（默认: "Qwen/Qwen2-0.5B-Instruct"）
-                - dataset: 数据集名称（默认: "gsm8k"）
-                - max_samples: 最大样本数（用于快速测试）
-                - num_epochs: 训练轮数（默认: 3）
-                - output_dir: 输出目录（默认: "./output"）
-                - use_lora: 是否使用LoRA（默认: True）
-                - batch_size: 批次大小（默认: 4）
+                - model_name: 模型名称(默认: "Qwen/Qwen2-0.5B-Instruct")
+                - dataset: 数据集名称(默认: "gsm8k")
+                - max_samples: 最大样本数(用于快速测试)
+                - num_epochs: 训练轮数(默认: 3)
+                - output_dir: 输出目录(默认: "./output")
+                - use_lora: 是否使用LoRA(默认: True)
+                - batch_size: 批次大小(默认: 4)
 
                 数据集加载参数 (action="load_dataset"):
                 - format: 数据格式 ("sft", "rl")
@@ -94,8 +94,8 @@ class RLTrainingTool(Tool):
 
                 奖励函数参数 (action="create_reward"):
                 - reward_type: 奖励类型 ("accuracy", "length_penalty", "step")
-                - penalty_weight: 长度惩罚权重（仅length_penalty）
-                - step_bonus: 步骤奖励（仅step）
+                - penalty_weight: 长度惩罚权重(仅length_penalty)
+                - step_bonus: 步骤奖励(仅step)
 
         Returns:
             操作结果的JSON字符串
@@ -646,7 +646,7 @@ class RLTrainingTool(Tool):
             ToolParameter(
                 name="max_samples",
                 type="integer",
-                description="最大样本数（用于快速测试）, None表示使用全部数据",
+                description="最大样本数(用于快速测试), None表示使用全部数据",
                 required=False,
                 default=None,
             ),
@@ -689,7 +689,7 @@ def train_with_sft(
     output_dir: str = "./output/sft",
 ) -> str:
     """
-    使用SFT训练模型（便捷函数）
+    使用SFT训练模型(便捷函数)
 
     Args:
         model_name: 模型名称
@@ -720,7 +720,7 @@ def train_with_grpo(
     output_dir: str = "./output/grpo",
 ) -> str:
     """
-    使用GRPO训练模型（便捷函数）
+    使用GRPO训练模型(便捷函数)
 
     Args:
         model_name: 模型名称
@@ -748,7 +748,7 @@ def load_dataset(
     format_type: str = "sft", split: str = "train", max_samples: int = 100
 ) -> str:
     """
-    加载数据集（便捷函数）
+    加载数据集(便捷函数)
 
     Args:
         format_type: 数据格式 ("sft", "rl")
@@ -771,13 +771,13 @@ def load_dataset(
 
 def create_reward_function(reward_type: str = "accuracy", **kwargs) -> str:
     """
-    创建奖励函数（便捷函数）
+    创建奖励函数(便捷函数)
 
     Args:
         reward_type: 奖励类型 ("accuracy", "length_penalty", "step")
         **kwargs: 其他参数
-            - penalty_weight: 长度惩罚权重（仅length_penalty）
-            - step_bonus: 步骤奖励（仅step）
+            - penalty_weight: 长度惩罚权重(仅length_penalty)
+            - step_bonus: 步骤奖励(仅step)
 
     Returns:
         奖励函数信息JSON字符串
@@ -790,7 +790,7 @@ def create_reward_function(reward_type: str = "accuracy", **kwargs) -> str:
 
 def evaluate_model(model_path: str, max_samples: int = 100) -> str:
     """
-    评估模型性能（便捷函数）
+    评估模型性能(便捷函数)
 
     Args:
         model_path: 模型路径

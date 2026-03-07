@@ -6,10 +6,10 @@ HelloAgents记忆系统提供了完整的记忆和RAG(检索增强生成)功能,
 
 **核心特性: **
 - 🧠 **四种记忆类型**: 工作记忆、情景记忆、语义记忆、感知记忆
-- 💾 **混合存储架构**: SQLite（文档存储）+ Qdrant（向量检索）+ Neo4j（知识图谱）
+- 💾 **混合存储架构**: SQLite(文档存储)+ Qdrant(向量检索)+ Neo4j(知识图谱)
 - 🔍 **智能检索**: 向量检索 + 图检索 + 融合排序
 - 🌐 **多语言支持**: 默认使用 `paraphrase-multilingual-MiniLM-L12-v2` 多语言嵌入模型
-- 🎨 **多模态支持**: 文本、图像、音频（感知记忆）
+- 🎨 **多模态支持**: 文本、图像、音频(感知记忆)
 - 🔧 **工具化接口**: MemoryTool 和 RAGTool 完全符合 HelloAgents 框架规范
 
 ## � 核心使用逻辑
@@ -24,7 +24,7 @@ HelloAgents记忆系统提供了完整的记忆和RAG(检索增强生成)功能,
 
 ### 📋 三种典型使用场景
 
-#### 🎯 场景1: 智能对话助手（使用MemoryTool）
+#### 🎯 场景1: 智能对话助手(使用MemoryTool)
 ```python
 # 让Agent记住用户信息和对话历史
 from hello_agents.tools import MemoryTool
@@ -39,7 +39,7 @@ context = memory_tool.get_context_for_query("我想学习新技术")
 # 返回: 张三是Python开发者, 可能对编程相关技术感兴趣
 ```
 
-#### 📚 场景2: 知识问答系统（使用RAGTool）
+#### 📚 场景2: 知识问答系统(使用RAGTool)
 ```python
 # 让Agent从知识库中检索信息回答问题
 from hello_agents.tools import RAGTool
@@ -56,7 +56,7 @@ context = rag_tool.get_relevant_context("年假有多少天? ")
 # 返回: 公司年假政策: 员工每年享有15天带薪年假
 ```
 
-#### 🚀 场景3: 智能学习助手（MemoryTool + RAGTool）
+#### 🚀 场景3: 智能学习助手(MemoryTool + RAGTool)
 ```python
 # 既能记住学习历史, 又能检索知识库
 memory_tool = MemoryTool(user_id="学生001")
@@ -158,12 +158,12 @@ memory_tool.forget_old_memories(30)  # 清理30天前的低重要性记忆
 pip install hello-agents==0.2.0
 ```
 
-### 功能扩展安装（推荐）
+### 功能扩展安装(推荐)
 
 根据您的需求选择合适的安装方式: 
 
 ```bash
-# 🚀 完整体验（推荐）- 包含所有记忆和RAG功能
+# 🚀 完整体验(推荐)- 包含所有记忆和RAG功能
 pip install hello-agents[mem-rag]==0.2.0
 
 # 🧠 仅记忆功能 - 支持对话记忆、知识存储
@@ -189,10 +189,10 @@ pip install hello-agents[all]==0.2.0
 | **记忆系统** | `qdrant-client`, `neo4j`, `spacy`                       | Qdrant向量存储、Neo4j图存储、实体识别        |
 | **RAG系统**  | `transformers`, `sentence-transformers`, `scikit-learn` | 多语言嵌入模型、智能降级                     |
 | **文档处理** | `markitdown`, `pypdf`, `python-docx`                    | 多格式文档转换与处理                         |
-| **多模态**   | `torch`, `librosa`（可选）                              | CLIP/CLAP模型支持                            |
+| **多模态**   | `torch`, `librosa`(可选)                                | CLIP/CLAP模型支持                            |
 | **智能降级** | 自动选择                                                | sentence-transformers → transformers → tfidf |
 
-**环境变量配置（可选）: **
+**环境变量配置(可选): **
 ```bash
 # Qdrant配置
 QDRANT_URL="https://<your-qdrant-endpoint>:6333"
@@ -215,9 +215,9 @@ EMBED_MODEL_NAME="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 ## 🏗️ 架构概览
 
 ```
-记忆系统架构（按照第8章设计实现）
+记忆系统架构(按照第8章设计实现)
 ├── 工具层 (Tools Layer)
-│   ├── MemoryTool - 记忆工具（统一接口）
+│   ├── MemoryTool - 记忆工具(统一接口)
 │   └── RAGTool - 检索增强生成工具
 │
 ├── 记忆核心层 (Memory Core Layer)
@@ -231,16 +231,16 @@ EMBED_MODEL_NAME="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 │   ├── WorkingMemory - 工作记忆
 │   │   └── 纯内存实现 + TTL自动过期
 │   ├── EpisodicMemory - 情景记忆
-│   │   └── SQLite（权威库）+ Qdrant（向量索引）
+│   │   └── SQLite(权威库)+ Qdrant(向量索引)
 │   ├── SemanticMemory - 语义记忆
-│   │   └── Qdrant（向量）+ Neo4j（知识图谱）
+│   │   └── Qdrant(向量)+ Neo4j(知识图谱)
 │   └── PerceptualMemory - 感知记忆
-│       └── SQLite（元数据）+ Qdrant（多模态向量）
+│       └── SQLite(元数据)+ Qdrant(多模态向量)
 │
 ├── 存储层 (Storage Layer)
 │   ├── QdrantVectorStore - Qdrant向量存储
-│   │   ├── 多语言嵌入（默认384维）
-│   │   ├── 按模态分集合（text/image/audio）
+│   │   ├── 多语言嵌入(默认384维)
+│   │   ├── 按模态分集合(text/image/audio)
 │   │   └── 高效向量检索
 │   ├── Neo4jGraphStore - Neo4j图存储
 │   │   ├── spaCy实体识别
@@ -253,12 +253,12 @@ EMBED_MODEL_NAME="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 │
 └── RAG层 (RAG Layer)
     ├── DocumentProcessor - 文档处理
-    │   ├── 多格式支持（PDF/Word/Excel/PPT）
+    │   ├── 多格式支持(PDF/Word/Excel/PPT)
     │   ├── 智能分块
     │   └── 语言标注与去重
     ├── EmbeddingModel - 嵌入模型
-    │   ├── LocalTransformerEmbedding（默认）
-    │   ├── TFIDFEmbedding（回退）
+    │   ├── LocalTransformerEmbedding(默认)
+    │   ├── TFIDFEmbedding(回退)
     │   └── 智能降级机制
     └── RAGPipeline - RAG流水线
         ├── 向量检索
@@ -355,14 +355,14 @@ memory_tool = MemoryTool(
 MemoryTool采用自顶向下的设计, 支持以下核心操作: 
 
 **完整操作列表: **
-- `add` - 添加记忆（支持4种类型: working/episodic/semantic/perceptual）
+- `add` - 添加记忆(支持4种类型: working/episodic/semantic/perceptual)
 - `search` - 搜索记忆
 - `summary` - 获取记忆摘要
 - `stats` - 获取统计信息
 - `update` - 更新记忆
 - `remove` - 删除记忆
-- `forget` - 遗忘记忆（多种策略）
-- `consolidate` - 整合记忆（短期→长期）
+- `forget` - 遗忘记忆(多种策略)
+- `consolidate` - 整合记忆(短期→长期)
 - `clear_all` - 清空所有记忆
 
 **四种记忆类型详解: **
@@ -460,7 +460,7 @@ summary = memory_tool.execute("summary", limit=10)
 stats = memory_tool.execute("stats")
 ```
 
-**run(parameters)** - 标准工具接口（推荐用于Agent集成）
+**run(parameters)** - 标准工具接口(推荐用于Agent集成)
 
 ```python
 # 等价的标准接口调用
@@ -510,14 +510,14 @@ RAG工具为Agent提供知识库检索功能, 支持文档管理和智能检索.
 ```python
 from hello_agents.tools import RAGTool
 
-# 🚀 推荐配置（本地嵌入, 稳定可靠）
+# 🚀 推荐配置(本地嵌入, 稳定可靠)
 rag_tool = RAGTool(
     knowledge_base_path="./knowledge_base",     # 知识库路径
     embedding_model="local",                    # 本地sentence-transformers
     retrieval_strategy="vector"                 # 检索策略
 )
 
-# 💡 智能降级配置（自动选择最佳可用模型）
+# 💡 智能降级配置(自动选择最佳可用模型)
 rag_tool = RAGTool(
     knowledge_base_path="./knowledge_base",
     embedding_model="sentence-transformers",   # 优先使用sentence-transformers
@@ -525,14 +525,14 @@ rag_tool = RAGTool(
 )
 # 如果sentence-transformers未安装, 会自动降级到huggingface transformers
 
-# 🌐 云端API配置（需要API密钥）
+# 🌐 云端API配置(需要API密钥)
 rag_tool = RAGTool(
     knowledge_base_path="./knowledge_base",
     embedding_model="dashscope",               # 使用阿里云通义千问
     retrieval_strategy="vector"
 )
 
-# 🔧 轻量级配置（仅用于测试, 需要先添加文档训练）
+# 🔧 轻量级配置(仅用于测试, 需要先添加文档训练)
 rag_tool = RAGTool(
     knowledge_base_path="./knowledge_base",
     embedding_model="tfidf",                   # 使用TF-IDF
@@ -547,7 +547,7 @@ rag_tool = RAGTool(
 ```python
 import os
 
-# 设置本地嵌入环境变量（推荐）
+# 设置本地嵌入环境变量(推荐)
 os.environ["EMBED_MODEL_TYPE"] = "local"
 os.environ["EMBED_MODEL_NAME"] = "sentence-transformers/all-MiniLM-L6-v2"
 
@@ -571,9 +571,9 @@ RAGTool提供完整的知识库管理和检索功能:
 **完整操作列表: **
 - `add_text` - 添加文本到知识库
 - `add_document` - 添加文档到知识库
-- `add_file` - 添加文件到知识库（支持txt, md, pdf, doc等）
+- `add_file` - 添加文件到知识库(支持txt, md, pdf, doc等)
 - `search` - 搜索知识库
-- `get_context` - 获取查询的相关上下文（专为LLM优化）
+- `get_context` - 获取查询的相关上下文(专为LLM优化)
 - `stats` - 获取知识库统计信息
 - `update_document` - 更新文档
 - `remove_document` - 删除文档
@@ -603,7 +603,7 @@ RAGTool提供完整的知识库管理和检索功能:
 
    2. **add_document - 添加文档**
    ```python
-   # 支持多种文件格式（PDF、Word、Excel、PPT等）
+   # 支持多种文件格式(PDF、Word、Excel、PPT等)
    rag_tool.execute("add_document",
        file_path="./docs/python_tutorial.pdf",
        document_id="python_tutorial",
@@ -653,7 +653,7 @@ RAGTool提供完整的知识库管理和检索功能:
    )
    ```
 
-4. **get_context - 获取上下文（专为LLM优化）**
+4. **get_context - 获取上下文(专为LLM优化)**
    ```python
    # 获取格式化的上下文
    context = rag_tool.get_relevant_context("Python装饰器", limit=2)
@@ -713,7 +713,7 @@ stats = rag_tool.execute("stats")
 **使用标准工具接口: **
 
 ```python
-# 也可以使用标准的Tool接口（推荐用于Agent集成）
+# 也可以使用标准的Tool接口(推荐用于Agent集成)
 result = rag_tool.run({
     "action": "add_text",
     "text": "Python是编程语言",
@@ -775,17 +775,17 @@ config = MemoryConfig(
 
 ### 配置参数说明
 
-| 参数                                | 类型      | 默认值   | 说明                              |
-| ----------------------------------- | --------- | -------- | --------------------------------- |
-| `max_capacity`                      | int       | 1000     | 系统最大记忆容量                  |
-| `importance_threshold`              | float     | 0.2      | 记忆重要性阈值                    |
-| `decay_factor`                      | float     | 0.95     | 时间衰减因子                      |
-| `working_memory_capacity`           | int       | 20       | 工作记忆容量限制                  |
-| `working_memory_tokens`             | int       | 2000     | 工作记忆token限制                 |
-| `working_memory_ttl_minutes`        | int       | 120      | 工作记忆TTL（分钟）, 自动过期清理 |
-| `episodic_memory_retention_days`    | int       | 30       | 情景记忆保留天数                  |
-| `semantic_memory_concept_threshold` | float     | 0.6      | 语义记忆概念相似度阈值            |
-| `perceptual_memory_modalities`      | List[str] | ["text"] | 感知记忆支持的模态                |
+| 参数                                | 类型      | 默认值   | 说明                            |
+| ----------------------------------- | --------- | -------- | ------------------------------- |
+| `max_capacity`                      | int       | 1000     | 系统最大记忆容量                |
+| `importance_threshold`              | float     | 0.2      | 记忆重要性阈值                  |
+| `decay_factor`                      | float     | 0.95     | 时间衰减因子                    |
+| `working_memory_capacity`           | int       | 20       | 工作记忆容量限制                |
+| `working_memory_tokens`             | int       | 2000     | 工作记忆token限制               |
+| `working_memory_ttl_minutes`        | int       | 120      | 工作记忆TTL(分钟), 自动过期清理 |
+| `episodic_memory_retention_days`    | int       | 30       | 情景记忆保留天数                |
+| `semantic_memory_concept_threshold` | float     | 0.6      | 语义记忆概念相似度阈值          |
+| `perceptual_memory_modalities`      | List[str] | ["text"] | 感知记忆支持的模态              |
 
 ## 🧠 底层记忆系统 API
 
@@ -854,17 +854,17 @@ forgotten_count = manager.forget_memories(
 短期记忆, 用于存储当前会话的上下文信息. 
 
 **架构特点: **
-- **存储方式**: 纯内存实现（Python字典）, 无外部数据库依赖
-- **容量限制**: 默认10条, 可配置（`working_memory_capacity`）
-- **Token限制**: 默认2000 tokens, 可配置（`working_memory_tokens`）
-- **TTL机制**: 默认120分钟自动过期, 可配置（`working_memory_ttl_minutes`）
+- **存储方式**: 纯内存实现(Python字典), 无外部数据库依赖
+- **容量限制**: 默认10条, 可配置(`working_memory_capacity`)
+- **Token限制**: 默认2000 tokens, 可配置(`working_memory_tokens`)
+- **TTL机制**: 默认120分钟自动过期, 可配置(`working_memory_ttl_minutes`)
 - **优先级管理**: 重要性 × 时间衰减, 自动淘汰低优先级记忆
 - **会话级别**: 随会话结束自动清理
 
 **实现细节: **
 - 使用 `collections.deque` 实现FIFO队列
-- 每次访问时自动清理过期记忆（TTL检查）
-- 容量满时按优先级淘汰（importance × recency_score）
+- 每次访问时自动清理过期记忆(TTL检查)
+- 容量满时按优先级淘汰(importance × recency_score)
 - 不依赖向量检索, 直接基于时间和重要性排序
 
 ```python
@@ -907,8 +907,8 @@ stats = working_memory.get_stats()
 存储具体的交互事件和经历, 采用"权威库+向量索引"双存储架构. 
 
 **架构特点: **
-- **权威存储**: SQLite（结构化元数据、时间序列、会话管理）
-- **向量索引**: Qdrant（语义检索, 默认384维多语言嵌入）
+- **权威存储**: SQLite(结构化元数据、时间序列、会话管理)
+- **向量索引**: Qdrant(语义检索, 默认384维多语言嵌入)
 - **检索策略**: 结构化过滤 + 向量检索 + 融合排序
 - **排序公式**: `vector×0.6 + recency×0.2 + importance×0.2`
 - **时间序列**: 支持时间范围查询、会话过滤
@@ -917,9 +917,9 @@ stats = working_memory.get_stats()
 **实现细节: **
 - SQLite表结构: `id, content, user_id, timestamp, importance, session_id, metadata`
 - Qdrant集合: `<base>_episodic`, payload包含 `memory_id, user_id, session_id`
-- 写入流程: 先写SQLite（权威）, 再写Qdrant（索引）
+- 写入流程: 先写SQLite(权威), 再写Qdrant(索引)
 - 检索流程: SQLite过滤 → Qdrant向量召回 → 融合排序
-- 删除策略: 按payload的 `memory_id` 过滤删除（避免UUID失配）
+- 删除策略: 按payload的 `memory_id` 过滤删除(避免UUID失配)
 
 ```python
 from hello_agents.memory.types import EpisodicMemory
@@ -950,14 +950,14 @@ patterns = episodic_memory.find_patterns(user_id="user123", min_frequency=2)
 timeline = episodic_memory.get_timeline(user_id="user123", limit=50)
 ```
 
-##### SQLite + Qdrant 后端与检索示例（推荐）
+##### SQLite + Qdrant 后端与检索示例(推荐)
 
 情景记忆按"权威库+向量索引"分层存储: 
-- 文档/权威库: SQLite（结构化、时间/会话/重要性筛选）
-- 向量索引: Qdrant（多语言嵌入检索, 默认 `paraphrase-multilingual-MiniLM-L12-v2`）
-- 排序公式: vector×0.6 + recency×0.2 + importance×0.2（简洁、可解释）
+- 文档/权威库: SQLite(结构化、时间/会话/重要性筛选)
+- 向量索引: Qdrant(多语言嵌入检索, 默认 `paraphrase-multilingual-MiniLM-L12-v2`)
+- 排序公式: vector×0.6 + recency×0.2 + importance×0.2(简洁、可解释)
 
-环境变量（.env）: 
+环境变量(.env): 
 ```bash
 # Qdrant Cloud 或自托管服务
 QDRANT_URL="https://<your-qdrant-endpoint>:6333"
@@ -975,7 +975,7 @@ from hello_agents.memory.base import MemoryItem, MemoryConfig
 
 episodic = EpisodicMemory(config=MemoryConfig(storage_path="./memory_data"))
 
-# 添加事件（先写SQLite, 再写Qdrant）
+# 添加事件(先写SQLite, 再写Qdrant)
 episodic.add(MemoryItem(
     id="e_demo_1",
     content="昨天晚上的线上事故复盘, 定位到缓存雪崩, 已追加限流",
@@ -1001,16 +1001,16 @@ results = episodic.retrieve(
 for r in results:
     print(r.id, r.metadata.get("relevance_score"), r.content)
 
-# 统计（包含SQLite与Qdrant信息）
+# 统计(包含SQLite与Qdrant信息)
 print(episodic.get_stats())
 ```
 
 说明: 
 - `add`: 权威写入 SQLite; 随后生成嵌入并 upsert 到 Qdrant. 
-- `retrieve`: 可选结构化过滤（时间窗/重要性/用户/会话）→ 向量召回 → 融合排序. 
+- `retrieve`: 可选结构化过滤(时间窗/重要性/用户/会话)→ 向量召回 → 融合排序. 
 - `update`: 更新 SQLite; 若内容变更会重嵌入并同步 Qdrant. 
-- `remove/clear`: 同时清理 SQLite 与 Qdrant（仅限情景记忆相关记录）. 
-  注意: Qdrant 侧删除采用按 payload 的 `memory_id` 过滤（FilterSelector+should）, 
+- `remove/clear`: 同时清理 SQLite 与 Qdrant(仅限情景记忆相关记录). 
+  注意: Qdrant 侧删除采用按 payload 的 `memory_id` 过滤(FilterSelector+should), 
   而不是按点ID删除, 避免点ID在写入时被规范化为UUID后产生失配. 
 
 #### SemanticMemory - 语义记忆
@@ -1018,9 +1018,9 @@ print(episodic.get_stats())
 存储抽象知识与概念关系, 使用"向量+图"混合检索: 
 
 **特点: **
-- 向量检索: Qdrant 向量数据库（多语言嵌入, 默认 384 维）
-- 图检索: Neo4j 知识图谱（spaCy 实体识别入图, 仅保留共现关系）
-- 融合排序: graph×0.6 + vector×0.4 + importance×0.05（无正则与启发式加分）
+- 向量检索: Qdrant 向量数据库(多语言嵌入, 默认 384 维)
+- 图检索: Neo4j 知识图谱(spaCy 实体识别入图, 仅保留共现关系)
+- 融合排序: graph×0.6 + vector×0.4 + importance×0.05(无正则与启发式加分)
 - 多语言支持: 优先 `paraphrase-multilingual-MiniLM-L12-v2`, 自动降级
 
 ```python
@@ -1030,7 +1030,7 @@ from datetime import datetime
 
 semantic_memory = SemanticMemory(config=MemoryConfig())
 
-# 添加语义记忆（将通过spaCy抽取实体, 并写入Neo4j; 向量写入Qdrant）
+# 添加语义记忆(将通过spaCy抽取实体, 并写入Neo4j; 向量写入Qdrant)
 m = MemoryItem(
     id="sem_001",
     content="张三是腾讯的资深工程师, 擅长Python和机器学习. ",
@@ -1042,10 +1042,10 @@ m = MemoryItem(
 )
 semantic_memory.add(m)
 
-# 融合检索（向量+图）
+# 融合检索(向量+图)
 results = semantic_memory.retrieve("腾讯工程师", limit=3, user_id="user123")
 
-# 获取相关实体（使用Neo4j图）
+# 获取相关实体(使用Neo4j图)
 if results:
     related = semantic_memory.get_related_entities(entity_id=m.metadata.get("entities", [None])[0], max_hops=2)
 
@@ -1053,21 +1053,21 @@ if results:
 kg = semantic_memory.export_knowledge_graph()
 ```
 
-#### PerceptualMemory - 感知记忆（SQLite+Qdrant, 多模态）
+#### PerceptualMemory - 感知记忆(SQLite+Qdrant, 多模态)
 
-面向"长存的多模态"数据（文本/图像/音频）. 
+面向"长存的多模态"数据(文本/图像/音频). 
 
 **架构与特点: **
-- SQLite 作为权威存储（结构化元数据）; Qdrant 作为向量索引
+- SQLite 作为权威存储(结构化元数据); Qdrant 作为向量索引
 - 按模态分别建集合, 避免向量维度冲突: `<base>_perceptual_text`/`_image`/`_audio`
-- 编码策略（懒加载）: 
-  - 文本: `sentence-transformers`（默认 `paraphrase-multilingual-MiniLM-L12-v2`）
-  - 图像（可选）: CLIP（如 `openai/clip-vit-base-patch32`）; 缺依赖则回退"确定性哈希向量"
-  - 音频（可选）: CLAP（如 `laion/clap-htsat-unfused`, 需 `librosa`）; 缺依赖则回退"确定性哈希向量"
-- 同模态检索: 向量检索 + 时间/重要性融合（`0.6*vector + 0.2*recency + 0.2*importance`）
+- 编码策略(懒加载): 
+  - 文本: `sentence-transformers`(默认 `paraphrase-multilingual-MiniLM-L12-v2`)
+  - 图像(可选): CLIP(如 `openai/clip-vit-base-patch32`); 缺依赖则回退"确定性哈希向量"
+  - 音频(可选): CLAP(如 `laion/clap-htsat-unfused`, 需 `librosa`); 缺依赖则回退"确定性哈希向量"
+- 同模态检索: 向量检索 + 时间/重要性融合(`0.6*vector + 0.2*recency + 0.2*importance`)
 - 跨模态检索: 需安装并启用 CLIP/CLAP; 若回退哈希, 仅支持"同源文件"匹配, 不支持跨模态语义
 
-**环境变量（.env, 可选）**
+**环境变量(.env, 可选)**
 ```bash
 QDRANT_URL="https://<your-qdrant-endpoint>:6333"
 QDRANT_API_KEY="<your-api-key>"
@@ -1078,10 +1078,10 @@ CLIP_MODEL="openai/clip-vit-base-patch32"
 CLAP_MODEL="laion/clap-htsat-unfused"
 ```
 
-**依赖（按需）**
+**依赖(按需)**
 - 基础已涵盖; 若启用 CLIP/CLAP: `pip install transformers torch`; 音频建议 `pip install librosa`
 
-**使用示例（同模态检索 + 真实文件）**
+**使用示例(同模态检索 + 真实文件)**
 ```python
 from datetime import datetime
 from hello_agents.memory.base import MemoryItem, MemoryConfig
@@ -1095,7 +1095,7 @@ pm = PerceptualMemory(MemoryConfig(
     perceptual_memory_modalities=["text", "image", "audio"]
 ))
 
-# 添加图像/音频（权威入SQLite; 向量入对应Qdrant集合）
+# 添加图像/音频(权威入SQLite; 向量入对应Qdrant集合)
 pm.add(MemoryItem(
     id="img_dog",
     content="小狗图片",
@@ -1115,7 +1115,7 @@ pm.add(MemoryItem(
     metadata={"modality": "audio", "raw_data": audio_path}
 ))
 
-# 同模态检索（若启用CLIP/CLAP支持相似检索; 回退哈希则为同源精确匹配）
+# 同模态检索(若启用CLIP/CLAP支持相似检索; 回退哈希则为同源精确匹配)
 img_results = pm.retrieve(image_path, limit=3, target_modality="image", query_modality="image")
 aud_results = pm.retrieve(audio_path, limit=3, target_modality="audio", query_modality="audio")
 
@@ -1124,13 +1124,13 @@ for r in img_results:
 for r in aud_results:
     print("audio", r.id, r.metadata.get("relevance_score"))
 
-# 统计（包含各模态Qdrant集合信息）
+# 统计(包含各模态Qdrant集合信息)
 print(pm.get_stats())
 ```
 
 **注意: **
 - 若未安装 CLIP/CLAP, 会自动回退"确定性哈希向量", 仅适合同文件检索, 不支持跨模态/语义相似
-- 跨模态检索（如"文本→音频/图像"）需启用 CLIP/CLAP 才能获得语义对齐效果
+- 跨模态检索(如"文本→音频/图像")需启用 CLIP/CLAP 才能获得语义对齐效果
 
 ## 💾 存储系统 API
 
@@ -1141,7 +1141,7 @@ print(pm.get_stats())
 ```python
 from hello_agents.memory.storage import VectorStore
 
-# 示例（已迁移到Qdrant/FAISS; 此节仅作概念说明）
+# 示例(已迁移到Qdrant/FAISS; 此节仅作概念说明)
 vector_store = None  # 具体请参考 QdrantVectorStore 或 FAISSVectorStore 示例
 
 # 添加向量
@@ -1498,7 +1498,7 @@ if __name__ == "__main__":
 安装后立即体验: 
 
 ```bash
-# 🚀 一键安装完整功能（推荐）
+# 🚀 一键安装完整功能(推荐)
 pip install hello-agents[mem-rag]==0.2.0
 
 # 下载并运行示例
@@ -1600,7 +1600,7 @@ os.environ["EMBED_MODEL_NAME"] = "sentence-transformers/all-MiniLM-L6-v2"
 # 问题: PDF转换后文本质量差, 段落破碎
 # 解决: 系统已集成增强PDF处理
 
-# 使用增强处理（自动启用）
+# 使用增强处理(自动启用)
 rag_tool.execute("add_document", 
     file_path="document.pdf",
     document_id="doc_id"
@@ -1616,16 +1616,16 @@ rag_tool.execute("add_document",
 # 检查当前嵌入配置
 python -c "from hello_agents.memory.embedding import get_text_embedder, get_dimension; print(get_dimension())"
 
-# 切换到本地模式（推荐）
+# 切换到本地模式(推荐)
 export EMBED_MODEL_TYPE="local"
 ```
 
 ### 性能优化建议
 
 1. **选择合适的嵌入模型**: 
-   - 最高质量: `sentence-transformers`（推荐, 约90MB）
-   - 良好平衡: `huggingface`（约90MB, 自动下载）
-   - 轻量级: `tfidf`（无需下载, 但需要训练）
+   - 最高质量: `sentence-transformers`(推荐, 约90MB)
+   - 良好平衡: `huggingface`(约90MB, 自动下载)
+   - 轻量级: `tfidf`(无需下载, 但需要训练)
    - 智能选择: 使用默认配置, 系统自动选择最佳可用模型
 
 2. **合理配置记忆容量**: 
