@@ -1,10 +1,10 @@
 """
 步骤1: 仅生成AIME题目
 
-运行方法: 
+运行方法:
 python data_generation/step1_generate_only.py 30 3.0
 
-参数: 
+参数:
 - 30: 生成题目数量
 - 3.0: 每次生成之间的延迟(秒)
 """

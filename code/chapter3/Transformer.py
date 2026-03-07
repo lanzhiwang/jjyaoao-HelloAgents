@@ -90,7 +90,7 @@ class PositionWiseFeedForward(nn.Module):
 
 class PositionalEncoding(nn.Module):
     """
-    为输入序列的词嵌入向量添加位置编码. 
+    为输入序列的词嵌入向量添加位置编码.
     """
 
     def __init__(self, d_model: int, dropout: float = 0.1, max_len: int = 5000):

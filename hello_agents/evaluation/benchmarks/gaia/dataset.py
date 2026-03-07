@@ -12,10 +12,10 @@ import json
 class GAIADataset:
     """GAIA 数据集加载器
 
-    从 HuggingFace 加载 GAIA 数据集,支持不同难度级别。
+    从 HuggingFace 加载 GAIA 数据集,支持不同难度级别.
 
     GAIA是一个通用AI助手评估基准,包含466个真实世界问题,
-    需要推理、多模态处理、网页浏览和工具使用等能力。
+    需要推理、多模态处理、网页浏览和工具使用等能力.
 
     难度级别:
     - Level 1: 简单问题 (0步推理, 直接回答)
@@ -34,7 +34,7 @@ class GAIADataset:
         dataset_name: str = "gaia-benchmark/GAIA",
         split: str = "validation",
         level: Optional[int] = None,
-        local_data_dir: Optional[Union[str, Path]] = None
+        local_data_dir: Optional[Union[str, Path]] = None,
     ):
         """初始化 GAIA 数据集加载器
 
@@ -97,7 +97,7 @@ class GAIADataset:
 
         for json_file in gaia_files:
             try:
-                with open(json_file, 'r', encoding='utf-8') as f:
+                with open(json_file, "r", encoding="utf-8") as f:
                     file_data = json.load(f)
 
                 if isinstance(file_data, list):
@@ -115,7 +115,7 @@ class GAIADataset:
     def _load_from_huggingface(self) -> List[Dict[str, Any]]:
         """从HuggingFace下载GAIA数据集
 
-        注意：GAIA是gated dataset，需要HF_TOKEN环境变量
+        注意: GAIA是gated dataset, 需要HF_TOKEN环境变量
         使用snapshot_download下载整个数据集到本地
         """
         try:
@@ -130,7 +130,7 @@ class GAIADataset:
             hf_token = os.getenv("HF_TOKEN")
             if not hf_token:
                 print("   ⚠️ 未找到HF_TOKEN环境变量")
-                print("   GAIA是gated dataset，需要在HuggingFace上申请访问权限")
+                print("   GAIA是gated dataset, 需要在HuggingFace上申请访问权限")
                 print("   然后设置环境变量: HF_TOKEN=your_token")
                 return []
 
@@ -146,7 +146,7 @@ class GAIADataset:
                     repo_type="dataset",
                     local_dir=str(local_dir),
                     token=hf_token,
-                    local_dir_use_symlinks=False  # Windows兼容性
+                    local_dir_use_symlinks=False,  # Windows兼容性
                 )
                 print(f"   ✓ 数据集下载完成: {local_dir}")
             except Exception as e:
@@ -164,7 +164,7 @@ class GAIADataset:
 
             # 加载数据
             data = []
-            with open(metadata_file, 'r', encoding='utf-8') as f:
+            with open(metadata_file, "r", encoding="utf-8") as f:
                 for line in f:
                     line = line.strip()
                     if not line:
@@ -178,7 +178,9 @@ class GAIADataset:
 
                     # 调整文件路径
                     if item.get("file_name"):
-                        item["file_name"] = str(local_dir / "2023" / self.split / item["file_name"])
+                        item["file_name"] = str(
+                            local_dir / "2023" / self.split / item["file_name"]
+                        )
 
                     # 标准化并添加
                     standardized_item = self._standardize_item(item)
@@ -194,6 +196,7 @@ class GAIADataset:
         except Exception as e:
             print(f"   ⚠️ 加载失败: {e}")
             import traceback
+
             traceback.print_exc()
             return []
 
@@ -207,14 +210,16 @@ class GAIADataset:
             "final_answer": item.get("Final answer", item.get("final_answer", "")),
             "file_name": item.get("file_name", ""),
             "file_path": item.get("file_path", ""),
-            "annotator_metadata": item.get("Annotator Metadata", item.get("annotator_metadata", {})),
+            "annotator_metadata": item.get(
+                "Annotator Metadata", item.get("annotator_metadata", {})
+            ),
             "steps": item.get("Steps", item.get("steps", 0)),
             "tools": item.get("Tools", item.get("tools", [])),
-            "raw_item": item  # 保留原始数据
+            "raw_item": item,  # 保留原始数据
         }
 
         return standardized
-    
+
     def get_sample(self, index: int) -> Dict[str, Any]:
         """获取单个样本
 
@@ -245,7 +250,7 @@ class GAIADataset:
         """获取难度级别分布
 
         Returns:
-            字典，键为级别，值为该级别的样本数
+            字典, 键为级别, 值为该级别的样本数
         """
         if not self.data:
             self.load()
@@ -281,7 +286,7 @@ class GAIADataset:
             "level_distribution": level_dist,
             "samples_with_files": with_files,
             "average_steps": avg_steps,
-            "split": self.split
+            "split": self.split,
         }
 
     def __len__(self) -> int:
@@ -295,4 +300,3 @@ class GAIADataset:
         if not self.data:
             self.load()
         return iter(self.data)
-

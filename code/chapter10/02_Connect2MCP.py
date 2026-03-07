@@ -51,8 +51,8 @@ async def discover_tools():
 
 asyncio.run(discover_tools())
 
-# 输出示例: 
-# 服务器提供了 5 个工具: 
+# 输出示例:
+# 服务器提供了 5 个工具:
 #
 # 工具名称: read_file
 # 描述: 读取文件内容

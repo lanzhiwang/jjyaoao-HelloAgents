@@ -42,8 +42,8 @@ from codebase_maintainer import CodebaseMaintainer
 def day_1_exploration(maintainer):
     """第一天: 探索代码库(Agentic 方式)
 
-    在这个阶段, 我们只给 Agent 高层次的目标, 
-    Agent 会自主决定: 
+    在这个阶段, 我们只给 Agent 高层次的目标,
+    Agent 会自主决定:
     - 使用哪些 shell 命令探索代码库
     - 查看哪些文件
     - 是否记录笔记
@@ -71,7 +71,7 @@ def day_1_exploration(maintainer):
 def day_2_analysis(maintainer):
     """第二天: 分析代码质量(Agentic 方式)
 
-    Agent 会自主决定: 
+    Agent 会自主决定:
     - 使用什么方法分析代码质量(grep TODO? 统计行数? 检查复杂度?)
     - 是否需要创建笔记记录问题
     - 如何组织分析结果
@@ -101,7 +101,7 @@ def day_2_analysis(maintainer):
 def day_3_planning(maintainer):
     """第三天: 规划重构任务(Agentic 方式)
 
-    Agent 会自主决定: 
+    Agent 会自主决定:
     - 回顾哪些历史笔记
     - 如何组织任务规划
     - 是否需要创建新的笔记
@@ -207,7 +207,7 @@ def demonstrate_cross_session_continuity():
 def demonstrate_tool_synergy():
     """演示三大工具的协同(Agentic 方式)
 
-    在这个演示中: 
+    在这个演示中:
     - 我们不再手动调用工具
     - 而是让 Agent 自主决定使用哪些工具
     - Agent 会根据任务自动协同使用多个工具

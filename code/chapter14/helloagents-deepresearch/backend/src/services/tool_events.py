@@ -39,7 +39,7 @@ class ToolCallTracker:
         self._event_sink: Optional[Callable[[dict[str, Any]], None]] = None
 
     def record(self, payload: dict[str, Any]) -> None:
-        """记录模型工具调用情况, 便于日志与前端展示. """
+        """记录模型工具调用情况, 便于日志与前端展示."""
 
         agent_name = str(payload.get("agent_name") or "unknown")
         tool_name = str(payload.get("tool_name") or "unknown")
@@ -91,7 +91,7 @@ class ToolCallTracker:
     def drain(
         self, state: SummaryState, *, step: Optional[int] = None
     ) -> list[dict[str, Any]]:
-        """提取尚未消费的工具调用事件, 并同步任务的 note_id. """
+        """提取尚未消费的工具调用事件, 并同步任务的 note_id."""
 
         with self._lock:
             if self._cursor >= len(self._events):
@@ -185,7 +185,7 @@ class ToolCallTracker:
             break
 
     def _infer_task_id(self, parameters: dict[str, Any]) -> Optional[int]:
-        """尝试从工具参数推断 task_id. """
+        """尝试从工具参数推断 task_id."""
 
         if not parameters:
             return None

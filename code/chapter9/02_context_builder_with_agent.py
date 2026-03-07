@@ -1,7 +1,7 @@
 """
 ContextBuilder 与 Agent 集成示例
 
-展示如何将 ContextBuilder 集成到 Agent 中, 实现: 
+展示如何将 ContextBuilder 集成到 Agent 中, 实现:
 1. 上下文感知的 Agent
 2. 自动构建优化的上下文
 3. 记忆管理与上下文构建的协同

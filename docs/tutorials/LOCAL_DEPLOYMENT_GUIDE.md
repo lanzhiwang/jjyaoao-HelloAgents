@@ -2,7 +2,7 @@
 
 ## 🏠 本地部署概述
 
-HelloAgents现在全面支持本地LLM部署方案，包括Ollama、vLLM和其他OpenAI兼容的本地服务。
+HelloAgents现在全面支持本地LLM部署方案, 包括Ollama、vLLM和其他OpenAI兼容的本地服务. 
 
 ## 🚀 支持的本地部署方案
 
@@ -29,11 +29,11 @@ ollama run codellama:7b
 
 #### HelloAgents配置
 ```env
-# 方式1：使用专用环境变量
+# 方式1: 使用专用环境变量
 OLLAMA_API_KEY=ollama
 OLLAMA_HOST=http://localhost:11434/v1
 
-# 方式2：使用统一配置
+# 方式2: 使用统一配置
 LLM_MODEL_ID=llama3.2
 LLM_API_KEY=ollama
 LLM_BASE_URL=http://localhost:11434/v1
@@ -45,7 +45,7 @@ from hello_agents import HelloAgentsLLM, SimpleAgent
 # 自动检测为ollama
 llm = HelloAgentsLLM()
 agent = SimpleAgent("Llama助手", llm)
-response = agent.run("你好！")
+response = agent.run("你好!")
 ```
 
 ### 2. vLLM 部署
@@ -70,11 +70,11 @@ python -m vllm.entrypoints.openai.api_server \
 
 #### HelloAgents配置
 ```env
-# 方式1：使用专用环境变量
+# 方式1: 使用专用环境变量
 VLLM_API_KEY=vllm
 VLLM_HOST=http://localhost:8000/v1
 
-# 方式2：使用统一配置
+# 方式2: 使用统一配置
 LLM_MODEL_ID=meta-llama/Llama-2-7b-chat-hf
 LLM_API_KEY=vllm
 LLM_BASE_URL=http://localhost:8000/v1
@@ -86,7 +86,7 @@ from hello_agents import HelloAgentsLLM, SimpleAgent
 # 自动检测为vllm
 llm = HelloAgentsLLM()
 agent = SimpleAgent("vLLM助手", llm)
-response = agent.run("你好！")
+response = agent.run("你好!")
 ```
 
 ### 3. FastChat 部署
@@ -138,7 +138,7 @@ LLM_BASE_URL=http://localhost:7860/v1
 
 ### 5. 其他本地部署
 
-对于任何提供OpenAI兼容API的本地服务：
+对于任何提供OpenAI兼容API的本地服务: 
 
 ```env
 LLM_MODEL_ID=your-custom-model
@@ -148,7 +148,7 @@ LLM_BASE_URL=http://localhost:PORT/v1
 
 ## 🔍 自动检测逻辑
 
-HelloAgents会根据以下规则自动检测本地部署：
+HelloAgents会根据以下规则自动检测本地部署: 
 
 ### 1. 特定服务检测
 - `OLLAMA_API_KEY` 或 `OLLAMA_HOST` → ollama
@@ -273,10 +273,10 @@ print(f"Base URL: {llm.base_url}")
 ## 🎯 最佳实践
 
 1. **选择合适的部署方案**
-   - **Ollama**: 简单易用，适合快速体验
-   - **vLLM**: 高性能，适合生产环境
-   - **FastChat**: 功能丰富，支持多种模型
-   - **Text Generation WebUI**: 图形界面，适合研究
+   - **Ollama**: 简单易用, 适合快速体验
+   - **vLLM**: 高性能, 适合生产环境
+   - **FastChat**: 功能丰富, 支持多种模型
+   - **Text Generation WebUI**: 图形界面, 适合研究
 
 2. **模型选择建议**
    - **7B模型**: 适合16GB内存
@@ -288,4 +288,4 @@ print(f"Base URL: {llm.base_url}")
    - 使用合适的模型大小
    - 考虑使用量化模型节省内存
 
-现在HelloAgents完全支持本地LLM部署，让您可以在本地环境中享受AI助手的强大功能！🚀
+现在HelloAgents完全支持本地LLM部署, 让您可以在本地环境中享受AI助手的强大功能!🚀

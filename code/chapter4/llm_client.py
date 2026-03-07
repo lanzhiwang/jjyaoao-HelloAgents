@@ -9,8 +9,8 @@ load_dotenv()
 
 class HelloAgentsLLM:
     """
-    为本书 "Hello Agents" 定制的LLM客户端. 
-    它用于调用任何兼容OpenAI接口的服务, 并默认使用流式响应. 
+    为本书 "Hello Agents" 定制的LLM客户端.
+    它用于调用任何兼容OpenAI接口的服务, 并默认使用流式响应.
     """
 
     def __init__(
@@ -21,7 +21,7 @@ class HelloAgentsLLM:
         timeout: int = None,
     ):
         """
-        初始化客户端. 优先使用传入参数, 如果未提供, 则从环境变量加载. 
+        初始化客户端. 优先使用传入参数, 如果未提供, 则从环境变量加载.
         """
         self.model = model or os.getenv("LLM_MODEL_ID")
         apiKey = apiKey or os.getenv("LLM_API_KEY")
@@ -35,7 +35,7 @@ class HelloAgentsLLM:
 
     def think(self, messages: List[Dict[str, str]], temperature: float = 0) -> str:
         """
-        调用大语言模型进行思考, 并返回其响应. 
+        调用大语言模型进行思考, 并返回其响应.
         """
         print(f"🧠 正在调用 {self.model} 模型...")
         try:
@@ -69,7 +69,7 @@ if __name__ == "__main__":
         exampleMessages = [
             {
                 "role": "system",
-                "content": "You are a helpful assistant that writes Python code.",  # 你是一位乐于助人的助手, 会编写Python代码. 
+                "content": "You are a helpful assistant that writes Python code.",  # 你是一位乐于助人的助手, 会编写Python代码.
             },
             {"role": "user", "content": "写一个快速排序算法"},
         ]

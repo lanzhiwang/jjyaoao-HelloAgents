@@ -3,8 +3,8 @@
 
 对应文档: 12.2.5 在HelloAgents中实现BFCL评估 - 方式3
 
-这个示例展示如何使用底层组件进行自定义评估流程. 
-适合需要自定义评估流程的场景. 
+这个示例展示如何使用底层组件进行自定义评估流程.
+适合需要自定义评估流程的场景.
 """
 
 from hello_agents import SimpleAgent, HelloAgentsLLM

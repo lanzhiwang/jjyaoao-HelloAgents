@@ -1,17 +1,17 @@
 """
 步骤2: 仅评估已生成的AIME题目
 
-运行方法: 
+运行方法:
 python data_generation/step2_evaluate_only.py <generated_data_path>
 
-参数: 
+参数:
 - generated_data_path: 生成数据的路径
 
-说明: 
+说明:
 - 使用AIME 2025年真题作为参考
 - 数据集来源: math-ai/aime25(JSONL格式)
 
-示例: 
+示例:
 python data_generation/step2_evaluate_only.py data_generation/generated_data/aime_generated_20251011_042741.json
 """
 

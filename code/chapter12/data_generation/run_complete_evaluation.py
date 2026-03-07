@@ -1,20 +1,20 @@
 """
 完整评估流程
 
-运行完整的数据生成和评估流程: 
+运行完整的数据生成和评估流程:
 1. 生成AIME题目
 2. LLM Judge评估
 3. Win Rate评估
 4. 生成综合报告
 
-运行方法: 
+运行方法:
 python data_generation/run_complete_evaluation.py 30 3.0
 
-参数: 
+参数:
 - 30: 生成题目数量
 - 3.0: 每次生成之间的延迟(秒)
 
-说明: 
+说明:
 - 使用AIME 2025年真题作为参考
 - 数据集来源: math-ai/aime25(JSONL格式)
 """

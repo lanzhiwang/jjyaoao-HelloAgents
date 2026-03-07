@@ -2,13 +2,13 @@
 
 ## 概述
 
-`hello_agents.rl.trainers` 模块提供了SFT和GRPO训练器的封装,简化了模型训练流程。基于HuggingFace TRL库实现。
+`hello_agents.rl.trainers` 模块提供了SFT和GRPO训练器的封装,简化了模型训练流程. 基于HuggingFace TRL库实现. 
 
 ## 核心类
 
 ### SFTTrainerWrapper
 
-SFT (Supervised Fine-Tuning) 训练器的封装类。
+SFT (Supervised Fine-Tuning) 训练器的封装类. 
 
 ```python
 from hello_agents.rl.trainers import SFTTrainerWrapper
@@ -41,7 +41,7 @@ trainer.train()
 
 ##### `train()`
 
-开始训练。
+开始训练. 
 
 **返回**: 训练结果字典
 
@@ -52,7 +52,7 @@ print(f"训练完成,模型保存在: {result['output_dir']}")
 
 ##### `save_model(path)`
 
-保存模型到指定路径。
+保存模型到指定路径. 
 
 **参数**:
 - **path** (`str`): 保存路径
@@ -108,7 +108,7 @@ trainer.train()
 
 ### GRPOTrainerWrapper
 
-GRPO (Group Relative Policy Optimization) 训练器的封装类。
+GRPO (Group Relative Policy Optimization) 训练器的封装类. 
 
 ```python
 from hello_agents.rl.trainers import GRPOTrainerWrapper
@@ -143,7 +143,7 @@ trainer.train()
 
 ##### `train()`
 
-开始训练。
+开始训练. 
 
 **返回**: 训练结果字典
 
@@ -154,7 +154,7 @@ print(f"训练完成,模型保存在: {result['output_dir']}")
 
 ##### `save_model(path)`
 
-保存模型到指定路径。
+保存模型到指定路径. 
 
 **参数**:
 - **path** (`str`): 保存路径

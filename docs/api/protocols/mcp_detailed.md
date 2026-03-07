@@ -1,26 +1,26 @@
 # MCP (Model Context Protocol) API 详解
 
-MCP 是一个开放标准，用于在 AI 应用程序和外部数据源之间建立安全、可控的连接。HelloAgents 基于 FastMCP 库提供了完整的 MCP 协议支持。
+MCP 是一个开放标准, 用于在 AI 应用程序和外部数据源之间建立安全、可控的连接. HelloAgents 基于 FastMCP 库提供了完整的 MCP 协议支持. 
 
 ## 📋 核心概念
 
 ### 1. 工具 (Tools)
-工具是 MCP 服务器可以执行的函数，类似于 API 端点。每个工具都有明确的输入参数和输出格式。
+工具是 MCP 服务器可以执行的函数, 类似于 API 端点. 每个工具都有明确的输入参数和输出格式. 
 
 ### 2. 资源 (Resources)
-资源是服务器可以提供的数据，如文件、数据库记录、API 响应等。资源通过 URI 进行标识。
+资源是服务器可以提供的数据, 如文件、数据库记录、API 响应等. 资源通过 URI 进行标识. 
 
 ### 3. 提示词 (Prompts)
-预定义的提示词模板，可以被客户端使用来生成特定格式的请求。
+预定义的提示词模板, 可以被客户端使用来生成特定格式的请求. 
 
 ### 4. 传输层 (Transport)
-MCP 支持多种传输方式：Stdio、HTTP、WebSocket、SSE 等。
+MCP 支持多种传输方式: Stdio、HTTP、WebSocket、SSE 等. 
 
 ## 🚀 HelloAgents MCP 实现
 
 ### FastMCP 服务器
 
-HelloAgents 使用 FastMCP 库来实现 MCP 服务器：
+HelloAgents 使用 FastMCP 库来实现 MCP 服务器: 
 
 ```python
 from fastmcp import FastMCP
@@ -41,7 +41,7 @@ def calculate(expression: str) -> Dict[str, Any]:
         包含计算结果的字典
     """
     try:
-        result = eval(expression)  # 注意：生产环境需要安全处理
+        result = eval(expression)  # 注意: 生产环境需要安全处理
         return {
             "expression": expression,
             "result": result,
@@ -70,25 +70,25 @@ if __name__ == "__main__":
 
 ### 增强的 MCP 客户端
 
-HelloAgents 提供了增强的 MCP 客户端，支持多种传输方式：
+HelloAgents 提供了增强的 MCP 客户端, 支持多种传输方式: 
 
 ```python
 from hello_agents.protocols.mcp.client import MCPClient
 import asyncio
 
 async def use_mcp_client():
-    # 方式1：连接到 Python 脚本（Stdio 传输）
+    # 方式1: 连接到 Python 脚本（Stdio 传输）
     async with MCPClient("calculator_server.py") as client:
         tools = await client.list_tools()
         result = await client.call_tool("calculate", {"expression": "10 + 5"})
         print(f"计算结果: {result}")
 
-    # 方式2：连接到 HTTP 服务器
+    # 方式2: 连接到 HTTP 服务器
     async with MCPClient("http://localhost:8000") as client:
         info = await client.call_tool("get_server_info", {})
         print(f"服务器信息: {info}")
 
-    # 方式3：连接到 FastMCP 实例（内存传输）
+    # 方式3: 连接到 FastMCP 实例（内存传输）
     from fastmcp import FastMCP
     memory_server = FastMCP("memory-server")
 
@@ -107,7 +107,7 @@ asyncio.run(use_mcp_client())
 ## 🔧 传输方式详解
 
 ### 1. Stdio 传输（默认）
-通过标准输入输出进行通信，适用于本地进程。
+通过标准输入输出进行通信, 适用于本地进程. 
 
 ```python
 # 服务器端
@@ -119,7 +119,7 @@ client = MCPClient("server_script.py")
 ```
 
 ### 2. HTTP 传输
-通过 HTTP 协议进行通信，适用于远程服务。
+通过 HTTP 协议进行通信, 适用于远程服务. 
 
 ```python
 # 服务器端
@@ -131,7 +131,7 @@ client = MCPClient("http://localhost:8000")
 ```
 
 ### 3. SSE 传输
-通过 Server-Sent Events 进行实时通信。
+通过 Server-Sent Events 进行实时通信. 
 
 ```python
 # 客户端
@@ -142,7 +142,7 @@ client = MCPClient(
 ```
 
 ### 4. 内存传输
-直接在内存中通信，适用于测试和开发。
+直接在内存中通信, 适用于测试和开发. 
 
 ```python
 # 直接传递 FastMCP 实例
@@ -152,7 +152,7 @@ client = MCPClient(server_instance)
 
 ## 📚 实际应用案例
 
-### 案例1：文件系统服务器
+### 案例1: 文件系统服务器
 
 ```python
 from fastmcp import FastMCP
@@ -213,7 +213,7 @@ if __name__ == "__main__":
     file_server.run()
 ```
 
-### 案例2：数据库查询服务器
+### 案例2: 数据库查询服务器
 
 ```python
 from fastmcp import FastMCP

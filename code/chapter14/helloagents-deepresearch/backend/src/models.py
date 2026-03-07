@@ -9,7 +9,7 @@ from typing_extensions import Annotated
 
 @dataclass(kw_only=True)
 class TodoItem:
-    """单个待办任务项. """
+    """单个待办任务项."""
 
     id: int
     title: str

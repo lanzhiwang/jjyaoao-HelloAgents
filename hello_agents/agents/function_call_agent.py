@@ -43,8 +43,10 @@ class FunctionCallAgent(Agent):
         self.max_tool_iterations = max_tool_iterations
 
     def _get_system_prompt(self) -> str:
-        """构建系统提示词，注入工具描述"""
-        base_prompt = self.system_prompt or "你是一个可靠的AI助理，能够在需要时调用工具完成任务。"
+        """构建系统提示词, 注入工具描述"""
+        base_prompt = (
+            self.system_prompt or "你是一个可靠的AI助理, 能够在需要时调用工具完成任务. "
+        )
 
         if not self.enable_tool_calling or not self.tool_registry:
             return base_prompt
@@ -54,9 +56,11 @@ class FunctionCallAgent(Agent):
             return base_prompt
 
         prompt = base_prompt + "\n\n## 可用工具\n"
-        prompt += "当你判断需要外部信息或执行动作时，可以直接通过函数调用使用以下工具：\n"
+        prompt += (
+            "当你判断需要外部信息或执行动作时, 可以直接通过函数调用使用以下工具: \n"
+        )
         prompt += tools_description + "\n"
-        prompt += "\n请主动决定是否调用工具，合理利用多次调用来获得完备答案。"
+        prompt += "\n请主动决定是否调用工具, 合理利用多次调用来获得完备答案. "
         return prompt
 
     def _build_tool_schemas(self) -> list[dict[str, Any]]:
@@ -78,7 +82,7 @@ class FunctionCallAgent(Agent):
             for param in parameters:
                 properties[param.name] = {
                     "type": _map_parameter_type(param.type),
-                    "description": param.description or ""
+                    "description": param.description or "",
                 }
                 if param.default is not None:
                     properties[param.name]["default"] = param.default
@@ -90,11 +94,8 @@ class FunctionCallAgent(Agent):
                 "function": {
                     "name": tool.name,
                     "description": tool.description or "",
-                    "parameters": {
-                        "type": "object",
-                        "properties": properties
-                    }
-                }
+                    "parameters": {"type": "object", "properties": properties},
+                },
             }
             if required:
                 schema["function"]["parameters"]["required"] = required
@@ -112,14 +113,11 @@ class FunctionCallAgent(Agent):
                         "parameters": {
                             "type": "object",
                             "properties": {
-                                "input": {
-                                    "type": "string",
-                                    "description": "输入文本"
-                                }
+                                "input": {"type": "string", "description": "输入文本"}
                             },
-                            "required": ["input"]
-                        }
-                    }
+                            "required": ["input"],
+                        },
+                    },
                 }
             )
 
@@ -155,7 +153,9 @@ class FunctionCallAgent(Agent):
         except json.JSONDecodeError:
             return {}
 
-    def _convert_parameter_types(self, tool_name: str, param_dict: dict[str, Any]) -> dict[str, Any]:
+    def _convert_parameter_types(
+        self, tool_name: str, param_dict: dict[str, Any]
+    ) -> dict[str, Any]:
         """根据工具定义尽可能转换参数类型"""
         if not self.tool_registry:
             return param_dict
@@ -203,7 +203,7 @@ class FunctionCallAgent(Agent):
     def _execute_tool_call(self, tool_name: str, arguments: dict[str, Any]) -> str:
         """执行工具调用并返回字符串结果"""
         if not self.tool_registry:
-            return "❌ 错误：未配置工具注册表"
+            return "❌ 错误: 未配置工具注册表"
 
         tool = self.tool_registry.get_tool(tool_name)
         if tool:
@@ -211,7 +211,7 @@ class FunctionCallAgent(Agent):
                 typed_arguments = self._convert_parameter_types(tool_name, arguments)
                 return tool.run(typed_arguments)
             except Exception as exc:
-                return f"❌ 工具调用失败：{exc}"
+                return f"❌ 工具调用失败: {exc}"
 
         func = self.tool_registry.get_function(tool_name)
         if func:
@@ -219,15 +219,21 @@ class FunctionCallAgent(Agent):
                 input_text = arguments.get("input", "")
                 return func(input_text)
             except Exception as exc:
-                return f"❌ 工具调用失败：{exc}"
+                return f"❌ 工具调用失败: {exc}"
 
-        return f"❌ 错误：未找到工具 '{tool_name}'"
+        return f"❌ 错误: 未找到工具 '{tool_name}'"
 
-    def _invoke_with_tools(self, messages: list[dict[str, Any]], tools: list[dict[str, Any]], tool_choice: Union[str, dict], **kwargs):
+    def _invoke_with_tools(
+        self,
+        messages: list[dict[str, Any]],
+        tools: list[dict[str, Any]],
+        tool_choice: Union[str, dict],
+        **kwargs,
+    ):
         """调用底层OpenAI客户端执行函数调用"""
         client = getattr(self.llm, "_client", None)
         if client is None:
-            raise RuntimeError("HelloAgentsLLM 未正确初始化客户端，无法执行函数调用。")
+            raise RuntimeError("HelloAgentsLLM 未正确初始化客户端, 无法执行函数调用. ")
 
         client_kwargs = dict(kwargs)
         client_kwargs.setdefault("temperature", self.llm.temperature)
@@ -269,8 +275,14 @@ class FunctionCallAgent(Agent):
             self.add_message(Message(response_text, "assistant"))
             return response_text
 
-        iterations_limit = max_tool_iterations if max_tool_iterations is not None else self.max_tool_iterations
-        effective_tool_choice: Union[str, dict] = tool_choice if tool_choice is not None else self.default_tool_choice
+        iterations_limit = (
+            max_tool_iterations
+            if max_tool_iterations is not None
+            else self.max_tool_iterations
+        )
+        effective_tool_choice: Union[str, dict] = (
+            tool_choice if tool_choice is not None else self.default_tool_choice
+        )
 
         current_iteration = 0
         final_response = ""
@@ -289,7 +301,10 @@ class FunctionCallAgent(Agent):
             tool_calls = list(assistant_message.tool_calls or [])
 
             if tool_calls:
-                assistant_payload: dict[str, Any] = {"role": "assistant", "content": content}
+                assistant_payload: dict[str, Any] = {
+                    "role": "assistant",
+                    "content": content,
+                }
                 assistant_payload["tool_calls"] = []
 
                 for tool_call in tool_calls:
@@ -307,7 +322,9 @@ class FunctionCallAgent(Agent):
 
                 for tool_call in tool_calls:
                     tool_name = tool_call.function.name
-                    arguments = self._parse_function_call_arguments(tool_call.function.arguments)
+                    arguments = self._parse_function_call_arguments(
+                        tool_call.function.arguments
+                    )
                     result = self._execute_tool_call(tool_name, arguments)
                     messages.append(
                         {
@@ -332,7 +349,9 @@ class FunctionCallAgent(Agent):
                 tool_choice="none",
                 **kwargs,
             )
-            final_response = self._extract_message_content(final_choice.choices[0].message.content)
+            final_response = self._extract_message_content(
+                final_choice.choices[0].message.content
+            )
             messages.append({"role": "assistant", "content": final_response})
 
         self.add_message(Message(input_text, "user"))
@@ -340,7 +359,7 @@ class FunctionCallAgent(Agent):
         return final_response
 
     def add_tool(self, tool) -> None:
-        """便捷方法：将工具注册到当前Agent"""
+        """便捷方法: 将工具注册到当前Agent"""
         if not self.tool_registry:
             from ..tools.registry import ToolRegistry
 
@@ -352,7 +371,9 @@ class FunctionCallAgent(Agent):
             if expanded_tools:
                 for expanded_tool in expanded_tools:
                     self.tool_registry.register_tool(expanded_tool)
-                print(f"✅ MCP工具 '{tool.name}' 已展开为 {len(expanded_tools)} 个独立工具")
+                print(
+                    f"✅ MCP工具 '{tool.name}' 已展开为 {len(expanded_tools)} 个独立工具"
+                )
                 return
 
         self.tool_registry.register_tool(tool)
@@ -374,6 +395,6 @@ class FunctionCallAgent(Agent):
         return self.enable_tool_calling and self.tool_registry is not None
 
     def stream_run(self, input_text: str, **kwargs) -> Iterator[str]:
-        """流式调用暂未实现，直接回退到一次性调用"""
+        """流式调用暂未实现, 直接回退到一次性调用"""
         result = self.run(input_text, **kwargs)
         yield result

@@ -1,7 +1,7 @@
 """
 ContextBuilder 基础使用示例
 
-展示如何使用 ContextBuilder 构建优化的上下文, 包括: 
+展示如何使用 ContextBuilder 构建优化的上下文, 包括:
 1. 初始化 ContextBuilder
 2. 准备对话历史
 3. 添加记忆

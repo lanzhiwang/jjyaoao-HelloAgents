@@ -2,13 +2,13 @@
 
 ## 概述
 
-`hello_agents.rl.rewards` 模块提供了用于强化学习训练的奖励函数。奖励函数用于评估模型生成的答案质量,是GRPO等RL算法的核心组件。
+`hello_agents.rl.rewards` 模块提供了用于强化学习训练的奖励函数. 奖励函数用于评估模型生成的答案质量,是GRPO等RL算法的核心组件. 
 
 ## 核心类
 
 ### MathRewardFunction
 
-数学任务奖励函数的基类,提供答案提取和比较功能。
+数学任务奖励函数的基类,提供答案提取和比较功能. 
 
 ```python
 from hello_agents.rl.rewards import MathRewardFunction
@@ -23,7 +23,7 @@ class CustomReward(MathRewardFunction):
 
 ##### `extract_answer(text)`
 
-从文本中提取最终答案。
+从文本中提取最终答案. 
 
 **参数**:
 - **text** (`str`): 包含答案的文本
@@ -44,7 +44,7 @@ print(answer)  # "42"
 
 ##### `compare_answers(pred, truth)`
 
-比较预测答案和真实答案是否相等。
+比较预测答案和真实答案是否相等. 
 
 **参数**:
 - **pred** (`str`): 预测答案
@@ -65,7 +65,7 @@ print(is_correct)  # True
 
 ##### `__call__(completions, **kwargs)`
 
-计算奖励值。子类需要实现此方法。
+计算奖励值. 子类需要实现此方法. 
 
 **参数**:
 - **completions** (`List[str]`): 模型生成的答案列表
@@ -77,7 +77,7 @@ print(is_correct)  # True
 
 ### AccuracyReward
 
-基于准确率的奖励函数,正确答案得1分,错误答案得0分。
+基于准确率的奖励函数,正确答案得1分,错误答案得0分. 
 
 ```python
 from hello_agents.rl.rewards import AccuracyReward
@@ -99,7 +99,7 @@ print(rewards)  # [1.0, 0.0]
 
 ### LengthPenaltyReward
 
-带长度惩罚的奖励函数,鼓励生成简洁的答案。
+带长度惩罚的奖励函数,鼓励生成简洁的答案. 
 
 ```python
 from hello_agents.rl.rewards import LengthPenaltyReward, AccuracyReward
@@ -136,7 +136,7 @@ reward = base_reward - penalty_weight * len(completion)
 
 ### StepReward
 
-带步骤奖励的奖励函数,鼓励生成详细的推理步骤。
+带步骤奖励的奖励函数,鼓励生成详细的推理步骤. 
 
 ```python
 from hello_agents.rl.rewards import StepReward, AccuracyReward
@@ -186,7 +186,7 @@ reward = base_reward + step_bonus * num_steps
 
 ### create_accuracy_reward
 
-创建准确率奖励函数。
+创建准确率奖励函数. 
 
 ```python
 from hello_agents.rl import create_accuracy_reward
@@ -211,7 +211,7 @@ print(rewards)  # [1.0, 0.0, 1.0]
 
 ### create_length_penalty_reward
 
-创建带长度惩罚的奖励函数。
+创建带长度惩罚的奖励函数. 
 
 ```python
 from hello_agents.rl import create_length_penalty_reward, create_accuracy_reward
@@ -247,7 +247,7 @@ rewards = reward_fn(
 
 ### create_step_reward
 
-创建带步骤奖励的奖励函数。
+创建带步骤奖励的奖励函数. 
 
 ```python
 from hello_agents.rl import create_step_reward, create_accuracy_reward
@@ -286,7 +286,7 @@ rewards = reward_fn(
 
 ### evaluate_rewards
 
-评估奖励函数的性能。
+评估奖励函数的性能. 
 
 ```python
 from hello_agents.rl import evaluate_rewards
@@ -445,7 +445,7 @@ reward_fn = create_step_reward(base_fn, step_bonus=0.1)
 
 ### Q: 奖励函数的签名为什么是 `**kwargs`?
 
-A: 为了兼容TRL库的接口,奖励函数需要接受可变参数。`ground_truth` 通过kwargs传递。
+A: 为了兼容TRL库的接口,奖励函数需要接受可变参数. `ground_truth` 通过kwargs传递. 
 
 ### Q: 如何调试奖励函数?
 

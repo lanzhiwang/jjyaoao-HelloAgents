@@ -71,10 +71,10 @@ evaluation = [
     "gradio>=4.0.0,<5.0.0",         # 人工验证界面
 ]
 
-# BFCL评估依赖（⚠️ bfcl-eval强制要求numpy==1.26.4，与主依赖numpy>=2.0冲突）
-# ⚠️ 此组已禁用，无法通过 pip install hello-agents[evaluation-bfcl] 安装
+# BFCL评估依赖（⚠️ bfcl-eval强制要求numpy==1.26.4, 与主依赖numpy>=2.0冲突）
+# ⚠️ 此组已禁用, 无法通过 pip install hello-agents[evaluation-bfcl] 安装
 # 
-# 使用方法：在独立虚拟环境中手动安装
+# 使用方法: 在独立虚拟环境中手动安装
 #   uv venv .venv-bfcl
 #   source .venv-bfcl/bin/activate  # Windows: .venv-bfcl\Scripts\activate
 #   uv pip install openai requests python-dotenv pydantic beautifulsoup4 networkx
@@ -107,7 +107,7 @@ memory-rag = [
     "hello-agents[memory,rag]",
 ]
 
-# 全部功能（不含evaluation-bfcl，因其与numpy>=2.0冲突）
+# 全部功能（不含evaluation-bfcl, 因其与numpy>=2.0冲突）
 all = [
     "hello-agents[search,memory-rag,protocols,evaluation,rl]",
 ]

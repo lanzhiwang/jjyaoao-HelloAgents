@@ -28,7 +28,7 @@ class CodebaseMaintainer:
     整合 ContextBuilder + NoteTool + TerminalTool + MemoryTool
     实现跨会话的代码库维护任务管理
 
-    核心特性: 
+    核心特性:
     - Agent 自主使用工具探索代码库
     - 不预定义工作流, 完全基于 agent 决策
     - 跨会话记忆和上下文管理
@@ -435,7 +435,7 @@ class CodebaseMaintainer:
 def main():
     """主函数 - 演示 CodebaseMaintainer 的使用(Agentic 版本)
 
-    在这个版本中: 
+    在这个版本中:
     - Agent 自主决定使用哪些工具
     - 不预定义工作流
     - Agent 根据需求灵活探索代码库

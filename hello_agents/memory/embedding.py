@@ -1,15 +1,15 @@
 """统一嵌入模块（实现 + 提供器）
 
-说明（中文）：
-- 提供统一的文本嵌入接口与多实现：本地Transformer、DashScope（通义千问）、TF-IDF兜底。
-- 暴露 get_text_embedder()/get_dimension()/refresh_embedder() 供各记忆类型统一使用。
-- 通过环境变量优先级：dashscope > local > tfidf。
+说明（中文）:
+- 提供统一的文本嵌入接口与多实现: 本地Transformer、DashScope（通义千问）、TF-IDF兜底.
+- 暴露 get_text_embedder()/get_dimension()/refresh_embedder() 供各记忆类型统一使用.
+- 通过环境变量优先级: dashscope > local > tfidf.
 
-环境变量：
+环境变量:
 - EMBED_MODEL_TYPE: "dashscope" | "local" | "tfidf"（默认 dashscope）
-- EMBED_MODEL_NAME: 模型名称（dashscope默认 text-embedding-v3；local默认 sentence-transformers/all-MiniLM-L6-v2）
+- EMBED_MODEL_NAME: 模型名称（dashscope默认 text-embedding-v3; local默认 sentence-transformers/all-MiniLM-L6-v2）
 - EMBED_API_KEY: Embedding API Key（统一命名）
-- EMBED_BASE_URL: Embedding Base URL（统一命名，可选）
+- EMBED_BASE_URL: Embedding Base URL（统一命名, 可选）
 """
 
 from typing import List, Union, Optional
@@ -17,10 +17,10 @@ import threading
 import os
 import numpy as np
 
-
 # ==============
 # 抽象与实现
 # ==============
+
 
 class EmbeddingModel:
     """嵌入模型基类（最小接口）"""
@@ -34,7 +34,7 @@ class EmbeddingModel:
 
 
 class LocalTransformerEmbedding(EmbeddingModel):
-    """本地Transformer嵌入（优先 sentence-transformers，缺失回退 transformers+torch）"""
+    """本地Transformer嵌入（优先 sentence-transformers, 缺失回退 transformers+torch）"""
 
     def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
         self.model_name = model_name
@@ -49,6 +49,7 @@ class LocalTransformerEmbedding(EmbeddingModel):
         # 优先 sentence-transformers
         try:
             from sentence_transformers import SentenceTransformer
+
             self._st_model = SentenceTransformer(self.model_name)
             test_vec = self._st_model.encode("test_text")
             self._dimension = len(test_vec)
@@ -61,10 +62,13 @@ class LocalTransformerEmbedding(EmbeddingModel):
         try:
             from transformers import AutoTokenizer, AutoModel
             import torch
+
             self._hf_tokenizer = AutoTokenizer.from_pretrained(self.model_name)
             self._hf_model = AutoModel.from_pretrained(self.model_name)
             with torch.no_grad():
-                inputs = self._hf_tokenizer("test_text", return_tensors="pt", padding=True, truncation=True)
+                inputs = self._hf_tokenizer(
+                    "test_text", return_tensors="pt", padding=True, truncation=True
+                )
                 outputs = self._hf_model(**inputs)
                 test_embedding = outputs.last_hidden_state.mean(dim=1)
                 self._dimension = int(test_embedding.shape[1])
@@ -74,7 +78,9 @@ class LocalTransformerEmbedding(EmbeddingModel):
             self._hf_tokenizer = None
             self._hf_model = None
 
-        raise ImportError("未找到可用的本地嵌入后端，请安装 sentence-transformers 或 transformers+torch")
+        raise ImportError(
+            "未找到可用的本地嵌入后端, 请安装 sentence-transformers 或 transformers+torch"
+        )
 
     def encode(self, texts: Union[str, List[str]]):
         if isinstance(texts, str):
@@ -90,7 +96,14 @@ class LocalTransformerEmbedding(EmbeddingModel):
                 vecs = [v for v in vecs]
         else:
             import torch
-            tokenized = self._hf_tokenizer(inputs, return_tensors="pt", padding=True, truncation=True, max_length=512)
+
+            tokenized = self._hf_tokenizer(
+                inputs,
+                return_tensors="pt",
+                padding=True,
+                truncation=True,
+                max_length=512,
+            )
             with torch.no_grad():
                 outputs = self._hf_model(**tokenized)
                 embeddings = outputs.last_hidden_state.mean(dim=1).cpu().numpy()
@@ -118,7 +131,10 @@ class TFIDFEmbedding(EmbeddingModel):
     def _init_vectorizer(self):
         try:
             from sklearn.feature_extraction.text import TfidfVectorizer
-            self._vectorizer = TfidfVectorizer(max_features=self.max_features, stop_words='english')
+
+            self._vectorizer = TfidfVectorizer(
+                max_features=self.max_features, stop_words="english"
+            )
         except ImportError:
             raise ImportError("请安装 scikit-learn: pip install scikit-learn")
 
@@ -129,7 +145,7 @@ class TFIDFEmbedding(EmbeddingModel):
 
     def encode(self, texts: Union[str, List[str]]):
         if not self._is_fitted:
-            raise ValueError("TF-IDF模型未训练，请先调用fit()方法")
+            raise ValueError("TF-IDF模型未训练, 请先调用fit()方法")
         if isinstance(texts, str):
             texts = [texts]
             single = True
@@ -149,12 +165,17 @@ class TFIDFEmbedding(EmbeddingModel):
 class DashScopeEmbedding(EmbeddingModel):
     """阿里云 DashScope（通义千问）Embedding / OpenAI兼容REST 模式
 
-    行为：
-    - 如提供 base_url，则优先使用 OpenAI 兼容的 REST 接口（POST {base_url}/embeddings）。
-    - 否则使用官方 dashscope SDK 的 TextEmbedding.call。
+    行为:
+    - 如提供 base_url, 则优先使用 OpenAI 兼容的 REST 接口（POST {base_url}/embeddings）.
+    - 否则使用官方 dashscope SDK 的 TextEmbedding.call.
     """
 
-    def __init__(self, model_name: str = "text-embedding-v3", api_key: Optional[str] = None, base_url: Optional[str] = None):
+    def __init__(
+        self,
+        model_name: str = "text-embedding-v3",
+        api_key: Optional[str] = None,
+        base_url: Optional[str] = None,
+    ):
         self.model_name = model_name
         self.api_key = api_key
         self.base_url = base_url
@@ -186,6 +207,7 @@ class DashScopeEmbedding(EmbeddingModel):
         # REST 模式（OpenAI兼容）
         if self.base_url:
             import requests
+
             url = self.base_url.rstrip("/") + "/embeddings"
             headers = {
                 "Authorization": f"Bearer {self.api_key}" if self.api_key else "",
@@ -194,9 +216,11 @@ class DashScopeEmbedding(EmbeddingModel):
             payload = {"model": self.model_name, "input": inputs}
             resp = requests.post(url, headers=headers, json=payload, timeout=30)
             if resp.status_code >= 400:
-                raise RuntimeError(f"Embedding REST 调用失败: {resp.status_code} {resp.text}")
+                raise RuntimeError(
+                    f"Embedding REST 调用失败: {resp.status_code} {resp.text}"
+                )
             data = resp.json()
-            # 期望结构：{"data": [{"embedding": [...]}]}
+            # 期望结构: {"data": [{"embedding": [...]}]}
             items = data.get("data") or []
             vecs = [np.array(item.get("embedding")) for item in items]
             if single:
@@ -205,6 +229,7 @@ class DashScopeEmbedding(EmbeddingModel):
 
         # SDK 模式
         from dashscope import TextEmbedding
+
         rsp = TextEmbedding.call(model=self.model_name, input=inputs)
         embeddings_obj = None
         if isinstance(rsp, dict):
@@ -213,7 +238,10 @@ class DashScopeEmbedding(EmbeddingModel):
             embeddings_obj = getattr(getattr(rsp, "output", None), "embeddings", None)
         if not embeddings_obj:
             raise RuntimeError("DashScope 返回为空或格式不匹配")
-        vecs = [np.array(item.get("embedding") or item.get("vector")) for item in embeddings_obj]
+        vecs = [
+            np.array(item.get("embedding") or item.get("vector"))
+            for item in embeddings_obj
+        ]
         if single:
             return vecs[0]
         return vecs
@@ -226,6 +254,7 @@ class DashScopeEmbedding(EmbeddingModel):
 # ==============
 # 工厂与回退
 # ==============
+
 
 def create_embedding_model(model_type: str = "local", **kwargs) -> EmbeddingModel:
     """创建嵌入模型实例
@@ -243,8 +272,10 @@ def create_embedding_model(model_type: str = "local", **kwargs) -> EmbeddingMode
         raise ValueError(f"不支持的模型类型: {model_type}")
 
 
-def create_embedding_model_with_fallback(preferred_type: str = "dashscope", **kwargs) -> EmbeddingModel:
-    """带回退的创建：dashscope -> local -> tfidf"""
+def create_embedding_model_with_fallback(
+    preferred_type: str = "dashscope", **kwargs
+) -> EmbeddingModel:
+    """带回退的创建: dashscope -> local -> tfidf"""
     if preferred_type in ("sentence_transformer", "huggingface"):
         preferred_type = "local"
     fallback = ["dashscope", "local", "tfidf"]
@@ -257,7 +288,7 @@ def create_embedding_model_with_fallback(preferred_type: str = "dashscope", **kw
             return create_embedding_model(t, **kwargs)
         except Exception:
             continue
-    raise RuntimeError("所有嵌入模型都不可用，请安装依赖或检查配置")
+    raise RuntimeError("所有嵌入模型都不可用, 请安装依赖或检查配置")
 
 
 # ==================
@@ -271,7 +302,11 @@ _embedder: Optional[EmbeddingModel] = None
 def _build_embedder() -> EmbeddingModel:
     preferred = os.getenv("EMBED_MODEL_TYPE", "dashscope").strip()
     # 根据提供商选择默认模型
-    default_model = "text-embedding-v3" if preferred == "dashscope" else "sentence-transformers/all-MiniLM-L6-v2"
+    default_model = (
+        "text-embedding-v3"
+        if preferred == "dashscope"
+        else "sentence-transformers/all-MiniLM-L6-v2"
+    )
     model_name = os.getenv("EMBED_MODEL_NAME", default_model).strip()
     kwargs = {}
     if model_name:
@@ -311,5 +346,3 @@ def refresh_embedder() -> EmbeddingModel:
     with _lock:
         _embedder = _build_embedder()
         return _embedder
-
-

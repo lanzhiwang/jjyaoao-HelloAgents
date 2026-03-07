@@ -2,7 +2,7 @@
 BFCL 数据集加载模块
 
 负责加载 Berkeley Function Calling Leaderboard 数据集
-支持从BFCL官方数据目录加载，包括测试数据和ground truth
+支持从BFCL官方数据目录加载, 包括测试数据和ground truth
 """
 
 from typing import List, Dict, Any, Optional, Union
@@ -14,7 +14,7 @@ from pathlib import Path
 class BFCLDataset:
     """BFCL 数据集加载器
 
-    支持从BFCL官方数据目录加载数据集，包括测试数据和ground truth。
+    支持从BFCL官方数据目录加载数据集, 包括测试数据和ground truth.
 
     数据集类别（BFCL v4）:
     - simple_python: 简单Python函数调用
@@ -36,7 +36,7 @@ class BFCLDataset:
         bfcl_data_dir: BFCL官方数据目录路径
         category: 评估类别
         data: 加载的测试数据列表
-        ground_truth: ground truth字典，key为样本id
+        ground_truth: ground truth字典, key为样本id
     """
 
     # BFCL v4 数据集的标准类别映射
@@ -64,14 +64,16 @@ class BFCLDataset:
 
     def __init__(
         self,
-        bfcl_data_dir: Union[str, Path] = "./temp_gorilla/berkeley-function-call-leaderboard/bfcl_eval/data",
-        category: Optional[str] = None
+        bfcl_data_dir: Union[
+            str, Path
+        ] = "./temp_gorilla/berkeley-function-call-leaderboard/bfcl_eval/data",
+        category: Optional[str] = None,
     ):
         """初始化 BFCL 数据集加载器
 
         Args:
             bfcl_data_dir: BFCL官方数据目录路径（包含BFCL_v4_*.json文件）
-            category: 评估类别，如'simple_python', 'multiple'等
+            category: 评估类别, 如'simple_python', 'multiple'等
         """
         self.bfcl_data_dir = Path(bfcl_data_dir)
         self.category = category
@@ -92,10 +94,10 @@ class BFCLDataset:
         """加载数据集（包括测试数据和ground truth）
 
         Returns:
-            数据集列表，每个元素包含问题、函数定义、ground truth等
+            数据集列表, 每个元素包含问题、函数定义、ground truth等
         """
         if not self.bfcl_data_dir.exists():
-            print(f"   ⚠️ 数据目录不存在，无法加载数据")
+            print(f"   ⚠️ 数据目录不存在, 无法加载数据")
             return []
 
         # 确定要加载的文件
@@ -109,8 +111,8 @@ class BFCLDataset:
 
             self.data = self._load_category(filename)
         else:
-            # 加载所有类别（不推荐，数据量大）
-            print(f"   ⚠️ 未指定类别，将加载simple_python作为示例")
+            # 加载所有类别（不推荐, 数据量大）
+            print(f"   ⚠️ 未指定类别, 将加载simple_python作为示例")
             self.data = self._load_category(self.CATEGORY_MAPPING["simple_python"])
 
         print(f"✅ BFCL数据集加载完成")
@@ -120,12 +122,12 @@ class BFCLDataset:
         print(f"   Ground truth数: {len(self.ground_truth)}")
 
         return self.data
-    
+
     def _load_category(self, filename: str) -> List[Dict[str, Any]]:
         """加载指定类别的数据（包括测试数据和ground truth）
 
         Args:
-            filename: 文件名（不含.json后缀），如'BFCL_v4_simple_python'
+            filename: 文件名（不含.json后缀）, 如'BFCL_v4_simple_python'
 
         Returns:
             测试数据列表
@@ -170,7 +172,7 @@ class BFCLDataset:
             数据列表
         """
         data = []
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
                 if line:
@@ -225,4 +227,3 @@ class BFCLDataset:
         if not self.data:
             self.load()
         return iter(self.data)
-

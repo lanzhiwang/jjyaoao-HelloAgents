@@ -29,7 +29,7 @@ import requests
 
 def get_weather(city: str) -> str:
     """
-    通过调用 wttr.in API 查询真实的天气信息. 
+    通过调用 wttr.in API 查询真实的天气信息.
     """
     # API端点, 我们请求JSON格式的数据
     url = f"https://wttr.in/{city}?format=j1"
@@ -64,7 +64,7 @@ from tavily import TavilyClient
 
 def get_attraction(city: str, weather: str) -> str:
     """
-    根据城市和天气, 使用Tavily Search API搜索并返回优化后的景点推荐. 
+    根据城市和天气, 使用Tavily Search API搜索并返回优化后的景点推荐.
     """
 
     # 从环境变量或主程序配置中获取API密钥
@@ -114,7 +114,7 @@ from openai import OpenAI
 
 class OpenAICompatibleClient:
     """
-    一个用于调用任何兼容OpenAI接口的LLM服务的客户端. 
+    一个用于调用任何兼容OpenAI接口的LLM服务的客户端.
     """
 
     def __init__(self, model: str, api_key: str, base_url: str):
@@ -122,7 +122,7 @@ class OpenAICompatibleClient:
         self.client = OpenAI(api_key=api_key, base_url=base_url)
 
     def generate(self, prompt: str, system_prompt: str) -> str:
-        """调用LLM API来生成回应. """
+        """调用LLM API来生成回应."""
         print("正在调用大语言模型...")
         try:
             messages = [

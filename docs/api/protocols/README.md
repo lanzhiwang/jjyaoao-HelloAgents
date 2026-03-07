@@ -1,16 +1,16 @@
 # HelloAgents 智能体通信协议 API 文档
 
-本目录包含 HelloAgents 框架支持的三种主要智能体通信协议的完整 API 文档和实用案例。
+本目录包含 HelloAgents 框架支持的三种主要智能体通信协议的完整 API 文档和实用案例. 
 
 ## 📋 协议概览
 
-HelloAgents 支持三种核心通信协议，每种协议都有其特定的应用场景：
+HelloAgents 支持三种核心通信协议, 每种协议都有其特定的应用场景: 
 
-| 协议 | 全称 | 主要用途 | 实现状态 | 文档链接 |
-|------|------|----------|----------|----------|
-| **MCP** | Model Context Protocol | 工具调用、资源访问 | ✅ 生产就绪 | [MCP 详解](mcp.md) |
-| **A2A** | Agent-to-Agent Protocol | 智能体间通信协作 | ✅ 基于官方SDK | [A2A 案例](a2a_examples.md) |
-| **ANP** | Agent Network Protocol | 网络管理、服务发现 | ✅ 概念实现 | [ANP 演示](anp_examples.md) |
+| 协议    | 全称                    | 主要用途           | 实现状态      | 文档链接                    |
+| ------- | ----------------------- | ------------------ | ------------- | --------------------------- |
+| **MCP** | Model Context Protocol  | 工具调用、资源访问 | ✅ 生产就绪    | [MCP 详解](mcp.md)          |
+| **A2A** | Agent-to-Agent Protocol | 智能体间通信协作   | ✅ 基于官方SDK | [A2A 案例](a2a_examples.md) |
+| **ANP** | Agent Network Protocol  | 网络管理、服务发现 | ✅ 概念实现    | [ANP 演示](anp_examples.md) |
 
 ## 🚀 快速开始
 
@@ -39,13 +39,13 @@ server = FastMCP("my-server")
 @server.tool()
 def greet(name: str) -> str:
     """问候工具"""
-    return f"Hello, {name}! 欢迎使用 MCP 协议。"
+    return f"Hello, {name}! 欢迎使用 MCP 协议. "
 
 @server.tool()
 def calculate(expression: str) -> float:
     """计算工具"""
     try:
-        result = eval(expression)  # 注意：生产环境需要安全处理
+        result = eval(expression)  # 注意: 生产环境需要安全处理
         return result
     except Exception as e:
         return f"计算错误: {e}"
@@ -69,14 +69,14 @@ agent = A2AServer(
 @agent.skill("greet")
 def greet_user(name: str) -> str:
     """问候技能"""
-    return f"你好，{name}！我是 A2A 智能体。"
+    return f"你好, {name}!我是 A2A 智能体. "
 
 @agent.skill("help")
 def show_help(topic: str = "") -> str:
     """帮助技能"""
     if topic:
         return f"关于 {topic} 的帮助信息..."
-    return "可用技能：greet, help"
+    return "可用技能: greet, help"
 
 # 测试技能
 print(agent.skills["greet"]("用户"))
@@ -129,29 +129,29 @@ print(f"网络状态: {status['health_status']}")
 
 ## 🎯 协议选择指南
 
-### 选择 MCP 当你需要：
+### 选择 MCP 当你需要: 
 - ✅ 集成外部工具和服务（文件系统、数据库、API）
 - ✅ 标准化的工具调用接口
 - ✅ 访问结构化资源和提示词
 - ✅ 与现有 MCP 生态系统兼容
 
-**典型场景**：文档处理、数据查询、代码分析、系统集成
+**典型场景**: 文档处理、数据查询、代码分析、系统集成
 
-### 选择 A2A 当你需要：
+### 选择 A2A 当你需要: 
 - ✅ 多个智能体协作完成复杂任务
 - ✅ 实现智能体间的技能共享
 - ✅ 构建工作流自动化系统
 - ✅ 智能体角色分工和协调
 
-**典型场景**：内容创作团队、客服系统、代码审查流程、教学系统
+**典型场景**: 内容创作团队、客服系统、代码审查流程、教学系统
 
-### 选择 ANP 当你需要：
+### 选择 ANP 当你需要: 
 - ✅ 管理大规模智能体网络
 - ✅ 实现服务发现和负载均衡
 - ✅ 构建分布式智能体系统
 - ✅ 网络拓扑管理和监控
 
-**典型场景**：企业级智能体平台、云原生智能体服务、IoT 智能体网络
+**典型场景**: 企业级智能体平台、云原生智能体服务、IoT 智能体网络
 
 ## 📁 示例代码
 
@@ -241,7 +241,7 @@ npm install -g @modelcontextprotocol/server-memory
 
 ## 🤝 贡献指南
 
-欢迎为协议文档和示例贡献代码：
+欢迎为协议文档和示例贡献代码: 
 
 1. **Fork 项目仓库**
 2. **创建功能分支** (`git checkout -b feature/new-protocol-example`)
@@ -258,11 +258,11 @@ npm install -g @modelcontextprotocol/server-memory
 
 ## 📞 支持与反馈
 
-- **📧 邮箱**：support@helloagents.ai
-- **💬 讨论**：[GitHub Discussions](https://github.com/HelloAgents/HelloAgents/discussions)
-- **🐛 问题报告**：[GitHub Issues](https://github.com/HelloAgents/HelloAgents/issues)
-- **📚 在线文档**：https://docs.helloagents.ai
+- **📧 邮箱**: support@helloagents.ai
+- **💬 讨论**: [GitHub Discussions](https://github.com/HelloAgents/HelloAgents/discussions)
+- **🐛 问题报告**: [GitHub Issues](https://github.com/HelloAgents/HelloAgents/issues)
+- **📚 在线文档**: https://docs.helloagents.ai
 
 ---
 
-*最后更新：2024年12月 | HelloAgents 团队*
+*最后更新: 2024年12月 | HelloAgents 团队*

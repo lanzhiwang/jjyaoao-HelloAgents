@@ -1,7 +1,7 @@
 """
 GAIA (General AI Assistants) 评估模块
 
-GAIA 是由 Meta 开发的通用AI助手评估基准,包含466个真实世界问题。
+GAIA 是由 Meta 开发的通用AI助手评估基准,包含466个真实世界问题.
 
 主要功能:
 - 数据集加载和处理
@@ -23,4 +23,3 @@ __all__ = [
     "GAIAEvaluator",
     "GAIAMetrics",
 ]
-

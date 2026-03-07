@@ -3,9 +3,9 @@
 
 对应文档: 12.4.3 LLM Judge评估
 
-这个示例展示如何使用LLM Judge评估生成的AIME题目质量. 
+这个示例展示如何使用LLM Judge评估生成的AIME题目质量.
 
-LLM Judge从4个维度评估题目质量: 
+LLM Judge从4个维度评估题目质量:
 1. 正确性(Correctness): 题目和答案是否正确
 2. 清晰度(Clarity): 题目表述是否清晰
 3. 难度匹配(Difficulty Match): 难度是否符合AIME水平
@@ -121,7 +121,7 @@ with open(output_file, "w", encoding="utf-8") as f:
 
 print(f"\n✅ 评估结果已保存到 {output_file}")
 
-# 运行输出示例: 
+# 运行输出示例:
 # ============================================================
 # LLM Judge评估
 # ============================================================

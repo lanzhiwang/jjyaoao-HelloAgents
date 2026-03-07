@@ -21,7 +21,7 @@ cp .env.example .env
 
 ### 2. 配置LLM服务
 
-编辑 `.env` 文件，配置以下4个核心变量：
+编辑 `.env` 文件, 配置以下4个核心变量: 
 
 ```bash
 # 模型名称
@@ -33,7 +33,7 @@ LLM_API_KEY=your-api-key-here
 # 服务地址
 LLM_BASE_URL=your-api-base-url
 
-# 超时时间（可选，默认60秒）
+# 超时时间（可选, 默认60秒）
 LLM_TIMEOUT=60
 ```
 
@@ -177,7 +177,7 @@ SERPAPI_API_KEY=your_serpapi_key_here
 
 ## 🔄 兼容性配置
 
-框架支持多种环境变量格式，会自动检测：
+框架支持多种环境变量格式, 会自动检测: 
 
 ### OpenAI格式
 ```bash
@@ -195,7 +195,7 @@ ZHIPU_API_KEY=your_zhipu_api_key.your_secret
 
 ## 🔍 自动检测逻辑
 
-框架会按以下优先级自动检测LLM提供商：
+框架会按以下优先级自动检测LLM提供商: 
 
 1. **API密钥格式判断**
    - `ms-` 开头 → ModelScope
@@ -226,7 +226,7 @@ llm = HelloAgentsLLM()
 
 # 创建Agent
 agent = SimpleAgent("AI助手", llm)
-response = agent.run("你好！")
+response = agent.run("你好!")
 print(response)
 ```
 
@@ -253,13 +253,13 @@ llm = HelloAgentsLLM(
 ```bash
 ❌ 错误: Invalid API key
 ```
-**解决方案**: 检查API密钥是否正确，是否有足够的配额
+**解决方案**: 检查API密钥是否正确, 是否有足够的配额
 
 #### 2. 网络连接问题
 ```bash
 ❌ 错误: Connection timeout
 ```
-**解决方案**: 检查网络连接，或增加超时时间：
+**解决方案**: 检查网络连接, 或增加超时时间: 
 ```bash
 LLM_TIMEOUT=120
 ```
@@ -268,7 +268,7 @@ LLM_TIMEOUT=120
 ```bash
 ❌ 错误: Unknown provider
 ```
-**解决方案**: 手动指定provider：
+**解决方案**: 手动指定provider: 
 ```python
 llm = HelloAgentsLLM(provider="your_provider")
 ```
@@ -317,7 +317,7 @@ except Exception as e:
 
 ## 💬 获取帮助
 
-如果遇到配置问题，可以：
+如果遇到配置问题, 可以: 
 
 1. 查看 [故障排除](#故障排除) 部分
 2. 运行调试命令检查配置

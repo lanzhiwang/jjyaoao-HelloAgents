@@ -5,7 +5,9 @@ import os
 
 class TerminalTool:
     name = "terminal_exec"
-    description = "执行终端命令查看目录、文件和系统信息(支持: pwd, ls, cat, echo, whoami, date等)"
+    description = (
+        "执行终端命令查看目录、文件和系统信息(支持: pwd, ls, cat, echo, whoami, date等)"
+    )
 
     def __init__(self, security_mode="strict"):
         """

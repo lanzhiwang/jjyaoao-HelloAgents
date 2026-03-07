@@ -1,7 +1,7 @@
 """
 NoteTool 基本操作示例
 
-展示 NoteTool 的核心操作: 
+展示 NoteTool 的核心操作:
 1. 创建笔记 (create)
 2. 读取笔记 (read)
 3. 更新笔记 (update)
