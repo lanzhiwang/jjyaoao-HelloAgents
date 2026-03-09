@@ -17,24 +17,24 @@ from hello_agents.evaluation.benchmarks.gaia.metrics import GAIAMetrics
 class GAIAEvaluationTool(Tool):
     """GAIA评估工具
 
-    用于评估智能体的通用AI助手能力。
-    支持三个难度级别：
-    - Level 1: 简单任务（0步推理）
-    - Level 2: 中等任务（1-5步推理）
-    - Level 3: 困难任务（5+步推理）
+    用于评估智能体的通用AI助手能力. 
+    支持三个难度级别: 
+    - Level 1: 简单任务(0步推理)
+    - Level 2: 中等任务(1-5步推理)
+    - Level 3: 困难任务(5+步推理)
     """
 
     def __init__(self, local_data_path: Optional[str] = None):
         """初始化GAIA评估工具
 
         Args:
-            local_data_path: 本地数据路径（可选）
+            local_data_path: 本地数据路径(可选)
         """
         super().__init__(
             name="gaia_evaluation",
             description=(
-                "评估智能体的通用AI助手能力。使用GAIA (General AI Assistants)基准测试。"
-                "支持三个难度级别：Level 1(简单)、Level 2(中等)、Level 3(困难)。"
+                "评估智能体的通用AI助手能力. 使用GAIA (General AI Assistants)基准测试. "
+                "支持三个难度级别: Level 1(简单)、Level 2(中等)、Level 3(困难). "
             ),
         )
         self.local_data_path = local_data_path
@@ -54,14 +54,14 @@ class GAIAEvaluationTool(Tool):
             ToolParameter(
                 name="level",
                 type="integer",
-                description="难度级别：1(简单), 2(中等), 3(困难), None(全部)",
+                description="难度级别: 1(简单), 2(中等), 3(困难), None(全部)",
                 required=False,
                 default=None,
             ),
             ToolParameter(
                 name="max_samples",
                 type="integer",
-                description="最大评估样本数，None表示全部",
+                description="最大评估样本数, None表示全部",
                 required=False,
                 default=None,
             ),
@@ -87,8 +87,8 @@ class GAIAEvaluationTool(Tool):
 
         Args:
             agent: 要评估的智能体
-            level: 难度级别 (1-3)，None表示全部
-            max_samples: 最大样本数，None表示全部
+            level: 难度级别 (1-3), None表示全部
+            max_samples: 最大样本数, None表示全部
             local_data_dir: 本地数据目录路径
             export_results: 是否导出GAIA格式结果
             generate_report: 是否生成评估报告
@@ -232,30 +232,30 @@ class GAIAEvaluationTool(Tool):
 
 **结果文件**: `{result_file.name}`
 
-此文件包含：
+此文件包含: 
 - 每个任务的task_id
-- 模型的答案（model_answer）
-- 推理轨迹（reasoning_trace）
+- 模型的答案(model_answer)
+- 推理轨迹(reasoning_trace)
 
 ## 🚀 如何提交到GAIA排行榜
 
 ### 步骤1: 访问GAIA排行榜
 
-打开浏览器，访问：
+打开浏览器, 访问: 
 ```
 https://huggingface.co/spaces/gaia-benchmark/leaderboard
 ```
 
 ### 步骤2: 准备提交信息
 
-在提交表单中填写以下信息：
+在提交表单中填写以下信息: 
 
-1. **Model Name（模型名称）**: `{agent_name}`
-2. **Model Family（模型家族）**: 例如 `GPT`, `Claude`, `Qwen` 等
-3. **Model Type（模型类型）**:
+1. **Model Name(模型名称)**: `{agent_name}`
+2. **Model Family(模型家族)**: 例如 `GPT`, `Claude`, `Qwen` 等
+3. **Model Type(模型类型)**:
    - `Open-source` (开源)
    - `Proprietary` (专有)
-4. **Results File（结果文件）**: 上传 `{result_file.name}`
+4. **Results File(结果文件)**: 上传 `{result_file.name}`
 
 ### 步骤3: 上传结果文件
 
@@ -267,40 +267,40 @@ https://huggingface.co/spaces/gaia-benchmark/leaderboard
 
 1. 检查所有信息是否正确
 2. 点击 "Submit" 按钮
-3. 等待评估结果（通常需要几分钟）
+3. 等待评估结果(通常需要几分钟)
 
 ## 📋 结果文件格式说明
 
-GAIA要求的JSONL格式（每行一个JSON对象）：
+GAIA要求的JSONL格式(每行一个JSON对象): 
 
 ```json
 {{"task_id": "xxx", "model_answer": "答案", "reasoning_trace": "推理过程"}}
 ```
 
-**字段说明**：
-- `task_id`: 任务ID（与GAIA数据集对应）
+**字段说明**: 
+- `task_id`: 任务ID(与GAIA数据集对应)
 - `model_answer`: 模型的最终答案
-- `reasoning_trace`: 模型的推理过程（可选）
+- `reasoning_trace`: 模型的推理过程(可选)
 
 ## ⚠️ 注意事项
 
-1. **答案格式**：
-   - 数字：不使用逗号分隔符，不使用单位符号
-   - 字符串：不使用冠词，使用小写
-   - 列表：逗号分隔，按字母顺序排列
+1. **答案格式**: 
+   - 数字: 不使用逗号分隔符, 不使用单位符号
+   - 字符串: 不使用冠词, 使用小写
+   - 列表: 逗号分隔, 按字母顺序排列
 
-2. **文件大小**：
+2. **文件大小**: 
    - 确保文件不超过10MB
-   - 如果文件过大，考虑移除reasoning_trace
+   - 如果文件过大, 考虑移除reasoning_trace
 
-3. **提交频率**：
+3. **提交频率**: 
    - 建议先在小样本上测试
    - 确认结果正确后再提交完整评估
 
 ## 📞 获取帮助
 
-如果遇到问题：
-1. 查看GAIA官方文档：https://huggingface.co/gaia-benchmark
+如果遇到问题: 
+1. 查看GAIA官方文档: https://huggingface.co/gaia-benchmark
 2. 在HuggingFace论坛提问
 3. 检查结果文件格式是否正确
 
@@ -327,7 +327,7 @@ GAIA要求的JSONL格式（每行一个JSON对象）：
 
         Args:
             results: 评估结果
-            output_file: 输出文件路径（可选）
+            output_file: 输出文件路径(可选)
 
         Returns:
             Markdown格式的报告
@@ -376,8 +376,8 @@ GAIA要求的JSONL格式（每行一个JSON对象）：
 
             report += f"- **Level {level_num}**: {exact_rate:.2%} 精确 / {partial_rate:.2%} 部分 ({exact}/{total})\n"
 
-        # 添加样本详情（前10个）
-        report += "\n## 📝 样本详情（前10个）\n\n"
+        # 添加样本详情(前10个)
+        report += "\n## 📝 样本详情(前10个)\n\n"
         report += "| 任务ID | 级别 | 预测答案 | 正确答案 | 精确匹配 | 部分匹配 |\n"
         report += "|--------|------|----------|----------|----------|----------|\n"
 
@@ -407,16 +407,16 @@ GAIA要求的JSONL格式（每行一个JSON对象）：
         # 添加建议
         report += "\n## 💡 建议\n\n"
         if exact_match_rate >= 0.9:
-            report += "- ✅ 表现优秀！智能体在GAIA基准上表现出色。\n"
+            report += "- ✅ 表现优秀! 智能体在GAIA基准上表现出色. \n"
         elif exact_match_rate >= 0.7:
-            report += "- 👍 表现良好，但仍有提升空间。\n"
-            report += "- 💡 建议优化提示词和推理策略。\n"
+            report += "- 👍 表现良好, 但仍有提升空间. \n"
+            report += "- 💡 建议优化提示词和推理策略. \n"
         elif exact_match_rate >= 0.5:
-            report += "- ⚠️ 表现一般，需要改进。\n"
-            report += "- 💡 建议检查工具使用和多步推理能力。\n"
+            report += "- ⚠️ 表现一般, 需要改进. \n"
+            report += "- 💡 建议检查工具使用和多步推理能力. \n"
         else:
-            report += "- ❌ 表现较差，需要大幅改进。\n"
-            report += "- 💡 建议从简单级别开始，逐步提升。\n"
+            report += "- ❌ 表现较差, 需要大幅改进. \n"
+            report += "- 💡 建议从简单级别开始, 逐步提升. \n"
 
         # 保存报告
         if output_file is None:

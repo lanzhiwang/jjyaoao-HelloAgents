@@ -1,10 +1,10 @@
 """
 协议工具集合
 
-提供基于协议实现的工具接口：
-- MCP Tool: 基于 fastmcp 库，用于连接和调用 MCP 服务器
-- A2A Tool: 基于官方 a2a 库，用于 Agent 间通信（需要安装 a2a）
-- ANP Tool: 基于概念实现，用于服务发现和网络管理
+提供基于协议实现的工具接口: 
+- MCP Tool: 基于 fastmcp 库, 用于连接和调用 MCP 服务器
+- A2A Tool: 基于官方 a2a 库, 用于 Agent 间通信(需要安装 a2a)
+- ANP Tool: 基于概念实现, 用于服务发现和网络管理
 """
 
 from typing import Dict, Any, List, Optional
@@ -30,9 +30,9 @@ MCP_SERVER_ENV_MAP = {
 class MCPTool(Tool):
     """MCP (Model Context Protocol) 工具
 
-    连接到 MCP 服务器并调用其提供的工具、资源和提示词。
+    连接到 MCP 服务器并调用其提供的工具、资源和提示词. 
 
-    功能：
+    功能: 
     - 列出服务器提供的工具
     - 调用服务器工具
     - 读取服务器资源
@@ -54,7 +54,7 @@ class MCPTool(Tool):
         >>> server = FastMCP("MyServer")
         >>> tool = MCPTool(server=server)
 
-    注意：使用 fastmcp 库，已包含在依赖中
+    注意: 使用 fastmcp 库, 已包含在依赖中
     """
 
     def __init__(
@@ -72,38 +72,38 @@ class MCPTool(Tool):
         初始化 MCP 工具
 
         Args:
-            name: 工具名称（默认为"mcp"，建议为不同服务器指定不同名称）
-            description: 工具描述（可选，默认为通用描述）
-            server_command: 服务器启动命令（如 ["python", "server.py"]）
+            name: 工具名称(默认为"mcp", 建议为不同服务器指定不同名称)
+            description: 工具描述(可选, 默认为通用描述)
+            server_command: 服务器启动命令(如 ["python", "server.py"])
             server_args: 服务器参数列表
-            server: FastMCP 服务器实例（可选，用于内存传输）
-            auto_expand: 是否自动展开为独立工具（默认True）
-            env: 环境变量字典（优先级最高，直接传递给MCP服务器）
-            env_keys: 要从系统环境变量加载的key列表（优先级中等）
+            server: FastMCP 服务器实例(可选, 用于内存传输)
+            auto_expand: 是否自动展开为独立工具(默认True)
+            env: 环境变量字典(优先级最高, 直接传递给MCP服务器)
+            env_keys: 要从系统环境变量加载的key列表(优先级中等)
 
-        环境变量优先级（从高到低）：
+        环境变量优先级(从高到低): 
             1. 直接传递的env参数
             2. env_keys指定的环境变量
-            3. 自动检测的环境变量（根据server_command）
+            3. 自动检测的环境变量(根据server_command)
 
-        注意：如果所有参数都为空，将创建内置演示服务器
+        注意: 如果所有参数都为空, 将创建内置演示服务器
 
-        示例：
-            >>> # 方式1：直接传递环境变量（优先级最高）
+        示例: 
+            >>> # 方式1: 直接传递环境变量(优先级最高)
             >>> github_tool = MCPTool(
             ...     name="github",
             ...     server_command=["npx", "-y", "@modelcontextprotocol/server-github"],
             ...     env={"GITHUB_PERSONAL_ACCESS_TOKEN": "ghp_xxx"}
             ... )
             >>>
-            >>> # 方式2：从.env文件加载指定的环境变量
+            >>> # 方式2: 从.env文件加载指定的环境变量
             >>> github_tool = MCPTool(
             ...     name="github",
             ...     server_command=["npx", "-y", "@modelcontextprotocol/server-github"],
             ...     env_keys=["GITHUB_PERSONAL_ACCESS_TOKEN"]
             ... )
             >>>
-            >>> # 方式3：自动检测（最简单，推荐）
+            >>> # 方式3: 自动检测(最简单, 推荐)
             >>> github_tool = MCPTool(
             ...     name="github",
             ...     server_command=["npx", "-y", "@modelcontextprotocol/server-github"]
@@ -118,10 +118,10 @@ class MCPTool(Tool):
         self.auto_expand = auto_expand
         self.prefix = f"{name}_" if auto_expand else ""
 
-        # 环境变量处理（优先级：env > env_keys > 自动检测）
+        # 环境变量处理(优先级: env > env_keys > 自动检测)
         self.env = self._prepare_env(env, env_keys, server_command)
 
-        # 如果没有指定任何服务器，创建内置演示服务器
+        # 如果没有指定任何服务器, 创建内置演示服务器
         if not server_command and not server:
             self.server = self._create_builtin_server()
 
@@ -143,19 +143,19 @@ class MCPTool(Tool):
         """
         准备环境变量
 
-        优先级：env > env_keys > 自动检测
+        优先级: env > env_keys > 自动检测
 
         Args:
             env: 直接传递的环境变量字典
             env_keys: 要从系统环境变量加载的key列表
-            server_command: 服务器命令（用于自动检测）
+            server_command: 服务器命令(用于自动检测)
 
         Returns:
             合并后的环境变量字典
         """
         result_env = {}
 
-        # 1. 自动检测（优先级最低）
+        # 1. 自动检测(优先级最低)
         if server_command:
             # 从命令中提取服务器名称
             server_name = None
@@ -174,7 +174,7 @@ class MCPTool(Tool):
                         result_env[key] = value
                         print(f"🔑 自动加载环境变量: {key}")
 
-        # 2. env_keys指定的环境变量（优先级中等）
+        # 2. env_keys指定的环境变量(优先级中等)
         if env_keys:
             for key in env_keys:
                 value = os.getenv(key)
@@ -184,7 +184,7 @@ class MCPTool(Tool):
                 else:
                     print(f"⚠️  警告: 环境变量 {key} 未设置")
 
-        # 3. 直接传递的env（优先级最高）
+        # 3. 直接传递的env(优先级最高)
         if env:
             result_env.update(env)
             for key in env.keys():
@@ -224,7 +224,7 @@ class MCPTool(Tool):
             @server.tool()
             def greet(name: str = "World") -> str:
                 """友好问候"""
-                return f"Hello, {name}! 欢迎使用 HelloAgents MCP 工具！"
+                return f"Hello, {name}! 欢迎使用 HelloAgents MCP 工具! "
 
             @server.tool()
             def get_system_info() -> dict:
@@ -243,7 +243,7 @@ class MCPTool(Tool):
 
         except ImportError:
             raise ImportError(
-                "创建内置 MCP 服务器需要 fastmcp 库。请安装: pip install fastmcp"
+                "创建内置 MCP 服务器需要 fastmcp 库. 请安装: pip install fastmcp"
             )
 
     def _discover_tools(self):
@@ -263,7 +263,7 @@ class MCPTool(Tool):
             # 运行异步发现
             try:
                 loop = asyncio.get_running_loop()
-                # 如果已有循环，在新线程中运行
+                # 如果已有循环, 在新线程中运行
                 import concurrent.futures
 
                 def run_in_thread():
@@ -288,25 +288,25 @@ class MCPTool(Tool):
     def _generate_description(self) -> str:
         """生成增强的工具描述"""
         if not self._available_tools:
-            return "连接到 MCP 服务器，调用工具、读取资源和获取提示词。支持内置服务器和外部服务器。"
+            return "连接到 MCP 服务器, 调用工具、读取资源和获取提示词. 支持内置服务器和外部服务器. "
 
         if self.auto_expand:
-            # 展开模式：简单描述
-            return f"MCP工具服务器，包含{len(self._available_tools)}个工具。这些工具会自动展开为独立的工具供Agent使用。"
+            # 展开模式: 简单描述
+            return f"MCP工具服务器, 包含{len(self._available_tools)}个工具. 这些工具会自动展开为独立的工具供Agent使用. "
         else:
-            # 非展开模式：详细描述
-            desc_parts = [f"MCP工具服务器，提供{len(self._available_tools)}个工具："]
+            # 非展开模式: 详细描述
+            desc_parts = [f"MCP工具服务器, 提供{len(self._available_tools)}个工具: "]
 
             # 列出所有工具
             for tool in self._available_tools:
                 tool_name = tool.get("name", "unknown")
                 tool_desc = tool.get("description", "无描述")
-                # 简化描述，只取第一句
+                # 简化描述, 只取第一句
                 short_desc = tool_desc.split(".")[0] if tool_desc else "无描述"
                 desc_parts.append(f"  • {tool_name}: {short_desc}")
 
             # 添加调用格式说明
-            desc_parts.append("\n调用格式：返回JSON格式的参数")
+            desc_parts.append("\n调用格式: 返回JSON格式的参数")
             desc_parts.append(
                 '{"action": "call_tool", "tool_name": "工具名", "arguments": {...}}'
             )
@@ -316,7 +316,7 @@ class MCPTool(Tool):
                 first_tool = self._available_tools[0]
                 tool_name = first_tool.get("name", "example")
                 desc_parts.append(
-                    f'\n示例：{{"action": "call_tool", "tool_name": "{tool_name}", "arguments": {{...}}}}'
+                    f'\n示例: {{"action": "call_tool", "tool_name": "{tool_name}", "arguments": {{...}}}}'
                 )
 
             return "\n".join(desc_parts)
@@ -351,26 +351,26 @@ class MCPTool(Tool):
         Args:
             parameters: 包含以下参数的字典
                 - action: 操作类型 (list_tools, call_tool, list_resources, read_resource, list_prompts, get_prompt)
-                  如果不指定action但指定了tool_name，会自动推断为call_tool
-                - tool_name: 工具名称（call_tool 需要）
-                - arguments: 工具参数（call_tool 需要）
-                - uri: 资源 URI（read_resource 需要）
-                - prompt_name: 提示词名称（get_prompt 需要）
-                - prompt_arguments: 提示词参数（get_prompt 可选）
+                  如果不指定action但指定了tool_name, 会自动推断为call_tool
+                - tool_name: 工具名称(call_tool 需要)
+                - arguments: 工具参数(call_tool 需要)
+                - uri: 资源 URI(read_resource 需要)
+                - prompt_name: 提示词名称(get_prompt 需要)
+                - prompt_arguments: 提示词参数(get_prompt 可选)
 
         Returns:
             操作结果
         """
         from hello_agents.protocols.mcp.client import MCPClient
 
-        # 智能推断action：如果没有action但有tool_name，自动设置为call_tool
+        # 智能推断action: 如果没有action但有tool_name, 自动设置为call_tool
         action = parameters.get("action", "").lower()
         if not action and "tool_name" in parameters:
             action = "call_tool"
             parameters["action"] = action
 
         if not action:
-            return "错误：必须指定 action 参数或 tool_name 参数"
+            return "错误: 必须指定 action 参数或 tool_name 参数"
 
         try:
             # 使用增强的异步客户端
@@ -380,7 +380,7 @@ class MCPTool(Tool):
             async def run_mcp_operation():
                 # 根据配置选择客户端创建方式
                 if self.server:
-                    # 使用内置服务器（内存传输）
+                    # 使用内置服务器(内存传输)
                     client_source = self.server
                 else:
                     # 使用外部服务器命令
@@ -402,7 +402,7 @@ class MCPTool(Tool):
                         tool_name = parameters.get("tool_name")
                         arguments = parameters.get("arguments", {})
                         if not tool_name:
-                            return "错误：必须指定 tool_name 参数"
+                            return "错误: 必须指定 tool_name 参数"
                         result = await client.call_tool(tool_name, arguments)
                         return f"工具 '{tool_name}' 执行结果:\n{result}"
 
@@ -418,7 +418,7 @@ class MCPTool(Tool):
                     elif action == "read_resource":
                         uri = parameters.get("uri")
                         if not uri:
-                            return "错误：必须指定 uri 参数"
+                            return "错误: 必须指定 uri 参数"
                         content = await client.read_resource(uri)
                         return f"资源 '{uri}' 内容:\n{content}"
 
@@ -435,7 +435,7 @@ class MCPTool(Tool):
                         prompt_name = parameters.get("prompt_name")
                         prompt_arguments = parameters.get("prompt_arguments", {})
                         if not prompt_name:
-                            return "错误：必须指定 prompt_name 参数"
+                            return "错误: 必须指定 prompt_name 参数"
                         messages = await client.get_prompt(
                             prompt_name, prompt_arguments
                         )
@@ -445,14 +445,14 @@ class MCPTool(Tool):
                         return result
 
                     else:
-                        return f"错误：不支持的操作 '{action}'"
+                        return f"错误: 不支持的操作 '{action}'"
 
             # 运行异步操作
             try:
                 # 检查是否已有运行中的事件循环
                 try:
                     loop = asyncio.get_running_loop()
-                    # 如果有运行中的循环，在新线程中运行新的事件循环
+                    # 如果有运行中的循环, 在新线程中运行新的事件循环
                     import concurrent.futures
                     import threading
 
@@ -469,7 +469,7 @@ class MCPTool(Tool):
                         future = executor.submit(run_in_thread)
                         return future.result()
                 except RuntimeError:
-                    # 没有运行中的循环，直接运行
+                    # 没有运行中的循环, 直接运行
                     return asyncio.run(run_mcp_operation())
             except Exception as e:
                 return f"异步操作失败: {str(e)}"
@@ -489,31 +489,31 @@ class MCPTool(Tool):
             ToolParameter(
                 name="tool_name",
                 type="string",
-                description="工具名称（call_tool 操作需要）",
+                description="工具名称(call_tool 操作需要)",
                 required=False,
             ),
             ToolParameter(
                 name="arguments",
                 type="object",
-                description="工具参数（call_tool 操作需要）",
+                description="工具参数(call_tool 操作需要)",
                 required=False,
             ),
             ToolParameter(
                 name="uri",
                 type="string",
-                description="资源 URI（read_resource 操作需要）",
+                description="资源 URI(read_resource 操作需要)",
                 required=False,
             ),
             ToolParameter(
                 name="prompt_name",
                 type="string",
-                description="提示词名称（get_prompt 操作需要）",
+                description="提示词名称(get_prompt 操作需要)",
                 required=False,
             ),
             ToolParameter(
                 name="prompt_arguments",
                 type="object",
-                description="提示词参数（get_prompt 操作可选）",
+                description="提示词参数(get_prompt 操作可选)",
                 required=False,
             ),
         ]
@@ -522,29 +522,29 @@ class MCPTool(Tool):
 class A2ATool(Tool):
     """A2A (Agent-to-Agent Protocol) 工具
 
-    连接到 A2A Agent 并进行通信。
+    连接到 A2A Agent 并进行通信. 
 
-    功能：
+    功能: 
     - 向 Agent 提问
     - 获取 Agent 信息
     - 发送自定义消息
 
     使用示例:
         >>> from hello_agents.tools.builtin import A2ATool
-        >>> # 连接到 A2A Agent（使用默认名称）
+        >>> # 连接到 A2A Agent(使用默认名称)
         >>> tool = A2ATool(agent_url="http://localhost:5000")
-        >>> # 连接到 A2A Agent（自定义名称和描述）
+        >>> # 连接到 A2A Agent(自定义名称和描述)
         >>> tool = A2ATool(
         ...     agent_url="http://localhost:5000",
         ...     name="tech_expert",
-        ...     description="技术专家，回答技术相关问题"
+        ...     description="技术专家, 回答技术相关问题"
         ... )
         >>> # 提问
         >>> result = tool.run({"action": "ask", "question": "计算 2+2"})
         >>> # 获取信息
         >>> result = tool.run({"action": "get_info"})
 
-    注意：需要安装官方 a2a-sdk 库: pip install a2a-sdk
+    注意: 需要安装官方 a2a-sdk 库: pip install a2a-sdk
     详见文档: docs/chapter10/A2A_GUIDE.md
     官方仓库: https://github.com/a2aproject/a2a-python
     """
@@ -555,12 +555,12 @@ class A2ATool(Tool):
 
         Args:
             agent_url: Agent URL
-            name: 工具名称（可选，默认为 "a2a"）
-            description: 工具描述（可选）
+            name: 工具名称(可选, 默认为 "a2a")
+            description: 工具描述(可选)
         """
         if description is None:
             description = (
-                "连接到 A2A Agent，支持提问和获取信息。需要安装官方 a2a-sdk 库。"
+                "连接到 A2A Agent, 支持提问和获取信息. 需要安装官方 a2a-sdk 库. "
             )
 
         super().__init__(name=name, description=description)
@@ -573,7 +573,7 @@ class A2ATool(Tool):
         Args:
             parameters: 包含以下参数的字典
                 - action: 操作类型 (ask, get_info)
-                - question: 问题文本（ask 需要）
+                - question: 问题文本(ask 需要)
 
         Returns:
             操作结果
@@ -586,14 +586,14 @@ class A2ATool(Tool):
 
             if not A2A_AVAILABLE:
                 return (
-                    "错误：需要安装 a2a-sdk 库\n"
+                    "错误: 需要安装 a2a-sdk 库\n"
                     "安装命令: pip install a2a-sdk\n"
                     "详见文档: docs/chapter10/A2A_GUIDE.md\n"
                     "官方仓库: https://github.com/a2aproject/a2a-python"
                 )
         except ImportError:
             return (
-                "错误：无法导入 A2A 模块\n"
+                "错误: 无法导入 A2A 模块\n"
                 "安装命令: pip install a2a-sdk\n"
                 "详见文档: docs/chapter10/A2A_GUIDE.md\n"
                 "官方仓库: https://github.com/a2aproject/a2a-python"
@@ -602,7 +602,7 @@ class A2ATool(Tool):
         action = parameters.get("action", "").lower()
 
         if not action:
-            return "错误：必须指定 action 参数"
+            return "错误: 必须指定 action 参数"
 
         try:
             client = A2AClient(self.agent_url)
@@ -610,7 +610,7 @@ class A2ATool(Tool):
             if action == "ask":
                 question = parameters.get("question")
                 if not question:
-                    return "错误：必须指定 question 参数"
+                    return "错误: 必须指定 question 参数"
                 response = client.ask(question)
                 return f"Agent 回答:\n{response}"
 
@@ -622,7 +622,7 @@ class A2ATool(Tool):
                 return result
 
             else:
-                return f"错误：不支持的操作 '{action}'"
+                return f"错误: 不支持的操作 '{action}'"
 
         except Exception as e:
             return f"A2A 操作失败: {str(e)}"
@@ -639,7 +639,7 @@ class A2ATool(Tool):
             ToolParameter(
                 name="question",
                 type="string",
-                description="问题文本（ask 操作需要）",
+                description="问题文本(ask 操作需要)",
                 required=False,
             ),
         ]
@@ -648,10 +648,10 @@ class A2ATool(Tool):
 class ANPTool(Tool):
     """ANP (Agent Network Protocol) 工具
 
-    提供智能体网络管理功能，包括服务发现、节点管理和消息路由。
-    这是一个概念性实现，用于演示 Agent 网络管理的核心理念。
+    提供智能体网络管理功能, 包括服务发现、节点管理和消息路由. 
+    这是一个概念性实现, 用于演示 Agent 网络管理的核心理念. 
 
-    功能：
+    功能: 
     - 注册和发现服务
     - 添加和管理网络节点
     - 消息路由
@@ -679,7 +679,7 @@ class ANPTool(Tool):
         ...     "endpoint": "http://localhost:5001"
         ... })
 
-    注意：这是概念性实现，不需要额外依赖
+    注意: 这是概念性实现, 不需要额外依赖
     详见文档: docs/chapter10/ANP_CONCEPTS.md
     """
 
@@ -691,12 +691,12 @@ class ANPTool(Tool):
         Args:
             name: 工具名称
             description: 工具描述
-            discovery: 可选的 ANPDiscovery 实例，如果不提供则创建新实例
-            network: 可选的 ANPNetwork 实例，如果不提供则创建新实例
+            discovery: 可选的 ANPDiscovery 实例, 如果不提供则创建新实例
+            network: 可选的 ANPNetwork 实例, 如果不提供则创建新实例
         """
         if description is None:
             description = (
-                "智能体网络管理工具，支持服务发现、节点管理和消息路由。概念性实现。"
+                "智能体网络管理工具, 支持服务发现、节点管理和消息路由. 概念性实现. "
             )
 
         super().__init__(name=name, description=description)
@@ -712,9 +712,9 @@ class ANPTool(Tool):
         Args:
             parameters: 包含以下参数的字典
                 - action: 操作类型 (register_service, discover_services, add_node, route_message, get_stats)
-                - service_id, service_type, endpoint: 服务信息（register_service 需要）
-                - node_id, endpoint: 节点信息（add_node 需要）
-                - from_node, to_node, message: 路由信息（route_message 需要）
+                - service_id, service_type, endpoint: 服务信息(register_service 需要)
+                - node_id, endpoint: 节点信息(add_node 需要)
+                - from_node, to_node, message: 路由信息(route_message 需要)
 
         Returns:
             操作结果
@@ -724,7 +724,7 @@ class ANPTool(Tool):
         action = parameters.get("action", "").lower()
 
         if not action:
-            return "错误：必须指定 action 参数"
+            return "错误: 必须指定 action 参数"
 
         try:
             if action == "register_service":
@@ -734,7 +734,7 @@ class ANPTool(Tool):
                 metadata = parameters.get("metadata", {})
 
                 if not all([service_id, service_type, endpoint]):
-                    return "错误：必须指定 service_id, service_type 和 endpoint 参数"
+                    return "错误: 必须指定 service_id, service_type 和 endpoint 参数"
 
                 service = ServiceInfo(service_id, service_type, endpoint, metadata)
                 self._discovery.register_service(service)
@@ -743,7 +743,7 @@ class ANPTool(Tool):
             elif action == "unregister_service":
                 service_id = parameters.get("service_id")
                 if not service_id:
-                    return "错误：必须指定 service_id 参数"
+                    return "错误: 必须指定 service_id 参数"
 
                 # 使用 ANPDiscovery 的 unregister_service 方法
                 success = self._discovery.unregister_service(service_id)
@@ -751,7 +751,7 @@ class ANPTool(Tool):
                 if success:
                     return f"✅ 已注销服务 '{service_id}'"
                 else:
-                    return f"错误：服务 '{service_id}' 不存在"
+                    return f"错误: 服务 '{service_id}' 不存在"
 
             elif action == "discover_services":
                 service_type = parameters.get("service_type")
@@ -779,7 +779,7 @@ class ANPTool(Tool):
                 metadata = parameters.get("metadata", {})
 
                 if not all([node_id, endpoint]):
-                    return "错误：必须指定 node_id 和 endpoint 参数"
+                    return "错误: 必须指定 node_id 和 endpoint 参数"
 
                 self._network.add_node(node_id, endpoint, metadata)
                 return f"✅ 已添加节点 '{node_id}'"
@@ -790,7 +790,7 @@ class ANPTool(Tool):
                 message = parameters.get("message", {})
 
                 if not all([from_node, to_node]):
-                    return "错误：必须指定 from_node 和 to_node 参数"
+                    return "错误: 必须指定 from_node 和 to_node 参数"
 
                 path = self._network.route_message(from_node, to_node, message)
                 if path:
@@ -806,7 +806,7 @@ class ANPTool(Tool):
                 return result
 
             else:
-                return f"错误：不支持的操作 '{action}'"
+                return f"错误: 不支持的操作 '{action}'"
 
         except Exception as e:
             return f"ANP 操作失败: {str(e)}"
@@ -823,49 +823,49 @@ class ANPTool(Tool):
             ToolParameter(
                 name="service_id",
                 type="string",
-                description="服务 ID（register_service, unregister_service 需要）",
+                description="服务 ID(register_service, unregister_service 需要)",
                 required=False,
             ),
             ToolParameter(
                 name="service_type",
                 type="string",
-                description="服务类型（register_service 需要）",
+                description="服务类型(register_service 需要)",
                 required=False,
             ),
             ToolParameter(
                 name="endpoint",
                 type="string",
-                description="端点地址（register_service, add_node 需要）",
+                description="端点地址(register_service, add_node 需要)",
                 required=False,
             ),
             ToolParameter(
                 name="node_id",
                 type="string",
-                description="节点 ID（add_node 需要）",
+                description="节点 ID(add_node 需要)",
                 required=False,
             ),
             ToolParameter(
                 name="from_node",
                 type="string",
-                description="源节点 ID（route_message 需要）",
+                description="源节点 ID(route_message 需要)",
                 required=False,
             ),
             ToolParameter(
                 name="to_node",
                 type="string",
-                description="目标节点 ID（route_message 需要）",
+                description="目标节点 ID(route_message 需要)",
                 required=False,
             ),
             ToolParameter(
                 name="message",
                 type="object",
-                description="消息内容（route_message 需要）",
+                description="消息内容(route_message 需要)",
                 required=False,
             ),
             ToolParameter(
                 name="metadata",
                 type="object",
-                description="元数据（register_service, add_node 可选）",
+                description="元数据(register_service, add_node 可选)",
                 required=False,
             ),
         ]

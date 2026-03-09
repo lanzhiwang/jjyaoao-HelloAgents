@@ -1,8 +1,8 @@
 """文档存储实现
 
-支持多种文档数据库后端：
+支持多种文档数据库后端: 
 - SQLite: 轻量级关系型数据库
-- PostgreSQL: 企业级关系型数据库（可扩展）
+- PostgreSQL: 企业级关系型数据库(可扩展)
 """
 
 from abc import ABC, abstractmethod
@@ -87,7 +87,7 @@ class SQLiteDocumentStore(DocumentStore):
     _initialized_dbs = set()  # 存储已初始化的数据库路径
 
     def __new__(cls, db_path: str = "./memory.db"):
-        """单例模式，同一路径只创建一个实例"""
+        """单例模式, 同一路径只创建一个实例"""
         abs_path = os.path.abspath(db_path)
         if abs_path not in cls._instances:
             instance = super(SQLiteDocumentStore, cls).__new__(cls)
@@ -105,7 +105,7 @@ class SQLiteDocumentStore(DocumentStore):
         # 确保目录存在
         os.makedirs(os.path.dirname(os.path.abspath(db_path)), exist_ok=True)
 
-        # 初始化数据库（只初始化一次）
+        # 初始化数据库(只初始化一次)
         abs_path = os.path.abspath(db_path)
         if abs_path not in self._initialized_dbs:
             self._init_database()

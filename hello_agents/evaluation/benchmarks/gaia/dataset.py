@@ -12,10 +12,10 @@ import json
 class GAIADataset:
     """GAIA 数据集加载器
 
-    从 HuggingFace 加载 GAIA 数据集,支持不同难度级别。
+    从 HuggingFace 加载 GAIA 数据集,支持不同难度级别. 
 
     GAIA是一个通用AI助手评估基准,包含466个真实世界问题,
-    需要推理、多模态处理、网页浏览和工具使用等能力。
+    需要推理、多模态处理、网页浏览和工具使用等能力. 
 
     难度级别:
     - Level 1: 简单问题 (0步推理, 直接回答)
@@ -115,7 +115,7 @@ class GAIADataset:
     def _load_from_huggingface(self) -> List[Dict[str, Any]]:
         """从HuggingFace下载GAIA数据集
 
-        注意：GAIA是gated dataset，需要HF_TOKEN环境变量
+        注意: GAIA是gated dataset, 需要HF_TOKEN环境变量
         使用snapshot_download下载整个数据集到本地
         """
         try:
@@ -130,7 +130,7 @@ class GAIADataset:
             hf_token = os.getenv("HF_TOKEN")
             if not hf_token:
                 print("   ⚠️ 未找到HF_TOKEN环境变量")
-                print("   GAIA是gated dataset，需要在HuggingFace上申请访问权限")
+                print("   GAIA是gated dataset, 需要在HuggingFace上申请访问权限")
                 print("   然后设置环境变量: HF_TOKEN=your_token")
                 return []
 
@@ -250,7 +250,7 @@ class GAIADataset:
         """获取难度级别分布
 
         Returns:
-            字典，键为级别，值为该级别的样本数
+            字典, 键为级别, 值为该级别的样本数
         """
         if not self.data:
             self.load()

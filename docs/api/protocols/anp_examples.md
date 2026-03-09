@@ -350,7 +350,7 @@ def network_management_example():
         {"role": "storage", "priority": 8}
     )
     
-    # 2. 建立连接（星型拓扑）
+    # 2. 建立连接(星型拓扑)
     print("\n=== Establishing Connections ===")
     for i in range(1, 4):
         network.connect_nodes("coordinator", f"worker{i}")
@@ -408,12 +408,12 @@ network = ANPNetwork()
 for i in range(1, 5):
     network.add_node(f"node{i}", f"http://localhost:800{i}")
 
-# 建立连接：node1 -> node2 -> node3 -> node4
+# 建立连接: node1 -> node2 -> node3 -> node4
 network.connect_nodes("node1", "node2")
 network.connect_nodes("node2", "node3")
 network.connect_nodes("node3", "node4")
 
-# 路由消息（需要中转）
+# 路由消息(需要中转)
 message = {"type": "data", "payload": "important data"}
 path = network.route_message("node1", "node3", message)
 
@@ -439,7 +439,7 @@ def routing_example():
     """消息路由完整示例"""
     network = ANPNetwork(network_id="routing_network")
     
-    # 1. 构建网络（网状拓扑）
+    # 1. 构建网络(网状拓扑)
     print("=== Building Network ===")
     nodes = ["A", "B", "C", "D", "E"]
     for node in nodes:
@@ -464,7 +464,7 @@ def routing_example():
     # 一跳路�?    path = network.route_message("A", "D", {"msg": "one hop"})
     print(f"A -> D (one hop): {' -> '.join(path) if path else 'No route'}")
     
-    # 无法路由（没有连接）
+    # 无法路由(没有连接)
     path = network.route_message("E", "A", {"msg": "no route"})
     print(f"E -> A (no route): {' -> '.join(path) if path else 'No route'}")
     
@@ -484,7 +484,7 @@ if __name__ == "__main__":
 
 ## 5. 完整示例
 
-### 5.1 综合示例：服务发�?+ 网络管理
+### 5.1 综合示例: 服务发�?+ 网络管理
 
 ```python
 from hello_agents.protocols.anp.implementation import (
@@ -576,7 +576,7 @@ anp_tool = ANPTool()
 agent.add_tool(anp_tool)
 
 # 使用 Agent
-response = agent.run("注册一�?NLP 服务，ID �?nlp1，端点为 http://localhost:8001")
+response = agent.run("注册一�?NLP 服务, ID �?nlp1, 端点为 http://localhost:8001")
 print(response)
 ```
 
@@ -605,11 +605,11 @@ def helloagents_anp_example():
     
     # 执行一系列网络管理任务
     tasks = [
-        "注册一�?NLP 服务：service_id=nlp1, service_type=nlp, endpoint=http://localhost:8001",
-        "注册一个数据库服务：service_id=db1, service_type=database, endpoint=http://localhost:8002",
+        "注册一�?NLP 服务: service_id=nlp1, service_type=nlp, endpoint=http://localhost:8001",
+        "注册一个数据库服务: service_id=db1, service_type=database, endpoint=http://localhost:8002",
         "发现所�?NLP 类型的服�?,
-        "添加一个网络节点：node_id=node1, endpoint=http://localhost:8001",
-        "添加另一个网络节点：node_id=node2, endpoint=http://localhost:8002",
+        "添加一个网络节点: node_id=node1, endpoint=http://localhost:8001",
+        "添加另一个网络节点: node_id=node2, endpoint=http://localhost:8002",
         "获取网络统计信息"
     ]
     
@@ -631,10 +631,10 @@ if __name__ == "__main__":
 ## 总结
 
 本文档展示了如何使用基于 `agent-connect` 库的 ANP 协议实现�?
-1. **服务发现**：注册、发现和管理服务
-2. **网络管理**：创建节点、建立连接、管理网络拓�?3. **消息路由**：点对点路由、多跳路由、广播消�?4. **集成**：在 HelloAgents 框架中使�?ANP 工具
+1. **服务发现**: 注册、发现和管理服务
+2. **网络管理**: 创建节点、建立连接、管理网络拓�?3. **消息路由**: 点对点路由、多跳路由、广播消�?4. **集成**: 在 HelloAgents 框架中使�?ANP 工具
 
-更多信息请参考：
+更多信息请参考: 
 - [agent-connect 文档](https://github.com/agent-connect/agent-connect)
 - [HelloAgents 文档](../../../README.md)
 

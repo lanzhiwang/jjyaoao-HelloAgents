@@ -50,7 +50,7 @@ class QdrantConnectionManager:
         timeout: int = 30,
         **kwargs,
     ) -> "QdrantVectorStore":
-        """获取或创建Qdrant实例（单例模式）"""
+        """获取或创建Qdrant实例(单例模式)"""
         # 创建唯一键
         key = (url or "local", collection_name)
 
@@ -102,7 +102,7 @@ class QdrantVectorStore:
         """
         if not QDRANT_AVAILABLE:
             raise ImportError(
-                "qdrant-client未安装。请运行: pip install qdrant-client>=1.6.0"
+                "qdrant-client未安装. 请运行: pip install qdrant-client>=1.6.0"
             )
 
         self.url = url
@@ -148,11 +148,11 @@ class QdrantVectorStore:
                 )
                 logger.info(f"✅ 成功连接到Qdrant云服务: {self.url}")
             elif self.url:
-                # 使用自定义URL（无API密钥）
+                # 使用自定义URL(无API密钥)
                 self.client = QdrantClient(url=self.url, timeout=self.timeout)
                 logger.info(f"✅ 成功连接到Qdrant服务: {self.url}")
             else:
-                # 使用本地服务（默认）
+                # 使用本地服务(默认)
                 self.client = QdrantClient(
                     host="localhost", port=6333, timeout=self.timeout
                 )
@@ -167,14 +167,14 @@ class QdrantVectorStore:
         except Exception as e:
             logger.error(f"❌ Qdrant连接失败: {e}")
             if not self.url:
-                logger.info("💡 本地连接失败，可以考虑使用Qdrant云服务")
+                logger.info("💡 本地连接失败, 可以考虑使用Qdrant云服务")
                 logger.info("💡 或启动本地服务: docker run -p 6333:6333 qdrant/qdrant")
             else:
                 logger.info("💡 请检查URL和API密钥是否正确")
             raise
 
     def _ensure_collection(self):
-        """确保集合存在，不存在则创建"""
+        """确保集合存在, 不存在则创建"""
         try:
             # 检查集合是否存在
             collections = self.client.get_collections().collections
@@ -241,7 +241,7 @@ class QdrantVectorStore:
                         field_schema=schema_type,
                     )
                 except Exception as ie:
-                    # 索引已存在会报错，忽略
+                    # 索引已存在会报错, 忽略
                     logger.debug(f"索引 {field_name} 已存在或创建失败: {ie}")
         except Exception as e:
             logger.debug(f"创建payload索引时出错: {e}")
@@ -268,7 +268,7 @@ class QdrantVectorStore:
                 logger.warning("⚠️ 向量列表为空")
                 return False
 
-            # 生成ID（如果未提供）
+            # 生成ID(如果未提供)
             if ids is None:
                 ids = [
                     f"vec_{i}_{int(datetime.now().timestamp() * 1000000)}"
@@ -307,7 +307,7 @@ class QdrantVectorStore:
                     meta_with_timestamp["external"] = (
                         True if str(val).lower() in ("1", "true", "yes") else False
                     )
-                # 确保点ID是Qdrant接受的类型（无符号整数或UUID字符串）
+                # 确保点ID是Qdrant接受的类型(无符号整数或UUID字符串)
                 safe_id: Any
                 if isinstance(point_id, int):
                     safe_id = point_id
@@ -485,15 +485,15 @@ class QdrantVectorStore:
 
     def delete_memories(self, memory_ids: List[str]):
         """
-        删除指定记忆（通过payload中的 memory_id 过滤删除）
+        删除指定记忆(通过payload中的 memory_id 过滤删除)
 
-        注意：由于写入时可能将非UUID的点ID转换为UUID，这里不再依赖点ID，
-        而是通过payload中的memory_id来匹配删除，确保一致性。
+        注意: 由于写入时可能将非UUID的点ID转换为UUID, 这里不再依赖点ID, 
+        而是通过payload中的memory_id来匹配删除, 确保一致性. 
         """
         try:
             if not memory_ids:
                 return
-            # 构建 should 过滤条件：memory_id 等于任一给定值
+            # 构建 should 过滤条件: memory_id 等于任一给定值
             conditions = [
                 FieldCondition(key="memory_id", match=MatchValue(value=mid))
                 for mid in memory_ids
@@ -539,7 +539,7 @@ class QdrantVectorStore:
 
     def get_collection_stats(self) -> Dict[str, Any]:
         """
-        获取集合统计信息（兼容抽象接口）
+        获取集合统计信息(兼容抽象接口)
         """
         info = self.get_collection_info()
         if not info:
@@ -563,7 +563,7 @@ class QdrantVectorStore:
             return False
 
     def __del__(self):
-        """析构函数，清理资源"""
+        """析构函数, 清理资源"""
         if hasattr(self, "client") and self.client:
             try:
                 self.client.close()

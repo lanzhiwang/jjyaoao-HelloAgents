@@ -1,19 +1,19 @@
 """NoteTool - 结构化笔记工具
 
-为Agent提供结构化笔记能力，支持：
+为Agent提供结构化笔记能力, 支持: 
 - 创建/读取/更新/删除笔记
-- 按类型组织（任务状态、结论、阻塞项、行动计划等）
-- 持久化存储（Markdown格式，带YAML前置元数据）
+- 按类型组织(任务状态、结论、阻塞项、行动计划等)
+- 持久化存储(Markdown格式, 带YAML前置元数据)
 - 搜索与过滤
-- 与MemoryTool集成（可选）
+- 与MemoryTool集成(可选)
 
-使用场景：
+使用场景: 
 - 长时程任务的状态跟踪
 - 关键结论与依赖记录
 - 待办事项与行动计划
 - 项目知识沉淀
 
-笔记格式示例：
+笔记格式示例: 
 ```markdown
 ---
 id: note_20250118_120000_0
@@ -26,7 +26,7 @@ updated_at: 2025-01-18T12:00:00
 
 # 项目进展
 
-已完成需求分析，下一步：设计方案
+已完成需求分析, 下一步: 设计方案
 
 ## 关键里程碑
 - [x] 需求收集
@@ -46,7 +46,7 @@ from ..base import Tool, ToolParameter, tool_action
 class NoteTool(Tool):
     """笔记工具
 
-    为Agent提供结构化笔记管理能力，支持多种笔记类型：
+    为Agent提供结构化笔记管理能力, 支持多种笔记类型: 
     - task_state: 任务状态
     - conclusion: 关键结论
     - blocker: 阻塞项
@@ -54,7 +54,7 @@ class NoteTool(Tool):
     - reference: 参考资料
     - general: 通用笔记
 
-    用法示例：
+    用法示例: 
     ```python
     note_tool = NoteTool(workspace="./project_notes")
 
@@ -62,7 +62,7 @@ class NoteTool(Tool):
     note_tool.run({
         "action": "create",
         "title": "项目进展",
-        "content": "已完成需求分析，下一步：设计方案",
+        "content": "已完成需求分析, 下一步: 设计方案",
         "note_type": "task_state",
         "tags": ["milestone", "phase1"]
     })
@@ -81,7 +81,7 @@ class NoteTool(Tool):
     ):
         super().__init__(
             name="note",
-            description="笔记工具 - 创建、读取、更新、删除结构化笔记，支持任务状态、结论、阻塞项等类型",
+            description="笔记工具 - 创建、读取、更新、删除结构化笔记, 支持任务状态、结论、阻塞项等类型",
             expandable=expandable,
         )
 
@@ -154,12 +154,12 @@ class NoteTool(Tool):
         )
 
         if not frontmatter_match:
-            raise ValueError("无效的笔记格式：缺少YAML前置元数据")
+            raise ValueError("无效的笔记格式: 缺少YAML前置元数据")
 
         frontmatter_text = frontmatter_match.group(1)
         content_start = frontmatter_match.end()
 
-        # 解析YAML（简化版）
+        # 解析YAML(简化版)
         note = {}
         for line in frontmatter_text.split("\n"):
             if ":" in line:
@@ -176,7 +176,7 @@ class NoteTool(Tool):
                 else:
                     note[key] = value
 
-        # 提取内容（去掉标题行）
+        # 提取内容(去掉标题行)
         markdown_content = markdown_text[content_start:].strip()
         # 移除第一行的 # 标题
         lines = markdown_content.split("\n")
@@ -191,13 +191,13 @@ class NoteTool(Tool):
         return note
 
     def run(self, parameters: Dict[str, Any]) -> str:
-        """执行工具（非展开模式）"""
+        """执行工具(非展开模式)"""
         if not self.validate_parameters(parameters):
             return "❌ 参数验证失败"
 
         action = parameters.get("action")
 
-        # 根据action调用对应的方法，传入提取的参数
+        # 根据action调用对应的方法, 传入提取的参数
         if action == "create":
             return self._create_note(
                 title=parameters.get("title"),
@@ -245,13 +245,13 @@ class NoteTool(Tool):
             ToolParameter(
                 name="title",
                 type="string",
-                description="笔记标题（create/update时必需）",
+                description="笔记标题(create/update时必需)",
                 required=False,
             ),
             ToolParameter(
                 name="content",
                 type="string",
-                description="笔记内容（create/update时必需）",
+                description="笔记内容(create/update时必需)",
                 required=False,
             ),
             ToolParameter(
@@ -267,25 +267,25 @@ class NoteTool(Tool):
             ToolParameter(
                 name="tags",
                 type="array",
-                description="标签列表（可选）",
+                description="标签列表(可选)",
                 required=False,
             ),
             ToolParameter(
                 name="note_id",
                 type="string",
-                description="笔记ID（read/update/delete时必需）",
+                description="笔记ID(read/update/delete时必需)",
                 required=False,
             ),
             ToolParameter(
                 name="query",
                 type="string",
-                description="搜索关键词（search时必需）",
+                description="搜索关键词(search时必需)",
                 required=False,
             ),
             ToolParameter(
                 name="limit",
                 type="integer",
-                description="返回结果数量限制（默认10）",
+                description="返回结果数量限制(默认10)",
                 required=False,
                 default=10,
             ),
@@ -332,7 +332,7 @@ class NoteTool(Tool):
             "metadata": {"word_count": len(content), "status": "active"},
         }
 
-        # 保存笔记文件（Markdown格式）
+        # 保存笔记文件(Markdown格式)
         note_path = self._get_note_path(note_id)
         markdown_content = self._note_to_markdown(note)
         with open(note_path, "w", encoding="utf-8") as f:
@@ -390,10 +390,10 @@ class NoteTool(Tool):
 
         Args:
             note_id: 笔记ID
-            title: 新标题（可选）
-            content: 新内容（可选）
-            note_type: 新类型（可选）
-            tags: 新标签列表（可选）
+            title: 新标题(可选)
+            content: 新内容(可选)
+            note_type: 新类型(可选)
+            tags: 新标签列表(可选)
 
         Returns:
             更新结果
@@ -423,7 +423,7 @@ class NoteTool(Tool):
 
         note["updated_at"] = datetime.now().isoformat()
 
-        # 保存更新（Markdown格式）
+        # 保存更新(Markdown格式)
         markdown_content = self._note_to_markdown(note)
         with open(note_path, "w", encoding="utf-8") as f:
             f.write(markdown_content)
@@ -473,7 +473,7 @@ class NoteTool(Tool):
         """列出笔记
 
         Args:
-            note_type: 笔记类型过滤（可选）
+            note_type: 笔记类型过滤(可选)
             limit: 返回结果数量限制
 
         Returns:
@@ -490,7 +490,7 @@ class NoteTool(Tool):
         if not filtered_notes:
             return "📝 暂无笔记"
 
-        result = f"📝 笔记列表（共 {len(filtered_notes)} 条）\n\n"
+        result = f"📝 笔记列表(共 {len(filtered_notes)} 条)\n\n"
         for note in filtered_notes:
             result += f"• [{note['type']}] {note['title']}\n"
             result += f"  ID: {note['id']}\n"
@@ -544,7 +544,7 @@ class NoteTool(Tool):
         if not matched_notes:
             return f"📝 未找到匹配 '{query}' 的笔记"
 
-        result = f"🔍 搜索结果（共 {len(matched_notes)} 条）\n\n"
+        result = f"🔍 搜索结果(共 {len(matched_notes)} 条)\n\n"
         for note in matched_notes:
             result += self._format_note(note, compact=True) + "\n"
 

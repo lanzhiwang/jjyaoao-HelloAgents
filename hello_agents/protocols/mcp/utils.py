@@ -1,8 +1,8 @@
 """
 MCP 协议工具函数
 
-提供上下文管理、消息解析等辅助功能。
-这些函数主要用于处理 MCP 协议的数据结构。
+提供上下文管理、消息解析等辅助功能. 
+这些函数主要用于处理 MCP 协议的数据结构. 
 """
 
 from typing import Dict, Any, List, Optional, Union

@@ -2,13 +2,13 @@
 
 ## 概述
 
-`hello_agents.rl.datasets` 模块提供了用于强化学习训练的数据集加载和处理功能。主要支持GSM8K数学推理数据集,并提供SFT和RL两种格式。
+`hello_agents.rl.datasets` 模块提供了用于强化学习训练的数据集加载和处理功能. 主要支持GSM8K数学推理数据集,并提供SFT和RL两种格式. 
 
 ## 核心类
 
 ### GSM8KDataset
 
-GSM8K数据集的封装类,提供数据加载和格式化功能。
+GSM8K数据集的封装类,提供数据加载和格式化功能. 
 
 ```python
 from hello_agents.rl.datasets import GSM8KDataset
@@ -31,7 +31,7 @@ dataset = GSM8KDataset(split="train", max_samples=100)
 
 ##### `__len__()`
 
-返回数据集大小。
+返回数据集大小. 
 
 ```python
 size = len(dataset)
@@ -39,7 +39,7 @@ size = len(dataset)
 
 ##### `__getitem__(index)`
 
-获取指定索引的样本。
+获取指定索引的样本. 
 
 **参数**:
 - **index** (`int`): 样本索引
@@ -58,7 +58,7 @@ print(sample['ground_truth'])
 
 ##### `format_for_sft(example)`
 
-将样本格式化为SFT训练格式。
+将样本格式化为SFT训练格式. 
 
 **参数**:
 - **example** (`dict`): 原始样本
@@ -76,7 +76,7 @@ print(sft_sample['completion'])
 
 ##### `format_for_rl(example, model_name)`
 
-将样本格式化为RL训练格式。
+将样本格式化为RL训练格式. 
 
 **参数**:
 - **example** (`dict`): 原始样本
@@ -96,7 +96,7 @@ print(rl_sample['ground_truth'])
 
 ### create_sft_dataset
 
-创建SFT格式的数据集。
+创建SFT格式的数据集. 
 
 ```python
 from hello_agents.rl import create_sft_dataset
@@ -143,7 +143,7 @@ result = tool.run({
 
 ### create_rl_dataset
 
-创建RL格式的数据集。
+创建RL格式的数据集. 
 
 ```python
 from hello_agents.rl import create_rl_dataset
@@ -297,7 +297,7 @@ class CustomDataset(GSM8KDataset):
 
 ### Q: 数据集加载很慢怎么办?
 
-A: GSM8K数据集会自动缓存,第一次加载较慢,后续会很快。
+A: GSM8K数据集会自动缓存,第一次加载较慢,后续会很快. 
 
 ### Q: 如何查看数据集样本?
 

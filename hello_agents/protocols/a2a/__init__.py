@@ -1,6 +1,6 @@
 """A2A (Agent-to-Agent Protocol) 协议实现
 
-基于官方 a2a 库的封装，提供简洁的 API 用于：
+基于官方 a2a 库的封装, 提供简洁的 API 用于: 
 - Agent 间消息传递
 - 任务委托与协商
 - 多 Agent 协作
@@ -9,7 +9,7 @@
 详见文档: docs/chapter10/A2A_GUIDE.md
 """
 
-# A2A 是可选的，需要安装官方 SDK
+# A2A 是可选的, 需要安装官方 SDK
 try:
     from .implementation import A2AServer, A2AClient, AgentNetwork, AgentRegistry
 
@@ -20,7 +20,7 @@ try:
         "AgentRegistry",
     ]
 except ImportError as e:
-    # 如果没有安装依赖，提供占位符
+    # 如果没有安装依赖, 提供占位符
     __all__ = []
 
     class _A2ANotAvailable:
@@ -36,17 +36,17 @@ except ImportError as e:
     AgentNetwork = _A2ANotAvailable
     AgentRegistry = _A2ANotAvailable
 
-# 为了向后兼容，提供别名
+# 为了向后兼容, 提供别名
 A2AAgent = A2AServer
 A2AMessage = dict  # 简化的消息类型
 MessageType = str
 
 
 def create_message(*args, **kwargs):
-    """创建 A2A 消息（占位符）"""
+    """创建 A2A 消息(占位符)"""
     raise ImportError("Please install a2a library: pip install a2a")
 
 
 def parse_message(*args, **kwargs):
-    """解析 A2A 消息（占位符）"""
+    """解析 A2A 消息(占位符)"""
     raise ImportError("Please install a2a library: pip install a2a")

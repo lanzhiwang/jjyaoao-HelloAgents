@@ -1,12 +1,12 @@
 """RAG工具 - 检索增强生成
 
-为HelloAgents框架提供简洁易用的RAG能力：
-- 🔄 数据流程：用户数据 → 文档解析 → 向量化存储 → 智能检索 → LLM增强问答
-- 📚 多格式支持：PDF、Word、Excel、PPT、图片、音频、网页等
-- 🧠 智能问答：自动检索相关内容，注入提示词，生成准确答案
-- 🏷️ 命名空间：支持多项目隔离，便于管理不同知识库
+为HelloAgents框架提供简洁易用的RAG能力: 
+- 🔄 数据流程: 用户数据 → 文档解析 → 向量化存储 → 智能检索 → LLM增强问答
+- 📚 多格式支持: PDF、Word、Excel、PPT、图片、音频、网页等
+- 🧠 智能问答: 自动检索相关内容, 注入提示词, 生成准确答案
+- 🏷️ 命名空间: 支持多项目隔离, 便于管理不同知识库
 
-使用示例：
+使用示例: 
 ```python
 # 1. 初始化RAG工具
 rag = RAGTool()
@@ -15,7 +15,7 @@ rag = RAGTool()
 rag.run({"action": "add_document", "file_path": "document.pdf"})
 
 # 3. 智能问答
-answer = rag.run({"action": "ask", "question": "什么是机器学习？"})
+answer = rag.run({"action": "ask", "question": "什么是机器学习? "})
 ```
 """
 
@@ -31,8 +31,8 @@ from ...core.llm import HelloAgentsLLM
 class RAGTool(Tool):
     """RAG工具
 
-    提供完整的 RAG 能力：
-    - 添加多格式文档（PDF、Office、图片、音频等）
+    提供完整的 RAG 能力: 
+    - 添加多格式文档(PDF、Office、图片、音频等)
     - 智能检索与召回
     - LLM 增强问答
     - 知识库管理
@@ -49,7 +49,7 @@ class RAGTool(Tool):
     ):
         super().__init__(
             name="rag",
-            description="RAG工具 - 支持多格式文档检索增强生成，提供智能问答能力",
+            description="RAG工具 - 支持多格式文档检索增强生成, 提供智能问答能力",
             expandable=expandable,
         )
 
@@ -92,7 +92,7 @@ class RAGTool(Tool):
             print(f"❌ RAG工具初始化失败: {e}")
 
     def _get_pipeline(self, namespace: Optional[str] = None) -> Dict[str, Any]:
-        """获取指定命名空间的 RAG 管道，若不存在则自动创建"""
+        """获取指定命名空间的 RAG 管道, 若不存在则自动创建"""
         target_ns = namespace or self.rag_namespace
         if target_ns in self._pipelines:
             return self._pipelines[target_ns]
@@ -107,23 +107,23 @@ class RAGTool(Tool):
         return pipeline
 
     def run(self, parameters: Dict[str, Any]) -> str:
-        """执行工具（非展开模式）
+        """执行工具(非展开模式)
 
         Args:
-            parameters: 工具参数字典，必须包含action参数
+            parameters: 工具参数字典, 必须包含action参数
 
         Returns:
             执行结果字符串
         """
         if not self.validate_parameters(parameters):
-            return "❌ 参数验证失败：缺少必需的参数"
+            return "❌ 参数验证失败: 缺少必需的参数"
 
         if not self.initialized:
-            return f"❌ RAG工具未正确初始化，请检查配置: {getattr(self, 'init_error', '未知错误')}"
+            return f"❌ RAG工具未正确初始化, 请检查配置: {getattr(self, 'init_error', '未知错误')}"
 
         action = parameters.get("action")
 
-        # 根据action调用对应的方法，传入提取的参数
+        # 根据action调用对应的方法, 传入提取的参数
         try:
             if action == "add_document":
                 return self._add_document(
@@ -184,14 +184,14 @@ class RAGTool(Tool):
             ToolParameter(
                 name="action",
                 type="string",
-                description="操作类型：add_document(添加文档), add_text(添加文本), ask(智能问答), search(搜索), stats(统计), clear(清空)",
+                description="操作类型: add_document(添加文档), add_text(添加文本), ask(智能问答), search(搜索), stats(统计), clear(清空)",
                 required=True,
             ),
             # 内容参数
             ToolParameter(
                 name="file_path",
                 type="string",
-                description="文档文件路径（支持PDF、Word、Excel、PPT、图片、音频等多种格式）",
+                description="文档文件路径(支持PDF、Word、Excel、PPT、图片、音频等多种格式)",
                 required=False,
             ),
             ToolParameter(
@@ -203,34 +203,34 @@ class RAGTool(Tool):
             ToolParameter(
                 name="question",
                 type="string",
-                description="用户问题（用于智能问答）",
+                description="用户问题(用于智能问答)",
                 required=False,
             ),
             ToolParameter(
                 name="query",
                 type="string",
-                description="搜索查询词（用于基础搜索）",
+                description="搜索查询词(用于基础搜索)",
                 required=False,
             ),
             # 可选配置参数
             ToolParameter(
                 name="namespace",
                 type="string",
-                description="知识库命名空间（用于隔离不同项目，默认：default）",
+                description="知识库命名空间(用于隔离不同项目, 默认: default)",
                 required=False,
                 default="default",
             ),
             ToolParameter(
                 name="limit",
                 type="integer",
-                description="返回结果数量（默认：5）",
+                description="返回结果数量(默认: 5)",
                 required=False,
                 default=5,
             ),
             ToolParameter(
                 name="include_citations",
                 type="boolean",
-                description="是否包含引用来源（默认：true）",
+                description="是否包含引用来源(默认: true)",
                 required=False,
                 default=True,
             ),
@@ -238,7 +238,7 @@ class RAGTool(Tool):
 
     @tool_action(
         "rag_add_document",
-        "添加文档到知识库（支持PDF、Word、Excel、PPT、图片、音频等多种格式）",
+        "添加文档到知识库(支持PDF、Word、Excel、PPT、图片、音频等多种格式)",
     )
     def _add_document(
         self,
@@ -252,8 +252,8 @@ class RAGTool(Tool):
 
         Args:
             file_path: 文档文件路径
-            document_id: 文档ID（可选）
-            namespace: 知识库命名空间（用于隔离不同项目）
+            document_id: 文档ID(可选)
+            namespace: 知识库命名空间(用于隔离不同项目)
             chunk_size: 分块大小
             chunk_overlap: 分块重叠大小
 
@@ -302,7 +302,7 @@ class RAGTool(Tool):
 
         Args:
             text: 要添加的文本内容
-            document_id: 文档ID（可选）
+            document_id: 文档ID(可选)
             namespace: 知识库命名空间
             chunk_size: 分块大小
             chunk_overlap: 分块重叠大小
@@ -373,7 +373,7 @@ class RAGTool(Tool):
             query: 搜索查询词
             limit: 返回结果数量
             min_score: 最低相关度分数
-            enable_advanced_search: 是否启用高级搜索（MQE、HyDE）
+            enable_advanced_search: 是否启用高级搜索(MQE、HyDE)
             max_chars: 每个结果最大字符数
             include_citations: 是否包含引用来源
             namespace: 知识库命名空间
@@ -407,7 +407,7 @@ class RAGTool(Tool):
                 return f"🔍 未找到与 '{query}' 相关的内容"
 
             # 格式化搜索结果
-            search_result = ["搜索结果："]
+            search_result = ["搜索结果: "]
             for i, result in enumerate(results, 1):
                 meta = result.get("metadata", {})
                 score = result.get("score", 0.0)
@@ -450,7 +450,7 @@ class RAGTool(Tool):
         max_chars: int = 1200,
         namespace: str = "default",
     ) -> str:
-        """智能问答：检索 → 上下文注入 → LLM生成答案
+        """智能问答: 检索 → 上下文注入 → LLM生成答案
 
         Args:
             question: 用户问题
@@ -493,8 +493,8 @@ class RAGTool(Tool):
 
             if not results:
                 return (
-                    f"🤔 抱歉，我在知识库中没有找到与「{user_question}」相关的信息。\n\n"
-                    f"💡 建议：\n"
+                    f"🤔 抱歉, 我在知识库中没有找到与「{user_question}」相关的信息. \n\n"
+                    f"💡 建议: \n"
                     f"• 尝试使用更简洁的关键词\n"
                     f"• 检查是否已添加相关文档\n"
                     f"• 使用 stats 操作查看知识库状态"
@@ -515,7 +515,7 @@ class RAGTool(Tool):
                 if content:
                     # 清理内容格式
                     cleaned_content = self._clean_content_for_context(content)
-                    context_parts.append(f"片段 {i+1}：{cleaned_content}")
+                    context_parts.append(f"片段 {i+1}: {cleaned_content}")
 
                     if include_citations:
                         citations.append(
@@ -526,10 +526,10 @@ class RAGTool(Tool):
                             }
                         )
 
-            # 3. 构建上下文（智能截断）
+            # 3. 构建上下文(智能截断)
             context = "\n\n".join(context_parts)
             if len(context) > max_chars:
-                # 智能截断，保持完整性
+                # 智能截断, 保持完整性
                 context = self._smart_truncate_context(context, max_chars)
 
             # 4. 构建增强提示词
@@ -547,7 +547,7 @@ class RAGTool(Tool):
             llm_time = int((time.time() - llm_start) * 1000)
 
             if not answer or not answer.strip():
-                return "❌ LLM未能生成有效答案，请稍后重试"
+                return "❌ LLM未能生成有效答案, 请稍后重试"
 
             # 6. 构建最终回答
             final_answer = self._format_final_answer(
@@ -574,7 +574,7 @@ class RAGTool(Tool):
         return content
 
     def _smart_truncate_context(self, context: str, max_chars: int) -> str:
-        """智能截断上下文，保持段落完整性"""
+        """智能截断上下文, 保持段落完整性"""
         if len(context) <= max_chars:
             return context
 
@@ -590,13 +590,13 @@ class RAGTool(Tool):
     def _build_system_prompt(self) -> str:
         """构建系统提示词"""
         return (
-            "你是一个专业的知识助手，具备以下能力：\n"
-            "1. 📖 精准理解：仔细理解用户问题的核心意图\n"
-            "2. 🎯 可信回答：严格基于提供的上下文信息回答，不编造内容\n"
-            "3. 🔍 信息整合：从多个片段中提取关键信息，形成完整答案\n"
-            "4. 💡 清晰表达：用简洁明了的语言回答，适当使用结构化格式\n"
-            "5. 🚫 诚实表达：如果上下文不足以回答问题，请坦诚说明\n\n"
-            "回答格式要求：\n"
+            "你是一个专业的知识助手, 具备以下能力: \n"
+            "1. 📖 精准理解: 仔细理解用户问题的核心意图\n"
+            "2. 🎯 可信回答: 严格基于提供的上下文信息回答, 不编造内容\n"
+            "3. 🔍 信息整合: 从多个片段中提取关键信息, 形成完整答案\n"
+            "4. 💡 清晰表达: 用简洁明了的语言回答, 适当使用结构化格式\n"
+            "5. 🚫 诚实表达: 如果上下文不足以回答问题, 请坦诚说明\n\n"
+            "回答格式要求: \n"
             "• 直接回答核心问题\n"
             "• 必要时使用要点或步骤\n"
             "• 引用关键原文时使用引号\n"
@@ -606,10 +606,10 @@ class RAGTool(Tool):
     def _build_user_prompt(self, question: str, context: str) -> str:
         """构建用户提示词"""
         return (
-            f"请基于以下上下文信息回答问题：\n\n"
-            f"【问题】{question}\n\n"
-            f"【相关上下文】\n{context}\n\n"
-            f"【要求】请提供准确、有帮助的回答。如果上下文信息不足，请说明需要什么额外信息。"
+            f"请基于以下上下文信息回答问题: \n\n"
+            f"[问题]{question}\n\n"
+            f"[相关上下文]\n{context}\n\n"
+            f"[要求]请提供准确、有帮助的回答. 如果上下文信息不足, 请说明需要什么额外信息. "
         )
 
     def _format_final_answer(
@@ -637,21 +637,21 @@ class RAGTool(Tool):
                     f"{score_emoji} [{citation['index']}] {citation['source']} (相似度: {citation['score']:.3f})"
                 )
 
-        # 添加性能信息（调试模式）
+        # 添加性能信息(调试模式)
         result.append(
             f"\n⚡ 检索: {search_time}ms | 生成: {llm_time}ms | 平均相似度: {avg_score:.3f}"
         )
 
         return "\n".join(result)
 
-    @tool_action("rag_clear", "清空知识库（危险操作，请谨慎使用）")
+    @tool_action("rag_clear", "清空知识库(危险操作, 请谨慎使用)")
     def _clear_knowledge_base(
         self, confirm: bool = False, namespace: str = "default"
     ) -> str:
         """清空知识库
 
         Args:
-            confirm: 确认执行（必须设置为True）
+            confirm: 确认执行(必须设置为True)
             namespace: 知识库命名空间
 
         Returns:
@@ -660,8 +660,8 @@ class RAGTool(Tool):
         try:
             if not confirm:
                 return (
-                    "⚠️ 危险操作：清空知识库将删除所有数据！\n"
-                    "请使用 confirm=true 参数确认执行。"
+                    "⚠️ 危险操作: 清空知识库将删除所有数据! \n"
+                    "请使用 confirm=true 参数确认执行. "
                 )
 
             pipeline = self._get_pipeline(namespace)
@@ -677,7 +677,7 @@ class RAGTool(Tool):
                     collection_name=self.collection_name,
                     rag_namespace=namespace_id,
                 )
-                return f"✅ 知识库已成功清空（命名空间：{namespace_id}）"
+                return f"✅ 知识库已成功清空(命名空间: {namespace_id})"
             else:
                 return "❌ 清空知识库失败"
 
@@ -864,11 +864,11 @@ class RAGTool(Tool):
             return f"❌ 清空所有命名空间失败: {str(e)}"
 
     # ========================================
-    # 便捷接口方法（简化用户调用）
+    # 便捷接口方法(简化用户调用)
     # ========================================
 
     def add_document(self, file_path: str, namespace: str = "default") -> str:
-        """便捷方法：添加单个文档"""
+        """便捷方法: 添加单个文档"""
         return self.run(
             {"action": "add_document", "file_path": file_path, "namespace": namespace}
         )
@@ -876,7 +876,7 @@ class RAGTool(Tool):
     def add_text(
         self, text: str, namespace: str = "default", document_id: str = None
     ) -> str:
-        """便捷方法：添加文本内容"""
+        """便捷方法: 添加文本内容"""
         return self.run(
             {
                 "action": "add_text",
@@ -887,13 +887,13 @@ class RAGTool(Tool):
         )
 
     def ask(self, question: str, namespace: str = "default", **kwargs) -> str:
-        """便捷方法：智能问答"""
+        """便捷方法: 智能问答"""
         params = {"action": "ask", "question": question, "namespace": namespace}
         params.update(kwargs)
         return self.run(params)
 
     def search(self, query: str, namespace: str = "default", **kwargs) -> str:
-        """便捷方法：搜索知识库"""
+        """便捷方法: 搜索知识库"""
         params = {"action": "search", "query": query, "namespace": namespace}
         params.update(kwargs)
         return self.run(params)

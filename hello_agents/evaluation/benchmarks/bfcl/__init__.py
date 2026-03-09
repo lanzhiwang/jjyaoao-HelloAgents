@@ -1,7 +1,7 @@
 """
 BFCL (Berkeley Function Calling Leaderboard) 评估模块
 
-Berkeley Function Calling Leaderboard 是评估大语言模型工具调用能力的权威基准。
+Berkeley Function Calling Leaderboard 是评估大语言模型工具调用能力的权威基准. 
 
 主要功能:
 - 数据集加载和处理

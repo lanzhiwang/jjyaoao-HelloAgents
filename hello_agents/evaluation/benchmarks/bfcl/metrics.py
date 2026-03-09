@@ -69,12 +69,12 @@ class BFCLMetrics:
             return similarity
 
         except SyntaxError:
-            # 如果无法解析，使用字符串相似度
+            # 如果无法解析, 使用字符串相似度
             return BFCLMetrics._calculate_string_similarity(predicted, expected)
 
     @staticmethod
     def _calculate_string_similarity(s1: str, s2: str) -> float:
-        """计算字符串相似度（简化版Levenshtein距离）"""
+        """计算字符串相似度(简化版Levenshtein距离)"""
         if s1 == s2:
             return 1.0
         if not s1 or not s2:
@@ -153,7 +153,7 @@ class BFCLMetrics:
             results: 评估结果列表
 
         Returns:
-            指标字典，包含各种评估指标
+            指标字典, 包含各种评估指标
         """
         if not results:
             return self._empty_metrics()
@@ -317,7 +317,7 @@ class BFCLMetrics:
         if not predicted:
             return 0.0, 0.0
 
-        # 简化版本：基于函数名匹配
+        # 简化版本: 基于函数名匹配
         pred_names = set(
             call.get("name", "") for call in predicted if isinstance(call, dict)
         )

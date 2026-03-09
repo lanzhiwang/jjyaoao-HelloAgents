@@ -16,19 +16,19 @@ logger = logging.getLogger(__name__)
 
 
 class ToolAwareSimpleAgent(SimpleAgent):
-    """SimpleAgent 子类，记录工具调用情况。
+    """SimpleAgent 子类, 记录工具调用情况. 
 
-    ToolAwareSimpleAgent 扩展了 SimpleAgent，增加了工具调用监听功能。
-    这使得外部系统可以追踪和记录智能体的工具调用行为，用于日志记录、
-    调试、性能分析等场景。
+    ToolAwareSimpleAgent 扩展了 SimpleAgent, 增加了工具调用监听功能. 
+    这使得外部系统可以追踪和记录智能体的工具调用行为, 用于日志记录、
+    调试、性能分析等场景. 
 
-    主要特性：
-    - 工具调用监听：通过回调函数记录每次工具调用的详细信息
-    - 增强的工具调用解析：支持复杂的嵌套参数和字符串处理
-    - 流式工具调用：在流式输出中支持工具调用
-    - 参数清理：自动清理和规范化工具参数
+    主要特性: 
+    - 工具调用监听: 通过回调函数记录每次工具调用的详细信息
+    - 增强的工具调用解析: 支持复杂的嵌套参数和字符串处理
+    - 流式工具调用: 在流式输出中支持工具调用
+    - 参数清理: 自动清理和规范化工具参数
 
-    示例：
+    示例: 
         >>> def tool_listener(call_info):
         ...     print(f"工具调用: {call_info['tool_name']}")
         ...     print(f"参数: {call_info['parsed_parameters']}")
@@ -49,42 +49,42 @@ class ToolAwareSimpleAgent(SimpleAgent):
         tool_call_listener: Optional[Callable[[dict[str, Any]], None]] = None,
         **kwargs: Any,
     ) -> None:
-        """初始化 ToolAwareSimpleAgent。
+        """初始化 ToolAwareSimpleAgent. 
 
         Args:
             *args: 传递给 SimpleAgent 的位置参数
-            tool_call_listener: 工具调用监听器回调函数，接收包含工具调用信息的字典
+            tool_call_listener: 工具调用监听器回调函数, 接收包含工具调用信息的字典
             **kwargs: 传递给 SimpleAgent 的关键字参数
         """
         super().__init__(*args, **kwargs)
         self._tool_call_listener = tool_call_listener
 
     def _execute_tool_call(self, tool_name: str, parameters: str) -> str:  # type: ignore[override]
-        """执行工具调用并通知监听器。
+        """执行工具调用并通知监听器. 
 
         Args:
             tool_name: 工具名称
-            parameters: 工具参数（字符串格式）
+            parameters: 工具参数(字符串格式)
 
         Returns:
             工具执行结果的格式化字符串
         """
         if not self.tool_registry:
-            return "❌ 错误：未配置工具注册表"
+            return "❌ 错误: 未配置工具注册表"
 
         try:
             tool = self.tool_registry.get_tool(tool_name)
             if not tool:
-                return f"❌ 错误：未找到工具 '{tool_name}'"
+                return f"❌ 错误: 未找到工具 '{tool_name}'"
 
             parsed_parameters = self._parse_tool_parameters(tool_name, parameters)
             parsed_parameters = self._sanitize_parameters(parsed_parameters)
 
             result = tool.run(parsed_parameters)
-            formatted_result = f"🔧 工具 {tool_name} 执行结果：\n{result}"
+            formatted_result = f"🔧 工具 {tool_name} 执行结果: \n{result}"
         except Exception as exc:  # pragma: no cover - tool failures回退
             parsed_parameters = {}
-            formatted_result = f"❌ 工具调用失败：{exc}"
+            formatted_result = f"❌ 工具调用失败: {exc}"
 
         # 通知监听器
         if self._tool_call_listener:
@@ -104,15 +104,15 @@ class ToolAwareSimpleAgent(SimpleAgent):
         return formatted_result
 
     def _parse_tool_calls(self, text: str) -> list:  # type: ignore[override]
-        """解析文本中的工具调用。
+        """解析文本中的工具调用. 
 
-        支持格式：[TOOL_CALL:tool_name:parameters]
+        支持格式: [TOOL_CALL:tool_name:parameters]
 
         Args:
             text: 包含工具调用的文本
 
         Returns:
-            工具调用列表，每个元素包含 tool_name、parameters 和 original
+            工具调用列表, 每个元素包含 tool_name、parameters 和 original
         """
         marker = "[TOOL_CALL:"
         calls: list = []
@@ -172,14 +172,14 @@ class ToolAwareSimpleAgent(SimpleAgent):
 
     @staticmethod
     def _find_tool_call_end(text: str, start_index: int) -> int:
-        """查找工具调用的结束位置。
+        """查找工具调用的结束位置. 
 
         Args:
             text: 文本内容
             start_index: 工具调用的起始位置
 
         Returns:
-            工具调用结束位置的索引，如果未找到返回 -1
+            工具调用结束位置的索引, 如果未找到返回 -1
         """
         marker = "[TOOL_CALL:"
         tool_start = start_index + len(marker)
@@ -231,7 +231,7 @@ class ToolAwareSimpleAgent(SimpleAgent):
 
     @staticmethod
     def _sanitize_parameters(parameters: dict[str, Any]) -> dict[str, Any]:
-        """清理和规范化工具参数。
+        """清理和规范化工具参数. 
 
         Args:
             parameters: 原始参数字典
@@ -281,7 +281,7 @@ class ToolAwareSimpleAgent(SimpleAgent):
 
     @staticmethod
     def _normalize_string(value: str) -> str:
-        """规范化字符串值，移除多余的引号和括号。
+        """规范化字符串值, 移除多余的引号和括号. 
 
         Args:
             value: 原始字符串
@@ -308,7 +308,7 @@ class ToolAwareSimpleAgent(SimpleAgent):
     def stream_run(self, input_text: str, max_tool_iterations: int = 3, **kwargs: Any) -> Iterator[str]:  # type: ignore[override]
         """Stream assistant output while supporting tool calls mid-generation.
 
-        流式运行智能体，支持在生成过程中调用工具。
+        流式运行智能体, 支持在生成过程中调用工具. 
 
         Args:
             input_text: 用户输入文本
@@ -409,9 +409,9 @@ class ToolAwareSimpleAgent(SimpleAgent):
                     {
                         "role": "user",
                         "content": (
-                            "工具执行结果：\n"
+                            "工具执行结果: \n"
                             f"{tool_results_text}\n\n"
-                            "请基于这些结果给出完整的回答。"
+                            "请基于这些结果给出完整的回答. "
                         ),
                     }
                 )
@@ -435,13 +435,13 @@ class ToolAwareSimpleAgent(SimpleAgent):
 
     @staticmethod
     def _coerce_sequence(value: str) -> Any:
-        """尝试将字符串转换为列表。
+        """尝试将字符串转换为列表. 
 
         Args:
             value: 字符串值
 
         Returns:
-            解析后的列表，如果解析失败返回 None
+            解析后的列表, 如果解析失败返回 None
         """
         if not value:
             return None

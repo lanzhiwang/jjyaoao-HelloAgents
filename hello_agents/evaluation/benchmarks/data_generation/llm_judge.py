@@ -29,7 +29,7 @@ class LLMJudgeEvaluator:
         初始化LLM Judge评估器
 
         Args:
-            llm: LLM实例，如果为None则创建新实例
+            llm: LLM实例, 如果为None则创建新实例
             judge_model: 评委模型名称
         """
         self.llm = llm or HelloAgentsLLM(model=judge_model)
@@ -43,10 +43,10 @@ class LLMJudgeEvaluator:
 
         Args:
             problem: 待评估的问题
-            reference: 参考问题（可选，用于对比）
+            reference: 参考问题(可选, 用于对比)
 
         Returns:
-            评估结果，包含各维度评分和总分
+            评估结果, 包含各维度评分和总分
         """
         start_time = time.time()
 
@@ -83,7 +83,7 @@ class LLMJudgeEvaluator:
 
         Args:
             problems: 待评估的问题列表
-            references: 参考问题列表（可选）
+            references: 参考问题列表(可选)
 
         Returns:
             评估结果汇总
@@ -123,9 +123,9 @@ class LLMJudgeEvaluator:
         self, problem: Dict[str, Any], reference: Optional[Dict[str, Any]] = None
     ) -> str:
         """构建评估提示词"""
-        prompt = f"""你是一位专业的数学题目评估专家。请评估以下AIME风格数学题目的质量。
+        prompt = f"""你是一位专业的数学题目评估专家. 请评估以下AIME风格数学题目的质量. 
 
-【待评估题目】
+[待评估题目]
 问题: {problem.get('problem', '')}
 答案: {problem.get('answer', '')}
 解答: {problem.get('solution', '')}
@@ -133,21 +133,21 @@ class LLMJudgeEvaluator:
 
         if reference:
             prompt += f"""
-【参考题目（AIME真题）】
+[参考题目(AIME真题)]
 问题: {reference.get('problem', '')}
 答案: {reference.get('answer', '')}
 解答: {reference.get('solution', '')}
 """
 
         prompt += """
-请从以下四个维度评估题目质量（每个维度1-5分）：
+请从以下四个维度评估题目质量(每个维度1-5分): 
 
-1. **正确性 (Correctness)**: 数学逻辑是否正确，答案是否准确
-2. **清晰度 (Clarity)**: 问题表述是否清晰，解答是否易懂
-3. **难度匹配 (Difficulty Match)**: 难度是否符合AIME标准（6-9/15）
-4. **完整性 (Completeness)**: 解答步骤是否完整，是否包含必要的推理
+1. **正确性 (Correctness)**: 数学逻辑是否正确, 答案是否准确
+2. **清晰度 (Clarity)**: 问题表述是否清晰, 解答是否易懂
+3. **难度匹配 (Difficulty Match)**: 难度是否符合AIME标准(6-9/15)
+4. **完整性 (Completeness)**: 解答步骤是否完整, 是否包含必要的推理
 
-请按以下JSON格式输出评分：
+请按以下JSON格式输出评分: 
 ```json
 {
     "correctness": 5,

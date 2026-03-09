@@ -7,7 +7,7 @@ from typing import List, Callable, Dict, Any, Optional
 class MathRewardFunction:
     """数学问题奖励函数
 
-    用于评估模型生成的数学答案是否正确。
+    用于评估模型生成的数学答案是否正确. 
     """
 
     def __init__(self, tolerance: float = 1e-4):
@@ -28,13 +28,13 @@ class MathRewardFunction:
             text: 生成的文本
 
         Returns:
-            提取的答案字符串，如果未找到则返回None
+            提取的答案字符串, 如果未找到则返回None
         """
         # 尝试多种答案格式
         patterns = [
             r"Final Answer:\s*([^\n]+)",
             r"####\s*([^\n]+)",
-            r"答案是?\s*[:：]?\s*([^\n]+)",
+            r"答案是?\s*[:: ]?\s*([^\n]+)",
             r"Therefore,?\s*(?:the answer is)?\s*([^\n]+)",
         ]
 
@@ -43,7 +43,7 @@ class MathRewardFunction:
             if match:
                 return match.group(1).strip()
 
-        # 如果没有找到特定格式，尝试提取最后一行的数字
+        # 如果没有找到特定格式, 尝试提取最后一行的数字
         lines = text.strip().split("\n")
         for line in reversed(lines):
             numbers = re.findall(r"-?\d+\.?\d*", line)
@@ -60,7 +60,7 @@ class MathRewardFunction:
             answer: 答案字符串
 
         Returns:
-            标准化后的数值，如果无法转换则返回None
+            标准化后的数值, 如果无法转换则返回None
         """
         if answer is None:
             return None
@@ -96,10 +96,10 @@ class MathRewardFunction:
         truth_num = self.normalize_answer(truth)
 
         if pred_num is None or truth_num is None:
-            # 如果无法转换为数字，进行字符串比较
+            # 如果无法转换为数字, 进行字符串比较
             return pred.strip().lower() == truth.strip().lower()
 
-        # 数值比较（考虑容差）
+        # 数值比较(考虑容差)
         return abs(pred_num - truth_num) < self.tolerance
 
     def __call__(self, completions: List[str], **kwargs) -> List[float]:
@@ -111,7 +111,7 @@ class MathRewardFunction:
             **kwargs: 其他参数,必须包含ground_truth列表
 
         Returns:
-            奖励值列表（1.0表示正确，0.0表示错误）
+            奖励值列表(1.0表示正确, 0.0表示错误)
         """
         # 从kwargs中获取ground_truth
         ground_truths = kwargs.get("ground_truth", [])
@@ -137,7 +137,7 @@ class MathRewardFunction:
 
 def create_accuracy_reward(tolerance: float = 1e-4) -> Callable:
     """
-    创建准确性奖励函数（便捷函数）
+    创建准确性奖励函数(便捷函数)
 
     Args:
         tolerance: 数值比较的容差
@@ -184,7 +184,7 @@ def create_length_penalty_reward(
 
 def create_step_reward(base_reward_fn: Callable, step_bonus: float = 0.1) -> Callable:
     """
-    创建带步骤奖励的函数（鼓励详细的推理过程）
+    创建带步骤奖励的函数(鼓励详细的推理过程)
 
     Args:
         base_reward_fn: 基础奖励函数
@@ -201,7 +201,7 @@ def create_step_reward(base_reward_fn: Callable, step_bonus: float = 0.1) -> Cal
         # 添加步骤奖励
         final_rewards = []
         for reward, completion in zip(base_rewards, completions):
-            # 统计推理步骤（简单地统计换行符数量）
+            # 统计推理步骤(简单地统计换行符数量)
             num_steps = completion.count("\n")
             step_reward = min(step_bonus * num_steps, 0.5)  # 最多0.5的额外奖励
             final_rewards.append(reward + step_reward)

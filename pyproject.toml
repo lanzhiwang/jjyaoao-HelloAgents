@@ -36,7 +36,7 @@ search = [
 
 # 记忆系统依赖
 memory = [
-    "qdrant-client>=1.9.0",          # 向量数据库（已兼容1.16.0+新API）
+    "qdrant-client>=1.9.0",          # 向量数据库(已兼容1.16.0+新API)
     "neo4j>=5.0.0",                  # 图数据库
     "spacy>=3.4.0",                  # NLP和实体识别
     "scikit-learn>=1.0.0",           # 机器学习工具
@@ -56,10 +56,10 @@ rag = [
 # 协议支持依赖
 protocols = [
     "fastmcp>=2.0.0,<3.0.0",        # MCP 协议支持
-    "a2a-sdk>=0.1.0",               # A2A 协议支持（可选）
+    "a2a-sdk>=0.1.0",               # A2A 协议支持(可选)
 ]
 
-# 评估系统依赖（不含BFCL）
+# 评估系统依赖(不含BFCL)
 evaluation = [
     "datasets>=2.14.0",             # HuggingFace数据集加载
     "huggingface_hub>=0.20.0,<1.0.0",  # HuggingFace Hub API
@@ -71,10 +71,10 @@ evaluation = [
     "gradio>=4.0.0,<5.0.0",         # 人工验证界面
 ]
 
-# BFCL评估依赖（⚠️ bfcl-eval强制要求numpy==1.26.4，与主依赖numpy>=2.0冲突）
-# ⚠️ 此组已禁用，无法通过 pip install hello-agents[evaluation-bfcl] 安装
+# BFCL评估依赖(⚠️ bfcl-eval强制要求numpy==1.26.4, 与主依赖numpy>=2.0冲突)
+# ⚠️ 此组已禁用, 无法通过 pip install hello-agents[evaluation-bfcl] 安装
 # 
-# 使用方法：在独立虚拟环境中手动安装
+# 使用方法: 在独立虚拟环境中手动安装
 #   uv venv .venv-bfcl
 #   source .venv-bfcl/bin/activate  # Windows: .venv-bfcl\Scripts\activate
 #   uv pip install openai requests python-dotenv pydantic beautifulsoup4 networkx
@@ -86,20 +86,20 @@ evaluation = [
 #     "evaluate>=0.4.0,<1.0.0",
 #     "pandas>=2.0.0,<3.0.0",
 #     "tqdm>=4.65.0,<5.0.0",
-#     "bfcl-eval",                    # BFCL官方评估工具（强制numpy==1.26.4）
+#     "bfcl-eval",                    # BFCL官方评估工具(强制numpy==1.26.4)
 # ]
 
-# RL训练系统依赖（第11章）
+# RL训练系统依赖(第11章)
 rl = [
     "trl>=0.24.0",                  # Transformer Reinforcement Learning
     "transformers>=4.20.0",         # Transformer模型
     "torch>=2.0.0",                 # PyTorch
-    "datasets>=2.14.0",             # 数据集加载（兼容trl）
+    "datasets>=2.14.0",             # 数据集加载(兼容trl)
     "accelerate>=0.20.0",           # 分布式训练加速
     "peft>=0.5.0",                  # LoRA等参数高效微调
     "bitsandbytes>=0.41.0",         # 量化支持
-    "wandb>=0.15.0",                # 训练监控（可选）
-    "tensorboard>=2.13.0",          # TensorBoard支持（可选）
+    "wandb>=0.15.0",                # 训练监控(可选)
+    "tensorboard>=2.13.0",          # TensorBoard支持(可选)
 ]
 
 # 完整记忆和RAG功能
@@ -107,7 +107,7 @@ memory-rag = [
     "hello-agents[memory,rag]",
 ]
 
-# 全部功能（不含evaluation-bfcl，因其与numpy>=2.0冲突）
+# 全部功能(不含evaluation-bfcl, 因其与numpy>=2.0冲突)
 all = [
     "hello-agents[search,memory-rag,protocols,evaluation,rl]",
 ]

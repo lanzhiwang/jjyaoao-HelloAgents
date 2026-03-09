@@ -2,7 +2,7 @@
 
 ## 概述
 
-HelloAgents提供了多种Agent实现，支持不同的AI范式和使用场景。所有Agent都继承自`Agent`基类，提供统一的接口。
+HelloAgents提供了多种Agent实现, 支持不同的AI范式和使用场景. 所有Agent都继承自`Agent`基类, 提供统一的接口. 
 
 ## Agent基类
 
@@ -26,7 +26,7 @@ class Agent(ABC):
 
 ## SimpleAgent
 
-最基础的对话Agent，适合简单的问答场景。
+最基础的对话Agent, 适合简单的问答场景. 
 
 ### 类定义
 
@@ -56,16 +56,16 @@ llm = HelloAgentsLLM()
 agent = SimpleAgent(
     name="AI助手",
     llm=llm,
-    system_prompt="你是一个有用的AI助手，请用中文回答问题。"
+    system_prompt="你是一个有用的AI助手, 请用中文回答问题. "
 )
 
 # 同步对话
-response = agent.run("你好！请介绍一下自己")
+response = agent.run("你好! 请介绍一下自己")
 print(response)
 
 # 流式对话
 print("助手: ", end="", flush=True)
-for chunk in agent.stream_run("什么是人工智能？"):
+for chunk in agent.stream_run("什么是人工智能? "):
     print(chunk, end="", flush=True)
 print()
 
@@ -77,14 +77,14 @@ for msg in history:
 
 ### 特点
 
-- ✅ 简单易用，适合快速开始
+- ✅ 简单易用, 适合快速开始
 - ✅ 支持流式响应
 - ✅ 自动管理对话历史
 - ✅ 支持自定义系统提示
 
 ## ReActAgent
 
-基于ReAct（Reasoning and Acting）范式的Agent，支持工具调用和推理。
+基于ReAct(Reasoning and Acting)范式的Agent, 支持工具调用和推理. 
 
 ### 类定义
 
@@ -107,8 +107,8 @@ class ReActAgent(Agent):
 ### 参数说明
 
 - **tool_registry** (`ToolRegistry`): 工具注册表
-- **max_steps** (`int`): 最大推理步数，默认5
-- **custom_prompt** (`Optional[str]`): 自定义ReAct提示词模板，替换默认模板
+- **max_steps** (`int`): 最大推理步数, 默认5
+- **custom_prompt** (`Optional[str]`): 自定义ReAct提示词模板, 替换默认模板
 
 ### 使用示例
 
@@ -124,7 +124,7 @@ llm = HelloAgentsLLM()
 registry = ToolRegistry()
 registry.register_function("calculate", "数学计算工具", calculate)
 
-# 创建ReActAgent（使用默认提示词）
+# 创建ReActAgent(使用默认提示词)
 agent = ReActAgent(
     name="工具助手",
     llm=llm,
@@ -141,16 +141,16 @@ print(response)
 ```python
 # 自定义ReAct提示词模板
 custom_prompt = """
-你是一个专业的数学解题专家。
+你是一个专业的数学解题专家. 
 
-可用工具：{tools}
+可用工具: {tools}
 
-解题格式：
+解题格式: 
 Thought: 分析数学问题的类型和解题策略
 Action: 使用工具计算或给出最终答案
 
-问题：{question}
-历史：{history}
+问题: {question}
+历史: {history}
 """
 
 # 创建自定义ReActAgent
@@ -163,15 +163,15 @@ custom_agent = ReActAgent(
 )
 
 # 使用自定义Agent
-response = custom_agent.run("如果一个正方形的面积是64，那么它的周长是多少？")
+response = custom_agent.run("如果一个正方形的面积是64, 那么它的周长是多少? ")
 print(response)
 ```
 
 ### ReAct工作流程
 
-1. **思考（Think）**: 分析问题，决定下一步行动
-2. **行动（Act）**: 调用工具或给出答案
-3. **观察（Observe）**: 观察工具执行结果
+1. **思考(Think)**: 分析问题, 决定下一步行动
+2. **行动(Act)**: 调用工具或给出答案
+3. **观察(Observe)**: 观察工具执行结果
 4. **重复**: 直到找到答案或达到最大步数
 
 ### 特点
@@ -183,7 +183,7 @@ print(response)
 
 ## ReflectionAgent
 
-基于反思机制的Agent，能够自我评估和改进答案。
+基于反思机制的Agent, 能够自我评估和改进答案. 
 
 ### 类定义
 
@@ -204,8 +204,8 @@ class ReflectionAgent(Agent):
 
 ### 参数说明
 
-- **max_iterations** (`int`): 最大反思迭代次数，默认3
-- **custom_prompts** (`Optional[Dict[str, str]]`): 自定义提示词模板，包含`initial`、`reflect`、`refine`三个键
+- **max_iterations** (`int`): 最大反思迭代次数, 默认3
+- **custom_prompts** (`Optional[Dict[str, str]]`): 自定义提示词模板, 包含`initial`、`reflect`、`refine`三个键
 
 ### 使用示例
 
@@ -216,7 +216,7 @@ from hello_agents import HelloAgentsLLM, ReflectionAgent
 # 创建LLM
 llm = HelloAgentsLLM()
 
-# 创建ReflectionAgent（使用默认提示词）
+# 创建ReflectionAgent(使用默认提示词)
 agent = ReflectionAgent(
     name="反思助手",
     llm=llm,
@@ -233,29 +233,29 @@ print(response)
 # 代码生成专家的自定义提示词
 code_prompts = {
     "initial": """
-你是一位资深的程序员。请根据以下要求编写代码：
+你是一位资深的程序员. 请根据以下要求编写代码: 
 
 要求: {task}
 
-请提供完整的代码实现，包含必要的注释和文档。
+请提供完整的代码实现, 包含必要的注释和文档. 
 """,
     "reflect": """
-你是一位严格的代码评审专家。请审查以下代码：
+你是一位严格的代码评审专家. 请审查以下代码: 
 
 # 原始任务: {task}
 # 待审查的代码: {content}
 
-请分析代码的质量，包括算法效率、可读性、错误处理等。
-如果代码质量良好，请回答"无需改进"。
+请分析代码的质量, 包括算法效率、可读性、错误处理等. 
+如果代码质量良好, 请回答"无需改进". 
 """,
     "refine": """
-请根据代码评审意见优化你的代码：
+请根据代码评审意见优化你的代码: 
 
 # 原始任务: {task}
 # 上一轮代码: {last_attempt}
 # 评审意见: {feedback}
 
-请提供优化后的代码。
+请提供优化后的代码. 
 """
 }
 
@@ -275,7 +275,7 @@ print(response)
 ### 反思工作流程
 
 1. **初始回答**: 生成初始答案
-2. **自我评估**: 评估答案质量，找出问题
+2. **自我评估**: 评估答案质量, 找出问题
 3. **改进**: 基于评估结果改进答案
 4. **重复**: 直到满意或达到最大迭代次数
 
@@ -288,7 +288,7 @@ print(response)
 
 ## PlanAndSolveAgent
 
-基于计划和解决范式的Agent，先制定计划再逐步执行。
+基于计划和解决范式的Agent, 先制定计划再逐步执行. 
 
 ### 类定义
 
@@ -308,7 +308,7 @@ class PlanAndSolveAgent(Agent):
 
 ### 参数说明
 
-- **custom_prompts** (`Optional[Dict[str, str]]`): 自定义提示词模板，包含`planner`和`executor`两个键
+- **custom_prompts** (`Optional[Dict[str, str]]`): 自定义提示词模板, 包含`planner`和`executor`两个键
 
 ### 使用示例
 
@@ -319,14 +319,14 @@ from hello_agents import HelloAgentsLLM, PlanAndSolveAgent
 # 创建LLM
 llm = HelloAgentsLLM()
 
-# 创建PlanAndSolveAgent（使用默认提示词）
+# 创建PlanAndSolveAgent(使用默认提示词)
 agent = PlanAndSolveAgent(
     name="规划助手",
     llm=llm
 )
 
 # 通用问题分解
-response = agent.run("如何学习Python编程？")
+response = agent.run("如何学习Python编程? ")
 print(response)
 ```
 
@@ -335,8 +335,8 @@ print(response)
 # 数学问题专家的自定义提示词
 math_prompts = {
     "planner": """
-你是一个数学问题分解专家。请将以下数学问题分解为清晰的计算步骤。
-每个步骤应该是一个具体的数学运算或逻辑推理。
+你是一个数学问题分解专家. 请将以下数学问题分解为清晰的计算步骤. 
+每个步骤应该是一个具体的数学运算或逻辑推理. 
 
 数学问题: {question}
 
@@ -346,14 +346,14 @@ math_prompts = {
 ```
 """,
     "executor": """
-你是一个数学计算专家。请严格按照计划执行数学计算。
+你是一个数学计算专家. 请严格按照计划执行数学计算. 
 
 # 原始问题: {question}
 # 计算计划: {plan}
 # 已完成的计算: {history}
 # 当前计算步骤: {current_step}
 
-请执行当前步骤的计算，只输出计算结果:
+请执行当前步骤的计算, 只输出计算结果:
 """
 }
 
@@ -365,7 +365,7 @@ math_agent = PlanAndSolveAgent(
 )
 
 # 数学问题分解与求解
-response = math_agent.run("一个圆形花园的半径是8米，如果要在花园周围建一条宽2米的小径，小径的面积是多少？")
+response = math_agent.run("一个圆形花园的半径是8米, 如果要在花园周围建一条宽2米的小径, 小径的面积是多少? ")
 print(response)
 ```
 
@@ -461,14 +461,14 @@ calculator = ReActAgent("计算器", llm, ToolRegistry())
 calculator.tool_registry.register_function("calculate", "计算", calculate)
 
 # 顺序协作
-question = "分析一下如果投资10万元，年化收益率8%，10年后的收益"
+question = "分析一下如果投资10万元, 年化收益率8%, 10年后的收益"
 
-# 第一步：分析
+# 第一步: 分析
 analysis = analyst.run(question)
 print("分析结果:", analysis)
 
-# 第二步：计算
-calculation = calculator.run(f"根据分析：{analysis}，计算具体数值")
+# 第二步: 计算
+calculation = calculator.run(f"根据分析: {analysis}, 计算具体数值")
 print("计算结果:", calculation)
 ```
 
@@ -506,27 +506,27 @@ for i, result in enumerate(results, 1):
 
 ### 设计理念
 
-HelloAgents采用"默认优秀，自定义灵活"的设计理念：
+HelloAgents采用"默认优秀, 自定义灵活"的设计理念: 
 
-- **默认即可用**: 所有Agent都提供高质量的默认提示词模板，无需配置即可使用
+- **默认即可用**: 所有Agent都提供高质量的默认提示词模板, 无需配置即可使用
 - **完全可定制**: 用户可以通过`custom_prompts`或`custom_prompt`参数完全替换默认模板
-- **简洁API**: 避免过多的预设选项，保持API简洁易用
+- **简洁API**: 避免过多的预设选项, 保持API简洁易用
 
 ### 自定义提示词格式
 
 #### ReflectionAgent
 ```python
 custom_prompts = {
-    "initial": "初始任务处理提示词，包含{task}占位符",
-    "reflect": "反思评估提示词，包含{task}和{content}占位符",
-    "refine": "改进优化提示词，包含{task}、{last_attempt}和{feedback}占位符"
+    "initial": "初始任务处理提示词, 包含{task}占位符",
+    "reflect": "反思评估提示词, 包含{task}和{content}占位符",
+    "refine": "改进优化提示词, 包含{task}、{last_attempt}和{feedback}占位符"
 }
 ```
 
 #### ReActAgent
 ```python
 custom_prompt = """
-自定义ReAct提示词，包含以下占位符：
+自定义ReAct提示词, 包含以下占位符: 
 - {tools}: 可用工具列表
 - {question}: 用户问题
 - {history}: 执行历史
@@ -536,8 +536,8 @@ custom_prompt = """
 #### PlanAndSolveAgent
 ```python
 custom_prompts = {
-    "planner": "规划器提示词，包含{question}占位符",
-    "executor": "执行器提示词，包含{question}、{plan}、{history}、{current_step}占位符"
+    "planner": "规划器提示词, 包含{question}占位符",
+    "executor": "执行器提示词, 包含{question}、{plan}、{history}、{current_step}占位符"
 }
 ```
 
@@ -560,8 +560,8 @@ custom_prompts = {
 ```python
 # 好的系统提示
 system_prompt = """
-你是一个专业的Python编程助手。
-请遵循以下原则：
+你是一个专业的Python编程助手. 
+请遵循以下原则: 
 1. 提供清晰、可运行的代码
 2. 包含必要的注释和文档
 3. 考虑错误处理和边界情况
@@ -577,36 +577,36 @@ agent = SimpleAgent("Python助手", llm, system_prompt)
 # 好的自定义提示词示例
 custom_prompts = {
     "initial": """
-你是一个{专业角色}。请根据以下要求完成任务：
+你是一个{专业角色}. 请根据以下要求完成任务: 
 
 任务: {task}
 
-请按照以下格式输出：
+请按照以下格式输出: 
 1. 分析: [你的分析]
 2. 方案: [你的方案]
 3. 总结: [关键要点]
 """,
     "reflect": """
-请评估以下工作成果的质量：
+请评估以下工作成果的质量: 
 
 # 原始任务: {task}
 # 当前成果: {content}
 
-评估维度：
+评估维度: 
 - 完整性: 是否完整回答了问题
 - 准确性: 信息是否准确可靠
 - 实用性: 是否具有实际应用价值
 
-如果质量良好，请回答"无需改进"。
+如果质量良好, 请回答"无需改进". 
 """,
     "refine": """
-请根据评估意见改进工作成果：
+请根据评估意见改进工作成果: 
 
 # 原始任务: {task}
 # 上一版成果: {last_attempt}
 # 改进建议: {feedback}
 
-请提供改进后的版本。
+请提供改进后的版本. 
 """
 }
 ```
@@ -652,7 +652,7 @@ from hello_agents.tools.builtin import calculate
 # 1. 创建LLM
 llm = HelloAgentsLLM()
 
-# 2. 创建不同类型的Agent（使用默认配置）
+# 2. 创建不同类型的Agent(使用默认配置)
 simple_agent = SimpleAgent("聊天助手", llm)
 react_agent = ReActAgent("工具助手", llm, ToolRegistry())
 reflection_agent = ReflectionAgent("反思助手", llm, max_iterations=2)
@@ -663,7 +663,7 @@ react_agent.tool_registry.register_function("calculate", "计算", calculate)
 
 # 4. 使用不同Agent
 print("=== 简单对话 ===")
-print(simple_agent.run("你好，介绍一下自己"))
+print(simple_agent.run("你好, 介绍一下自己"))
 
 print("\n=== 工具调用 ===")
 print(react_agent.run("计算 123 * 456"))
@@ -672,28 +672,28 @@ print("\n=== 反思改进 ===")
 print(reflection_agent.run("解释什么是递归算法"))
 
 print("\n=== 计划执行 ===")
-print(plan_agent.run("如何学习Python编程？"))
+print(plan_agent.run("如何学习Python编程? "))
 ```
 
 ### 自定义配置示例
 ```python
 # 创建专业化的Agent
 code_prompts = {
-    "initial": "你是代码专家。请编写代码：{task}",
-    "reflect": "请检查代码质量：{content}",
-    "refine": "请优化代码：{last_attempt}"
+    "initial": "你是代码专家. 请编写代码: {task}",
+    "reflect": "请检查代码质量: {content}",
+    "refine": "请优化代码: {last_attempt}"
 }
 
 research_prompt = """
-你是研究专家。可用工具：{tools}
+你是研究专家. 可用工具: {tools}
 Thought: 分析研究问题
 Action: 使用工具或给出结论
-问题：{question}
+问题: {question}
 """
 
 math_prompts = {
-    "planner": "分解数学问题：{question}",
-    "executor": "执行计算步骤：{current_step}"
+    "planner": "分解数学问题: {question}",
+    "executor": "执行计算步骤: {current_step}"
 }
 
 # 创建专业化Agent

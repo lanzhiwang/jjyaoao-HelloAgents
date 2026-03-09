@@ -21,7 +21,7 @@ cp .env.example .env
 
 ### 2. 配置LLM服务
 
-编辑 `.env` 文件，配置以下4个核心变量：
+编辑 `.env` 文件, 配置以下4个核心变量: 
 
 ```bash
 # 模型名称
@@ -33,7 +33,7 @@ LLM_API_KEY=your-api-key-here
 # 服务地址
 LLM_BASE_URL=your-api-base-url
 
-# 超时时间（可选，默认60秒）
+# 超时时间(可选, 默认60秒)
 LLM_TIMEOUT=60
 ```
 
@@ -51,7 +51,7 @@ print(f'LLM_API_KEY: {\"已设置\" if os.getenv(\"LLM_API_KEY\") else \"未设�
 print(f'LLM_BASE_URL: {os.getenv(\"LLM_BASE_URL\", \"未设置\")}')
 "
 
-# 测试LLM连接（需要先配置好.env文件）
+# 测试LLM连接(需要先配置好.env文件)
 python -c "
 from hello_agents import HelloAgentsLLM
 try:
@@ -87,7 +87,7 @@ LLM_BASE_URL=https://api.deepseek.com
 
 **获取API密钥**: [DeepSeek Platform](https://platform.deepseek.com/)
 
-### 通义千问（阿里云）
+### 通义千问(阿里云)
 
 ```bash
 LLM_MODEL_ID=qwen-plus
@@ -159,7 +159,7 @@ LLM_BASE_URL=http://localhost:8080/v1
 
 ### 搜索工具
 
-#### Tavily搜索（推荐）
+#### Tavily搜索(推荐)
 
 ```bash
 TAVILY_API_KEY=tvly-your_tavily_key_here
@@ -167,7 +167,7 @@ TAVILY_API_KEY=tvly-your_tavily_key_here
 
 **获取API密钥**: [Tavily](https://tavily.com/)
 
-#### SerpApi搜索（备选）
+#### SerpApi搜索(备选)
 
 ```bash
 SERPAPI_API_KEY=your_serpapi_key_here
@@ -177,7 +177,7 @@ SERPAPI_API_KEY=your_serpapi_key_here
 
 ## 🔄 兼容性配置
 
-框架支持多种环境变量格式，会自动检测：
+框架支持多种环境变量格式, 会自动检测: 
 
 ### OpenAI格式
 ```bash
@@ -195,7 +195,7 @@ ZHIPU_API_KEY=your_zhipu_api_key.your_secret
 
 ## 🔍 自动检测逻辑
 
-框架会按以下优先级自动检测LLM提供商：
+框架会按以下优先级自动检测LLM提供商: 
 
 1. **API密钥格式判断**
    - `ms-` 开头 → ModelScope
@@ -221,12 +221,12 @@ ZHIPU_API_KEY=your_zhipu_api_key.your_secret
 ```python
 from hello_agents import HelloAgentsLLM, SimpleAgent
 
-# 自动检测provider（推荐）
+# 自动检测provider(推荐)
 llm = HelloAgentsLLM()
 
 # 创建Agent
 agent = SimpleAgent("AI助手", llm)
-response = agent.run("你好！")
+response = agent.run("你好! ")
 print(response)
 ```
 
@@ -253,13 +253,13 @@ llm = HelloAgentsLLM(
 ```bash
 ❌ 错误: Invalid API key
 ```
-**解决方案**: 检查API密钥是否正确，是否有足够的配额
+**解决方案**: 检查API密钥是否正确, 是否有足够的配额
 
 #### 2. 网络连接问题
 ```bash
 ❌ 错误: Connection timeout
 ```
-**解决方案**: 检查网络连接，或增加超时时间：
+**解决方案**: 检查网络连接, 或增加超时时间: 
 ```bash
 LLM_TIMEOUT=120
 ```
@@ -268,7 +268,7 @@ LLM_TIMEOUT=120
 ```bash
 ❌ 错误: Unknown provider
 ```
-**解决方案**: 手动指定provider：
+**解决方案**: 手动指定provider: 
 ```python
 llm = HelloAgentsLLM(provider="your_provider")
 ```
@@ -296,7 +296,7 @@ print(f'LLM_API_KEY: {\"已设置\" if os.getenv(\"LLM_API_KEY\") else \"未设�
 print(f'LLM_BASE_URL: {os.getenv(\"LLM_BASE_URL\", \"未设置\")}')
 "
 
-# 测试连接（仅在配置正确时运行）
+# 测试连接(仅在配置正确时运行)
 python -c "
 from hello_agents import HelloAgentsLLM
 try:
@@ -317,7 +317,7 @@ except Exception as e:
 
 ## 💬 获取帮助
 
-如果遇到配置问题，可以：
+如果遇到配置问题, 可以: 
 
 1. 查看 [故障排除](#故障排除) 部分
 2. 运行调试命令检查配置

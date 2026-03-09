@@ -9,8 +9,8 @@ from trl import apply_chat_template
 class GSM8KDataset:
     """GSM8K数学推理数据集
 
-    GSM8K (Grade School Math 8K) 是一个包含8500个高质量小学数学问题的数据集。
-    每个问题都需要2-8步的推理过程来解决。
+    GSM8K (Grade School Math 8K) 是一个包含8500个高质量小学数学问题的数据集. 
+    每个问题都需要2-8步的推理过程来解决. 
     """
 
     def __init__(
@@ -25,7 +25,7 @@ class GSM8KDataset:
 
         Args:
             split: 数据集分割 ("train" 或 "test")
-            max_samples: 最大样本数（用于快速测试）
+            max_samples: 最大样本数(用于快速测试)
             format_type: 数据格式类型 ("sft" 用于监督学习, "rl" 用于强化学习)
             tokenizer: Tokenizer对象,用于RL格式应用chat template
         """
@@ -41,7 +41,7 @@ class GSM8KDataset:
             self.dataset = self.dataset.select(
                 range(min(max_samples, len(self.dataset)))
             )
-            print(f"   使用 {len(self.dataset)} 个样本（限制：{max_samples}）")
+            print(f"   使用 {len(self.dataset)} 个样本(限制: {max_samples})")
         else:
             print(f"   加载了 {len(self.dataset)} 个样本")
 
@@ -53,12 +53,12 @@ class GSM8KDataset:
             example: 原始数据样本
 
         Returns:
-            格式化后的样本，包含 "prompt" 和 "completion"
+            格式化后的样本, 包含 "prompt" 和 "completion"
         """
         question = example["question"]
         answer = example["answer"]
 
-        # 提取最终答案（GSM8K的答案格式为：推理过程\n#### 最终答案）
+        # 提取最终答案(GSM8K的答案格式为: 推理过程\n#### 最终答案)
         if "####" in answer:
             reasoning, final_answer = answer.split("####")
             reasoning = reasoning.strip()
@@ -85,7 +85,7 @@ class GSM8KDataset:
             example: 原始数据样本
 
         Returns:
-            格式化后的样本，使用standard format (已应用chat template)
+            格式化后的样本, 使用standard format (已应用chat template)
             - prompt: 应用chat template后的文本字符串
             - ground_truth: 正确答案
             - question: 原始问题
@@ -165,7 +165,7 @@ def create_math_dataset(
     创建数学推理数据集
 
     Args:
-        dataset_name: 数据集名称（目前仅支持 "gsm8k"）
+        dataset_name: 数据集名称(目前仅支持 "gsm8k")
         split: 数据集分割
         max_samples: 最大样本数
         format_type: 数据格式类型
@@ -273,7 +273,7 @@ def create_sft_dataset(
     max_samples: Optional[int] = 1000, split: str = "train"
 ) -> Dataset:
     """
-    创建SFT训练数据集（便捷函数）
+    创建SFT训练数据集(便捷函数)
 
     Args:
         max_samples: 最大样本数
@@ -293,7 +293,7 @@ def create_rl_dataset(
     model_name: str = "Qwen/Qwen3-0.6B",
 ) -> Dataset:
     """
-    创建RL训练数据集（便捷函数）
+    创建RL训练数据集(便捷函数)
 
     Args:
         max_samples: 最大样本数
@@ -301,7 +301,7 @@ def create_rl_dataset(
         model_name: 模型名称,用于应用chat template
 
     Returns:
-        RL格式的数据集（已应用chat template）
+        RL格式的数据集(已应用chat template)
     """
     # 加载tokenizer
     print(f"📝 加载tokenizer (model={model_name})...")
@@ -324,7 +324,7 @@ def preview_dataset(dataset: Dataset, num_samples: int = 3) -> None:
         dataset: 数据集
         num_samples: 预览样本数
     """
-    print(f"\n📋 数据集预览（前 {num_samples} 个样本）:")
+    print(f"\n📋 数据集预览(前 {num_samples} 个样本):")
     print("=" * 80)
 
     for i in range(min(num_samples, len(dataset))):

@@ -251,16 +251,16 @@ class GAIAEvaluator:
         # 构建问题提示
         prompt = f"{question}"
 
-        # 如果有文件附件，添加提示
+        # 如果有文件附件, 添加提示
         if sample.get("file_name"):
             prompt += f"\n\nNote: This question may require reference to the file: {sample['file_name']}"
 
         return prompt
 
     def _extract_answer(self, response: str) -> str:
-        """从响应中提取答案（GAIA格式）
+        """从响应中提取答案(GAIA格式)
 
-        GAIA要求答案格式为：FINAL ANSWER: [答案]
+        GAIA要求答案格式为: FINAL ANSWER: [答案]
         """
         # 首先尝试提取GAIA官方格式的答案
         final_answer_pattern = r"FINAL ANSWER:\s*(.+?)(?:\n|$)"
@@ -271,12 +271,12 @@ class GAIAEvaluator:
             answer = answer.strip("[]")
             return answer
 
-        # 备用方案：查找其他答案标记
+        # 备用方案: 查找其他答案标记
         answer_patterns = [
-            r"答案[：:]\s*(.+)",
-            r"最终答案[：:]\s*(.+)",
-            r"Final answer[：:]\s*(.+)",
-            r"Answer[：:]\s*(.+)",
+            r"答案[: :]\s*(.+)",
+            r"最终答案[: :]\s*(.+)",
+            r"Final answer[: :]\s*(.+)",
+            r"Answer[: :]\s*(.+)",
         ]
 
         for pattern in answer_patterns:
@@ -284,7 +284,7 @@ class GAIAEvaluator:
             if match:
                 return match.group(1).strip()
 
-        # 如果没有找到标记，返回最后一个非空行
+        # 如果没有找到标记, 返回最后一个非空行
         lines = response.strip().split("\n")
         for line in reversed(lines):
             line = line.strip()
@@ -324,17 +324,17 @@ class GAIAEvaluator:
         if not exp_words:
             return False
 
-        # 如果超过70%的期望词汇出现在预测中，认为部分匹配
+        # 如果超过70%的期望词汇出现在预测中, 认为部分匹配
         overlap = len(pred_words & exp_words)
         return overlap / len(exp_words) >= 0.7
 
     def _normalize_answer(self, answer: str) -> str:
-        """标准化答案字符串（GAIA官方标准化规则）
+        """标准化答案字符串(GAIA官方标准化规则)
 
-        根据GAIA论文的标准化规则：
-        1. 数字：移除逗号分隔符和单位符号
-        2. 字符串：移除冠词、转小写、移除多余空格
-        3. 列表：按逗号分隔，每个元素独立标准化
+        根据GAIA论文的标准化规则: 
+        1. 数字: 移除逗号分隔符和单位符号
+        2. 字符串: 移除冠词、转小写、移除多余空格
+        3. 列表: 按逗号分隔, 每个元素独立标准化
         """
         if not answer:
             return ""
@@ -347,14 +347,14 @@ class GAIAEvaluator:
             parts = [
                 self._normalize_single_answer(p.strip()) for p in answer.split(",")
             ]
-            # 按字母顺序排序（GAIA要求）
+            # 按字母顺序排序(GAIA要求)
             parts.sort()
             return ",".join(parts)
         else:
             return self._normalize_single_answer(answer)
 
     def _normalize_single_answer(self, answer: str) -> str:
-        """标准化单个答案（不包含逗号的答案）"""
+        """标准化单个答案(不包含逗号的答案)"""
         answer = answer.strip().lower()
 
         # 移除常见的冠词
@@ -369,7 +369,7 @@ class GAIAEvaluator:
             answer.replace("$", "").replace("%", "").replace("€", "").replace("£", "")
         )
 
-        # 移除数字中的逗号分隔符（如 1,000 -> 1000）
+        # 移除数字中的逗号分隔符(如 1,000 -> 1000)
         # 但保留小数点
         answer = re.sub(r"(\d),(\d)", r"\1\2", answer)
 
@@ -389,9 +389,9 @@ class GAIAEvaluator:
     ) -> None:
         """导出为GAIA官方格式
 
-        GAIA格式要求：
-        - JSONL格式（每行一个JSON对象）
-        - 每个对象包含：task_id, model_answer, reasoning_trace（可选）
+        GAIA格式要求: 
+        - JSONL格式(每行一个JSON对象)
+        - 每个对象包含: task_id, model_answer, reasoning_trace(可选)
 
         Args:
             results: 评估结果

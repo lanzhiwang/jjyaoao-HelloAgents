@@ -42,9 +42,9 @@ tiktoken>=0.5.0
 # gradio>=4.0.0,<5.0.0             # 人工验证界面
 
 #
-# BFCL评估依赖 - ⚠️ 与numpy>=2.0冲突，需独立虚拟环境手动安装
-# bfcl-eval强制要求numpy==1.26.4，与核心依赖numpy>=2.0完全不兼容
-# 使用方法：
+# BFCL评估依赖 - ⚠️ 与numpy>=2.0冲突, 需独立虚拟环境手动安装
+# bfcl-eval强制要求numpy==1.26.4, 与核心依赖numpy>=2.0完全不兼容
+# 使用方法: 
 #   uv venv .venv-bfcl
 #   source .venv-bfcl/bin/activate  # Windows: .venv-bfcl\Scripts\activate
 #   uv pip install openai requests python-dotenv pydantic beautifulsoup4 networkx
@@ -58,7 +58,7 @@ tiktoken>=0.5.0
 # accelerate>=0.20.0               # 分布式训练加速
 # peft>=0.5.0                      # LoRA等参数高效微调
 # bitsandbytes>=0.41.0             # 量化支持
-# wandb>=0.15.0                    # 训练监控（可选）
-# tensorboard>=2.13.0              # TensorBoard支持（可选）
+# wandb>=0.15.0                    # 训练监控(可选)
+# tensorboard>=2.13.0              # TensorBoard支持(可选)
 
 # 完整功能安装: pip install hello-agents[all]

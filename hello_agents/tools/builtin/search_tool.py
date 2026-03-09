@@ -1,4 +1,4 @@
-"""搜索工具 - HelloAgents 原生搜索实现。"""
+"""搜索工具 - HelloAgents 原生搜索实现. """
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ import requests
 
 from ..base import Tool, ToolParameter
 
-try:  # 可选依赖，缺失时降级能力
+try:  # 可选依赖, 缺失时降级能力
     from markdownify import markdownify
 except Exception:  # pragma: no cover - 可选依赖
     markdownify = None  # type: ignore
@@ -102,7 +102,7 @@ def _structured_payload(
 
 
 class SearchTool(Tool):
-    """支持多后端、可返回结构化结果的搜索工具。"""
+    """支持多后端、可返回结构化结果的搜索工具. """
 
     def __init__(
         self,
@@ -114,8 +114,8 @@ class SearchTool(Tool):
         super().__init__(
             name="search",
             description=(
-                "智能网页搜索引擎，支持 Tavily、SerpApi、DuckDuckGo、SearXNG、"
-                "Perplexity 等后端，可返回结构化或文本化的搜索结果。"
+                "智能网页搜索引擎, 支持 Tavily、SerpApi、DuckDuckGo、SearXNG、"
+                "Perplexity 等后端, 可返回结构化或文本化的搜索结果. "
             ),
         )
         self.backend = (backend or "hybrid").lower()
@@ -133,7 +133,7 @@ class SearchTool(Tool):
     def run(self, parameters: Dict[str, Any]) -> str | Dict[str, Any]:  # type: ignore[override]
         query = (parameters.get("input") or parameters.get("query") or "").strip()
         if not query:
-            return "错误：搜索查询不能为空"
+            return "错误: 搜索查询不能为空"
 
         backend = str(parameters.get("backend", self.backend) or "hybrid").lower()
         backend = backend if backend in SUPPORTED_BACKENDS else "hybrid"
@@ -185,7 +185,7 @@ class SearchTool(Tool):
             except Exception as exc:  # pragma: no cover - 第三方库初始化失败
                 print(f"⚠️ Tavily 初始化失败: {exc}")
         elif self.tavily_key:
-            print("⚠️ 未安装 tavily-python，无法使用 Tavily 搜索")
+            print("⚠️ 未安装 tavily-python, 无法使用 Tavily 搜索")
         else:
             print("⚠️ TAVILY_API_KEY 未设置")
 
@@ -194,28 +194,28 @@ class SearchTool(Tool):
                 self.available_backends.append("serpapi")
                 print("✅ SerpApi 搜索引擎已初始化")
             else:
-                print("⚠️ 未安装 google-search-results，无法使用 SerpApi 搜索")
+                print("⚠️ 未安装 google-search-results, 无法使用 SerpApi 搜索")
         else:
             print("⚠️ SERPAPI_API_KEY 未设置")
 
         if self.backend not in SUPPORTED_BACKENDS:
-            print("⚠️ 不支持的搜索后端，将使用 hybrid 模式")
+            print("⚠️ 不支持的搜索后端, 将使用 hybrid 模式")
             self.backend = "hybrid"
         elif self.backend == "tavily" and "tavily" not in self.available_backends:
-            print("⚠️ Tavily 不可用，将使用 hybrid 模式")
+            print("⚠️ Tavily 不可用, 将使用 hybrid 模式")
             self.backend = "hybrid"
         elif self.backend == "serpapi" and "serpapi" not in self.available_backends:
-            print("⚠️ SerpApi 不可用，将使用 hybrid 模式")
+            print("⚠️ SerpApi 不可用, 将使用 hybrid 模式")
             self.backend = "hybrid"
 
         if self.backend == "hybrid":
             if self.available_backends:
                 print(
-                    "🔧 混合搜索模式已启用，可用后端: "
+                    "🔧 混合搜索模式已启用, 可用后端: "
                     + ", ".join(self.available_backends)
                 )
             else:
-                print("⚠️ 没有可用的 Tavily/SerpApi 搜索源，将回退到通用模式")
+                print("⚠️ 没有可用的 Tavily/SerpApi 搜索源, 将回退到通用模式")
 
     def _structured_search(
         self,
@@ -227,7 +227,7 @@ class SearchTool(Tool):
         max_tokens: int,
         loop_count: int,
     ) -> Dict[str, Any]:
-        # 统一将 hybrid 视作 advanced，以保持向后兼容的优先级逻辑
+        # 统一将 hybrid 视作 advanced, 以保持向后兼容的优先级逻辑
         target_backend = "advanced" if backend == "hybrid" else backend
 
         if target_backend == "tavily":
@@ -324,9 +324,9 @@ class SearchTool(Tool):
         max_tokens: int,
     ) -> Dict[str, Any]:
         if not self.serpapi_key:
-            raise RuntimeError("SERPAPI_API_KEY 未配置，无法使用 SerpApi 搜索")
+            raise RuntimeError("SERPAPI_API_KEY 未配置, 无法使用 SerpApi 搜索")
         if GoogleSearch is None:
-            raise RuntimeError("未安装 google-search-results，无法使用 SerpApi")
+            raise RuntimeError("未安装 google-search-results, 无法使用 SerpApi")
 
         params = {
             "engine": "google",
@@ -367,7 +367,7 @@ class SearchTool(Tool):
         max_tokens: int,
     ) -> Dict[str, Any]:
         if DDGS is None:
-            raise RuntimeError("未安装 ddgs，无法使用 DuckDuckGo 搜索")
+            raise RuntimeError("未安装 ddgs, 无法使用 DuckDuckGo 搜索")
 
         results: List[Dict[str, Any]] = []
         notices: List[str] = []
@@ -467,7 +467,7 @@ class SearchTool(Tool):
         loop_count: int,
     ) -> Dict[str, Any]:
         if not self.perplexity_key:
-            raise RuntimeError("PERPLEXITY_API_KEY 未配置，无法使用 Perplexity 搜索")
+            raise RuntimeError("PERPLEXITY_API_KEY 未配置, 无法使用 Perplexity 搜索")
 
         headers = {
             "accept": "application/json",
@@ -540,9 +540,9 @@ class SearchTool(Tool):
                 )
                 if tavily_payload["results"]:
                     return tavily_payload
-                notices.append("⚠️ Tavily 未返回有效结果，尝试其他搜索源")
+                notices.append("⚠️ Tavily 未返回有效结果, 尝试其他搜索源")
             except Exception as exc:  # pragma: no cover - 第三方库异常
-                notices.append(f"⚠️ Tavily 搜索失败：{exc}")
+                notices.append(f"⚠️ Tavily 搜索失败: {exc}")
 
         if self.serpapi_key and GoogleSearch is not None:
             try:
@@ -555,9 +555,9 @@ class SearchTool(Tool):
                 if serp_payload["results"]:
                     serp_payload["notices"] = notices + serp_payload.get("notices", [])
                     return serp_payload
-                notices.append("⚠️ SerpApi 未返回有效结果，回退到通用搜索")
+                notices.append("⚠️ SerpApi 未返回有效结果, 回退到通用搜索")
             except Exception as exc:  # pragma: no cover - 第三方库异常
-                notices.append(f"⚠️ SerpApi 搜索失败：{exc}")
+                notices.append(f"⚠️ SerpApi 搜索失败: {exc}")
 
         try:
             ddg_payload = self._search_duckduckgo(
@@ -570,7 +570,7 @@ class SearchTool(Tool):
             notices.extend(ddg_payload.get("notices", []))
             backend_used = ddg_payload.get("backend", backend_used)
         except Exception as exc:  # pragma: no cover - 通用兜底
-            notices.append(f"⚠️ DuckDuckGo 搜索失败：{exc}")
+            notices.append(f"⚠️ DuckDuckGo 搜索失败: {exc}")
 
         return _structured_payload(
             aggregated,
@@ -585,13 +585,13 @@ class SearchTool(Tool):
         results = payload.get("results") or []
         backend = payload.get("backend", self.backend)
 
-        lines = [f"🔍 搜索关键词：{query}", f"🧭 使用搜索源：{backend}"]
+        lines = [f"🔍 搜索关键词: {query}", f"🧭 使用搜索源: {backend}"]
         if answer:
-            lines.append(f"💡 直接答案：{answer}")
+            lines.append(f"💡 直接答案: {answer}")
 
         if results:
             lines.append("")
-            lines.append("📚 参考来源：")
+            lines.append("📚 参考来源: ")
             for idx, item in enumerate(results, start=1):
                 title = item.get("title") or item.get("url", "")
                 lines.append(f"[{idx}] {title}")
@@ -601,10 +601,10 @@ class SearchTool(Tool):
                     lines.append(f"    来源: {item['url']}")
                 lines.append("")
         else:
-            lines.append("❌ 未找到相关搜索结果。")
+            lines.append("❌ 未找到相关搜索结果. ")
 
         if notices:
-            lines.append("⚠️ 注意事项：")
+            lines.append("⚠️ 注意事项: ")
             for notice in notices:
                 if notice:
                     lines.append(f"- {notice}")

@@ -7,7 +7,7 @@ include pyproject.toml
 # 包含文档
 recursive-include docs *.md *.rst *.txt
 
-# 包含示例（可选）
+# 包含示例(可选)
 recursive-include examples *.py *.md
 
 # 排除不需要的文件

@@ -45,7 +45,7 @@ class Neo4jGraphStore:
             connection_acquisition_timeout: 连接获取超时(秒)
         """
         if not NEO4J_AVAILABLE:
-            raise ImportError("neo4j未安装。请运行: pip install neo4j>=5.0.0")
+            raise ImportError("neo4j未安装. 请运行: pip install neo4j>=5.0.0")
 
         self.uri = uri
         self.username = username
@@ -86,7 +86,7 @@ class Neo4jGraphStore:
         except ServiceUnavailable as e:
             logger.error(f"❌ Neo4j服务不可用: {e}")
             if "localhost" in self.uri:
-                logger.info("💡 本地连接失败，可以考虑使用Neo4j Aura云服务")
+                logger.info("💡 本地连接失败, 可以考虑使用Neo4j Aura云服务")
                 logger.info(
                     "💡 或启动本地服务: docker run -p 7474:7474 -p 7687:7687 neo4j:5.14"
                 )
@@ -459,7 +459,7 @@ class Neo4jGraphStore:
             return False
 
     def __del__(self):
-        """析构函数，清理资源"""
+        """析构函数, 清理资源"""
         if hasattr(self, "driver") and self.driver:
             try:
                 self.driver.close()

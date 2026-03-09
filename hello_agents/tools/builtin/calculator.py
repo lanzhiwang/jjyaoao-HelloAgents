@@ -42,7 +42,7 @@ class CalculatorTool(Tool):
     def __init__(self):
         super().__init__(
             name="python_calculator",
-            description="执行数学计算。支持基本运算、数学函数等。例如：2+3*4, sqrt(16), sin(pi/2)等。",
+            description="执行数学计算. 支持基本运算、数学函数等. 例如: 2+3*4, sqrt(16), sin(pi/2)等. ",
         )
 
     def run(self, parameters: Dict[str, Any]) -> str:
@@ -55,10 +55,10 @@ class CalculatorTool(Tool):
         Returns:
             计算结果
         """
-        # 支持两种参数格式：input 和 expression
+        # 支持两种参数格式: input 和 expression
         expression = parameters.get("input", "") or parameters.get("expression", "")
         if not expression:
-            return "错误：计算表达式不能为空"
+            return "错误: 计算表达式不能为空"
 
         print(f"🧮 正在计算: {expression}")
 
@@ -109,7 +109,7 @@ class CalculatorTool(Tool):
             ToolParameter(
                 name="input",
                 type="string",
-                description="要计算的数学表达式，支持基本运算和数学函数",
+                description="要计算的数学表达式, 支持基本运算和数学函数",
                 required=True,
             )
         ]

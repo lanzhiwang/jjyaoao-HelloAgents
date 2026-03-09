@@ -1,6 +1,6 @@
 """语义记忆实现
 
-结合向量检索和知识图谱的混合语义记忆，使用：
+结合向量检索和知识图谱的混合语义记忆, 使用: 
 - HuggingFace 中文预训练模型进行文本嵌入
 - 向量相似度检索进行快速初筛
 - 知识图谱进行实体关系推理
@@ -89,17 +89,17 @@ class Relation:
 class SemanticMemory(BaseMemory):
     """增强语义记忆实现
 
-    特点：
+    特点: 
     - 使用HuggingFace中文预训练模型进行文本嵌入
     - 向量检索进行快速相似度匹配
     - 知识图谱存储实体和关系
-    - 混合检索策略：向量+图+语义推理
+    - 混合检索策略: 向量+图+语义推理
     """
 
     def __init__(self, config: MemoryConfig, storage_backend=None):
         super().__init__(config, storage_backend)
 
-        # 嵌入模型（统一提供）
+        # 嵌入模型(统一提供)
         self.embedding_model = None
         self._init_embedding_model()
 
@@ -120,17 +120,17 @@ class SemanticMemory(BaseMemory):
         self.semantic_memories: List[MemoryItem] = []
         self.memory_embeddings: Dict[str, np.ndarray] = {}
 
-        logger.info("增强语义记忆初始化完成（使用Qdrant+Neo4j专业数据库）")
+        logger.info("增强语义记忆初始化完成(使用Qdrant+Neo4j专业数据库)")
 
     def _init_embedding_model(self):
-        """初始化统一嵌入模型（由 embedding_provider 管理）。"""
+        """初始化统一嵌入模型(由 embedding_provider 管理). """
         try:
             self.embedding_model = get_text_embedder()
             # 轻量健康检查与日志
             try:
                 test_vec = self.embedding_model.encode("health_check")
                 dim = getattr(self.embedding_model, "dimension", len(test_vec))
-                logger.info(f"✅ 嵌入模型就绪，维度: {dim}")
+                logger.info(f"✅ 嵌入模型就绪, 维度: {dim}")
             except Exception:
                 logger.info("✅ 嵌入模型就绪")
         except Exception as e:
@@ -145,7 +145,7 @@ class SemanticMemory(BaseMemory):
             # 获取数据库配置
             db_config = get_database_config()
 
-            # 初始化Qdrant向量数据库（使用连接管理器避免重复连接）
+            # 初始化Qdrant向量数据库(使用连接管理器避免重复连接)
             from ..storage.qdrant_store import QdrantConnectionManager
 
             qdrant_config = db_config.get_qdrant_config() or {}
@@ -165,9 +165,9 @@ class SemanticMemory(BaseMemory):
             graph_health = self.graph_store.health_check()
 
             if not vector_health:
-                logger.warning("⚠️ Qdrant连接异常，部分功能可能受限")
+                logger.warning("⚠️ Qdrant连接异常, 部分功能可能受限")
             if not graph_health:
-                logger.warning("⚠️ Neo4j连接异常，图搜索功能可能受限")
+                logger.warning("⚠️ Neo4j连接异常, 图搜索功能可能受限")
 
             logger.info(
                 f"🏥 数据库健康状态: Qdrant={'✅' if vector_health else '❌'}, Neo4j={'✅' if graph_health else '❌'}"
@@ -208,13 +208,13 @@ class SemanticMemory(BaseMemory):
                 logger.info("🎯 主要使用英文spaCy模型")
             else:
                 self.nlp = None
-                logger.warning("⚠️ 无可用spaCy模型，实体提取将受限")
+                logger.warning("⚠️ 无可用spaCy模型, 实体提取将受限")
 
             if loaded_models:
                 logger.info(f"📚 可用语言模型: {', '.join(loaded_models)}")
 
         except ImportError:
-            logger.warning("⚠️ spaCy不可用，实体提取将受限")
+            logger.warning("⚠️ spaCy不可用, 实体提取将受限")
             self.nlp = None
             self.nlp_models = {}
 
@@ -254,7 +254,7 @@ class SemanticMemory(BaseMemory):
             )
 
             if not success:
-                logger.warning("⚠️ 向量存储失败，但记忆已添加到图数据库")
+                logger.warning("⚠️ 向量存储失败, 但记忆已添加到图数据库")
 
             # 5. 添加实体信息到元数据
             memory_item.metadata["entities"] = [e.entity_id for e in entities]
@@ -290,7 +290,7 @@ class SemanticMemory(BaseMemory):
                 vector_results, graph_results, query, limit
             )
 
-            # 3.1 计算概率（对 combined_score 做 softmax 归一化）
+            # 3.1 计算概率(对 combined_score 做 softmax 归一化)
             scores = [
                 r.get("combined_score", r.get("vector_score", 0.0))
                 for r in combined_results
@@ -329,7 +329,7 @@ class SemanticMemory(BaseMemory):
                 else:
                     timestamp = datetime.now()
 
-                # 直接从结果数据构建MemoryItem（附带分数与概率）
+                # 直接从结果数据构建MemoryItem(附带分数与概率)
                 memory_item = MemoryItem(
                     id=result["memory_id"],
                     content=result["content"],
@@ -400,7 +400,7 @@ class SemanticMemory(BaseMemory):
             query_entities = self._extract_entities(query)
 
             if not query_entities:
-                # 如果没有提取到实体，尝试按名称搜索
+                # 如果没有提取到实体, 尝试按名称搜索
                 entities_by_name = self.graph_store.search_entities_by_name(
                     name_pattern=query, limit=10
                 )
@@ -444,7 +444,7 @@ class SemanticMemory(BaseMemory):
             results = []
             for memory_id in list(related_memory_ids)[: limit * 2]:  # 获取更多候选
                 try:
-                    # 优先从本地缓存获取记忆详情，避免占位向量维度不一致问题
+                    # 优先从本地缓存获取记忆详情, 避免占位向量维度不一致问题
                     mem = self._find_memory_by_id(memory_id)
                     if not mem:
                         continue
@@ -501,7 +501,7 @@ class SemanticMemory(BaseMemory):
         limit: int,
     ) -> List[Dict[str, Any]]:
         """混合排序结果 - 仅基于向量与图分数的简单融合"""
-        # 合并结果，按内容去重
+        # 合并结果, 按内容去重
         combined = {}
         content_seen = set()  # 用于内容去重
 
@@ -510,7 +510,7 @@ class SemanticMemory(BaseMemory):
             memory_id = result["memory_id"]
             content = result.get("content", "")
 
-            # 内容去重：检查是否已经有相同或高度相似的内容
+            # 内容去重: 检查是否已经有相同或高度相似的内容
             content_hash = hash(content.strip())
             if content_hash in content_seen:
                 logger.debug(f"⚠️ 跳过重复内容: {content[:30]}...")
@@ -541,24 +541,24 @@ class SemanticMemory(BaseMemory):
                     "content_hash": content_hash,
                 }
 
-        # 计算混合分数：相似度为主，重要性为辅助排序因子
+        # 计算混合分数: 相似度为主, 重要性为辅助排序因子
         for memory_id, result in combined.items():
             vector_score = result["vector_score"]
             graph_score = result["graph_score"]
             importance = result.get("importance", 0.5)
 
-            # 新评分算法：向量检索纯基于相似度，重要性作为加权因子
-            # 基础相似度得分（不受重要性影响）
+            # 新评分算法: 向量检索纯基于相似度, 重要性作为加权因子
+            # 基础相似度得分(不受重要性影响)
             base_relevance = vector_score * 0.7 + graph_score * 0.3
 
-            # 重要性作为乘法加权因子，范围 [0.8, 1.2]
+            # 重要性作为乘法加权因子, 范围 [0.8, 1.2]
             # importance in [0,1] -> weight in [0.8,1.2]
             importance_weight = 0.8 + (importance * 0.4)
 
-            # 最终得分：相似度 * 重要性权重
+            # 最终得分: 相似度 * 重要性权重
             combined_score = base_relevance * importance_weight
 
-            # 调试信息：查看分数分解
+            # 调试信息: 查看分数分解
             result["debug_info"] = {
                 "base_relevance": base_relevance,
                 "importance_weight": importance_weight,
@@ -596,7 +596,7 @@ class SemanticMemory(BaseMemory):
 
     def _detect_language(self, text: str) -> str:
         """简单的语言检测"""
-        # 统计中文字符比例（无正则，逐字符判断范围）
+        # 统计中文字符比例(无正则, 逐字符判断范围)
         chinese_chars = sum(1 for ch in text if "\u4e00" <= ch <= "\u9fff")
         total_chars = len(text.replace(" ", ""))
 
@@ -633,12 +633,12 @@ class SemanticMemory(BaseMemory):
                 doc = selected_nlp(text)
                 logger.debug(f"📝 spaCy处理文本: '{text}' -> {len(doc.ents)} 个实体")
 
-                # 存储词法分析结果，供Neo4j使用
+                # 存储词法分析结果, 供Neo4j使用
                 self._store_linguistic_analysis(doc, text)
 
                 if not doc.ents:
-                    # 如果没有实体，记录详细的词元信息
-                    logger.debug("🔍 未找到实体，词元分析:")
+                    # 如果没有实体, 记录详细的词元信息
+                    logger.debug("🔍 未找到实体, 词元分析:")
                     for token in doc[:5]:  # 只显示前5个词元
                         logger.debug(
                             f"   '{token.text}' -> POS: {token.pos_}, TAG: {token.tag_}, ENT_IOB: {token.ent_iob_}"
@@ -694,7 +694,7 @@ class SemanticMemory(BaseMemory):
                     name=token.text,
                     entity_type="TOKEN",
                     properties={
-                        "pos": token.pos_,  # 词性（NOUN, VERB等）
+                        "pos": token.pos_,  # 词性(NOUN, VERB等)
                         "tag": token.tag_,  # 细粒度标签
                         "lemma": token.lemma_,  # 词元原形
                         "is_alpha": token.is_alpha,
@@ -704,7 +704,7 @@ class SemanticMemory(BaseMemory):
                     },
                 )
 
-                # 如果是名词，可能是潜在的概念
+                # 如果是名词, 可能是潜在的概念
                 if token.pos_ in ["NOUN", "PROPN"]:
                     concept_id = f"concept_{hash(token.text)}"
                     self.graph_store.add_entity(
@@ -734,7 +734,7 @@ class SemanticMemory(BaseMemory):
                 from_id = f"token_{hash(token.text + token.pos_)}"
                 to_id = f"token_{hash(token.head.text + token.head.pos_)}"
 
-                # Neo4j不允许关系类型包含冒号，需要清理
+                # Neo4j不允许关系类型包含冒号, 需要清理
                 relation_type = token.dep_.upper().replace(":", "_")
 
                 self.graph_store.add_relationship(
@@ -757,7 +757,7 @@ class SemanticMemory(BaseMemory):
     def _extract_relations(self, text: str, entities: List[Entity]) -> List[Relation]:
         """提取关系"""
         relations = []
-        # 仅保留简单共现关系，不做任何正则/关键词匹配
+        # 仅保留简单共现关系, 不做任何正则/关键词匹配
         for i, entity1 in enumerate(entities):
             for entity2 in entities[i + 1 :]:
                 relations.append(
@@ -1000,7 +1000,7 @@ class SemanticMemory(BaseMemory):
     def _cleanup_entities_and_relations(self, entity_ids: List[str]):
         """清理实体和关系"""
         # 这里可以实现更智能的清理逻辑
-        # 例如，如果实体不再被任何记忆引用，则删除它
+        # 例如, 如果实体不再被任何记忆引用, 则删除它
         pass
 
     def has_memory(self, memory_id: str) -> bool:
@@ -1013,7 +1013,7 @@ class SemanticMemory(BaseMemory):
         threshold: float = 0.1,
         max_age_days: int = 30,
     ) -> int:
-        """语义记忆遗忘机制（硬删除）"""
+        """语义记忆遗忘机制(硬删除)"""
         forgotten_count = 0
         current_time = datetime.now()
 
@@ -1032,7 +1032,7 @@ class SemanticMemory(BaseMemory):
                 if memory.timestamp < cutoff_time:
                     should_forget = True
             elif strategy == "capacity_based":
-                # 基于容量遗忘（保留最重要的）
+                # 基于容量遗忘(保留最重要的)
                 if len(self.semantic_memories) > self.config.max_capacity:
                     sorted_memories = sorted(
                         self.semantic_memories, key=lambda m: m.importance
@@ -1083,7 +1083,7 @@ class SemanticMemory(BaseMemory):
 
         except Exception as e:
             logger.error(f"❌ 清空语义记忆失败: {e}")
-            # 即使数据库清空失败，也要清空本地缓存
+            # 即使数据库清空失败, 也要清空本地缓存
         self.semantic_memories.clear()
         self.memory_embeddings.clear()
         self.entities.clear()
@@ -1102,7 +1102,7 @@ class SemanticMemory(BaseMemory):
         except Exception:
             graph_stats = {}
 
-        # 硬删除模式：所有记忆都是活跃的
+        # 硬删除模式: 所有记忆都是活跃的
         active_memories = self.semantic_memories
 
         return {
@@ -1180,7 +1180,7 @@ class SemanticMemory(BaseMemory):
                 # 尝试从本地缓存获取实体对象
                 entity_obj = self.entities.get(entity_data.get("id"))
                 if not entity_obj:
-                    # 如果本地缓存没有，创建临时实体对象
+                    # 如果本地缓存没有, 创建临时实体对象
                     entity_obj = Entity(
                         entity_id=entity_data.get("id", entity_id),
                         name=entity_data.get("name", ""),

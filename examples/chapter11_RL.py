@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-第十一章：Agentic RL完整教学示例
+第十一章: Agentic RL完整教学示例
 
 本文件整合了第十一章中介绍的Agentic RL训练流程的所有实用案例:
 

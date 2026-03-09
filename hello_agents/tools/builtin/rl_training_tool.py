@@ -1,6 +1,6 @@
 """RL训练工具
 
-提供强化学习训练功能，包括SFT、GRPO、PPO等算法。
+提供强化学习训练功能, 包括SFT、GRPO、PPO等算法. 
 """
 
 from typing import Dict, Any, List, Optional
@@ -13,11 +13,11 @@ from ..base import Tool, ToolParameter
 class RLTrainingTool(Tool):
     """RL训练工具
 
-    支持的训练算法：
+    支持的训练算法: 
     - SFT: Supervised Fine-Tuning (监督微调)
     - GRPO: Group Relative Policy Optimization (群体相对策略优化)
 
-    支持的功能：
+    支持的功能: 
     - 训练模型 (train)
     - 加载数据集 (load_dataset)
     - 创建奖励函数 (create_reward)
@@ -28,10 +28,10 @@ class RLTrainingTool(Tool):
         super().__init__(
             name="rl_training",
             description=(
-                "强化学习训练工具。支持SFT、GRPO等算法，"
-                "用于训练和优化语言模型的推理能力。"
-                "也支持数据集加载、奖励函数创建、模型评估等功能。"
-                "支持自定义数据集和奖励函数。"
+                "强化学习训练工具. 支持SFT、GRPO等算法, "
+                "用于训练和优化语言模型的推理能力. "
+                "也支持数据集加载、奖励函数创建、模型评估等功能. "
+                "支持自定义数据集和奖励函数. "
             ),
         )
 
@@ -74,18 +74,18 @@ class RLTrainingTool(Tool):
         执行RL相关操作
 
         Args:
-            parameters: 操作参数，包括：
+            parameters: 操作参数, 包括: 
                 - action: 操作类型 ("train", "load_dataset", "create_reward", "evaluate")
 
                 训练参数 (action="train"):
                 - algorithm: 训练算法 ("sft", "grpo")
-                - model_name: 模型名称（默认: "Qwen/Qwen2-0.5B-Instruct"）
-                - dataset: 数据集名称（默认: "gsm8k"）
-                - max_samples: 最大样本数（用于快速测试）
-                - num_epochs: 训练轮数（默认: 3）
-                - output_dir: 输出目录（默认: "./output"）
-                - use_lora: 是否使用LoRA（默认: True）
-                - batch_size: 批次大小（默认: 4）
+                - model_name: 模型名称(默认: "Qwen/Qwen2-0.5B-Instruct")
+                - dataset: 数据集名称(默认: "gsm8k")
+                - max_samples: 最大样本数(用于快速测试)
+                - num_epochs: 训练轮数(默认: 3)
+                - output_dir: 输出目录(默认: "./output")
+                - use_lora: 是否使用LoRA(默认: True)
+                - batch_size: 批次大小(默认: 4)
 
                 数据集加载参数 (action="load_dataset"):
                 - format: 数据格式 ("sft", "rl")
@@ -94,8 +94,8 @@ class RLTrainingTool(Tool):
 
                 奖励函数参数 (action="create_reward"):
                 - reward_type: 奖励类型 ("accuracy", "length_penalty", "step")
-                - penalty_weight: 长度惩罚权重（仅length_penalty）
-                - step_bonus: 步骤奖励（仅step）
+                - penalty_weight: 长度惩罚权重(仅length_penalty)
+                - step_bonus: 步骤奖励(仅step)
 
         Returns:
             操作结果的JSON字符串
@@ -106,7 +106,7 @@ class RLTrainingTool(Tool):
                 {
                     "status": "error",
                     "message": (
-                        "TRL未安装。请使用以下命令安装：\n"
+                        "TRL未安装. 请使用以下命令安装: \n"
                         "pip install hello-agents[rl]\n"
                         "或\n"
                         "pip install trl"
@@ -131,7 +131,7 @@ class RLTrainingTool(Tool):
             else:
                 result = {
                     "status": "error",
-                    "message": f"不支持的操作: {action}。支持的操作: train, load_dataset, create_reward, evaluate",
+                    "message": f"不支持的操作: {action}. 支持的操作: train, load_dataset, create_reward, evaluate",
                 }
                 return json.dumps(result, ensure_ascii=False, indent=2)
         except Exception as e:
@@ -222,7 +222,7 @@ class RLTrainingTool(Tool):
         else:
             result = {
                 "status": "error",
-                "message": f"不支持的算法: {algorithm}。支持的算法: sft, grpo",
+                "message": f"不支持的算法: {algorithm}. 支持的算法: sft, grpo",
             }
 
         return json.dumps(result, ensure_ascii=False, indent=2)
@@ -246,7 +246,7 @@ class RLTrainingTool(Tool):
             return json.dumps(
                 {
                     "status": "error",
-                    "message": f"不支持的数据格式: {format_type}。支持的格式: sft, rl",
+                    "message": f"不支持的数据格式: {format_type}. 支持的格式: sft, rl",
                 },
                 ensure_ascii=False,
                 indent=2,
@@ -312,7 +312,7 @@ class RLTrainingTool(Tool):
             return json.dumps(
                 {
                     "status": "error",
-                    "message": f"不支持的奖励类型: {reward_type}。支持的类型: accuracy, length_penalty, step",
+                    "message": f"不支持的奖励类型: {reward_type}. 支持的类型: accuracy, length_penalty, step",
                 },
                 ensure_ascii=False,
                 indent=2,
@@ -611,14 +611,14 @@ class RLTrainingTool(Tool):
             ToolParameter(
                 name="model_name",
                 type="string",
-                description="模型名称 (仅train)，例如: Qwen/Qwen2-0.5B-Instruct",
+                description="模型名称 (仅train), 例如: Qwen/Qwen2-0.5B-Instruct",
                 required=False,
                 default="Qwen/Qwen2-0.5B-Instruct",
             ),
             ToolParameter(
                 name="dataset",
                 type="string",
-                description="数据集名称 (仅train)，目前支持: gsm8k",
+                description="数据集名称 (仅train), 目前支持: gsm8k",
                 required=False,
                 default="gsm8k",
             ),
@@ -646,7 +646,7 @@ class RLTrainingTool(Tool):
             ToolParameter(
                 name="max_samples",
                 type="integer",
-                description="最大样本数（用于快速测试），None表示使用全部数据",
+                description="最大样本数(用于快速测试), None表示使用全部数据",
                 required=False,
                 default=None,
             ),
@@ -689,7 +689,7 @@ def train_with_sft(
     output_dir: str = "./output/sft",
 ) -> str:
     """
-    使用SFT训练模型（便捷函数）
+    使用SFT训练模型(便捷函数)
 
     Args:
         model_name: 模型名称
@@ -720,7 +720,7 @@ def train_with_grpo(
     output_dir: str = "./output/grpo",
 ) -> str:
     """
-    使用GRPO训练模型（便捷函数）
+    使用GRPO训练模型(便捷函数)
 
     Args:
         model_name: 模型名称
@@ -748,7 +748,7 @@ def load_dataset(
     format_type: str = "sft", split: str = "train", max_samples: int = 100
 ) -> str:
     """
-    加载数据集（便捷函数）
+    加载数据集(便捷函数)
 
     Args:
         format_type: 数据格式 ("sft", "rl")
@@ -771,13 +771,13 @@ def load_dataset(
 
 def create_reward_function(reward_type: str = "accuracy", **kwargs) -> str:
     """
-    创建奖励函数（便捷函数）
+    创建奖励函数(便捷函数)
 
     Args:
         reward_type: 奖励类型 ("accuracy", "length_penalty", "step")
         **kwargs: 其他参数
-            - penalty_weight: 长度惩罚权重（仅length_penalty）
-            - step_bonus: 步骤奖励（仅step）
+            - penalty_weight: 长度惩罚权重(仅length_penalty)
+            - step_bonus: 步骤奖励(仅step)
 
     Returns:
         奖励函数信息JSON字符串
@@ -790,7 +790,7 @@ def create_reward_function(reward_type: str = "accuracy", **kwargs) -> str:
 
 def evaluate_model(model_path: str, max_samples: int = 100) -> str:
     """
-    评估模型性能（便捷函数）
+    评估模型性能(便捷函数)
 
     Args:
         model_path: 模型路径

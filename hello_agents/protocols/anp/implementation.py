@@ -1,17 +1,17 @@
 """
 基于 agent-connect 库的 ANP 协议实现
 
-使用 agent-connect 库 (v0.3.7) 实现 Agent Network Protocol 功能。
+使用 agent-connect 库 (v0.3.7) 实现 Agent Network Protocol 功能. 
 
-注意：agent-connect 是一个底层的网络协议库，提供了加密、认证等功能。
-这里我们创建一个简化的包装器，使其更易于使用。
+注意: agent-connect 是一个底层的网络协议库, 提供了加密、认证等功能. 
+这里我们创建一个简化的包装器, 使其更易于使用. 
 """
 
 from typing import Dict, Any, List, Optional
 import asyncio
 import json
 
-# 由于 agent-connect 的 API 比较底层，我们创建一个简化的实现
+# 由于 agent-connect 的 API 比较底层, 我们创建一个简化的实现
 # 实际使用时可以根据需要调用 agent-connect 的具体模块
 
 
@@ -102,8 +102,8 @@ class ANPDiscovery:
         发现服务
 
         Args:
-            service_type: 服务类型（可选）
-            filters: 过滤条件（可选）
+            service_type: 服务类型(可选)
+            filters: 过滤条件(可选)
 
         Returns:
             服务列表
@@ -135,7 +135,7 @@ class ANPDiscovery:
             service_id: 服务 ID
 
         Returns:
-            服务信息，如果不存在则返回 None
+            服务信息, 如果不存在则返回 None
         """
         return self._services.get(service_id)
 
@@ -213,7 +213,7 @@ class ANPNetwork:
         self, from_node: str, to_node: str, message: Dict[str, Any]
     ) -> Optional[List[str]]:
         """
-        路由消息（简单的直接路由）
+        路由消息(简单的直接路由)
 
         Args:
             from_node: 源节点 ID
@@ -221,12 +221,12 @@ class ANPNetwork:
             message: 消息内容
 
         Returns:
-            路由路径，如果无法路由则返回 None
+            路由路径, 如果无法路由则返回 None
         """
         if from_node not in self._nodes or to_node not in self._nodes:
             return None
 
-        # 简单实现：直接路由
+        # 简单实现: 直接路由
         if to_node in self._connections.get(from_node, []):
             return [from_node, to_node]
 
@@ -281,7 +281,7 @@ class ANPNetwork:
             node_id: 节点 ID
 
         Returns:
-            节点信息，如果不存在则返回 None
+            节点信息, 如果不存在则返回 None
         """
         if node_id in self._nodes:
             node_info = self._nodes[node_id].copy()
@@ -290,7 +290,7 @@ class ANPNetwork:
         return None
 
 
-# 示例：创建一个简单的 ANP 网络
+# 示例: 创建一个简单的 ANP 网络
 def create_example_network() -> ANPNetwork:
     """创建一个示例 ANP 网络"""
     network = ANPNetwork(network_id="example_network")

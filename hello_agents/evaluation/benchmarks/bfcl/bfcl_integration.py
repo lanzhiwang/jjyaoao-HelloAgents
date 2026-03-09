@@ -1,7 +1,7 @@
 """
 BFCL 官方评估工具集成模块
 
-封装BFCL官方评估工具的调用，提供便捷的接口
+封装BFCL官方评估工具的调用, 提供便捷的接口
 """
 
 import subprocess
@@ -14,13 +14,13 @@ import os
 class BFCLIntegration:
     """BFCL官方评估工具集成类
 
-    提供以下功能：
+    提供以下功能: 
     1. 检查BFCL评估工具是否已安装
     2. 安装BFCL评估工具
     3. 运行BFCL官方评估
     4. 解析评估结果
 
-    使用示例：
+    使用示例: 
         integration = BFCLIntegration()
 
         # 检查并安装
@@ -45,7 +45,7 @@ class BFCLIntegration:
         """初始化BFCL集成
 
         Args:
-            project_root: BFCL项目根目录，如果为None则使用当前目录
+            project_root: BFCL项目根目录, 如果为None则使用当前目录
         """
         self.project_root = Path(project_root) if project_root else Path.cwd()
         self.result_dir = self.project_root / "result"
@@ -55,7 +55,7 @@ class BFCLIntegration:
         """检查BFCL评估工具是否已安装
 
         Returns:
-            True如果已安装，False否则
+            True如果已安装, False否则
         """
         try:
             result = subprocess.run(
@@ -69,7 +69,7 @@ class BFCLIntegration:
         """安装BFCL评估工具
 
         Returns:
-            True如果安装成功，False否则
+            True如果安装成功, False否则
         """
         print("📦 正在安装BFCL评估工具...")
         print("   运行: pip install bfcl-eval")
@@ -101,7 +101,7 @@ class BFCLIntegration:
     ) -> Path:
         """准备BFCL评估所需的结果文件
 
-        BFCL期望的文件路径格式：
+        BFCL期望的文件路径格式: 
         result/{model_name}/BFCL_v3_{category}_result.json
 
         Args:
@@ -145,12 +145,12 @@ class BFCLIntegration:
         Args:
             model_name: 模型名称
             category: 评估类别
-            result_file: 结果文件路径（可选，如果提供则先准备文件）
+            result_file: 结果文件路径(可选, 如果提供则先准备文件)
 
         Returns:
-            True如果评估成功，False否则
+            True如果评估成功, False否则
         """
-        # 如果提供了结果文件，先准备
+        # 如果提供了结果文件, 先准备
         if result_file:
             self.prepare_result_file(result_file, model_name, category)
 
@@ -197,7 +197,7 @@ class BFCLIntegration:
             category: 评估类别
 
         Returns:
-            评估结果字典，如果文件不存在则返回None
+            评估结果字典, 如果文件不存在则返回None
         """
         # BFCL评估结果路径
         score_file = self.score_dir / model_name / f"BFCL_v3_{category}_score.json"
@@ -229,14 +229,14 @@ class BFCLIntegration:
     def get_summary_csv(self) -> Optional[Path]:
         """获取汇总CSV文件路径
 
-        BFCL会生成以下CSV文件：
+        BFCL会生成以下CSV文件: 
         - data_overall.csv: 总体评分
         - data_live.csv: Live数据集评分
         - data_non_live.csv: Non-Live数据集评分
         - data_multi_turn.csv: 多轮对话评分
 
         Returns:
-            data_overall.csv的路径，如果不存在则返回None
+            data_overall.csv的路径, 如果不存在则返回None
         """
         csv_file = self.score_dir / "data_overall.csv"
 
@@ -252,15 +252,15 @@ class BFCLIntegration:
         print("\n" + "=" * 60)
         print("BFCL官方评估工具使用指南")
         print("=" * 60)
-        print("\n1. 安装BFCL评估工具：")
+        print("\n1. 安装BFCL评估工具: ")
         print("   pip install bfcl-eval")
-        print("\n2. 设置环境变量：")
+        print("\n2. 设置环境变量: ")
         print(f"   export BFCL_PROJECT_ROOT={self.project_root}")
-        print("\n3. 准备结果文件：")
+        print("\n3. 准备结果文件: ")
         print("   将评估结果放在: result/{model_name}/BFCL_v3_{category}_result.json")
-        print("\n4. 运行评估：")
+        print("\n4. 运行评估: ")
         print("   bfcl evaluate --model {model_name} --test-category {category}")
-        print("\n5. 查看结果：")
+        print("\n5. 查看结果: ")
         print("   评估结果在: score/{model_name}/BFCL_v3_{category}_score.json")
         print("   汇总结果在: score/data_overall.csv")
         print("\n" + "=" * 60)

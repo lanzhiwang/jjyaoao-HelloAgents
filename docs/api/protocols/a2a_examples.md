@@ -104,7 +104,7 @@ agent = A2AServer(
 
 ### 2.2 添加技�?
 ```python
-# 技�?1：文本分�?def analyze_skill(text: str) -> str:
+# 技�?1: 文本分�?def analyze_skill(text: str) -> str:
     """分析文本"""
     import re
     match = re.search(r'analyze\s+(.+)', text, re.IGNORECASE)
@@ -117,7 +117,7 @@ agent = A2AServer(
 
 agent.add_skill("analyze", analyze_skill)
 
-# 技�?2：翻�?def translate_skill(text: str) -> str:
+# 技�?2: 翻�?def translate_skill(text: str) -> str:
     """翻译文本"""
     import re
     match = re.search(r'translate\s+(.+)', text, re.IGNORECASE)
@@ -129,7 +129,7 @@ agent.add_skill("analyze", analyze_skill)
 
 agent.add_skill("translate", translate_skill)
 
-# 技�?3：计�?def calculate_skill(text: str) -> str:
+# 技�?3: 计�?def calculate_skill(text: str) -> str:
     """计算数学表达�?""
     import re
     match = re.search(r'calculate\s+(.+)', text, re.IGNORECASE)
@@ -318,14 +318,14 @@ def start_agent_server(name: str, port: int):
 
 def network_example():
     """Agent 网络示例"""
-    # 启动多个 Agent（在实际应用中，这些可能在不同的机器上）
+    # 启动多个 Agent(在实际应用中, 这些可能在不同的机器上)
     agents_config = [
         ("Agent1", 5001),
         ("Agent2", 5002),
         ("Agent3", 5003)
     ]
     
-    # 启动 Agent 服务器（在实际应用中使用多进程）
+    # 启动 Agent 服务器(在实际应用中使用多进程)
     threads = []
     for name, port in agents_config:
         thread = threading.Thread(
@@ -481,7 +481,7 @@ a2a_tool = A2ATool(agent_url="http://localhost:5000")
 agent.add_tool(a2a_tool)
 
 # 使用 Agent
-response = agent.run("请向 A2A Agent 提问：你好吗�?)
+response = agent.run("请向 A2A Agent 提问: 你好吗�?)
 print(response)
 ```
 
@@ -539,7 +539,7 @@ def complete_example():
     # 3. 执行任务
     tasks = [
         "获取 A2A Agent 的信�?,
-        "�?A2A Agent 分析这段文本：The quick brown fox jumps over the lazy dog"
+        "�?A2A Agent 分析这段文本: The quick brown fox jumps over the lazy dog"
     ]
     
     for task in tasks:
@@ -560,11 +560,11 @@ if __name__ == "__main__":
 ## 总结
 
 本文档展示了如何使用基于真实 `python-a2a` 库的 A2A 协议实现�?
-1. **Agent 创建**：创�?A2A Agent 服务器，添加技�?2. **Agent 通信**：使用客户端�?Agent 通信
-3. **Agent 网络**：构建和管理 Agent 网络
-4. **注册中心**：使用注册中心进行服务发�?5. **集成**：在 HelloAgents 框架中使�?A2A 工具
+1. **Agent 创建**: 创�?A2A Agent 服务器, 添加技�?2. **Agent 通信**: 使用客户端�?Agent 通信
+3. **Agent 网络**: 构建和管理 Agent 网络
+4. **注册中心**: 使用注册中心进行服务发�?5. **集成**: 在 HelloAgents 框架中使�?A2A 工具
 
-更多信息请参考：
+更多信息请参考: 
 - [python-a2a 文档](https://github.com/google/python-a2a)
 - [HelloAgents 文档](../../../README.md)
 

@@ -23,7 +23,7 @@ class WinRateTool(Tool):
         初始化Win Rate工具
 
         Args:
-            llm: LLM实例，用于评估
+            llm: LLM实例, 用于评估
         """
         super().__init__(
             name="win_rate_evaluation",
@@ -42,23 +42,23 @@ class WinRateTool(Tool):
                 },
                 "reference_data_path": {
                     "type": "string",
-                    "description": "参考数据的JSON文件路径（可选）",
+                    "description": "参考数据的JSON文件路径(可选)",
                 },
                 "reference_year": {
                     "type": "integer",
-                    "description": "AIME真题年份（可选，如2024, 2025）",
+                    "description": "AIME真题年份(可选, 如2024, 2025)",
                 },
                 "num_comparisons": {
                     "type": "integer",
-                    "description": "对比次数（可选，默认为min(生成数据数量, 参考数据数量)）",
+                    "description": "对比次数(可选, 默认为min(生成数据数量, 参考数据数量))",
                 },
                 "output_dir": {
                     "type": "string",
-                    "description": "输出目录（可选，默认为evaluation_results/win_rate）",
+                    "description": "输出目录(可选, 默认为evaluation_results/win_rate)",
                 },
                 "judge_model": {
                     "type": "string",
-                    "description": "评委模型名称（可选，默认为gpt-4o）",
+                    "description": "评委模型名称(可选, 默认为gpt-4o)",
                 },
             },
             "required": ["generated_data_path"],
@@ -96,13 +96,13 @@ class WinRateTool(Tool):
 
         # 2. 加载参考数据
         if reference_data_path:
-            print(f"\n📥 步骤2: 加载参考数据（本地文件）")
+            print(f"\n📥 步骤2: 加载参考数据(本地文件)")
             ref_dataset = AIDataset(
                 dataset_type="generated", data_path=reference_data_path
             )
             ref_problems = ref_dataset.load()
         elif reference_year:
-            print(f"\n📥 步骤2: 加载参考数据（AIME {reference_year}真题）")
+            print(f"\n📥 步骤2: 加载参考数据(AIME {reference_year}真题)")
             ref_dataset = AIDataset(dataset_type="real", year=reference_year)
             ref_problems = ref_dataset.load()
         else:
@@ -197,7 +197,7 @@ class WinRateTool(Tool):
 """
 
         if len(results["comparisons"]) > 10:
-            report += f"\n*（仅显示前10次对比的详细结果，完整结果请查看JSON文件）*\n"
+            report += f"\n*(仅显示前10次对比的详细结果, 完整结果请查看JSON文件)*\n"
 
         report += f"""
 ## 结论
@@ -218,32 +218,32 @@ class WinRateTool(Tool):
         """根据胜率生成分析"""
         if win_rate >= 0.55:
             return """
-✅ **优秀**: 生成数据质量超过参考数据！这表明数据生成系统表现出色。
+✅ **优秀**: 生成数据质量超过参考数据! 这表明数据生成系统表现出色. 
 """
         elif win_rate >= 0.45:
             return """
-✅ **良好**: 生成数据质量接近参考数据（差距<10%）。这是理想的结果，说明生成质量达到了真题水平。
+✅ **良好**: 生成数据质量接近参考数据(差距<10%). 这是理想的结果, 说明生成质量达到了真题水平. 
 """
         elif win_rate >= 0.35:
             return """
-⚠️ **合格**: 生成数据质量略低于参考数据，但仍在可接受范围内。建议进一步优化生成策略。
+⚠️ **合格**: 生成数据质量略低于参考数据, 但仍在可接受范围内. 建议进一步优化生成策略. 
 """
         else:
             return """
-❌ **需改进**: 生成数据质量明显低于参考数据。建议检查生成Pipeline并进行优化。
+❌ **需改进**: 生成数据质量明显低于参考数据. 建议检查生成Pipeline并进行优化. 
 """
 
     def _get_conclusion(self, win_rate: float) -> str:
         """根据胜率生成结论"""
         if win_rate >= 0.45:
-            return f"""基于Win Rate评估，生成数据集的质量**接近或达到AIME真题水平**（Win Rate = {win_rate:.2%}）。
+            return f"""基于Win Rate评估, 生成数据集的质量**接近或达到AIME真题水平**(Win Rate = {win_rate:.2%}). 
 
-这证明了数据生成系统的有效性，生成的题目在质量上可以与真题相媲美。
+这证明了数据生成系统的有效性, 生成的题目在质量上可以与真题相媲美. 
 """
         else:
-            return f"""基于Win Rate评估，生成数据集的质量**仍有提升空间**（Win Rate = {win_rate:.2%}）。
+            return f"""基于Win Rate评估, 生成数据集的质量**仍有提升空间**(Win Rate = {win_rate:.2%}). 
 
-建议：
+建议: 
 1. 优化题目生成的提示词
 2. 增加质量过滤步骤
 3. 使用更强的生成模型

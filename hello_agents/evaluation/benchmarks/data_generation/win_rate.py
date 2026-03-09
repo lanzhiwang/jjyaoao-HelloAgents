@@ -21,7 +21,7 @@ class WinRateEvaluator:
         初始化Win Rate评估器
 
         Args:
-            llm: LLM实例，如果为None则创建新实例
+            llm: LLM实例, 如果为None则创建新实例
             judge_model: 评委模型名称
         """
         self.llm = llm or HelloAgentsLLM(model=judge_model)
@@ -35,7 +35,7 @@ class WinRateEvaluator:
         label_b: str = "B",
     ) -> Dict[str, Any]:
         """
-        对比两个问题，判断哪个更好
+        对比两个问题, 判断哪个更好
 
         Args:
             problem_a: 问题A
@@ -44,7 +44,7 @@ class WinRateEvaluator:
             label_b: 问题B的标签
 
         Returns:
-            对比结果，包含胜者和理由
+            对比结果, 包含胜者和理由
         """
         start_time = time.time()
 
@@ -80,8 +80,8 @@ class WinRateEvaluator:
 
         Args:
             generated_problems: 生成的问题列表
-            reference_problems: 参考问题列表（如AIME真题）
-            num_comparisons: 对比次数，如果为None则对比所有可能的配对
+            reference_problems: 参考问题列表(如AIME真题)
+            num_comparisons: 对比次数, 如果为None则对比所有可能的配对
 
         Returns:
             胜率评估结果
@@ -284,7 +284,7 @@ Please output your judgment in the following JSON format:
             try:
                 data = json.loads(json_str)
             except json.JSONDecodeError:
-                # 修复LaTeX转义：将 \frac 转为 \\frac
+                # 修复LaTeX转义: 将 \frac 转为 \\frac
                 fixed_json_str = re.sub(r'(?<!\\)\\(?!["\\/bfnrtu])', r"\\\\", json_str)
                 data = json.loads(fixed_json_str)
 

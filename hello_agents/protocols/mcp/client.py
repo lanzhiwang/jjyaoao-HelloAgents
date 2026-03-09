@@ -1,33 +1,33 @@
 """
 增强的 MCP 客户端实现
 
-支持多种传输方式的 MCP 客户端，用于教学和实际应用。
-这个实现展示了如何使用不同的传输方式连接到 MCP 服务器。
+支持多种传输方式的 MCP 客户端, 用于教学和实际应用. 
+这个实现展示了如何使用不同的传输方式连接到 MCP 服务器. 
 
-支持的传输方式：
-1. Memory: 内存传输（用于测试，直接传递 FastMCP 实例）
-2. Stdio: 标准输入输出传输（本地进程，Python/Node.js 脚本）
-3. HTTP: HTTP 传输（远程服务器）
-4. SSE: Server-Sent Events 传输（实时通信）
+支持的传输方式: 
+1. Memory: 内存传输(用于测试, 直接传递 FastMCP 实例)
+2. Stdio: 标准输入输出传输(本地进程, Python/Node.js 脚本)
+3. HTTP: HTTP 传输(远程服务器)
+4. SSE: Server-Sent Events 传输(实时通信)
 
-使用示例：
+使用示例: 
 ```python
-# 1. 内存传输（测试）
+# 1. 内存传输(测试)
 from fastmcp import FastMCP
 server = FastMCP("TestServer")
 client = MCPClient(server)
 
-# 2. Stdio 传输（本地脚本）
+# 2. Stdio 传输(本地脚本)
 client = MCPClient("server.py")
 client = MCPClient(["python", "server.py"])
 
-# 3. HTTP 传输（远程服务器）
+# 3. HTTP 传输(远程服务器)
 client = MCPClient("https://api.example.com/mcp")
 
-# 4. SSE 传输（实时通信）
+# 4. SSE 传输(实时通信)
 client = MCPClient("https://api.example.com/mcp", transport_type="sse")
 
-# 5. 配置传输（高级用法）
+# 5. 配置传输(高级用法)
 config = {
     "transport": "stdio",
     "command": "python",
@@ -61,7 +61,7 @@ except ImportError:
 
 
 class MCPClient:
-    """MCP 客户端，支持多种传输方式"""
+    """MCP 客户端, 支持多种传输方式"""
 
     def __init__(
         self,
@@ -75,15 +75,15 @@ class MCPClient:
         初始化MCP 客户端
 
         Args:
-            server_source: 服务器源，支持多种格式：
-                - FastMCP 实例: 内存传输（用于测试）
-                - 字符串路径: Python 脚本路径（如 "server.py"）
-                - HTTP URL: 远程服务器（如 "https://api.example.com/mcp"）
-                - 命令列表: 完整命令（如 ["python", "server.py"]）
+            server_source: 服务器源, 支持多种格式: 
+                - FastMCP 实例: 内存传输(用于测试)
+                - 字符串路径: Python 脚本路径(如 "server.py")
+                - HTTP URL: 远程服务器(如 "https://api.example.com/mcp")
+                - 命令列表: 完整命令(如 ["python", "server.py"])
                 - 配置字典: 传输配置
-            server_args: 服务器参数列表（可选）
+            server_args: 服务器参数列表(可选)
             transport_type: 强制指定传输类型 ("stdio", "http", "sse", "memory")
-            env: 环境变量字典（传递给MCP服务器进程）
+            env: 环境变量字典(传递给MCP服务器进程)
             **transport_kwargs: 传输特定的额外参数
 
         Raises:
@@ -106,7 +106,7 @@ class MCPClient:
     def _prepare_server_source(
         self, server_source: Union[str, List[str], FastMCP, Dict[str, Any]]
     ):
-        """准备服务器源，根据类型创建合适的传输配置"""
+        """准备服务器源, 根据类型创建合适的传输配置"""
 
         # 1. FastMCP 实例 - 内存传输
         if isinstance(server_source, FastMCP):
@@ -157,7 +157,7 @@ class MCPClient:
                     **self.transport_kwargs,
                 )
             else:
-                # 其他命令，使用通用 Stdio 传输
+                # 其他命令, 使用通用 Stdio 传输
                 from fastmcp.client.transports import StdioTransport
 
                 return StdioTransport(
@@ -167,7 +167,7 @@ class MCPClient:
                     **self.transport_kwargs,
                 )
 
-        # 6. 其他情况 - 直接返回，让 FastMCP 自动推断
+        # 6. 其他情况 - 直接返回, 让 FastMCP 自动推断
         print(f"🔍 自动推断传输: {server_source}")
         return server_source
 
@@ -220,7 +220,7 @@ class MCPClient:
         self.client = Client(self.server_source)
         self._context_manager = self.client
         await self._context_manager.__aenter__()
-        print("✅ 连接成功！")
+        print("✅ 连接成功! ")
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):

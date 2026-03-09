@@ -1,7 +1,7 @@
 """
 AIME Dataset Loader
 
-加载AIME数学题目数据集，支持：
+加载AIME数学题目数据集, 支持: 
 - 从HuggingFace加载真题数据
 - 加载生成的题目数据
 - 数据格式统一化
@@ -21,16 +21,16 @@ class AIDataset:
         self,
         dataset_type: str = "generated",  # "generated" or "real"
         data_path: Optional[str] = None,
-        year: Optional[int] = None,  # 用于真题数据，如2024, 2025
+        year: Optional[int] = None,  # 用于真题数据, 如2024, 2025
         cache_dir: Optional[str] = None,
     ):
         """
         初始化AIME数据集
 
         Args:
-            dataset_type: 数据集类型，"generated"（生成的）或"real"（真题）
-            data_path: 本地数据路径（用于generated类型）
-            year: AIME年份（用于real类型），如2024, 2025
+            dataset_type: 数据集类型, "generated"(生成的)或"real"(真题)
+            data_path: 本地数据路径(用于generated类型)
+            year: AIME年份(用于real类型), 如2024, 2025
             cache_dir: 缓存目录
         """
         self.dataset_type = dataset_type
@@ -45,13 +45,13 @@ class AIDataset:
         加载数据集
 
         Returns:
-            问题列表，每个问题包含：
+            问题列表, 每个问题包含: 
             - problem_id: 问题ID
             - problem: 问题描述
             - answer: 答案
-            - solution: 解答过程（可选）
-            - difficulty: 难度（可选）
-            - topic: 主题（可选）
+            - solution: 解答过程(可选)
+            - difficulty: 难度(可选)
+            - topic: 主题(可选)
         """
         if self.dataset_type == "generated":
             return self._load_generated_data()
@@ -100,7 +100,7 @@ class AIDataset:
         try:
             # 使用AIME 2025数据集
             repo_id = "math-ai/aime25"
-            use_datasets_lib = False  # 使用snapshot_download（JSONL格式）
+            use_datasets_lib = False  # 使用snapshot_download(JSONL格式)
 
             print(f"   使用数据集: {repo_id}")
 
@@ -125,7 +125,7 @@ class AIDataset:
                     if line.strip():
                         data.append(json.loads(line))
 
-            # 统一数据格式（AIME 2025使用小写字段名）
+            # 统一数据格式(AIME 2025使用小写字段名)
             problems = []
             for idx, item in enumerate(data):
                 problem = {

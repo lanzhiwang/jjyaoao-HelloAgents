@@ -136,7 +136,7 @@ def _enhanced_pdf_processing(path: str) -> str:
         if not raw_text or not raw_text.strip():
             return ""
 
-        # 后处理：清理和重组文本
+        # 后处理: 清理和重组文本
         cleaned_text = _post_process_pdf_text(raw_text)
         print(
             f"[RAG] PDF post-processing completed: {len(raw_text)} -> {len(cleaned_text)} chars"
@@ -163,12 +163,12 @@ def _post_process_pdf_text(text: str) -> str:
         if not line:
             continue
 
-        # 移除单个字符的行（通常是噪音）
+        # 移除单个字符的行(通常是噪音)
         if len(line) <= 2 and not line.isdigit():
             continue
 
         # 移除明显的页眉页脚噪音
-        if re.match(r"^\d+$", line):  # 纯数字行（页码）
+        if re.match(r"^\d+$", line):  # 纯数字行(页码)
             continue
         if line.lower() in ["github", "project", "forks", "stars", "language"]:
             continue
@@ -182,13 +182,13 @@ def _post_process_pdf_text(text: str) -> str:
     while i < len(cleaned_lines):
         current_line = cleaned_lines[i]
 
-        # 如果当前行很短，尝试与下一行合并
+        # 如果当前行很短, 尝试与下一行合并
         if len(current_line) < 60 and i + 1 < len(cleaned_lines):
             next_line = cleaned_lines[i + 1]
 
-            # 合并条件：都是内容，不是标题
+            # 合并条件: 都是内容, 不是标题
             if (
-                not current_line.endswith("：")
+                not current_line.endswith(": ")
                 and not current_line.endswith(":")
                 and not current_line.startswith("#")
                 and not next_line.startswith("#")
@@ -211,7 +211,7 @@ def _post_process_pdf_text(text: str) -> str:
         # 检查是否是新段落的开始
         if (
             line.startswith("#")  # 标题
-            or line.endswith("：")  # 中文冒号结尾
+            or line.endswith(": ")  # 中文冒号结尾
             or line.endswith(":")  # 英文冒号结尾
             or len(line) > 150  # 长句通常是段落开始
             or not current_paragraph
@@ -271,7 +271,7 @@ def _is_cjk(ch: str) -> bool:
 
 
 def _approx_token_len(text: str) -> int:
-    # 近似估计：CJK字符按1 token，其他按空白分词
+    # 近似估计: CJK字符按1 token, 其他按空白分词
     cjk = sum(1 for ch in text if _is_cjk(ch))
     non_cjk_tokens = len([t for t in text.split() if t])
     return cjk + non_cjk_tokens
@@ -545,7 +545,7 @@ def _preprocess_markdown_for_embedding(text: str) -> str:
 def _create_default_vector_store(dimension: int = None) -> QdrantVectorStore:
     """
     Create default Qdrant vector store with RAG-optimized settings.
-    使用连接管理器避免重复连接。
+    使用连接管理器避免重复连接. 
     """
     if dimension is None:
         dimension = get_dimension(384)
@@ -635,7 +635,7 @@ def index_chunks(
                             normalized_vecs.append(list(v))
                     part_vecs = normalized_vecs
                 elif part_vecs and not isinstance(part_vecs[0], (list, tuple)):
-                    # 单个向量被误判为列表，实际应该包装成[[...]]
+                    # 单个向量被误判为列表, 实际应该包装成[[...]]
                     if hasattr(part_vecs, "tolist"):
                         part_vecs = [part_vecs.tolist()]
                     else:
@@ -665,7 +665,7 @@ def index_chunks(
             print(f"[WARNING] Batch {i} encoding failed: {e}")
             print(f"[RAG] Retrying batch {i} with smaller chunks...")
 
-            # 尝试重试：将批次分解为更小的块
+            # 尝试重试: 将批次分解为更小的块
             success = False
             for j in range(0, len(part), 8):  # 更小的批次
                 small_part = part[j : j + 8]
@@ -708,7 +708,7 @@ def index_chunks(
                         vecs.append([0.0] * dimension)
 
             if not success:
-                print(f"[ERROR] 批次 {i} 完全失败，使用零向量")
+                print(f"[ERROR] 批次 {i} 完全失败, 使用零向量")
 
         print(
             f"[RAG] Embedding progress: {min(i+batch_size, len(processed_texts))}/{len(processed_texts)}"
@@ -823,11 +823,11 @@ def _prompt_mqe(query: str, n: int) -> List[str]:
         prompt = [
             {
                 "role": "system",
-                "content": "你是检索查询扩展助手。生成语义等价或互补的多样化查询。使用中文，简短，避免标点。",
+                "content": "你是检索查询扩展助手. 生成语义等价或互补的多样化查询. 使用中文, 简短, 避免标点. ",
             },
             {
                 "role": "user",
-                "content": f"原始查询：{query}\n请给出{n}个不同表述的查询，每行一个。",
+                "content": f"原始查询: {query}\n请给出{n}个不同表述的查询, 每行一个. ",
             },
         ]
         text = llm.invoke(prompt)
@@ -846,11 +846,11 @@ def _prompt_hyde(query: str) -> Optional[str]:
         prompt = [
             {
                 "role": "system",
-                "content": "根据用户问题，先写一段可能的答案性段落，用于向量检索的查询文档（不要分析过程）。",
+                "content": "根据用户问题, 先写一段可能的答案性段落, 用于向量检索的查询文档(不要分析过程). ",
             },
             {
                 "role": "user",
-                "content": f"问题：{query}\n请直接写一段中等长度、客观、包含关键术语的段落。",
+                "content": f"问题: {query}\n请直接写一段中等长度、客观、包含关键术语的段落. ",
             },
         ]
         return llm.invoke(prompt)
@@ -1286,11 +1286,11 @@ def tldr_summarize(text: str, bullets: int = 3) -> Optional[str]:
         prompt = [
             {
                 "role": "system",
-                "content": "请将以下内容概括为简洁的要点列表（最多3-5条），用中文，避免重复，突出关键信息。",
+                "content": "请将以下内容概括为简洁的要点列表(最多3-5条), 用中文, 避免重复, 突出关键信息. ",
             },
             {
                 "role": "user",
-                "content": f"请用 {max(1, min(5, int(bullets)))} 条要点总结：\n\n{text}",
+                "content": f"请用 {max(1, min(5, int(bullets)))} 条要点总结: \n\n{text}",
             },
         ]
         out = llm.invoke(prompt)

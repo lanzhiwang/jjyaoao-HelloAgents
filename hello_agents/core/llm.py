@@ -24,12 +24,12 @@ SUPPORTED_PROVIDERS = Literal[
 
 class HelloAgentsLLM:
     """
-    为HelloAgents定制的LLM客户端。
-    它用于调用任何兼容OpenAI接口的服务，并默认使用流式响应。
+    为HelloAgents定制的LLM客户端. 
+    它用于调用任何兼容OpenAI接口的服务, 并默认使用流式响应. 
 
-    设计理念：
-    - 参数优先，环境变量兜底
-    - 流式响应为默认，提供更好的用户体验
+    设计理念: 
+    - 参数优先, 环境变量兜底
+    - 流式响应为默认, 提供更好的用户体验
     - 支持多种LLM提供商
     - 统一的调用接口
     """
@@ -46,19 +46,19 @@ class HelloAgentsLLM:
         **kwargs,
     ):
         """
-        初始化客户端。优先使用传入参数，如果未提供，则从环境变量加载。
-        支持自动检测provider或使用统一的LLM_*环境变量配置。
+        初始化客户端. 优先使用传入参数, 如果未提供, 则从环境变量加载. 
+        支持自动检测provider或使用统一的LLM_*环境变量配置. 
 
         Args:
-            model: 模型名称，如果未提供则从环境变量LLM_MODEL_ID读取
-            api_key: API密钥，如果未提供则从环境变量读取
-            base_url: 服务地址，如果未提供则从环境变量LLM_BASE_URL读取
-            provider: LLM提供商，如果未提供则自动检测
+            model: 模型名称, 如果未提供则从环境变量LLM_MODEL_ID读取
+            api_key: API密钥, 如果未提供则从环境变量读取
+            base_url: 服务地址, 如果未提供则从环境变量LLM_BASE_URL读取
+            provider: LLM提供商, 如果未提供则自动检测
             temperature: 温度参数
             max_tokens: 最大token数
-            timeout: 超时时间，从环境变量LLM_TIMEOUT读取，默认60秒
+            timeout: 超时时间, 从环境变量LLM_TIMEOUT读取, 默认60秒
         """
-        # 优先使用传入参数，如果未提供，则从环境变量加载
+        # 优先使用传入参数, 如果未提供, 则从环境变量加载
         self.model = model or os.getenv("LLM_MODEL_ID")
         self.temperature = temperature
         self.max_tokens = max_tokens
@@ -82,7 +82,7 @@ class HelloAgentsLLM:
             self.model = self._get_default_model()
         if not all([self.api_key, self.base_url]):
             raise HelloAgentsException(
-                "API密钥和服务地址必须被提供或在.env文件中定义。"
+                "API密钥和服务地址必须被提供或在.env文件中定义. "
             )
 
         # 创建OpenAI客户端
@@ -94,7 +94,7 @@ class HelloAgentsLLM:
         """
         自动检测LLM提供商
 
-        检测逻辑：
+        检测逻辑: 
         1. 优先检查特定提供商的环境变量
         2. 根据API密钥格式判断
         3. 根据base_url判断
@@ -131,7 +131,7 @@ class HelloAgentsLLM:
             elif actual_key_lower == "local":
                 return "local"
             elif actual_api_key.startswith("sk-") and len(actual_api_key) > 50:
-                # 可能是OpenAI、DeepSeek或Kimi，需要进一步判断
+                # 可能是OpenAI、DeepSeek或Kimi, 需要进一步判断
                 pass
             elif actual_api_key.endswith(".") or "." in actual_api_key[-20:]:
                 # 智谱AI的API密钥格式通常包含点号
@@ -173,7 +173,7 @@ class HelloAgentsLLM:
                 # 常见的本地部署端口
                 return "local"
 
-        # 4. 默认返回auto，使用通用配置
+        # 4. 默认返回auto, 使用通用配置
         return "auto"
 
     def _resolve_credentials(
@@ -289,7 +289,7 @@ class HelloAgentsLLM:
             return resolved_api_key, resolved_base_url
 
         else:
-            # auto或其他情况：使用通用配置，支持任何OpenAI兼容的服务
+            # auto或其他情况: 使用通用配置, 支持任何OpenAI兼容的服务
             resolved_api_key = api_key or os.getenv("LLM_API_KEY")
             resolved_base_url = base_url or os.getenv("LLM_BASE_URL")
             return resolved_api_key, resolved_base_url
@@ -323,7 +323,7 @@ class HelloAgentsLLM:
         elif self.provider == "custom":
             return self.model or "gpt-3.5-turbo"
         else:
-            # auto或其他情况：根据base_url智能推断默认模型
+            # auto或其他情况: 根据base_url智能推断默认模型
             base_url = os.getenv("LLM_BASE_URL", "")
             base_url_lower = base_url.lower()
             if "modelscope" in base_url_lower:
@@ -349,12 +349,12 @@ class HelloAgentsLLM:
         self, messages: list[dict[str, str]], temperature: Optional[float] = None
     ) -> Iterator[str]:
         """
-        调用大语言模型进行思考，并返回流式响应。
-        这是主要的调用方法，默认使用流式响应以获得更好的用户体验。
+        调用大语言模型进行思考, 并返回流式响应. 
+        这是主要的调用方法, 默认使用流式响应以获得更好的用户体验. 
 
         Args:
             messages: 消息列表
-            temperature: 温度参数，如果未提供则使用初始化时的值
+            temperature: 温度参数, 如果未提供则使用初始化时的值
 
         Yields:
             str: 流式响应的文本片段
@@ -386,8 +386,8 @@ class HelloAgentsLLM:
 
     def invoke(self, messages: list[dict[str, str]], **kwargs) -> str:
         """
-        非流式调用LLM，返回完整响应。
-        适用于不需要流式输出的场景。
+        非流式调用LLM, 返回完整响应. 
+        适用于不需要流式输出的场景. 
         """
         try:
             response = self._client.chat.completions.create(
@@ -407,8 +407,8 @@ class HelloAgentsLLM:
 
     def stream_invoke(self, messages: list[dict[str, str]], **kwargs) -> Iterator[str]:
         """
-        流式调用LLM的别名方法，与think方法功能相同。
-        保持向后兼容性。
+        流式调用LLM的别名方法, 与think方法功能相同. 
+        保持向后兼容性. 
         """
         temperature = kwargs.get("temperature")
         yield from self.think(messages, temperature)

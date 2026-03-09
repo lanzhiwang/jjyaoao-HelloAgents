@@ -1,10 +1,10 @@
-"""感知记忆实现（长存的多模态）
+"""感知记忆实现(长存的多模态)
 
-按照第8章架构设计的感知记忆（长期、多模态），提供：
-- 多模态数据存储（文本、图像、音频等）
-- 结构化元数据 + 向量索引（SQLite + Qdrant）
-- 同模态检索（跨模态在无CLIP/CLAP依赖时有限）
-- 懒加载编码：文本用 sentence-transformers；图像/音频用轻量确定性哈希向量
+按照第8章架构设计的感知记忆(长期、多模态), 提供: 
+- 多模态数据存储(文本、图像、音频等)
+- 结构化元数据 + 向量索引(SQLite + Qdrant)
+- 同模态检索(跨模态在无CLIP/CLAP依赖时有限)
+- 懒加载编码: 文本用 sentence-transformers; 图像/音频用轻量确定性哈希向量
 """
 
 from typing import List, Dict, Any, Optional, Union, Tuple
@@ -53,8 +53,8 @@ class Perception:
 class PerceptualMemory(BaseMemory):
     """感知记忆实现
 
-    特点：
-    - 支持多模态数据（文本、图像、音频等）
+    特点: 
+    - 支持多模态数据(文本、图像、音频等)
     - 跨模态相似性搜索
     - 感知数据的语义理解
     - 支持内容生成和检索
@@ -63,7 +63,7 @@ class PerceptualMemory(BaseMemory):
     def __init__(self, config: MemoryConfig, storage_backend=None):
         super().__init__(config, storage_backend)
 
-        # 感知数据存储（内存缓存）
+        # 感知数据存储(内存缓存)
         self.perceptions: Dict[str, Perception] = {}
         self.perceptual_memories: List[MemoryItem] = []
 
@@ -73,17 +73,17 @@ class PerceptualMemory(BaseMemory):
         # 支持的模态
         self.supported_modalities = set(self.config.perceptual_memory_modalities)
 
-        # 文档权威存储（SQLite）
+        # 文档权威存储(SQLite)
         db_dir = getattr(self.config, "storage_path", "./memory_data")
         os.makedirs(db_dir, exist_ok=True)
         db_path = os.path.join(db_dir, "memory.db")
         self.doc_store = SQLiteDocumentStore(db_path=db_path)
 
-        # 嵌入维度（与统一文本嵌入保持一致）
+        # 嵌入维度(与统一文本嵌入保持一致)
         self.text_embedder = get_text_embedder()
         self.vector_dim = get_dimension(getattr(self.text_embedder, "dimension", 384))
 
-        # 可选加载：图像CLIP与音频CLAP（缺依赖则优雅降级为哈希编码）
+        # 可选加载: 图像CLIP与音频CLAP(缺依赖则优雅降级为哈希编码)
         self._clip_model = None
         self._clip_processor = None
         self._clap_model = None
@@ -121,7 +121,7 @@ class PerceptualMemory(BaseMemory):
             self._clap_processor = None
             self._audio_dim = self.vector_dim
 
-        # 向量存储（Qdrant）— 按模态拆分集合，避免维度冲突，使用连接管理器避免重复连接
+        # 向量存储(Qdrant)— 按模态拆分集合, 避免维度冲突, 使用连接管理器避免重复连接
         from ..storage.qdrant_store import QdrantConnectionManager
 
         qdrant_url = os.getenv("QDRANT_URL")
@@ -138,7 +138,7 @@ class PerceptualMemory(BaseMemory):
             vector_size=self.vector_dim,
             distance=distance,
         )
-        # 图像集合（若CLIP不可用，维度退化为text维度）
+        # 图像集合(若CLIP不可用, 维度退化为text维度)
         self.vector_stores["image"] = QdrantConnectionManager.get_instance(
             url=qdrant_url,
             api_key=qdrant_api_key,
@@ -146,7 +146,7 @@ class PerceptualMemory(BaseMemory):
             vector_size=int(self._image_dim or self.vector_dim),
             distance=distance,
         )
-        # 音频集合（若CLAP不可用，维度退化为text维度）
+        # 音频集合(若CLAP不可用, 维度退化为text维度)
         self.vector_stores["audio"] = QdrantConnectionManager.get_instance(
             url=qdrant_url,
             api_key=qdrant_api_key,
@@ -155,11 +155,11 @@ class PerceptualMemory(BaseMemory):
             distance=distance,
         )
 
-        # 编码器（轻量实现；真实场景可替换为CLIP/CLAP等）
+        # 编码器(轻量实现; 真实场景可替换为CLIP/CLAP等)
         self.encoders = self._init_encoders()
 
     def add(self, memory_item: MemoryItem) -> str:
-        """添加感知记忆（SQLite权威 + Qdrant向量）"""
+        """添加感知记忆(SQLite权威 + Qdrant向量)"""
         modality = memory_item.metadata.get("modality", "text")
         raw_data = memory_item.metadata.get("raw_data", memory_item.content)
         if modality not in self.supported_modalities:
@@ -174,10 +174,10 @@ class PerceptualMemory(BaseMemory):
             self.modality_index[modality] = []
         self.modality_index[modality].append(perception.perception_id)
 
-        # 存储记忆项（缓存）
+        # 存储记忆项(缓存)
         memory_item.metadata["perception_id"] = perception.perception_id
         memory_item.metadata["modality"] = modality
-        # 不把大向量放到metadata中，避免膨胀
+        # 不把大向量放到metadata中, 避免膨胀
         self.perceptual_memories.append(memory_item)
 
         # 1) SQLite 权威入库
@@ -197,7 +197,7 @@ class PerceptualMemory(BaseMemory):
             },
         )
 
-        # 2) Qdrant 向量入库（按模态写入对应集合）
+        # 2) Qdrant 向量入库(按模态写入对应集合)
         try:
             vector = perception.encoding
             store = self._get_vector_store_for_modality(modality)
@@ -221,12 +221,12 @@ class PerceptualMemory(BaseMemory):
         return memory_item.id
 
     def retrieve(self, query: str, limit: int = 5, **kwargs) -> List[MemoryItem]:
-        """检索感知记忆（可筛模态；同模态向量检索+时间/重要性融合）"""
+        """检索感知记忆(可筛模态; 同模态向量检索+时间/重要性融合)"""
         user_id = kwargs.get("user_id")
-        target_modality = kwargs.get("target_modality")  # 可选：限制目标模态
+        target_modality = kwargs.get("target_modality")  # 可选: 限制目标模态
         query_modality = kwargs.get("query_modality", target_modality or "text")
 
-        # 仅在同模态情况下进行向量检索（跨模态需要CLIP/CLAP，此处保留简单回退）
+        # 仅在同模态情况下进行向量检索(跨模态需要CLIP/CLAP, 此处保留简单回退)
         try:
             qvec = self._encode_data(query, query_modality)
             where = {"memory_type": "perceptual"}
@@ -262,14 +262,14 @@ class PerceptualMemory(BaseMemory):
             recency_score = 1.0 / (1.0 + age_days)
             imp = float(doc.get("importance", 0.5))
 
-            # 新评分算法：向量检索纯基于相似度，重要性作为加权因子
-            # 基础相似度得分（不受重要性影响）
+            # 新评分算法: 向量检索纯基于相似度, 重要性作为加权因子
+            # 基础相似度得分(不受重要性影响)
             base_relevance = vec_score * 0.8 + recency_score * 0.2
 
-            # 重要性作为乘法加权因子，范围 [0.8, 1.2]
+            # 重要性作为乘法加权因子, 范围 [0.8, 1.2]
             importance_weight = 0.8 + (imp * 0.4)
 
-            # 最终得分：相似度 * 重要性权重
+            # 最终得分: 相似度 * 重要性权重
             combined = base_relevance * importance_weight
 
             item = MemoryItem(
@@ -289,7 +289,7 @@ class PerceptualMemory(BaseMemory):
             results.append((combined, item))
             seen.add(mem_id)
 
-        # 简单回退：若无命中且有目标模态，则按SQLite结构化过滤+关键词兜底
+        # 简单回退: 若无命中且有目标模态, 则按SQLite结构化过滤+关键词兜底
         if not results:
             for m in self.perceptual_memories:
                 if target_modality and m.metadata.get("modality") != target_modality:
@@ -299,7 +299,7 @@ class PerceptualMemory(BaseMemory):
                         1.0
                         + max(0.0, (now_ts - int(m.timestamp.timestamp())) / 86400.0)
                     )
-                    # 回退匹配：新评分算法
+                    # 回退匹配: 新评分算法
                     keyword_score = 0.5  # 简单关键词匹配的基础分数
                     base_relevance = keyword_score * 0.8 + recency_score * 0.2
                     importance_weight = 0.8 + (m.importance * 0.4)
@@ -339,7 +339,7 @@ class PerceptualMemory(BaseMemory):
             properties=metadata,
         )
 
-        # 如内容或原始数据改变，则重嵌入并upsert到Qdrant
+        # 如内容或原始数据改变, 则重嵌入并upsert到Qdrant
         if content is not None or (metadata and "raw_data" in metadata):
             modality = (
                 metadata.get("modality", modality_cache or "text")
@@ -390,7 +390,7 @@ class PerceptualMemory(BaseMemory):
 
         # 权威库删除
         self.doc_store.delete_memory(memory_id)
-        # 向量库删除（所有模态集合尝试删除）
+        # 向量库删除(所有模态集合尝试删除)
         for store in self.vector_stores.values():
             try:
                 store.delete_memories([memory_id])
@@ -409,7 +409,7 @@ class PerceptualMemory(BaseMemory):
         threshold: float = 0.1,
         max_age_days: int = 30,
     ) -> int:
-        """感知记忆遗忘机制（硬删除）"""
+        """感知记忆遗忘机制(硬删除)"""
         forgotten_count = 0
         current_time = datetime.now()
 
@@ -428,7 +428,7 @@ class PerceptualMemory(BaseMemory):
                 if memory.timestamp < cutoff_time:
                     should_forget = True
             elif strategy == "capacity_based":
-                # 基于容量遗忘（保留最重要的）
+                # 基于容量遗忘(保留最重要的)
                 if len(self.perceptual_memories) > self.config.max_capacity:
                     sorted_memories = sorted(
                         self.perceptual_memories, key=lambda m: m.importance
@@ -460,7 +460,7 @@ class PerceptualMemory(BaseMemory):
         ids = [d["memory_id"] for d in docs]
         for mid in ids:
             self.doc_store.delete_memory(mid)
-        # 删除Qdrant向量（所有模态集合）
+        # 删除Qdrant向量(所有模态集合)
         for store in self.vector_stores.values():
             try:
                 if ids:
@@ -474,7 +474,7 @@ class PerceptualMemory(BaseMemory):
 
     def get_stats(self) -> Dict[str, Any]:
         """获取感知记忆统计信息"""
-        # 硬删除模式：所有记忆都是活跃的
+        # 硬删除模式: 所有记忆都是活跃的
         active_memories = self.perceptual_memories
 
         modality_counts = {
@@ -557,12 +557,12 @@ class PerceptualMemory(BaseMemory):
         # 简单的内容组合
         if target_modality == "text":
             contents = [memory.content for memory in relevant_memories]
-            return f"基于感知记忆生成的内容：\n" + "\n".join(contents)
+            return f"基于感知记忆生成的内容: \n" + "\n".join(contents)
 
-        return f"生成的{target_modality}内容（基于{len(relevant_memories)}个相关记忆）"
+        return f"生成的{target_modality}内容(基于{len(relevant_memories)}个相关记忆)"
 
     def _init_encoders(self) -> Dict[str, Any]:
-        """初始化编码器（轻量、确定性，统一输出self.vector_dim维）"""
+        """初始化编码器(轻量、确定性, 统一输出self.vector_dim维)"""
         encoders = {}
         for modality in self.supported_modalities:
             if modality == "text":
@@ -592,7 +592,7 @@ class PerceptualMemory(BaseMemory):
         return perception
 
     def _encode_data(self, data: Any, modality: str) -> List[float]:
-        """编码数据为固定维度向量（按模态维度对齐）"""
+        """编码数据为固定维度向量(按模态维度对齐)"""
         target_dim = self._get_dim_for_modality(modality)
         encoder = self.encoders.get(modality, self._default_encoder)
         vec = encoder(data)
@@ -605,14 +605,14 @@ class PerceptualMemory(BaseMemory):
         return vec
 
     def _text_encoder(self, text: str) -> List[float]:
-        """文本编码器（使用嵌入模型）"""
+        """文本编码器(使用嵌入模型)"""
         emb = self.text_embedder.encode(text or "")
         if hasattr(emb, "tolist"):
             emb = emb.tolist()
         return emb
 
     def _image_encoder_hash(self, image_data: Any) -> List[float]:
-        """图像编码器（轻量确定性哈希向量，跨环境稳定）"""
+        """图像编码器(轻量确定性哈希向量, 跨环境稳定)"""
         try:
             if isinstance(image_data, (bytes, bytearray)):
                 data_bytes = bytes(image_data)
@@ -629,7 +629,7 @@ class PerceptualMemory(BaseMemory):
             )
 
     def _image_encoder(self, image_data: Any) -> List[float]:
-        """图像编码器（优先CLIP，不可用则哈希）"""
+        """图像编码器(优先CLIP, 不可用则哈希)"""
         if self._clip_model is None or self._clip_processor is None:
             return self._image_encoder_hash(image_data)
         try:
@@ -653,7 +653,7 @@ class PerceptualMemory(BaseMemory):
             return self._image_encoder_hash(image_data)
 
     def _audio_encoder_hash(self, audio_data: Any) -> List[float]:
-        """音频编码器（轻量确定性哈希向量）"""
+        """音频编码器(轻量确定性哈希向量)"""
         try:
             if isinstance(audio_data, (bytes, bytearray)):
                 data_bytes = bytes(audio_data)
@@ -670,13 +670,13 @@ class PerceptualMemory(BaseMemory):
             )
 
     def _audio_encoder(self, audio_data: Any) -> List[float]:
-        """音频编码器（优先CLAP，不可用则哈希）"""
+        """音频编码器(优先CLAP, 不可用则哈希)"""
         if self._clap_model is None or self._clap_processor is None:
             return self._audio_encoder_hash(audio_data)
         try:
             import numpy as np
 
-            # 加载音频（需要 librosa）
+            # 加载音频(需要 librosa)
             import librosa
 
             if isinstance(audio_data, str) and os.path.exists(audio_data):
@@ -706,7 +706,7 @@ class PerceptualMemory(BaseMemory):
             return self._audio_encoder_hash(audio_data)
 
     def _default_encoder(self, data: Any) -> List[float]:
-        """默认编码器（退化为文本嵌入或哈希）"""
+        """默认编码器(退化为文本嵌入或哈希)"""
         try:
             return self._text_encoder(str(data))
         except Exception:
@@ -737,7 +737,7 @@ class PerceptualMemory(BaseMemory):
         return dot_product / (norm1 * norm2)
 
     def _hash_to_vector(self, data_str: str, dim: int) -> List[float]:
-        """将字符串哈希为固定维度的[0,1]向量（确定性）"""
+        """将字符串哈希为固定维度的[0,1]向量(确定性)"""
         seed = int(
             hashlib.sha256(data_str.encode("utf-8", errors="ignore")).hexdigest(), 16
         ) % (2**32)

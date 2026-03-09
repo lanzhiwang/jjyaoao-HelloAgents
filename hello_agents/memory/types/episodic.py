@@ -1,6 +1,6 @@
 """情景记忆实现
 
-按照第8章架构设计的情景记忆，提供：
+按照第8章架构设计的情景记忆, 提供: 
 - 具体交互事件存储
 - 时间序列组织
 - 上下文丰富的记忆
@@ -48,7 +48,7 @@ class Episode:
 class EpisodicMemory(BaseMemory):
     """情景记忆实现
 
-    特点：
+    特点: 
     - 存储具体的交互事件
     - 包含丰富的上下文信息
     - 按时间序列组织
@@ -58,7 +58,7 @@ class EpisodicMemory(BaseMemory):
     def __init__(self, config: MemoryConfig, storage_backend=None):
         super().__init__(config, storage_backend)
 
-        # 本地缓存（内存）
+        # 本地缓存(内存)
         self.episodes: List[Episode] = []
         self.sessions: Dict[str, List[str]] = {}  # session_id -> episode_ids
 
@@ -66,7 +66,7 @@ class EpisodicMemory(BaseMemory):
         self.patterns_cache = {}
         self.last_pattern_analysis = None
 
-        # 权威文档存储（SQLite）
+        # 权威文档存储(SQLite)
         db_dir = (
             self.config.storage_path
             if hasattr(self.config, "storage_path")
@@ -76,10 +76,10 @@ class EpisodicMemory(BaseMemory):
         db_path = os.path.join(db_dir, "memory.db")
         self.doc_store = SQLiteDocumentStore(db_path=db_path)
 
-        # 统一嵌入模型（多语言，默认384维）
+        # 统一嵌入模型(多语言, 默认384维)
         self.embedder = get_text_embedder()
 
-        # 向量存储（Qdrant - 使用连接管理器避免重复连接）
+        # 向量存储(Qdrant - 使用连接管理器避免重复连接)
         from ..storage.qdrant_store import QdrantConnectionManager
 
         qdrant_url = os.getenv("QDRANT_URL")
@@ -101,7 +101,7 @@ class EpisodicMemory(BaseMemory):
         participants = memory_item.metadata.get("participants", [])
         tags = memory_item.metadata.get("tags", [])
 
-        # 创建情景（内存缓存）
+        # 创建情景(内存缓存)
         episode = Episode(
             episode_id=memory_item.id,
             user_id=memory_item.user_id,
@@ -117,7 +117,7 @@ class EpisodicMemory(BaseMemory):
             self.sessions[session_id] = []
         self.sessions[session_id].append(episode.episode_id)
 
-        # 1) 权威存储（SQLite）
+        # 1) 权威存储(SQLite)
         ts_int = int(memory_item.timestamp.timestamp())
         self.doc_store.add_memory(
             memory_id=memory_item.id,
@@ -135,7 +135,7 @@ class EpisodicMemory(BaseMemory):
             },
         )
 
-        # 2) 向量索引（Qdrant）
+        # 2) 向量索引(Qdrant)
         try:
             embedding = self.embedder.encode(memory_item.content)
             if hasattr(embedding, "tolist"):
@@ -161,13 +161,13 @@ class EpisodicMemory(BaseMemory):
         return memory_item.id
 
     def retrieve(self, query: str, limit: int = 5, **kwargs) -> List[MemoryItem]:
-        """检索情景记忆（结构化过滤 + 语义向量检索）"""
+        """检索情景记忆(结构化过滤 + 语义向量检索)"""
         user_id = kwargs.get("user_id")
         session_id = kwargs.get("session_id")
         time_range: Optional[Tuple[datetime, datetime]] = kwargs.get("time_range")
         importance_threshold: Optional[float] = kwargs.get("importance_threshold")
 
-        # 结构化过滤候选（来自权威库）
+        # 结构化过滤候选(来自权威库)
         candidate_ids: Optional[set] = None
         if time_range is not None or importance_threshold is not None:
             start_ts = int(time_range[0].timestamp()) if time_range else None
@@ -182,7 +182,7 @@ class EpisodicMemory(BaseMemory):
             )
             candidate_ids = {d["memory_id"] for d in docs}
 
-        # 向量检索（Qdrant）
+        # 向量检索(Qdrant)
         try:
             query_vec = self.embedder.encode(query)
             if hasattr(query_vec, "tolist"):
@@ -221,20 +221,20 @@ class EpisodicMemory(BaseMemory):
             if not doc:
                 continue
 
-            # 计算综合分数：向量0.6 + 近因0.2 + 重要性0.2
+            # 计算综合分数: 向量0.6 + 近因0.2 + 重要性0.2
             vec_score = float(hit.get("score", 0.0))
             age_days = max(0.0, (now_ts - int(doc["timestamp"])) / 86400.0)
             recency_score = 1.0 / (1.0 + age_days)
             imp = float(doc.get("importance", 0.5))
 
-            # 新评分算法：向量检索纯基于相似度，重要性作为加权因子
-            # 基础相似度得分（不受重要性影响）
+            # 新评分算法: 向量检索纯基于相似度, 重要性作为加权因子
+            # 基础相似度得分(不受重要性影响)
             base_relevance = vec_score * 0.8 + recency_score * 0.2
 
-            # 重要性作为乘法加权因子，范围 [0.8, 1.2]
+            # 重要性作为乘法加权因子, 范围 [0.8, 1.2]
             importance_weight = 0.8 + (imp * 0.4)
 
-            # 最终得分：相似度 * 重要性权重
+            # 最终得分: 相似度 * 重要性权重
             combined = base_relevance * importance_weight
 
             item = MemoryItem(
@@ -254,7 +254,7 @@ class EpisodicMemory(BaseMemory):
             results.append((combined, item))
             seen.add(mem_id)
 
-        # 若向量检索无结果，回退到简单关键词匹配（内存缓存）
+        # 若向量检索无结果, 回退到简单关键词匹配(内存缓存)
         if not results:
             fallback = super()._generate_id  # 占位以避免未使用警告
             query_lower = query.lower()
@@ -264,7 +264,7 @@ class EpisodicMemory(BaseMemory):
                         1.0
                         + max(0.0, (now_ts - int(ep.timestamp.timestamp())) / 86400.0)
                     )
-                    # 回退匹配：新评分算法
+                    # 回退匹配: 新评分算法
                     keyword_score = 0.5  # 简单关键词匹配的基础分数
                     base_relevance = keyword_score * 0.8 + recency_score * 0.2
                     importance_weight = 0.8 + (ep.importance * 0.4)
@@ -295,7 +295,7 @@ class EpisodicMemory(BaseMemory):
         importance: float = None,
         metadata: Dict[str, Any] = None,
     ) -> bool:
-        """更新情景记忆（SQLite为权威，Qdrant按需重嵌入）"""
+        """更新情景记忆(SQLite为权威, Qdrant按需重嵌入)"""
         updated = False
         for episode in self.episodes:
             if episode.episode_id == memory_id:
@@ -318,7 +318,7 @@ class EpisodicMemory(BaseMemory):
             properties=metadata,
         )
 
-        # 如内容变更，重嵌入并upsert到Qdrant
+        # 如内容变更, 重嵌入并upsert到Qdrant
         if content is not None:
             try:
                 embedding = self.embedder.encode(content)
@@ -343,7 +343,7 @@ class EpisodicMemory(BaseMemory):
         return updated or doc_updated
 
     def remove(self, memory_id: str) -> bool:
-        """删除情景记忆（SQLite + Qdrant）"""
+        """删除情景记忆(SQLite + Qdrant)"""
         removed = False
         for i, episode in enumerate(self.episodes):
             if episode.episode_id == memory_id:
@@ -372,7 +372,7 @@ class EpisodicMemory(BaseMemory):
         return any(episode.episode_id == memory_id for episode in self.episodes)
 
     def clear(self):
-        """清空所有情景记忆（仅清理episodic，不影响其他类型）"""
+        """清空所有情景记忆(仅清理episodic, 不影响其他类型)"""
         # 内存缓存
         self.episodes.clear()
         self.sessions.clear()
@@ -397,7 +397,7 @@ class EpisodicMemory(BaseMemory):
         threshold: float = 0.1,
         max_age_days: int = 30,
     ) -> int:
-        """情景记忆遗忘机制（硬删除）"""
+        """情景记忆遗忘机制(硬删除)"""
         forgotten_count = 0
         current_time = datetime.now()
 
@@ -416,7 +416,7 @@ class EpisodicMemory(BaseMemory):
                 if episode.timestamp < cutoff_time:
                     should_forget = True
             elif strategy == "capacity_based":
-                # 基于容量遗忘（保留最重要的）
+                # 基于容量遗忘(保留最重要的)
                 if len(self.episodes) > self.config.max_capacity:
                     sorted_episodes = sorted(self.episodes, key=lambda e: e.importance)
                     excess_count = len(self.episodes) - self.config.max_capacity
@@ -435,7 +435,7 @@ class EpisodicMemory(BaseMemory):
         return forgotten_count
 
     def get_all(self) -> List[MemoryItem]:
-        """获取所有情景记忆（转换为MemoryItem格式）"""
+        """获取所有情景记忆(转换为MemoryItem格式)"""
         memory_items = []
         for episode in self.episodes:
             memory_item = MemoryItem(
@@ -451,8 +451,8 @@ class EpisodicMemory(BaseMemory):
         return memory_items
 
     def get_stats(self) -> Dict[str, Any]:
-        """获取情景记忆统计信息（合并SQLite与Qdrant）"""
-        # 硬删除模式：所有episodes都是活跃的
+        """获取情景记忆统计信息(合并SQLite与Qdrant)"""
+        # 硬删除模式: 所有episodes都是活跃的
         active_episodes = self.episodes
 
         db_stats = self.doc_store.get_database_stats()
@@ -504,7 +504,7 @@ class EpisodicMemory(BaseMemory):
         # 过滤情景
         episodes = [e for e in self.episodes if user_id is None or e.user_id == user_id]
 
-        # 简单的模式识别：基于内容关键词
+        # 简单的模式识别: 基于内容关键词
         keyword_patterns = {}
         context_patterns = {}
 
@@ -602,7 +602,7 @@ class EpisodicMemory(BaseMemory):
         return filtered
 
     def _calculate_time_span(self) -> float:
-        """计算记忆时间跨度（天）"""
+        """计算记忆时间跨度(天)"""
         if not self.episodes:
             return 0.0
 

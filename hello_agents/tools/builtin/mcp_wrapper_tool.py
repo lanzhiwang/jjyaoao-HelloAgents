@@ -1,8 +1,8 @@
 """
 MCP工具包装器 - 将单个MCP工具包装成HelloAgents Tool
 
-这个模块将MCP服务器的每个工具展开为独立的HelloAgents Tool对象，
-使得Agent可以像调用普通工具一样调用MCP工具。
+这个模块将MCP服务器的每个工具展开为独立的HelloAgents Tool对象, 
+使得Agent可以像调用普通工具一样调用MCP工具. 
 """
 
 from typing import Dict, Any, Optional, List
@@ -13,11 +13,11 @@ class MCPWrappedTool(Tool):
     """
     MCP工具包装器 - 将单个MCP工具包装成HelloAgents Tool
 
-    这个类将MCP服务器的一个工具（如 read_file）包装成一个独立的Tool对象。
-    Agent调用时只需提供参数，无需了解MCP的内部结构。
+    这个类将MCP服务器的一个工具(如 read_file)包装成一个独立的Tool对象. 
+    Agent调用时只需提供参数, 无需了解MCP的内部结构. 
 
-    示例：
-        >>> # 内部使用，由MCPTool自动创建
+    示例: 
+        >>> # 内部使用, 由MCPTool自动创建
         >>> wrapped_tool = MCPWrappedTool(
         ...     mcp_tool=mcp_tool_instance,
         ...     tool_info={
@@ -39,14 +39,14 @@ class MCPWrappedTool(Tool):
 
         Args:
             mcp_tool: 父MCP工具实例
-            tool_info: MCP工具信息（包含name, description, input_schema）
-            prefix: 工具名前缀（如 "filesystem_"）
+            tool_info: MCP工具信息(包含name, description, input_schema)
+            prefix: 工具名前缀(如 "filesystem_")
         """
         self.mcp_tool = mcp_tool
         self.tool_info = tool_info
         self.mcp_tool_name = tool_info.get("name", "unknown")
 
-        # 构建工具名：prefix + mcp_tool_name
+        # 构建工具名: prefix + mcp_tool_name
         tool_name = f"{prefix}{self.mcp_tool_name}" if prefix else self.mcp_tool_name
 
         # 获取描述
@@ -63,7 +63,7 @@ class MCPWrappedTool(Tool):
         将MCP的input_schema转换为HelloAgents的ToolParameter列表
 
         Args:
-            input_schema: MCP工具的input_schema（JSON Schema格式）
+            input_schema: MCP工具的input_schema(JSON Schema格式)
 
         Returns:
             ToolParameter列表
@@ -103,7 +103,7 @@ class MCPWrappedTool(Tool):
         执行MCP工具
 
         Args:
-            params: 工具参数（直接传递给MCP工具）
+            params: 工具参数(直接传递给MCP工具)
 
         Returns:
             执行结果

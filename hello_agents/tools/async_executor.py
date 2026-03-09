@@ -33,10 +33,10 @@ class AsyncToolExecutor:
         并行执行多个工具
 
         Args:
-            tasks: 任务列表，每个任务包含 tool_name 和 input_data
+            tasks: 任务列表, 每个任务包含 tool_name 和 input_data
 
         Returns:
-            执行结果列表，包含任务信息和结果
+            执行结果列表, 包含任务信息和结果
         """
         print(f"🚀 开始并行执行 {len(tasks)} 个工具任务")
 
@@ -81,7 +81,7 @@ class AsyncToolExecutor:
                 print(f"❌ 任务 {i+1} 失败: {task['tool_name']} - {e}")
 
         print(
-            f"🎉 并行执行完成，成功: {sum(1 for r in results if r['status'] == 'success')}/{len(results)}"
+            f"🎉 并行执行完成, 成功: {sum(1 for r in results if r['status'] == 'success')}/{len(results)}"
         )
         return results
 
@@ -121,7 +121,7 @@ async def run_parallel_tools(
     registry: ToolRegistry, tasks: List[Dict[str, str]], max_workers: int = 4
 ) -> List[Dict[str, Any]]:
     """
-    便捷函数：并行执行多个工具
+    便捷函数: 并行执行多个工具
 
     Args:
         registry: 工具注册表
@@ -139,7 +139,7 @@ async def run_batch_tool(
     registry: ToolRegistry, tool_name: str, input_list: List[str], max_workers: int = 4
 ) -> List[Dict[str, Any]]:
     """
-    便捷函数：批量执行同一个工具
+    便捷函数: 批量执行同一个工具
 
     Args:
         registry: 工具注册表
@@ -154,7 +154,7 @@ async def run_batch_tool(
         return await executor.execute_tools_batch(tool_name, input_list)
 
 
-# 同步包装函数（为了兼容性）
+# 同步包装函数(为了兼容性)
 def run_parallel_tools_sync(
     registry: ToolRegistry, tasks: List[Dict[str, str]], max_workers: int = 4
 ) -> List[Dict[str, Any]]:
@@ -174,7 +174,7 @@ async def demo_parallel_execution():
     """演示并行执行的示例"""
     from .registry import ToolRegistry
 
-    # 创建注册表（这里假设已经注册了工具）
+    # 创建注册表(这里假设已经注册了工具)
     registry = ToolRegistry()
 
     # 定义并行任务

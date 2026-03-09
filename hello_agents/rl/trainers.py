@@ -1,6 +1,6 @@
 """RL训练器封装
 
-本模块封装了TRL的各种训练器，提供统一的接口。
+本模块封装了TRL的各种训练器, 提供统一的接口. 
 """
 
 from typing import Optional, Callable, Dict, Any
@@ -126,13 +126,13 @@ class BaseTrainerWrapper:
             self.trainer.save_model(save_dir)
             print(f"✅ 模型已保存到: {save_dir}")
         else:
-            print("❌ 训练器未初始化，无法保存模型")
+            print("❌ 训练器未初始化, 无法保存模型")
 
 
 class SFTTrainerWrapper(BaseTrainerWrapper):
     """SFT (Supervised Fine-Tuning) 训练器封装
 
-    用于监督微调，让模型学会遵循指令和基本的推理格式。
+    用于监督微调, 让模型学会遵循指令和基本的推理格式. 
     """
 
     def __init__(self, config: Optional[TrainingConfig] = None, dataset=None):
@@ -176,7 +176,7 @@ class SFTTrainerWrapper(BaseTrainerWrapper):
             self.setup_model()
 
         if self.dataset is None:
-            raise ValueError("数据集未设置，请提供训练数据集")
+            raise ValueError("数据集未设置, 请提供训练数据集")
 
         # 配置训练参数
         # 确定report_to参数
@@ -239,8 +239,8 @@ class SFTTrainerWrapper(BaseTrainerWrapper):
 class GRPOTrainerWrapper(BaseTrainerWrapper):
     """GRPO (Group Relative Policy Optimization) 训练器封装
 
-    用于强化学习训练，优化模型的推理能力。
-    GRPO相比PPO更简单，不需要Value Model。
+    用于强化学习训练, 优化模型的推理能力. 
+    GRPO相比PPO更简单, 不需要Value Model. 
     """
 
     def __init__(
@@ -291,10 +291,10 @@ class GRPOTrainerWrapper(BaseTrainerWrapper):
             self.setup_model()
 
         if self.dataset is None:
-            raise ValueError("数据集未设置，请提供训练数据集")
+            raise ValueError("数据集未设置, 请提供训练数据集")
 
         if self.reward_fn is None:
-            raise ValueError("奖励函数未设置，请提供reward_fn")
+            raise ValueError("奖励函数未设置, 请提供reward_fn")
 
         # 确定report_to参数
         report_to = []
@@ -357,8 +357,8 @@ class GRPOTrainerWrapper(BaseTrainerWrapper):
 class PPOTrainerWrapper(BaseTrainerWrapper):
     """PPO (Proximal Policy Optimization) 训练器封装
 
-    用于强化学习训练，是经典的RL算法。
-    相比GRPO，PPO需要额外的Value Model，但可能获得更好的性能。
+    用于强化学习训练, 是经典的RL算法. 
+    相比GRPO, PPO需要额外的Value Model, 但可能获得更好的性能. 
     """
 
     def __init__(
@@ -401,5 +401,5 @@ class PPOTrainerWrapper(BaseTrainerWrapper):
     def train(self):
         """开始PPO训练"""
         print("⚠️  PPO训练器正在开发中...")
-        print("   建议使用GRPO训练器，它更简单且性能相近")
-        raise NotImplementedError("PPO训练器尚未实现，请使用GRPOTrainerWrapper")
+        print("   建议使用GRPO训练器, 它更简单且性能相近")
+        raise NotImplementedError("PPO训练器尚未实现, 请使用GRPOTrainerWrapper")

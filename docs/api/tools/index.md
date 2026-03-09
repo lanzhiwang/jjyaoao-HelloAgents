@@ -2,13 +2,13 @@
 
 ## 概述
 
-HelloAgents提供了强大的工具系统，支持两种工具注册方式：Tool对象注册（推荐）和函数直接注册（简便）。
+HelloAgents提供了强大的工具系统, 支持两种工具注册方式: Tool对象注册(推荐)和函数直接注册(简便). 
 
 ## 核心组件
 
 ### ToolRegistry
 
-工具注册表，负责管理和执行工具。
+工具注册表, 负责管理和执行工具. 
 
 ```python
 class ToolRegistry:
@@ -23,7 +23,7 @@ class ToolRegistry:
 
 ### Tool基类
 
-所有工具的基类。
+所有工具的基类. 
 
 ```python
 class Tool(ABC):
@@ -37,7 +37,7 @@ class Tool(ABC):
 
 ## 工具注册
 
-### 方式1：Tool对象注册（推荐）
+### 方式1: Tool对象注册(推荐)
 
 ```python
 from hello_agents.tools.base import Tool
@@ -62,7 +62,7 @@ registry = ToolRegistry()
 registry.register_tool(CalculatorTool())
 ```
 
-### 方式2：函数直接注册（简便）
+### 方式2: 函数直接注册(简便)
 
 ```python
 from hello_agents import ToolRegistry
@@ -71,7 +71,7 @@ def calculate(expression: str) -> float:
     """执行数学计算
     
     Args:
-        expression: 数学表达式，如 "2 + 3 * 4"
+        expression: 数学表达式, 如 "2 + 3 * 4"
     
     Returns:
         计算结果
@@ -90,7 +90,7 @@ registry.register_function("calculate", "数学计算工具", calculate)
 
 ### calculate
 
-基础数学计算工具。
+基础数学计算工具. 
 
 ```python
 from hello_agents.tools.builtin import calculate
@@ -115,9 +115,9 @@ calculate("2 ** 3")      # 8.0
 calculate("sqrt(16)")    # 4.0
 ```
 
-### 搜索工具（可选）
+### 搜索工具(可选)
 
-需要安装额外依赖和配置API密钥。
+需要安装额外依赖和配置API密钥. 
 
 #### Tavily搜索
 
@@ -196,7 +196,7 @@ class WeatherTool(Tool):
     
     def execute(self, city: str) -> str:
         # 这里应该调用真实的天气API
-        return f"{city}的天气：晴天，温度25°C"
+        return f"{city}的天气: 晴天, 温度25°C"
 
 # 注册和使用
 registry = ToolRegistry()
@@ -332,19 +332,19 @@ class SafeCalculatorTool(Tool):
 
 ## 最佳实践
 
-1. **工具命名**：使用清晰、描述性的名称
-2. **文档字符串**：为工具函数提供详细的文档
-3. **错误处理**：在工具中处理可能的异常
-4. **参数验证**：验证输入参数的有效性
-5. **返回格式**：保持一致的返回格式
-6. **安全性**：避免执行不安全的代码（如eval）
-7. **性能**：对于耗时操作，考虑添加超时机制
+1. **工具命名**: 使用清晰、描述性的名称
+2. **文档字符串**: 为工具函数提供详细的文档
+3. **错误处理**: 在工具中处理可能的异常
+4. **参数验证**: 验证输入参数的有效性
+5. **返回格式**: 保持一致的返回格式
+6. **安全性**: 避免执行不安全的代码(如eval)
+7. **性能**: 对于耗时操作, 考虑添加超时机制
 
 ## 高级功能
 
 ### 工具链式调用
 
-工具链允许将多个工具按顺序组合执行，实现复杂的工作流程。
+工具链允许将多个工具按顺序组合执行, 实现复杂的工作流程. 
 
 ```python
 from hello_agents import ToolRegistry, ToolChain, ToolChainManager
@@ -382,7 +382,7 @@ print(result)
 
 ### 异步工具执行
 
-支持并行执行多个工具，提高执行效率。
+支持并行执行多个工具, 提高执行效率. 
 
 ```python
 import asyncio
@@ -459,6 +459,6 @@ registry.register_function("get_time", "获取当前时间", get_time)
 agent = ReActAgent("工具助手", llm, registry, max_steps=5)
 
 # 6. 使用Agent
-response = agent.run("现在几点了？然后帮我计算 123 + 456")
+response = agent.run("现在几点了? 然后帮我计算 123 + 456")
 print(response)
 ```
