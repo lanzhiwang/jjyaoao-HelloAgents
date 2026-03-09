@@ -51,51 +51,61 @@ from typing import Dict, Any, List, Optional
 # 添加项目路径
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+
 def print_header(title: str):
     """打印章节标题"""
     print("\n" + "=" * 70)
     print(f"📚 {title}")
     print("=" * 70)
 
+
 def print_section(title: str):
     """打印小节标题"""
     print(f"\n📋 {title}")
     print("-" * 50)
+
 
 def print_lesson(lesson_num: str, title: str):
     """打印课程标题"""
     print(f"\n🎓 课程 {lesson_num}: {title}")
     print("🔹" * 40)
 
+
 def print_demo(title: str):
     """打印演示标题"""
     print(f"\n🚀 {title}")
     print("💡" * 30)
 
+
 def print_success(message: str):
     """打印成功信息"""
     print(f"✅ {message}")
+
 
 def print_info(message: str):
     """打印信息"""
     print(f"ℹ️  {message}")
 
+
 def print_warning(message: str):
     """打印警告"""
     print(f"⚠️  {message}")
+
 
 def print_error(message: str):
     """打印错误"""
     print(f"❌ {message}")
 
+
 def wait_for_user(prompt: str = "按回车键继续..."):
     """等待用户输入"""
     input(f"\n{prompt}")
 
+
 def show_course_overview():
     """显示课程概览"""
     print_header("第十章：智能体通信协议 - 课程概览")
-    
+
     overview = """
 🎯 课程目标
 本章将带你深入了解智能体通信的三种核心协议，从基础概念到实际应用，
@@ -142,33 +152,36 @@ def show_course_overview():
 3. 思考在自己项目中如何应用这些协议
 4. 尝试修改示例代码，探索更多可能性
 """
-    
+
     print(overview)
     wait_for_user("准备好开始学习了吗？")
+
 
 def check_dependencies():
     """检查依赖安装情况"""
     print_section("环境检查")
-    
+
     dependencies = {
         "fastmcp": "FastMCP 库（MCP 协议支持）",
-        "a2a": "A2A SDK（A2A 协议支持）"
+        "a2a": "A2A SDK（A2A 协议支持）",
     }
-    
+
     missing_deps = []
-    
+
     for dep, desc in dependencies.items():
         try:
             if dep == "fastmcp":
                 import fastmcp
+
                 print_success(f"{desc} - 版本 {fastmcp.__version__}")
             elif dep == "a2a":
                 from a2a.client import A2AClient
+
                 print_success(f"{desc} - 已安装")
         except ImportError:
             print_warning(f"{desc} - 未安装")
             missing_deps.append(dep)
-    
+
     if missing_deps:
         print_info("安装缺失的依赖：")
         for dep in missing_deps:
@@ -176,24 +189,26 @@ def check_dependencies():
                 print(f"  pip install fastmcp>=2.0.0")
             elif dep == "a2a":
                 print(f"  pip install a2a-sdk")
-        
+
         choice = input("\n是否继续（某些功能可能不可用）？(y/n): ").lower()
-        if choice != 'y':
+        if choice != "y":
             print("退出程序。请安装依赖后重新运行。")
             sys.exit(1)
     else:
         print_success("所有依赖已正确安装！")
-    
+
     wait_for_user()
+
 
 # ============================================================================
 # 第一部分：MCP 协议教学
 # ============================================================================
 
+
 def lesson_1_1_mcp_concepts():
     """课程 1.1: MCP 基础概念"""
     print_lesson("1.1", "MCP 基础概念和设计理念")
-    
+
     concepts = """
 📚 什么是 MCP？
 MCP (Model Context Protocol) 是由 Anthropic 开发的开放标准，用于在 AI 应用程序
@@ -218,65 +233,67 @@ HelloAgents 基于 FastMCP 库提供完整的 MCP 协议支持，包括：
 - 工具集成：在 Agent 中使用 MCP 工具
 - 多传输支持：Stdio、HTTP、SSE 等传输方式
 """
-    
+
     print(concepts)
     wait_for_user()
+
 
 def lesson_1_2_official_mcp_servers():
     """课程 1.2: 使用官方 MCP 服务器"""
     print_lesson("1.2", "使用官方 MCP 服务器实战")
-    
+
     print_info("官方 MCP 服务器提供了丰富的功能，让我们来体验一下：")
-    
+
     # 模拟官方服务器使用
     official_servers = {
         "filesystem": {
             "description": "文件系统操作服务器",
             "tools": ["list_directory", "read_file", "write_file"],
-            "install": "npx @modelcontextprotocol/server-filesystem"
+            "install": "npx @modelcontextprotocol/server-filesystem",
         },
         "github": {
-            "description": "GitHub 仓库访问服务器", 
+            "description": "GitHub 仓库访问服务器",
             "tools": ["search_repositories", "get_repository", "list_issues"],
-            "install": "npx @modelcontextprotocol/server-github"
+            "install": "npx @modelcontextprotocol/server-github",
         },
         "memory": {
             "description": "内存存储服务器",
             "tools": ["store_memory", "retrieve_memory", "list_memories"],
-            "install": "npx @modelcontextprotocol/server-memory"
-        }
+            "install": "npx @modelcontextprotocol/server-memory",
+        },
     }
-    
+
     print("\n🗂️ 官方 MCP 服务器列表：")
     for name, info in official_servers.items():
         print(f"\n📦 {name.upper()} 服务器")
         print(f"   描述: {info['description']}")
         print(f"   工具: {', '.join(info['tools'])}")
         print(f"   安装: {info['install']}")
-    
+
     print_demo("文件系统服务器演示")
-    
+
     # 模拟文件系统操作
     demo_operations = [
         ("列出当前目录", "找到 15 个文件"),
         ("读取 README.md", "成功读取 1,234 字符"),
         ("创建测试文件", "成功创建 test.txt"),
-        ("验证文件创建", "文件存在，大小 56 字节")
+        ("验证文件创建", "文件存在，大小 56 字节"),
     ]
-    
+
     for operation, result in demo_operations:
         print(f"🔧 {operation}...")
         time.sleep(0.5)
         print_success(result)
-    
+
     wait_for_user()
+
 
 def lesson_1_3_custom_mcp_server():
     """课程 1.3: 创建自定义 MCP 服务器"""
     print_lesson("1.3", "创建自定义 MCP 服务器")
-    
+
     print_info("让我们创建一个天气查询 MCP 服务器作为学习案例：")
-    
+
     # 展示服务器代码结构
     server_code = '''
 from fastmcp import FastMCP
@@ -318,33 +335,46 @@ def get_weather_forecast(city: str, days: int = 3) -> Dict[str, Any]:
 if __name__ == "__main__":
     weather_server.run()
 '''
-    
+
     print("\n💻 天气服务器代码示例：")
     print("```python")
     print(server_code)
     print("```")
-    
+
     print_demo("天气服务器功能演示")
-    
+
     # 模拟服务器功能
     demo_calls = [
-        ("get_weather", {"city": "北京"}, {"city": "北京", "temperature": 15, "condition": "晴朗"}),
-        ("get_weather_forecast", {"city": "上海", "days": 3}, {"city": "上海", "forecast_days": 3}),
-        ("list_cities", {}, {"supported_cities": ["北京", "上海", "广州"], "total_count": 10})
+        (
+            "get_weather",
+            {"city": "北京"},
+            {"city": "北京", "temperature": 15, "condition": "晴朗"},
+        ),
+        (
+            "get_weather_forecast",
+            {"city": "上海", "days": 3},
+            {"city": "上海", "forecast_days": 3},
+        ),
+        (
+            "list_cities",
+            {},
+            {"supported_cities": ["北京", "上海", "广州"], "total_count": 10},
+        ),
     ]
-    
+
     for tool_name, args, result in demo_calls:
         print(f"\n🔧 调用工具: {tool_name}")
         print(f"   参数: {args}")
         time.sleep(0.3)
         print_success(f"返回: {result}")
-    
+
     wait_for_user()
+
 
 def lesson_1_4_transport_methods():
     """课程 1.4: 多种传输方式详解"""
     print_lesson("1.4", "MCP 传输方式详解")
-    
+
     transport_info = """
 🚀 MCP 支持多种传输方式，适应不同的使用场景：
 
@@ -390,15 +420,16 @@ def lesson_1_4_transport_methods():
 - 实时应用：使用 SSE 传输
 - 测试场景：使用内存传输
 """
-    
+
     print(transport_info)
     wait_for_user()
+
 
 def lesson_1_5_mcp_in_helloagents():
     """课程 1.5: 在 HelloAgents 中集成 MCP"""
     print_lesson("1.5", "在 HelloAgents 中集成 MCP")
-    
-    integration_code = '''
+
+    integration_code = """
 from hello_agents import SimpleAgent, HelloAgentsLLM
 from hello_agents.tools.builtin.protocol_tools import MCPTool
 
@@ -416,24 +447,24 @@ agent.add_tool(weather_tool)
 # 使用智能体
 response = agent.run("北京今天天气怎么样？")
 print(response)
-'''
-    
+"""
+
     print_info("HelloAgents 提供了 MCPTool 来轻松集成 MCP 服务器：")
     print("\n💻 集成代码示例：")
     print("```python")
     print(integration_code)
     print("```")
-    
+
     print_demo("智能体使用 MCP 工具演示")
-    
+
     # 模拟智能体对话
     conversations = [
         ("用户", "北京今天天气怎么样？"),
         ("助手", "我来为您查询北京的天气信息..."),
         ("系统", "调用 MCP 工具: get_weather(city='北京')"),
-        ("助手", "根据查询结果，北京今天天气晴朗，温度15°C，湿度60%。")
+        ("助手", "根据查询结果，北京今天天气晴朗，温度15°C，湿度60%。"),
     ]
-    
+
     for speaker, message in conversations:
         if speaker == "用户":
             print(f"\n👤 {speaker}: {message}")
@@ -442,17 +473,19 @@ print(response)
         else:
             print(f"⚙️  {speaker}: {message}")
         time.sleep(0.8)
-    
+
     wait_for_user()
+
 
 # ============================================================================
 # 第二部分：A2A 协议教学
 # ============================================================================
 
+
 def lesson_2_1_a2a_concepts():
     """课程 2.1: A2A 协议核心概念"""
     print_lesson("2.1", "A2A 协议核心概念")
-    
+
     concepts = """
 🤝 什么是 A2A？
 A2A (Agent-to-Agent Protocol) 是一个用于智能体间直接通信和协作的协议。
@@ -477,14 +510,15 @@ HelloAgents 基于官方 a2a-sdk 提供 A2A 协议支持：
 - 消息通信：支持结构化消息传递
 - 工作流编排：支持复杂的协作流程
 """
-    
+
     print(concepts)
     wait_for_user()
+
 
 def lesson_2_2_create_a2a_agents():
     """课程 2.2: 基于官方 SDK 创建智能体"""
     print_lesson("2.2", "基于官方 SDK 创建智能体")
-    
+
     agent_code = '''
 from hello_agents.protocols.a2a.implementation import A2AServer
 
@@ -523,29 +557,30 @@ print("测试计算器智能体:")
 print(calculator.skills["add"]("10 + 5"))
 print(calculator.skills["multiply"]("6 * 7"))
 '''
-    
+
     print_info("让我们创建一个计算器智能体作为学习案例：")
     print("\n💻 智能体创建代码：")
     print("```python")
     print(agent_code)
     print("```")
-    
+
     print_demo("计算器智能体演示")
-    
+
     # 模拟智能体技能测试
     test_cases = [
         ("add", "10 + 5", "计算结果: 10 + 5 = 15"),
         ("multiply", "6 * 7", "计算结果: 6 × 7 = 42"),
-        ("add", "1 + 2 + 3", "计算结果: 1 + 2 + 3 = 6")
+        ("add", "1 + 2 + 3", "计算结果: 1 + 2 + 3 = 6"),
     ]
-    
+
     for skill, query, expected in test_cases:
         print(f"\n🔧 技能: {skill}")
         print(f"   查询: {query}")
         time.sleep(0.3)
         print_success(f"结果: {expected}")
-    
+
     wait_for_user()
+
 
 def lesson_2_3_multi_agent_collaboration():
     """课程 2.3: 多智能体协作工作流"""
@@ -581,10 +616,14 @@ def lesson_2_3_multi_agent_collaboration():
 
     # 模拟协作流程
     workflow_steps = [
-        ("研究员", "开始研究主题：人工智能在教育中的应用", "生成研究报告（4个关键发现）"),
+        (
+            "研究员",
+            "开始研究主题：人工智能在教育中的应用",
+            "生成研究报告（4个关键发现）",
+        ),
         ("撰写员", "基于研究报告创作文章", "完成文章初稿（1,500字）"),
         ("编辑", "优化文章内容和结构", "完成内容编辑（质量评分：89/100）"),
-        ("编辑", "进行最终审核", "批准发布（状态：已通过）")
+        ("编辑", "进行最终审核", "批准发布（状态：已通过）"),
     ]
 
     for agent, action, result in workflow_steps:
@@ -594,6 +633,7 @@ def lesson_2_3_multi_agent_collaboration():
 
     print_info("\n🎉 协作完成！团队成功创作了一篇高质量的文章。")
     wait_for_user()
+
 
 def lesson_2_4_skill_sharing():
     """课程 2.4: 智能体技能共享机制"""
@@ -626,7 +666,7 @@ A2A 协议允许智能体之间共享和调用彼此的技能，实现能力的�
         ("翻译智能体", "提供多语言翻译技能", "支持中英日韩等10种语言"),
         ("分析智能体", "调用翻译技能处理多语言数据", "成功分析5种语言的文档"),
         ("报告智能体", "调用分析和翻译技能", "生成多语言分析报告"),
-        ("协调智能体", "整合所有智能体的输出", "完成综合性多语言项目")
+        ("协调智能体", "整合所有智能体的输出", "完成综合性多语言项目"),
     ]
 
     for agent, action, result in sharing_scenario:
@@ -635,6 +675,7 @@ A2A 协议允许智能体之间共享和调用彼此的技能，实现能力的�
         print_success(result)
 
     wait_for_user()
+
 
 def lesson_2_5_business_scenarios():
     """课程 2.5: 实际业务场景应用"""
@@ -673,9 +714,11 @@ def lesson_2_5_business_scenarios():
     print(business_scenarios)
     wait_for_user()
 
+
 # ============================================================================
 # 第三部分：ANP 协议教学
 # ============================================================================
+
 
 def lesson_3_1_anp_concepts():
     """课程 3.1: ANP 网络管理概念"""
@@ -709,11 +752,12 @@ HelloAgents 提供了 ANP 的概念性实现：
     print(concepts)
     wait_for_user()
 
+
 def lesson_3_2_service_discovery():
     """课程 3.2: 服务发现和注册"""
     print_lesson("3.2", "服务发现和注册")
 
-    discovery_code = '''
+    discovery_code = """
 from hello_agents.protocols.anp.implementation import ANPDiscovery, ServiceInfo
 
 # 创建服务发现组件
@@ -743,7 +787,7 @@ discovery.register_service(translation_service)
 # 服务发现
 weather_services = discovery.find_services_by_type("weather")
 translation_services = discovery.find_services_by_capability("translate")
-'''
+"""
 
     print_info("ANP 提供了强大的服务发现机制：")
     print("\n💻 服务发现代码示例：")
@@ -757,7 +801,7 @@ translation_services = discovery.find_services_by_capability("translate")
     services = [
         ("weather-service", "weather", ["weather_query", "forecast"]),
         ("translation-service", "translation", ["translate", "detect_language"]),
-        ("analysis-service", "analysis", ["data_analysis", "report_generation"])
+        ("analysis-service", "analysis", ["data_analysis", "report_generation"]),
     ]
 
     print("\n📋 注册服务：")
@@ -768,7 +812,7 @@ translation_services = discovery.find_services_by_capability("translate")
     discovery_tests = [
         ("按类型查找", "weather", ["weather-service"]),
         ("按能力查找", "translate", ["translation-service"]),
-        ("按类型查找", "analysis", ["analysis-service"])
+        ("按类型查找", "analysis", ["analysis-service"]),
     ]
 
     for test_type, query, results in discovery_tests:
@@ -777,6 +821,7 @@ translation_services = discovery.find_services_by_capability("translate")
         print_success(f"找到服务: {', '.join(results)}")
 
     wait_for_user()
+
 
 def lesson_3_3_network_monitoring():
     """课程 3.3: 网络拓扑和监控"""
@@ -823,7 +868,7 @@ ANP 提供了全面的网络监控和管理功能：
         "total_messages": 1247,
         "health_status": "健康",
         "average_response_time": "45ms",
-        "error_rate": "0.2%"
+        "error_rate": "0.2%",
     }
 
     print("\n📊 网络状态报告：")
@@ -835,7 +880,7 @@ ANP 提供了全面的网络监控和管理功能：
         ("weather-agent-01", "在线", "正常", "12ms"),
         ("translation-agent-02", "在线", "正常", "8ms"),
         ("analysis-agent-03", "离线", "维护中", "N/A"),
-        ("report-agent-04", "在线", "高负载", "67ms")
+        ("report-agent-04", "在线", "高负载", "67ms"),
     ]
 
     print("\n🤖 智能体状态：")
@@ -844,6 +889,7 @@ ANP 提供了全面的网络监控和管理功能：
         print(f"   {status_icon} {agent}: {status} | {health} | {response_time}")
 
     wait_for_user()
+
 
 def lesson_3_4_load_balancing():
     """课程 3.4: 负载均衡和消息路由"""
@@ -886,7 +932,7 @@ ANP 支持多种负载均衡算法：
         ("agent-01", 3, "12ms"),
         ("agent-02", 1, "8ms"),
         ("agent-03", 5, "15ms"),
-        ("agent-04", 2, "10ms")
+        ("agent-04", 2, "10ms"),
     ]
 
     print("\n⚖️ 智能体负载状态：")
@@ -899,7 +945,7 @@ ANP 支持多种负载均衡算法：
         ("请求 1", "选择 agent-02（负载最低）"),
         ("请求 2", "选择 agent-04（响应时间优）"),
         ("请求 3", "选择 agent-01（轮询策略）"),
-        ("请求 4", "选择 agent-02（负载均衡）")
+        ("请求 4", "选择 agent-02（负载均衡）"),
     ]
 
     for request, decision in balancing_decisions:
@@ -907,6 +953,7 @@ ANP 支持多种负载均衡算法：
         time.sleep(0.4)
 
     wait_for_user()
+
 
 def lesson_3_5_large_scale_management():
     """课程 3.5: 大规模智能体网络管理"""
@@ -952,7 +999,7 @@ def lesson_3_5_large_scale_management():
         ("华东区", 67, "正常"),
         ("华南区", 38, "高负载"),
         ("西南区", 23, "正常"),
-        ("海外区", 15, "网络延迟")
+        ("海外区", 15, "网络延迟"),
     ]
 
     print("\n🌐 网络区域状态：")
@@ -969,9 +1016,11 @@ def lesson_3_5_large_scale_management():
 
     wait_for_user()
 
+
 # ============================================================================
 # 第四部分：协议对比和选择
 # ============================================================================
+
 
 def lesson_4_1_protocol_comparison():
     """课程 4.1: 三种协议特性对比"""
@@ -1017,6 +1066,7 @@ def lesson_4_1_protocol_comparison():
     print(comparison_table)
     wait_for_user()
 
+
 def lesson_4_2_scenario_selection():
     """课程 4.2: 应用场景选择指南"""
     print_lesson("4.2", "应用场景选择指南")
@@ -1058,6 +1108,7 @@ def lesson_4_2_scenario_selection():
 
     print(scenarios)
     wait_for_user()
+
 
 def lesson_4_3_combination_strategies():
     """课程 4.3: 协议组合使用策略"""
@@ -1123,7 +1174,7 @@ response = agent.run("""
         ("A2A", "请求研究智能体分析", "分析完成：温度趋势上升"),
         ("A2A", "请求分析智能体处理", "生成趋势图表"),
         ("ANP", "负载均衡选择服务", "选择最优的报告生成服务"),
-        ("集成", "生成综合报告", "完成多协议协作任务")
+        ("集成", "生成综合报告", "完成多协议协作任务"),
     ]
 
     for protocol, action, result in collaboration_steps:
@@ -1132,6 +1183,7 @@ response = agent.run("""
         print_success(result)
 
     wait_for_user()
+
 
 def lesson_4_4_best_practices():
     """课程 4.4: 最佳实践和注意事项"""
@@ -1174,9 +1226,11 @@ def lesson_4_4_best_practices():
     print(best_practices)
     wait_for_user()
 
+
 # ============================================================================
 # 主程序和菜单系统
 # ============================================================================
+
 
 def show_main_menu():
     """显示主菜单"""
@@ -1221,6 +1275,7 @@ def show_main_menu():
 
     return menu
 
+
 def main():
     """主程序"""
     print_header("欢迎学习第十章：智能体通信协议")
@@ -1249,25 +1304,41 @@ def main():
         "4.1": lesson_4_1_protocol_comparison,
         "4.2": lesson_4_2_scenario_selection,
         "4.3": lesson_4_3_combination_strategies,
-        "4.4": lesson_4_4_best_practices
+        "4.4": lesson_4_4_best_practices,
     }
 
     while True:
         print(show_main_menu())
         choice = input().strip().lower()
 
-        if choice == 'q':
+        if choice == "q":
             print("\n👋 感谢学习第十章：智能体通信协议！")
             print("🎉 希望这些知识对你的项目有所帮助。")
             break
-        elif choice == 'all':
+        elif choice == "all":
             print_info("开始完整学习模式...")
             # 按顺序执行所有课程
             lesson_order = [
-                "0", "1.1", "1.2", "1.3", "1.4", "1.5",
-                "2.1", "2.2", "2.3", "2.4", "2.5",
-                "3.1", "3.2", "3.3", "3.4", "3.5",
-                "4.1", "4.2", "4.3", "4.4"
+                "0",
+                "1.1",
+                "1.2",
+                "1.3",
+                "1.4",
+                "1.5",
+                "2.1",
+                "2.2",
+                "2.3",
+                "2.4",
+                "2.5",
+                "3.1",
+                "3.2",
+                "3.3",
+                "3.4",
+                "3.5",
+                "4.1",
+                "4.2",
+                "4.3",
+                "4.4",
             ]
             for lesson_id in lesson_order:
                 if lesson_id in lessons:
@@ -1277,6 +1348,7 @@ def main():
             lessons[choice]()
         else:
             print_error("无效选项，请重新选择。")
+
 
 if __name__ == "__main__":
     main()

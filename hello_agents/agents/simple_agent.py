@@ -11,21 +11,22 @@ from ..core.message import Message
 if TYPE_CHECKING:
     from ..tools.registry import ToolRegistry
 
+
 class SimpleAgent(Agent):
     """简单的对话Agent，支持可选的工具调用"""
-    
+
     def __init__(
         self,
         name: str,
         llm: HelloAgentsLLM,
         system_prompt: Optional[str] = None,
         config: Optional[Config] = None,
-        tool_registry: Optional['ToolRegistry'] = None,
-        enable_tool_calling: bool = True
+        tool_registry: Optional["ToolRegistry"] = None,
+        enable_tool_calling: bool = True,
     ):
         """
         初始化SimpleAgent
-        
+
         Args:
             name: Agent名称
             llm: LLM实例
@@ -37,19 +38,19 @@ class SimpleAgent(Agent):
         super().__init__(name, llm, system_prompt, config)
         self.tool_registry = tool_registry
         self.enable_tool_calling = enable_tool_calling and tool_registry is not None
-    
+
     def _get_enhanced_system_prompt(self) -> str:
         """构建增强的系统提示词，包含工具信息"""
         base_prompt = self.system_prompt or "你是一个有用的AI助手。"
-        
+
         if not self.enable_tool_calling or not self.tool_registry:
             return base_prompt
-        
+
         # 获取工具描述
         tools_description = self.tool_registry.get_tools_description()
         if not tools_description or tools_description == "暂无可用工具":
             return base_prompt
-        
+
         tools_section = "\n\n## 可用工具\n"
         tools_section += "你可以使用以下工具来帮助回答问题：\n"
         tools_section += tools_description + "\n"
@@ -61,7 +62,9 @@ class SimpleAgent(Agent):
         tools_section += "### 参数格式说明\n"
         tools_section += "1. **多个参数**：使用 `key=value` 格式，用逗号分隔\n"
         tools_section += "   示例：`[TOOL_CALL:calculator_multiply:a=12,b=8]`\n"
-        tools_section += "   示例：`[TOOL_CALL:filesystem_read_file:path=README.md]`\n\n"
+        tools_section += (
+            "   示例：`[TOOL_CALL:filesystem_read_file:path=README.md]`\n\n"
+        )
         tools_section += "2. **单个参数**：直接使用 `key=value`\n"
         tools_section += "   示例：`[TOOL_CALL:search:query=Python编程]`\n\n"
         tools_section += "3. **简单查询**：可以直接传入文本\n"
@@ -69,27 +72,31 @@ class SimpleAgent(Agent):
 
         tools_section += "### 重要提示\n"
         tools_section += "- 参数名必须与工具定义的参数名完全匹配\n"
-        tools_section += "- 数字参数直接写数字，不需要引号：`a=12` 而不是 `a=\"12\"`\n"
+        tools_section += '- 数字参数直接写数字，不需要引号：`a=12` 而不是 `a="12"`\n'
         tools_section += "- 文件路径等字符串参数直接写：`path=README.md`\n"
-        tools_section += "- 工具调用结果会自动插入到对话中，然后你可以基于结果继续回答\n"
+        tools_section += (
+            "- 工具调用结果会自动插入到对话中，然后你可以基于结果继续回答\n"
+        )
 
         return base_prompt + tools_section
-    
+
     def _parse_tool_calls(self, text: str) -> list:
         """解析文本中的工具调用"""
-        pattern = r'\[TOOL_CALL:([^:]+):([^\]]+)\]'
+        pattern = r"\[TOOL_CALL:([^:]+):([^\]]+)\]"
         matches = re.findall(pattern, text)
-        
+
         tool_calls = []
         for tool_name, parameters in matches:
-            tool_calls.append({
-                'tool_name': tool_name.strip(),
-                'parameters': parameters.strip(),
-                'original': f'[TOOL_CALL:{tool_name}:{parameters}]'
-            })
-        
+            tool_calls.append(
+                {
+                    "tool_name": tool_name.strip(),
+                    "parameters": parameters.strip(),
+                    "original": f"[TOOL_CALL:{tool_name}:{parameters}]",
+                }
+            )
+
         return tool_calls
-    
+
     def _execute_tool_call(self, tool_name: str, parameters: str) -> str:
         """执行工具调用"""
         if not self.tool_registry:
@@ -114,10 +121,11 @@ class SimpleAgent(Agent):
     def _parse_tool_parameters(self, tool_name: str, parameters: str) -> dict:
         """智能解析工具参数"""
         import json
+
         param_dict = {}
 
         # 尝试解析JSON格式
-        if parameters.strip().startswith('{'):
+        if parameters.strip().startswith("{"):
             try:
                 param_dict = json.loads(parameters)
                 # JSON解析成功，进行类型转换
@@ -127,25 +135,25 @@ class SimpleAgent(Agent):
                 # JSON解析失败，继续使用其他方式
                 pass
 
-        if '=' in parameters:
+        if "=" in parameters:
             # 格式: key=value 或 action=search,query=Python
-            if ',' in parameters:
+            if "," in parameters:
                 # 多个参数：action=search,query=Python,limit=3
-                pairs = parameters.split(',')
+                pairs = parameters.split(",")
                 for pair in pairs:
-                    if '=' in pair:
-                        key, value = pair.split('=', 1)
+                    if "=" in pair:
+                        key, value = pair.split("=", 1)
                         param_dict[key.strip()] = value.strip()
             else:
                 # 单个参数：key=value
-                key, value = parameters.split('=', 1)
+                key, value = parameters.split("=", 1)
                 param_dict[key.strip()] = value.strip()
 
             # 类型转换
             param_dict = self._convert_parameter_types(tool_name, param_dict)
 
             # 智能推断action（如果没有指定）
-            if 'action' not in param_dict:
+            if "action" not in param_dict:
                 param_dict = self._infer_action(tool_name, param_dict)
         else:
             # 直接传入参数，根据工具类型智能推断
@@ -188,16 +196,18 @@ class SimpleAgent(Agent):
             if key in param_types:
                 param_type = param_types[key]
                 try:
-                    if param_type == 'number' or param_type == 'integer':
+                    if param_type == "number" or param_type == "integer":
                         # 转换为数字
                         if isinstance(value, str):
-                            converted_dict[key] = float(value) if param_type == 'number' else int(value)
+                            converted_dict[key] = (
+                                float(value) if param_type == "number" else int(value)
+                            )
                         else:
                             converted_dict[key] = value
-                    elif param_type == 'boolean':
+                    elif param_type == "boolean":
                         # 转换为布尔值
                         if isinstance(value, str):
-                            converted_dict[key] = value.lower() in ('true', '1', 'yes')
+                            converted_dict[key] = value.lower() in ("true", "1", "yes")
                         else:
                             converted_dict[key] = bool(value)
                     else:
@@ -212,70 +222,70 @@ class SimpleAgent(Agent):
 
     def _infer_action(self, tool_name: str, param_dict: dict) -> dict:
         """根据工具类型和参数推断action"""
-        if tool_name == 'memory':
-            if 'recall' in param_dict:
-                param_dict['action'] = 'search'
-                param_dict['query'] = param_dict.pop('recall')
-            elif 'store' in param_dict:
-                param_dict['action'] = 'add'
-                param_dict['content'] = param_dict.pop('store')
-            elif 'query' in param_dict:
-                param_dict['action'] = 'search'
-            elif 'content' in param_dict:
-                param_dict['action'] = 'add'
-        elif tool_name == 'rag':
-            if 'search' in param_dict:
-                param_dict['action'] = 'search'
-                param_dict['query'] = param_dict.pop('search')
-            elif 'query' in param_dict:
-                param_dict['action'] = 'search'
-            elif 'text' in param_dict:
-                param_dict['action'] = 'add_text'
+        if tool_name == "memory":
+            if "recall" in param_dict:
+                param_dict["action"] = "search"
+                param_dict["query"] = param_dict.pop("recall")
+            elif "store" in param_dict:
+                param_dict["action"] = "add"
+                param_dict["content"] = param_dict.pop("store")
+            elif "query" in param_dict:
+                param_dict["action"] = "search"
+            elif "content" in param_dict:
+                param_dict["action"] = "add"
+        elif tool_name == "rag":
+            if "search" in param_dict:
+                param_dict["action"] = "search"
+                param_dict["query"] = param_dict.pop("search")
+            elif "query" in param_dict:
+                param_dict["action"] = "search"
+            elif "text" in param_dict:
+                param_dict["action"] = "add_text"
 
         return param_dict
 
     def _infer_simple_parameters(self, tool_name: str, parameters: str) -> dict:
         """为简单参数推断完整的参数字典"""
-        if tool_name == 'rag':
-            return {'action': 'search', 'query': parameters}
-        elif tool_name == 'memory':
-            return {'action': 'search', 'query': parameters}
+        if tool_name == "rag":
+            return {"action": "search", "query": parameters}
+        elif tool_name == "memory":
+            return {"action": "search", "query": parameters}
         else:
-            return {'input': parameters}
+            return {"input": parameters}
 
     def run(self, input_text: str, max_tool_iterations: int = 3, **kwargs) -> str:
         """
         运行SimpleAgent，支持可选的工具调用
-        
+
         Args:
             input_text: 用户输入
             max_tool_iterations: 最大工具调用迭代次数（仅在启用工具时有效）
             **kwargs: 其他参数
-            
+
         Returns:
             Agent响应
         """
         # 构建消息列表
         messages = []
-        
+
         # 添加系统消息（可能包含工具信息）
         enhanced_system_prompt = self._get_enhanced_system_prompt()
         messages.append({"role": "system", "content": enhanced_system_prompt})
-        
+
         # 添加历史消息
         for msg in self._history:
             messages.append({"role": msg.role, "content": msg.content})
-        
+
         # 添加当前用户消息
         messages.append({"role": "user", "content": input_text})
-        
+
         # 如果没有启用工具调用，使用原有逻辑
         if not self.enable_tool_calling:
             response = self.llm.invoke(messages, **kwargs)
             self.add_message(Message(input_text, "user"))
             self.add_message(Message(response, "assistant"))
             return response
-        
+
         # 迭代处理，支持多轮工具调用
         current_iteration = 0
         final_response = ""
@@ -293,17 +303,24 @@ class SimpleAgent(Agent):
                 clean_response = response
 
                 for call in tool_calls:
-                    result = self._execute_tool_call(call['tool_name'], call['parameters'])
+                    result = self._execute_tool_call(
+                        call["tool_name"], call["parameters"]
+                    )
                     tool_results.append(result)
                     # 从响应中移除工具调用标记
-                    clean_response = clean_response.replace(call['original'], "")
+                    clean_response = clean_response.replace(call["original"], "")
 
                 # 构建包含工具结果的消息
                 messages.append({"role": "assistant", "content": clean_response})
 
                 # 添加工具结果
                 tool_results_text = "\n\n".join(tool_results)
-                messages.append({"role": "user", "content": f"工具执行结果：\n{tool_results_text}\n\n请基于这些结果给出完整的回答。"})
+                messages.append(
+                    {
+                        "role": "user",
+                        "content": f"工具执行结果：\n{tool_results_text}\n\n请基于这些结果给出完整的回答。",
+                    }
+                )
 
                 current_iteration += 1
                 continue
@@ -315,7 +332,7 @@ class SimpleAgent(Agent):
         # 如果超过最大迭代次数，获取最后一次回答
         if current_iteration >= max_tool_iterations and not final_response:
             final_response = self.llm.invoke(messages, **kwargs)
-        
+
         # 保存到历史记录
         self.add_message(Message(input_text, "user"))
         self.add_message(Message(final_response, "assistant"))
@@ -334,6 +351,7 @@ class SimpleAgent(Agent):
         """
         if not self.tool_registry:
             from ..tools.registry import ToolRegistry
+
             self.tool_registry = ToolRegistry()
             self.enable_tool_calling = True
 
@@ -360,31 +378,31 @@ class SimpleAgent(Agent):
     def stream_run(self, input_text: str, **kwargs) -> Iterator[str]:
         """
         流式运行Agent
-        
+
         Args:
             input_text: 用户输入
             **kwargs: 其他参数
-            
+
         Yields:
             Agent响应片段
         """
         # 构建消息列表
         messages = []
-        
+
         if self.system_prompt:
             messages.append({"role": "system", "content": self.system_prompt})
-        
+
         for msg in self._history:
             messages.append({"role": msg.role, "content": msg.content})
-        
+
         messages.append({"role": "user", "content": input_text})
-        
+
         # 流式调用LLM
         full_response = ""
         for chunk in self.llm.stream_invoke(messages, **kwargs):
             full_response += chunk
             yield chunk
-        
+
         # 保存完整对话到历史记录
         self.add_message(Message(input_text, "user"))
         self.add_message(Message(full_response, "assistant"))

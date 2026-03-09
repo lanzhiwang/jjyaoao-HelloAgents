@@ -38,7 +38,7 @@ class BFCLEvaluator:
         dataset: Optional[BFCLDataset] = None,
         category: Optional[str] = None,
         evaluation_mode: str = "ast",
-        local_data_dir: Optional[str] = None
+        local_data_dir: Optional[str] = None,
     ):
         """初始化 BFCL 评估器
 
@@ -49,13 +49,12 @@ class BFCLEvaluator:
             local_data_dir: 本地数据目录
         """
         self.dataset = dataset or BFCLDataset(
-            category=category,
-            local_data_dir=local_data_dir
+            category=category, local_data_dir=local_data_dir
         )
         self.metrics = BFCLMetrics()
         self.evaluation_mode = evaluation_mode
         self.category = category
-        
+
     def evaluate(self, agent: Any, max_samples: Optional[int] = None) -> Dict[str, Any]:
         """评估智能体
 
@@ -96,7 +95,11 @@ class BFCLEvaluator:
                 results.append(sample_result)
 
                 # 按类别统计（使用评估器的category，而不是样本的category）
-                category = self.category if self.category else sample.get("category", "unknown")
+                category = (
+                    self.category
+                    if self.category
+                    else sample.get("category", "unknown")
+                )
                 if category not in categories:
                     categories[category] = {"total": 0, "correct": 0, "results": []}
 
@@ -107,13 +110,15 @@ class BFCLEvaluator:
 
             except Exception as e:
                 print(f"   ⚠️ 样本 {i} 评估失败: {e}")
-                results.append({
-                    "success": False,
-                    "error": str(e),
-                    "predicted": None,
-                    "expected": sample.get("ground_truth"),
-                    "score": 0.0
-                })
+                results.append(
+                    {
+                        "success": False,
+                        "error": str(e),
+                        "predicted": None,
+                        "expected": sample.get("ground_truth"),
+                        "score": 0.0,
+                    }
+                )
 
         # 计算总体指标
         total_samples = len(results)
@@ -123,32 +128,38 @@ class BFCLEvaluator:
         # 计算分类指标
         category_metrics = {}
         for cat, cat_data in categories.items():
-            accuracy = cat_data["correct"] / cat_data["total"] if cat_data["total"] > 0 else 0.0
+            accuracy = (
+                cat_data["correct"] / cat_data["total"]
+                if cat_data["total"] > 0
+                else 0.0
+            )
             category_metrics[cat] = {
                 "total": cat_data["total"],
                 "correct": cat_data["correct"],
-                "accuracy": accuracy
+                "accuracy": accuracy,
             }
 
         final_results = {
             "benchmark": "BFCL",
-            "agent_name": getattr(agent, 'name', 'Unknown'),
+            "agent_name": getattr(agent, "name", "Unknown"),
             "evaluation_mode": self.evaluation_mode,
             "category": self.category,
             "total_samples": total_samples,
             "correct_samples": correct_samples,
             "overall_accuracy": overall_accuracy,
             "category_metrics": category_metrics,
-            "detailed_results": results
+            "detailed_results": results,
         }
 
         print(f"✅ BFCL 评估完成")
         print(f"   总体准确率: {overall_accuracy:.2%}")
         for cat, metrics in category_metrics.items():
-            print(f"   {cat}: {metrics['accuracy']:.2%} ({metrics['correct']}/{metrics['total']})")
+            print(
+                f"   {cat}: {metrics['accuracy']:.2%} ({metrics['correct']}/{metrics['total']})"
+            )
 
         return final_results
-    
+
     def evaluate_sample(self, agent: Any, sample: Dict[str, Any]) -> Dict[str, Any]:
         """评估单个样本
 
@@ -178,9 +189,13 @@ class BFCLEvaluator:
 
             # 评估结果
             if self.evaluation_mode == "ast":
-                success, score = self._evaluate_ast_matching(predicted_calls, ground_truth)
+                success, score = self._evaluate_ast_matching(
+                    predicted_calls, ground_truth
+                )
             else:
-                success, score = self._evaluate_execution(predicted_calls, ground_truth, functions)
+                success, score = self._evaluate_execution(
+                    predicted_calls, ground_truth, functions
+                )
 
             return {
                 "success": success,
@@ -191,7 +206,11 @@ class BFCLEvaluator:
                 "question": question,  # 添加question字段用于导出
                 "execution_time": execution_time,
                 "sample_id": sample.get("id", ""),
-                "category": self.category if self.category else sample.get("category", "unknown")
+                "category": (
+                    self.category
+                    if self.category
+                    else sample.get("category", "unknown")
+                ),
             }
 
         except Exception as e:
@@ -203,24 +222,30 @@ class BFCLEvaluator:
                 "question": sample.get("question", ""),  # 添加question字段
                 "error": str(e),
                 "sample_id": sample.get("id", ""),
-                "category": self.category if self.category else sample.get("category", "unknown")
+                "category": (
+                    self.category
+                    if self.category
+                    else sample.get("category", "unknown")
+                ),
             }
 
     def _create_empty_results(self, agent: Any) -> Dict[str, Any]:
         """创建空的评估结果"""
         return {
             "benchmark": "BFCL",
-            "agent_name": getattr(agent, 'name', 'Unknown'),
+            "agent_name": getattr(agent, "name", "Unknown"),
             "evaluation_mode": self.evaluation_mode,
             "category": self.category,
             "total_samples": 0,
             "correct_samples": 0,
             "overall_accuracy": 0.0,
             "category_metrics": {},
-            "detailed_results": []
+            "detailed_results": [],
         }
 
-    def _build_function_calling_prompt(self, question: str, functions: List[Dict]) -> str:
+    def _build_function_calling_prompt(
+        self, question: str, functions: List[Dict]
+    ) -> str:
         """构建函数调用提示"""
         if not functions:
             return question
@@ -237,7 +262,9 @@ class BFCLEvaluator:
             prompt += f"描述: {func_desc}\n"
 
             if func_params:
-                prompt += f"参数: {json.dumps(func_params, ensure_ascii=False, indent=2)}\n"
+                prompt += (
+                    f"参数: {json.dumps(func_params, ensure_ascii=False, indent=2)}\n"
+                )
 
             prompt += "\n"
 
@@ -251,11 +278,11 @@ class BFCLEvaluator:
         """从响应中提取函数调用"""
         try:
             # 尝试直接解析JSON
-            if response.strip().startswith('[') and response.strip().endswith(']'):
+            if response.strip().startswith("[") and response.strip().endswith("]"):
                 return json.loads(response.strip())
 
             # 使用正则表达式查找JSON数组
-            json_pattern = r'\[.*?\]'
+            json_pattern = r"\[.*?\]"
             matches = re.findall(json_pattern, response, re.DOTALL)
 
             for match in matches:
@@ -284,7 +311,9 @@ class BFCLEvaluator:
         except Exception:
             return []
 
-    def _evaluate_ast_matching(self, predicted: List[Dict], expected: List) -> tuple[bool, float]:
+    def _evaluate_ast_matching(
+        self, predicted: List[Dict], expected: List
+    ) -> tuple[bool, float]:
         """AST匹配评估
 
         支持两种ground truth格式：
@@ -307,7 +336,9 @@ class BFCLEvaluator:
             print(f"   ⚠️ 评估出错: {e}")
             return False, 0.0
 
-    def _evaluate_bfcl_v4_format(self, predicted: List[Dict], expected: List[Dict]) -> tuple[bool, float]:
+    def _evaluate_bfcl_v4_format(
+        self, predicted: List[Dict], expected: List[Dict]
+    ) -> tuple[bool, float]:
         """评估BFCL v4格式的ground truth
 
         BFCL v4格式：
@@ -370,12 +401,16 @@ class BFCLEvaluator:
                         return False
             else:
                 # 单个值比较
-                if pred_value != expected_values and str(pred_value) != str(expected_values):
+                if pred_value != expected_values and str(pred_value) != str(
+                    expected_values
+                ):
                     return False
 
         return True
 
-    def _evaluate_string_format(self, predicted: List[Dict], expected: List[str]) -> tuple[bool, float]:
+    def _evaluate_string_format(
+        self, predicted: List[Dict], expected: List[str]
+    ) -> tuple[bool, float]:
         """评估字符串格式的ground truth（旧版）"""
         # 将预测结果转换为字符串形式
         predicted_strs = []
@@ -412,14 +447,16 @@ class BFCLEvaluator:
         """比较两个函数调用字符串是否在AST层面匹配"""
         try:
             # 尝试解析为AST并比较
-            pred_ast = ast.parse(pred, mode='eval')
-            exp_ast = ast.parse(expected, mode='eval')
+            pred_ast = ast.parse(pred, mode="eval")
+            exp_ast = ast.parse(expected, mode="eval")
             return ast.dump(pred_ast) == ast.dump(exp_ast)
         except:
             # 如果AST解析失败，使用字符串相似度
             return pred.strip() == expected.strip()
 
-    def _evaluate_execution(self, predicted: List[Dict], expected: List[str], functions: List[Dict]) -> tuple[bool, float]:
+    def _evaluate_execution(
+        self, predicted: List[Dict], expected: List[str], functions: List[Dict]
+    ) -> tuple[bool, float]:
         """执行评估（简化版本）"""
         # 这里实现简化的执行评估
         # 在实际应用中，需要安全的代码执行环境
@@ -429,7 +466,7 @@ class BFCLEvaluator:
         self,
         results: Dict[str, Any],
         output_path: Union[str, Path],
-        include_inference_log: bool = True
+        include_inference_log: bool = True,
     ) -> None:
         """导出评估结果为BFCL官方格式
 
@@ -472,14 +509,16 @@ class BFCLEvaluator:
 
                     # 构建函数调用字符串
                     if args:
-                        args_str = ", ".join([f"{k}={repr(v)}" for k, v in args.items()])
+                        args_str = ", ".join(
+                            [f"{k}={repr(v)}" for k, v in args.items()]
+                        )
                         result_string = f"{func_name}({args_str})"
                     else:
                         result_string = f"{func_name}()"
 
             bfcl_item = {
                 "id": detail.get("sample_id", ""),
-                "result": result_string  # BFCL期望的是单个字符串
+                "result": result_string,  # BFCL期望的是单个字符串
             }
 
             # 添加推理日志（如果需要）
@@ -489,15 +528,15 @@ class BFCLEvaluator:
 
                 bfcl_item["inference_log"] = [
                     {"role": "user", "content": question},
-                    {"role": "assistant", "content": response}
+                    {"role": "assistant", "content": response},
                 ]
 
             bfcl_results.append(bfcl_item)
 
         # 写入JSONL格式（每行一个JSON对象）
-        with open(output_path, 'w', encoding='utf-8') as f:
+        with open(output_path, "w", encoding="utf-8") as f:
             for item in bfcl_results:
-                f.write(json.dumps(item, ensure_ascii=False) + '\n')
+                f.write(json.dumps(item, ensure_ascii=False) + "\n")
 
         print(f"\n✅ BFCL格式结果已导出")
         print(f"   输出文件: {output_path}")
@@ -509,5 +548,6 @@ class BFCLEvaluator:
         print(f"   1. 安装: pip install bfcl-eval")
         print(f"   2. 设置环境变量: export BFCL_PROJECT_ROOT=.")
         print(f"   3. 将结果文件复制到: result/HelloAgents/")
-        print(f"   4. 运行评估: bfcl evaluate --model HelloAgents --test-category {self.category}")
-
+        print(
+            f"   4. 运行评估: bfcl evaluate --model HelloAgents --test-category {self.category}"
+        )

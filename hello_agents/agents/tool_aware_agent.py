@@ -146,9 +146,9 @@ class ToolAwareSimpleAgent(SimpleAgent):
                         in_string = False
 
                 if not in_string:
-                    if char == '[':
+                    if char == "[":
                         depth += 1
-                    elif char == ']':
+                    elif char == "]":
                         if depth == 0:
                             body = text[body_start:pos].strip()
                             original = text[begin : pos + 1]
@@ -204,9 +204,9 @@ class ToolAwareSimpleAgent(SimpleAgent):
                     in_string = False
 
             if not in_string:
-                if char == '[':
+                if char == "[":
                     depth += 1
-                elif char == ']':
+                elif char == "]":
                     if depth == 0:
                         return pos
                     depth -= 1
@@ -216,7 +216,9 @@ class ToolAwareSimpleAgent(SimpleAgent):
         return -1
 
     @staticmethod
-    def attach_registry(agent: "ToolAwareSimpleAgent", registry: ToolRegistry | None) -> None:
+    def attach_registry(
+        agent: "ToolAwareSimpleAgent", registry: ToolRegistry | None
+    ) -> None:
         """Helper to attach a tool registry if provided.
 
         Args:
@@ -259,7 +261,11 @@ class ToolAwareSimpleAgent(SimpleAgent):
                         sanitized[key] = parsed_tags
                         continue
                     if normalized:
-                        sanitized[key] = [item.strip() for item in normalized.split(",") if item.strip()]
+                        sanitized[key] = [
+                            item.strip()
+                            for item in normalized.split(",")
+                            if item.strip()
+                        ]
                         continue
 
                 if key in {"note_type", "action", "title", "content", "note_id"}:
@@ -293,8 +299,8 @@ class ToolAwareSimpleAgent(SimpleAgent):
         if trimmed and trimmed[0] in {'"', "'"} and trimmed[-1] == trimmed[0]:
             trimmed = trimmed[1:-1]
 
-        if trimmed and trimmed[0] in {'[', '('} and trimmed[-1] not in {']', ')'}:
-            closing = ']' if trimmed[0] == '[' else ')'
+        if trimmed and trimmed[0] in {"[", "("} and trimmed[-1] not in {"]", ")"}:
+            closing = "]" if trimmed[0] == "[" else ")"
             trimmed = f"{trimmed}{closing}"
 
         return trimmed.strip()
@@ -337,7 +343,11 @@ class ToolAwareSimpleAgent(SimpleAgent):
                 while True:
                     start = residual.find(marker)
                     if start == -1:
-                        safe_len = len(residual) if final_pass else max(0, len(residual) - (len(marker) - 1))
+                        safe_len = (
+                            len(residual)
+                            if final_pass
+                            else max(0, len(residual) - (len(marker) - 1))
+                        )
                         if safe_len > 0:
                             segment = residual[:safe_len]
                             residual = residual[safe_len:]
@@ -389,7 +399,9 @@ class ToolAwareSimpleAgent(SimpleAgent):
 
                 tool_results = []
                 for call in tool_calls:
-                    result = self._execute_tool_call(call["tool_name"], call["parameters"])
+                    result = self._execute_tool_call(
+                        call["tool_name"], call["parameters"]
+                    )
                     tool_results.append(result)
 
                 tool_results_text = "\n\n".join(tool_results)
@@ -450,4 +462,3 @@ class ToolAwareSimpleAgent(SimpleAgent):
                     return parsed
 
         return None
-

@@ -44,7 +44,9 @@ class FunctionCallAgent(Agent):
 
     def _get_system_prompt(self) -> str:
         """构建系统提示词，注入工具描述"""
-        base_prompt = self.system_prompt or "你是一个可靠的AI助理，能够在需要时调用工具完成任务。"
+        base_prompt = (
+            self.system_prompt or "你是一个可靠的AI助理，能够在需要时调用工具完成任务。"
+        )
 
         if not self.enable_tool_calling or not self.tool_registry:
             return base_prompt
@@ -54,7 +56,9 @@ class FunctionCallAgent(Agent):
             return base_prompt
 
         prompt = base_prompt + "\n\n## 可用工具\n"
-        prompt += "当你判断需要外部信息或执行动作时，可以直接通过函数调用使用以下工具：\n"
+        prompt += (
+            "当你判断需要外部信息或执行动作时，可以直接通过函数调用使用以下工具：\n"
+        )
         prompt += tools_description + "\n"
         prompt += "\n请主动决定是否调用工具，合理利用多次调用来获得完备答案。"
         return prompt
@@ -78,7 +82,7 @@ class FunctionCallAgent(Agent):
             for param in parameters:
                 properties[param.name] = {
                     "type": _map_parameter_type(param.type),
-                    "description": param.description or ""
+                    "description": param.description or "",
                 }
                 if param.default is not None:
                     properties[param.name]["default"] = param.default
@@ -90,11 +94,8 @@ class FunctionCallAgent(Agent):
                 "function": {
                     "name": tool.name,
                     "description": tool.description or "",
-                    "parameters": {
-                        "type": "object",
-                        "properties": properties
-                    }
-                }
+                    "parameters": {"type": "object", "properties": properties},
+                },
             }
             if required:
                 schema["function"]["parameters"]["required"] = required
@@ -112,14 +113,11 @@ class FunctionCallAgent(Agent):
                         "parameters": {
                             "type": "object",
                             "properties": {
-                                "input": {
-                                    "type": "string",
-                                    "description": "输入文本"
-                                }
+                                "input": {"type": "string", "description": "输入文本"}
                             },
-                            "required": ["input"]
-                        }
-                    }
+                            "required": ["input"],
+                        },
+                    },
                 }
             )
 
@@ -155,7 +153,9 @@ class FunctionCallAgent(Agent):
         except json.JSONDecodeError:
             return {}
 
-    def _convert_parameter_types(self, tool_name: str, param_dict: dict[str, Any]) -> dict[str, Any]:
+    def _convert_parameter_types(
+        self, tool_name: str, param_dict: dict[str, Any]
+    ) -> dict[str, Any]:
         """根据工具定义尽可能转换参数类型"""
         if not self.tool_registry:
             return param_dict
@@ -223,7 +223,13 @@ class FunctionCallAgent(Agent):
 
         return f"❌ 错误：未找到工具 '{tool_name}'"
 
-    def _invoke_with_tools(self, messages: list[dict[str, Any]], tools: list[dict[str, Any]], tool_choice: Union[str, dict], **kwargs):
+    def _invoke_with_tools(
+        self,
+        messages: list[dict[str, Any]],
+        tools: list[dict[str, Any]],
+        tool_choice: Union[str, dict],
+        **kwargs,
+    ):
         """调用底层OpenAI客户端执行函数调用"""
         client = getattr(self.llm, "_client", None)
         if client is None:
@@ -269,8 +275,14 @@ class FunctionCallAgent(Agent):
             self.add_message(Message(response_text, "assistant"))
             return response_text
 
-        iterations_limit = max_tool_iterations if max_tool_iterations is not None else self.max_tool_iterations
-        effective_tool_choice: Union[str, dict] = tool_choice if tool_choice is not None else self.default_tool_choice
+        iterations_limit = (
+            max_tool_iterations
+            if max_tool_iterations is not None
+            else self.max_tool_iterations
+        )
+        effective_tool_choice: Union[str, dict] = (
+            tool_choice if tool_choice is not None else self.default_tool_choice
+        )
 
         current_iteration = 0
         final_response = ""
@@ -289,7 +301,10 @@ class FunctionCallAgent(Agent):
             tool_calls = list(assistant_message.tool_calls or [])
 
             if tool_calls:
-                assistant_payload: dict[str, Any] = {"role": "assistant", "content": content}
+                assistant_payload: dict[str, Any] = {
+                    "role": "assistant",
+                    "content": content,
+                }
                 assistant_payload["tool_calls"] = []
 
                 for tool_call in tool_calls:
@@ -307,7 +322,9 @@ class FunctionCallAgent(Agent):
 
                 for tool_call in tool_calls:
                     tool_name = tool_call.function.name
-                    arguments = self._parse_function_call_arguments(tool_call.function.arguments)
+                    arguments = self._parse_function_call_arguments(
+                        tool_call.function.arguments
+                    )
                     result = self._execute_tool_call(tool_name, arguments)
                     messages.append(
                         {
@@ -332,7 +349,9 @@ class FunctionCallAgent(Agent):
                 tool_choice="none",
                 **kwargs,
             )
-            final_response = self._extract_message_content(final_choice.choices[0].message.content)
+            final_response = self._extract_message_content(
+                final_choice.choices[0].message.content
+            )
             messages.append({"role": "assistant", "content": final_response})
 
         self.add_message(Message(input_text, "user"))
@@ -352,7 +371,9 @@ class FunctionCallAgent(Agent):
             if expanded_tools:
                 for expanded_tool in expanded_tools:
                     self.tool_registry.register_tool(expanded_tool)
-                print(f"✅ MCP工具 '{tool.name}' 已展开为 {len(expanded_tools)} 个独立工具")
+                print(
+                    f"✅ MCP工具 '{tool.name}' 已展开为 {len(expanded_tools)} 个独立工具"
+                )
                 return
 
         self.tool_registry.register_tool(tool)

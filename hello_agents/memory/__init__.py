@@ -25,19 +25,16 @@ from .base import MemoryItem, MemoryConfig, BaseMemory
 __all__ = [
     # Core Layer
     "MemoryManager",
-
     # Memory Types
     "WorkingMemory",
     "EpisodicMemory",
     "SemanticMemory",
     "PerceptualMemory",
-
     # Storage Layer
     "DocumentStore",
     "SQLiteDocumentStore",
-
     # Base
     "MemoryItem",
     "MemoryConfig",
-    "BaseMemory"
+    "BaseMemory",
 ]
