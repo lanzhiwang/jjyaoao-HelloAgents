@@ -1,14 +1,14 @@
-# 奖励函数API文档
+# 奖励函数 API 文档
 
 ## 概述
 
-`hello_agents.rl.rewards` 模块提供了用于强化学习训练的奖励函数. 奖励函数用于评估模型生成的答案质量,是GRPO等RL算法的核心组件. 
+`hello_agents.rl.rewards` 模块提供了用于强化学习训练的奖励函数. 奖励函数用于评估模型生成的答案质量, 是 GRPO 等 RL 算法的核心组件.
 
 ## 核心类
 
 ### MathRewardFunction
 
-数学任务奖励函数的基类,提供答案提取和比较功能. 
+数学任务奖励函数的基类, 提供答案提取和比较功能.
 
 ```python
 from hello_agents.rl.rewards import MathRewardFunction
@@ -23,15 +23,15 @@ class CustomReward(MathRewardFunction):
 
 ##### `extract_answer(text)`
 
-从文本中提取最终答案. 
+从文本中提取最终答案.
 
-**参数**:
-- **text** (`str`): 包含答案的文本
+参数:
+- text (`str`): 包含答案的文本
 
-**返回**: 提取的答案字符串,如果未找到则返回 `None`
+返回: 提取的答案字符串, 如果未找到则返回 `None`
 
-**支持的格式**:
-- `#### 42` (GSM8K标准格式)
+支持的格式:
+- `#### 42` (GSM8K 标准格式)
 - `答案是 42`
 - `最终答案: 42`
 - `= 42`
@@ -44,15 +44,15 @@ print(answer)  # "42"
 
 ##### `compare_answers(pred, truth)`
 
-比较预测答案和真实答案是否相等. 
+比较预测答案和真实答案是否相等.
 
-**参数**:
-- **pred** (`str`): 预测答案
-- **truth** (`str`): 真实答案
+参数:
+- pred (`str`): 预测答案
+- truth (`str`): 真实答案
 
-**返回**: `True` 如果答案相等,否则 `False`
+返回: `True` 如果答案相等, 否则 `False`
 
-**比较规则**:
+比较规则:
 - 去除空格
 - 转换为小写
 - 数值比较(支持整数和浮点数)
@@ -65,19 +65,19 @@ print(is_correct)  # True
 
 ##### `__call__(completions, **kwargs)`
 
-计算奖励值. 子类需要实现此方法. 
+计算奖励值. 子类需要实现此方法.
 
-**参数**:
-- **completions** (`List[str]`): 模型生成的答案列表
-- **kwargs**: 其他参数,通常包含 `ground_truth`
+参数:
+- completions (`List[str]`): 模型生成的答案列表
+- kwargs: 其他参数, 通常包含 `ground_truth`
 
-**返回**: 奖励值列表 (`List[float]`)
+返回: 奖励值列表 (`List[float]`)
 
 ## 内置奖励函数
 
 ### AccuracyReward
 
-基于准确率的奖励函数,正确答案得1分,错误答案得0分. 
+基于准确率的奖励函数, 正确答案得 1 分, 错误答案得 0 分.
 
 ```python
 from hello_agents.rl.rewards import AccuracyReward
@@ -94,12 +94,12 @@ print(rewards)  # [1.0, 0.0]
 
 - ✅ 简单直观
 - ✅ 适合分类任务
-- ✅ 奖励值为0或1
+- ✅ 奖励值为 0 或 1
 - ❌ 无法区分部分正确
 
 ### LengthPenaltyReward
 
-带长度惩罚的奖励函数,鼓励生成简洁的答案. 
+带长度惩罚的奖励函数, 鼓励生成简洁的答案.
 
 ```python
 from hello_agents.rl.rewards import LengthPenaltyReward, AccuracyReward
@@ -111,16 +111,16 @@ reward_fn = LengthPenaltyReward(
 )
 
 rewards = reward_fn(
-    completions=["答案是 42", "经过复杂计算,最终答案是 42"],
+    completions=["答案是 42", "经过复杂计算, 最终答案是 42"],
     ground_truth=["42", "42"]
 )
-# 第二个答案虽然正确,但因为更长所以奖励更低
+# 第二个答案虽然正确, 但因为更长所以奖励更低
 ```
 
 #### 参数
 
-- **base_reward_fn**: 基础奖励函数
-- **penalty_weight** (`float`, 可选): 惩罚权重, 默认 `0.001`
+- base_reward_fn: 基础奖励函数
+- penalty_weight (`float`, 可选): 惩罚权重, 默认 `0.001`
 
 #### 奖励计算
 
@@ -132,11 +132,11 @@ reward = base_reward - penalty_weight * len(completion)
 
 - ✅ 鼓励简洁答案
 - ✅ 避免冗长输出
-- ⚠️ 需要调整penalty_weight
+- ⚠️ 需要调整 penalty_weight
 
 ### StepReward
 
-带步骤奖励的奖励函数,鼓励生成详细的推理步骤. 
+带步骤奖励的奖励函数, 鼓励生成详细的推理步骤.
 
 ```python
 from hello_agents.rl.rewards import StepReward, AccuracyReward
@@ -159,8 +159,8 @@ rewards = reward_fn(
 
 #### 参数
 
-- **base_reward_fn**: 基础奖励函数
-- **step_bonus** (`float`, 可选): 每个步骤的奖励, 默认 `0.1`
+- base_reward_fn: 基础奖励函数
+- step_bonus (`float`, 可选): 每个步骤的奖励, 默认 `0.1`
 
 #### 奖励计算
 
@@ -186,7 +186,7 @@ reward = base_reward + step_bonus * num_steps
 
 ### create_accuracy_reward
 
-创建准确率奖励函数. 
+创建准确率奖励函数.
 
 ```python
 from hello_agents.rl import create_accuracy_reward
@@ -211,7 +211,7 @@ print(rewards)  # [1.0, 0.0, 1.0]
 
 ### create_length_penalty_reward
 
-创建带长度惩罚的奖励函数. 
+创建带长度惩罚的奖励函数.
 
 ```python
 from hello_agents.rl import create_length_penalty_reward, create_accuracy_reward
@@ -225,8 +225,8 @@ reward_fn = create_length_penalty_reward(
 
 #### 参数
 
-- **base_reward_fn**: 基础奖励函数
-- **penalty_weight** (`float`, 可选): 惩罚权重, 默认 `0.001`
+- base_reward_fn: 基础奖励函数
+- penalty_weight (`float`, 可选): 惩罚权重, 默认 `0.001`
 
 #### 返回
 
@@ -242,12 +242,12 @@ rewards = reward_fn(
     completions=["42", "答案是42"],
     ground_truth=["42", "42"]
 )
-# 第一个答案更短,奖励更高
+# 第一个答案更短, 奖励更高
 ```
 
 ### create_step_reward
 
-创建带步骤奖励的奖励函数. 
+创建带步骤奖励的奖励函数.
 
 ```python
 from hello_agents.rl import create_step_reward, create_accuracy_reward
@@ -261,8 +261,8 @@ reward_fn = create_step_reward(
 
 #### 参数
 
-- **base_reward_fn**: 基础奖励函数
-- **step_bonus** (`float`, 可选): 每个步骤的奖励, 默认 `0.1`
+- base_reward_fn: 基础奖励函数
+- step_bonus (`float`, 可选): 每个步骤的奖励, 默认 `0.1`
 
 #### 返回
 
@@ -281,12 +281,12 @@ rewards = reward_fn(
     ],
     ground_truth=["42", "42"]
 )
-# 第二个答案有步骤,奖励更高
+# 第二个答案有步骤, 奖励更高
 ```
 
 ### evaluate_rewards
 
-评估奖励函数的性能. 
+评估奖励函数的性能.
 
 ```python
 from hello_agents.rl import evaluate_rewards
@@ -300,9 +300,9 @@ stats = evaluate_rewards(
 
 #### 参数
 
-- **reward_fn**: 奖励函数
-- **completions** (`List[str]`): 生成的答案列表
-- **ground_truths** (`List[str]`): 真实答案列表
+- reward_fn: 奖励函数
+- completions (`List[str]`): 生成的答案列表
+- ground_truths (`List[str]`): 真实答案列表
 
 #### 返回
 
@@ -311,7 +311,7 @@ stats = evaluate_rewards(
 - `std`: 标准差
 - `min`: 最小奖励
 - `max`: 最大奖励
-- `accuracy`: 准确率(奖励>0的比例)
+- `accuracy`: 准确率(奖励 >0 的比例)
 
 #### 示例
 
@@ -344,19 +344,19 @@ class CustomReward(MathRewardFunction):
     def __call__(self, completions: List[str], **kwargs) -> List[float]:
         ground_truths = kwargs.get("ground_truth", [])
         rewards = []
-        
+
         for completion, truth in zip(completions, ground_truths):
             # 提取答案
             pred = self.extract_answer(completion)
-            
+
             # 计算奖励
             if pred and self.compare_answers(pred, truth):
                 reward = 1.0
             else:
                 reward = 0.0
-            
+
             rewards.append(reward)
-        
+
         return rewards
 ```
 
@@ -365,16 +365,16 @@ class CustomReward(MathRewardFunction):
 ```python
 class DetailedReward(MathRewardFunction):
     """综合考虑准确率、长度和步骤的奖励函数"""
-    
+
     def __init__(self, length_weight=0.001, step_bonus=0.1):
         super().__init__()
         self.length_weight = length_weight
         self.step_bonus = step_bonus
-    
+
     def __call__(self, completions: List[str], **kwargs) -> List[float]:
         ground_truths = kwargs.get("ground_truth", [])
         rewards = []
-        
+
         for completion, truth in zip(completions, ground_truths):
             # 基础准确率奖励
             pred = self.extract_answer(completion)
@@ -382,18 +382,18 @@ class DetailedReward(MathRewardFunction):
                 reward = 1.0
             else:
                 reward = 0.0
-            
+
             # 长度惩罚
             reward -= self.length_weight * len(completion)
-            
+
             # 步骤奖励
             num_steps = self._count_steps(completion)
             reward += self.step_bonus * num_steps
-            
+
             rewards.append(reward)
-        
+
         return rewards
-    
+
     def _count_steps(self, text: str) -> int:
         """计算推理步骤数"""
         import re
@@ -412,18 +412,18 @@ class DetailedReward(MathRewardFunction):
 
 ### 选择合适的奖励函数
 
-**准确率任务**:
+准确率任务:
 ```python
 reward_fn = create_accuracy_reward()
 ```
 
-**需要简洁答案**:
+需要简洁答案:
 ```python
 base_fn = create_accuracy_reward()
 reward_fn = create_length_penalty_reward(base_fn, penalty_weight=0.001)
 ```
 
-**需要详细推理**:
+需要详细推理:
 ```python
 base_fn = create_accuracy_reward()
 reward_fn = create_step_reward(base_fn, step_bonus=0.1)
@@ -431,12 +431,12 @@ reward_fn = create_step_reward(base_fn, step_bonus=0.1)
 
 ### 调整奖励参数
 
-**长度惩罚权重**:
+长度惩罚权重:
 - 太小(0.0001): 几乎无效果
 - 适中(0.001): 平衡准确率和长度
-- 太大(0.01): 过度惩罚,可能影响准确率
+- 太大(0.01): 过度惩罚, 可能影响准确率
 
-**步骤奖励**:
+步骤奖励:
 - 太小(0.01): 激励不足
 - 适中(0.1): 鼓励详细推理
 - 太大(1.0): 可能导致过度冗长
@@ -445,7 +445,7 @@ reward_fn = create_step_reward(base_fn, step_bonus=0.1)
 
 ### Q: 奖励函数的签名为什么是 `**kwargs`?
 
-A: 为了兼容TRL库的接口,奖励函数需要接受可变参数. `ground_truth` 通过kwargs传递. 
+A: 为了兼容 TRL 库的接口, 奖励函数需要接受可变参数. `ground_truth` 通过 kwargs 传递.
 
 ### Q: 如何调试奖励函数?
 
@@ -466,7 +466,6 @@ A: 取决于奖励函数:
 
 ## 相关文档
 
-- [数据集API](datasets.md)
-- [训练器API](trainers.md)
-- [RLTrainingTool文档](rl_training_tool.md)
-
+- [数据集 API](datasets.md)
+- [训练器 API](trainers.md)
+- [RLTrainingTool 文档](rl_training_tool.md)

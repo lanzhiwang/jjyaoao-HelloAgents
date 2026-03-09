@@ -1,4 +1,4 @@
-"""RL训练工具函数"""
+"""RL 训练工具函数"""
 
 import os
 from typing import Optional, Dict, Any
@@ -25,7 +25,7 @@ class TrainingConfig:
     save_steps: int = 500
     eval_steps: int = 500
 
-    # RL特定配置
+    # RL 特定配置
     max_new_tokens: int = 512
     temperature: float = 0.7
     top_p: float = 0.9
@@ -35,7 +35,7 @@ class TrainingConfig:
     use_bf16: bool = False
     gradient_checkpointing: bool = True
 
-    # LoRA配置
+    # LoRA 配置
     use_lora: bool = True
     lora_r: int = 16
     lora_alpha: int = 32
@@ -85,7 +85,7 @@ def setup_training_environment(config: TrainingConfig) -> None:
     # 设置环境变量
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
-    # 设置wandb配置
+    # 设置 wandb 配置
     if config.use_wandb:
         if config.wandb_project:
             os.environ["WANDB_PROJECT"] = config.wandb_project
@@ -99,10 +99,10 @@ def setup_training_environment(config: TrainingConfig) -> None:
 
 def check_trl_installation() -> bool:
     """
-    检查TRL是否已安装
+    检查 TRL 是否已安装
 
     Returns:
-        是否已安装TRL
+        是否已安装 TRL
     """
     try:
         import trl
@@ -114,31 +114,31 @@ def check_trl_installation() -> bool:
 
 def get_installation_guide() -> str:
     """
-    获取TRL安装指南
+    获取 TRL 安装指南
 
     Returns:
         安装指南文本
     """
     return """
-TRL (Transformer Reinforcement Learning) 未安装. 
+TRL (Transformer Reinforcement Learning) 未安装.
 
-请使用以下命令安装: 
+请使用以下命令安装:
 
-方式1: 安装HelloAgents的RL功能(推荐)
+方式1: 安装 HelloAgents 的 RL 功能(推荐)
     pip install hello-agents[rl]
 
-方式2: 单独安装TRL
+方式2: 单独安装 TRL
     pip install trl
 
 方式3: 从源码安装最新版本
     pip install git+https://github.com/huggingface/trl.git
 
-安装完成后, 您可以使用以下功能: 
-- SFT训练(监督微调)
-- GRPO训练(群体相对策略优化)
-- PPO训练(近端策略优化)
-- DPO训练(直接偏好优化)
-- Reward Model训练
+安装完成后, 您可以使用以下功能:
+- SFT 训练(监督微调)
+- GRPO 训练(群体相对策略优化)
+- PPO 训练(近端策略优化)
+- DPO 训练(直接偏好优化)
+- Reward Model 训练
 
 更多信息请访问: https://huggingface.co/docs/trl
 """

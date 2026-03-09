@@ -1,4 +1,4 @@
-"""RL训练数据集"""
+"""RL 训练数据集"""
 
 from typing import Dict, Any, List, Optional
 from datasets import load_dataset, Dataset
@@ -7,10 +7,10 @@ from trl import apply_chat_template
 
 
 class GSM8KDataset:
-    """GSM8K数学推理数据集
+    """GSM8K 数学推理数据集
 
-    GSM8K (Grade School Math 8K) 是一个包含8500个高质量小学数学问题的数据集. 
-    每个问题都需要2-8步的推理过程来解决. 
+    GSM8K (Grade School Math 8K) 是一个包含 8500 个高质量小学数学问题的数据集.
+    每个问题都需要 2-8 步的推理过程来解决.
     """
 
     def __init__(
@@ -18,16 +18,16 @@ class GSM8KDataset:
         split: str = "train",
         max_samples: Optional[int] = None,
         format_type: str = "sft",  # "sft" or "rl"
-        tokenizer=None,  # 用于RL格式应用chat template
+        tokenizer=None,  # 用于 RL 格式应用 chat template
     ):
         """
-        初始化GSM8K数据集
+        初始化 GSM8K 数据集
 
         Args:
             split: 数据集分割 ("train" 或 "test")
             max_samples: 最大样本数(用于快速测试)
             format_type: 数据格式类型 ("sft" 用于监督学习, "rl" 用于强化学习)
-            tokenizer: Tokenizer对象,用于RL格式应用chat template
+            tokenizer: Tokenizer 对象, 用于 RL 格式应用 chat template
         """
         self.split = split
         self.max_samples = max_samples
@@ -47,7 +47,7 @@ class GSM8KDataset:
 
     def format_for_sft(self, example: Dict[str, Any]) -> Dict[str, str]:
         """
-        格式化为SFT训练格式
+        格式化为 SFT 训练格式
 
         Args:
             example: 原始数据样本
@@ -58,7 +58,7 @@ class GSM8KDataset:
         question = example["question"]
         answer = example["answer"]
 
-        # 提取最终答案(GSM8K的答案格式为: 推理过程\n#### 最终答案)
+        # 提取最终答案(GSM8K 的答案格式为: 推理过程\n#### 最终答案)
         if "####" in answer:
             reasoning, final_answer = answer.split("####")
             reasoning = reasoning.strip()
@@ -67,26 +67,26 @@ class GSM8KDataset:
             reasoning = answer
             final_answer = ""
 
-        # 构造prompt和completion
+        # 构造 prompt 和 completion
         prompt = f"Question: {question}\n\nLet's solve this step by step:\n"
         completion = f"{reasoning}\n\nFinal Answer: {final_answer}"
 
         return {
             "prompt": prompt,
             "completion": completion,
-            "text": prompt + completion,  # 用于某些trainer
+            "text": prompt + completion,  # 用于某些 trainer
         }
 
     def format_for_rl(self, example: Dict[str, Any]) -> Dict[str, Any]:
         """
-        格式化为RL训练格式(Standard Format with Chat Template Applied)
+        格式化为 RL 训练格式(Standard Format with Chat Template Applied)
 
         Args:
             example: 原始数据样本
 
         Returns:
-            格式化后的样本, 使用standard format (已应用chat template)
-            - prompt: 应用chat template后的文本字符串
+            格式化后的样本, 使用 standard format (已应用 chat template)
+            - prompt: 应用 chat template 后的文本字符串
             - ground_truth: 正确答案
             - question: 原始问题
             - full_answer: 完整答案
@@ -101,17 +101,17 @@ class GSM8KDataset:
         else:
             final_answer = answer.strip()
 
-        # 构造prompt内容
+        # 构造 prompt 内容
         prompt_content = f"Question: {question}\n\nLet's solve this step by step:"
 
-        # 如果提供了tokenizer,应用chat template
+        # 如果提供了 tokenizer, 应用 chat template
         if self.tokenizer:
             messages = [{"role": "user", "content": prompt_content}]
             prompt_text = self.tokenizer.apply_chat_template(
                 messages, tokenize=False, add_generation_prompt=True
             )
         else:
-            # 如果没有tokenizer,直接使用原始文本
+            # 如果没有 tokenizer, 直接使用原始文本
             prompt_text = prompt_content
 
         return {
@@ -126,7 +126,7 @@ class GSM8KDataset:
         获取格式化后的数据集
 
         Returns:
-            HuggingFace Dataset对象
+            HuggingFace Dataset 对象
         """
         if self.format_type == "sft":
             formatted_dataset = self.dataset.map(
@@ -169,7 +169,7 @@ def create_math_dataset(
         split: 数据集分割
         max_samples: 最大样本数
         format_type: 数据格式类型
-        tokenizer: Tokenizer对象,用于RL格式应用chat template
+        tokenizer: Tokenizer 对象, 用于 RL 格式应用 chat template
 
     Returns:
         格式化后的数据集
@@ -193,21 +193,21 @@ def format_math_dataset(
     将自定义数据集转换为训练格式
 
     Args:
-        dataset: 原始数据集,必须包含 'question' 和 'answer' 字段
+        dataset: 原始数据集, 必须包含 'question' 和 'answer' 字段
         format_type: 格式类型 ("sft" 或 "rl")
-        model_name: 模型名称,用于加载tokenizer
+        model_name: 模型名称, 用于加载 tokenizer
 
     Returns:
         格式化后的数据集
     """
     from transformers import AutoTokenizer
 
-    # 加载tokenizer
+    # 加载 tokenizer
     tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
 
     # 定义格式化函数
     def format_sft_sample(example: Dict[str, Any]) -> Dict[str, str]:
-        """格式化为SFT格式"""
+        """格式化为 SFT 格式"""
         question = example["question"]
         answer = example["answer"]
 
@@ -220,14 +220,14 @@ def format_math_dataset(
             reasoning = answer
             final_answer = ""
 
-        # 构造prompt和completion
+        # 构造 prompt 和 completion
         prompt = f"Question: {question}\n\nLet's solve this step by step:\n"
         completion = f"{reasoning}\n\nFinal Answer: {final_answer}"
 
         return {"prompt": prompt, "completion": completion, "text": prompt + completion}
 
     def format_rl_sample(example: Dict[str, Any]) -> Dict[str, Any]:
-        """格式化为RL格式"""
+        """格式化为 RL 格式"""
         question = example["question"]
         answer = example["answer"]
 
@@ -238,10 +238,10 @@ def format_math_dataset(
         else:
             final_answer = answer.strip()
 
-        # 构造prompt内容
+        # 构造 prompt 内容
         prompt_content = f"Question: {question}\n\nLet's solve this step by step:"
 
-        # 应用chat template
+        # 应用 chat template
         messages = [{"role": "user", "content": prompt_content}]
         prompt_text = tokenizer.apply_chat_template(
             messages, tokenize=False, add_generation_prompt=True
@@ -273,14 +273,14 @@ def create_sft_dataset(
     max_samples: Optional[int] = 1000, split: str = "train"
 ) -> Dataset:
     """
-    创建SFT训练数据集(便捷函数)
+    创建 SFT 训练数据集(便捷函数)
 
     Args:
         max_samples: 最大样本数
         split: 数据集分割
 
     Returns:
-        SFT格式的数据集
+        SFT 格式的数据集
     """
     return create_math_dataset(
         dataset_name="gsm8k", split=split, max_samples=max_samples, format_type="sft"
@@ -293,18 +293,18 @@ def create_rl_dataset(
     model_name: str = "Qwen/Qwen3-0.6B",
 ) -> Dataset:
     """
-    创建RL训练数据集(便捷函数)
+    创建 RL 训练数据集(便捷函数)
 
     Args:
         max_samples: 最大样本数
         split: 数据集分割
-        model_name: 模型名称,用于应用chat template
+        model_name: 模型名称, 用于应用 chat template
 
     Returns:
-        RL格式的数据集(已应用chat template)
+        RL 格式的数据集(已应用 chat template)
     """
-    # 加载tokenizer
-    print(f"📝 加载tokenizer (model={model_name})...")
+    # 加载 tokenizer
+    print(f"📝 加载 tokenizer (model={model_name})...")
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     return create_math_dataset(
@@ -343,10 +343,10 @@ def preview_dataset(dataset: Dataset, num_samples: int = 3) -> None:
 
 # 示例用法
 if __name__ == "__main__":
-    # 创建SFT数据集
+    # 创建 SFT 数据集
     sft_dataset = create_sft_dataset(max_samples=10)
     preview_dataset(sft_dataset, num_samples=2)
 
-    # 创建RL数据集
+    # 创建 RL 数据集
     rl_dataset = create_rl_dataset(max_samples=10)
     preview_dataset(rl_dataset, num_samples=2)

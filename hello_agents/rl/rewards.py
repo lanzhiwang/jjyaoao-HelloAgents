@@ -1,4 +1,4 @@
-"""RL训练奖励函数"""
+"""RL 训练奖励函数"""
 
 import re
 from typing import List, Callable, Dict, Any, Optional
@@ -7,7 +7,7 @@ from typing import List, Callable, Dict, Any, Optional
 class MathRewardFunction:
     """数学问题奖励函数
 
-    用于评估模型生成的数学答案是否正确. 
+    用于评估模型生成的数学答案是否正确.
     """
 
     def __init__(self, tolerance: float = 1e-4):
@@ -28,7 +28,7 @@ class MathRewardFunction:
             text: 生成的文本
 
         Returns:
-            提取的答案字符串, 如果未找到则返回None
+            提取的答案字符串, 如果未找到则返回 None
         """
         # 尝试多种答案格式
         patterns = [
@@ -60,7 +60,7 @@ class MathRewardFunction:
             answer: 答案字符串
 
         Returns:
-            标准化后的数值, 如果无法转换则返回None
+            标准化后的数值, 如果无法转换则返回 None
         """
         if answer is None:
             return None
@@ -108,15 +108,15 @@ class MathRewardFunction:
 
         Args:
             completions: 模型生成的完成文本列表
-            **kwargs: 其他参数,必须包含ground_truth列表
+            **kwargs: 其他参数, 必须包含 ground_truth 列表
 
         Returns:
-            奖励值列表(1.0表示正确, 0.0表示错误)
+            奖励值列表(1.0 表示正确, 0.0 表示错误)
         """
-        # 从kwargs中获取ground_truth
+        # 从 kwargs 中获取 ground_truth
         ground_truths = kwargs.get("ground_truth", [])
         if not ground_truths:
-            raise ValueError("ground_truth必须在数据集中提供")
+            raise ValueError("ground_truth 必须在数据集中提供")
 
         rewards = []
 
@@ -203,7 +203,7 @@ def create_step_reward(base_reward_fn: Callable, step_bonus: float = 0.1) -> Cal
         for reward, completion in zip(base_rewards, completions):
             # 统计推理步骤(简单地统计换行符数量)
             num_steps = completion.count("\n")
-            step_reward = min(step_bonus * num_steps, 0.5)  # 最多0.5的额外奖励
+            step_reward = min(step_bonus * num_steps, 0.5)  # 最多 0.5 的额外奖励
             final_rewards.append(reward + step_reward)
 
         return final_rewards

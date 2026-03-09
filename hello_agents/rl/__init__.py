@@ -1,13 +1,13 @@
-"""强化学习训练模块(第11章: Agentic RL)
+"""强化学习训练模块(第 11 章: Agentic RL)
 
-本模块提供基于TRL的强化学习训练功能, 包括: 
+本模块提供基于 TRL 的强化学习训练功能, 包括:
 - SFT (Supervised Fine-Tuning): 监督微调
 - GRPO (Group Relative Policy Optimization): 群体相对策略优化
 - PPO (Proximal Policy Optimization): 近端策略优化
 - Reward Modeling: 奖励模型训练
 """
 
-# 检查TRL是否可用
+# 检查 TRL 是否可用
 try:
     import trl
 

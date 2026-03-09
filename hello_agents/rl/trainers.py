@@ -1,6 +1,6 @@
-"""RL训练器封装
+"""RL 训练器封装
 
-本模块封装了TRL的各种训练器, 提供统一的接口. 
+本模块封装了 TRL 的各种训练器, 提供统一的接口.
 """
 
 from typing import Optional, Callable, Dict, Any
@@ -14,12 +14,12 @@ try:
     class DetailedLoggingCallback(TrainerCallback):
         """详细日志回调
 
-        在训练过程中输出更详细的日志信息,包括:
-        - Epoch/Step进度
+        在训练过程中输出更详细的日志信息, 包括:
+        - Epoch/Step 进度
         - Loss
         - Learning Rate
         - Reward (GRPO)
-        - KL散度 (GRPO)
+        - KL 散度 (GRPO)
         """
 
         def __init__(self, total_steps: int = None, num_epochs: int = None):
@@ -39,14 +39,14 @@ try:
             if logs is None:
                 return
 
-            # 计算当前epoch
+            # 计算当前 epoch
             if state.epoch is not None:
                 self.current_epoch = int(state.epoch)
 
             # 构建日志消息
             log_parts = []
 
-            # Epoch和Step信息
+            # Epoch 和 Step 信息
             if self.num_epochs:
                 log_parts.append(f"Epoch {self.current_epoch + 1}/{self.num_epochs}")
 
@@ -63,7 +63,7 @@ try:
             if "learning_rate" in logs:
                 log_parts.append(f"LR: {logs['learning_rate']:.2e}")
 
-            # GRPO特定指标
+            # GRPO 特定指标
             if "rewards/mean" in logs:
                 log_parts.append(f"Reward: {logs['rewards/mean']:.4f}")
 
@@ -75,13 +75,13 @@ try:
                 print(" | ".join(log_parts))
 
         def on_epoch_end(self, args, state, control, **kwargs):
-            """Epoch结束回调"""
-            print(f"{'='*80}")
+            """Epoch 结束回调"""
+            print(f"{'=' * 80}")
             print(f"✅ Epoch {self.current_epoch + 1} 完成")
-            print(f"{'='*80}\n")
+            print(f"{'=' * 80}\n")
 
 except ImportError:
-    # 如果transformers未安装,创建一个空的回调类
+    # 如果 transformers 未安装, 创建一个空的回调类
     class DetailedLoggingCallback:
         def __init__(self, *args, **kwargs):
             pass
@@ -97,7 +97,7 @@ class BaseTrainerWrapper:
         Args:
             config: 训练配置
         """
-        # 检查TRL是否安装
+        # 检查 TRL 是否安装
         if not check_trl_installation():
             raise ImportError(get_installation_guide())
 
@@ -107,7 +107,7 @@ class BaseTrainerWrapper:
         self.tokenizer = None
 
     def setup_model(self):
-        """设置模型和tokenizer"""
+        """设置模型和 tokenizer"""
         raise NotImplementedError
 
     def train(self):
@@ -132,12 +132,12 @@ class BaseTrainerWrapper:
 class SFTTrainerWrapper(BaseTrainerWrapper):
     """SFT (Supervised Fine-Tuning) 训练器封装
 
-    用于监督微调, 让模型学会遵循指令和基本的推理格式. 
+    用于监督微调, 让模型学会遵循指令和基本的推理格式.
     """
 
     def __init__(self, config: Optional[TrainingConfig] = None, dataset=None):
         """
-        初始化SFT训练器
+        初始化 SFT 训练器
 
         Args:
             config: 训练配置
@@ -147,12 +147,12 @@ class SFTTrainerWrapper(BaseTrainerWrapper):
         self.dataset = dataset
 
     def setup_model(self):
-        """设置模型和tokenizer"""
+        """设置模型和 tokenizer"""
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
         print(f"📦 加载模型: {self.config.model_name}")
 
-        # 加载tokenizer
+        # 加载 tokenizer
         self.tokenizer = AutoTokenizer.from_pretrained(
             self.config.model_name, trust_remote_code=True
         )
@@ -169,7 +169,7 @@ class SFTTrainerWrapper(BaseTrainerWrapper):
         print("✅ 模型加载完成")
 
     def train(self):
-        """开始SFT训练"""
+        """开始 SFT 训练"""
         from trl import SFTConfig, SFTTrainer
 
         if self.model is None:
@@ -179,7 +179,7 @@ class SFTTrainerWrapper(BaseTrainerWrapper):
             raise ValueError("数据集未设置, 请提供训练数据集")
 
         # 配置训练参数
-        # 确定report_to参数
+        # 确定 report_to 参数
         report_to = []
         if self.config.use_wandb:
             report_to.append("wandb")
@@ -223,15 +223,15 @@ class SFTTrainerWrapper(BaseTrainerWrapper):
             model=self.model,
             args=training_args,
             train_dataset=self.dataset,
-            processing_class=self.tokenizer,  # 新版TRL使用processing_class
+            processing_class=self.tokenizer,  # 新版 TRL 使用 processing_class
             callbacks=[logging_callback],  # 添加回调
         )
 
-        print("\n🚀 开始SFT训练...")
-        print(f"{'='*80}\n")
+        print("\n🚀 开始 SFT 训练...")
+        print(f"{'=' * 80}\n")
         self.trainer.train()
-        print(f"\n{'='*80}")
-        print("✅ SFT训练完成")
+        print(f"\n{'=' * 80}")
+        print("✅ SFT 训练完成")
 
         return self.trainer
 
@@ -239,8 +239,8 @@ class SFTTrainerWrapper(BaseTrainerWrapper):
 class GRPOTrainerWrapper(BaseTrainerWrapper):
     """GRPO (Group Relative Policy Optimization) 训练器封装
 
-    用于强化学习训练, 优化模型的推理能力. 
-    GRPO相比PPO更简单, 不需要Value Model. 
+    用于强化学习训练, 优化模型的推理能力.
+    GRPO 相比 PPO 更简单, 不需要 Value Model.
     """
 
     def __init__(
@@ -250,7 +250,7 @@ class GRPOTrainerWrapper(BaseTrainerWrapper):
         reward_fn: Optional[Callable] = None,
     ):
         """
-        初始化GRPO训练器
+        初始化 GRPO 训练器
 
         Args:
             config: 训练配置
@@ -262,12 +262,12 @@ class GRPOTrainerWrapper(BaseTrainerWrapper):
         self.reward_fn = reward_fn
 
     def setup_model(self):
-        """设置模型和tokenizer"""
+        """设置模型和 tokenizer"""
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
         print(f"📦 加载模型: {self.config.model_name}")
 
-        # 加载tokenizer
+        # 加载 tokenizer
         self.tokenizer = AutoTokenizer.from_pretrained(
             self.config.model_name, trust_remote_code=True
         )
@@ -284,7 +284,7 @@ class GRPOTrainerWrapper(BaseTrainerWrapper):
         print("✅ 模型加载完成")
 
     def train(self):
-        """开始GRPO训练"""
+        """开始 GRPO 训练"""
         from trl import GRPOConfig, GRPOTrainer
 
         if self.model is None:
@@ -294,9 +294,9 @@ class GRPOTrainerWrapper(BaseTrainerWrapper):
             raise ValueError("数据集未设置, 请提供训练数据集")
 
         if self.reward_fn is None:
-            raise ValueError("奖励函数未设置, 请提供reward_fn")
+            raise ValueError("奖励函数未设置, 请提供 reward_fn")
 
-        # 确定report_to参数
+        # 确定 report_to 参数
         report_to = []
         if self.config.use_wandb:
             report_to.append("wandb")
@@ -318,7 +318,7 @@ class GRPOTrainerWrapper(BaseTrainerWrapper):
             fp16=self.config.use_fp16,
             bf16=self.config.use_bf16,
             report_to=report_to,
-            remove_unused_columns=False,  # 保留所有列,包括ground_truth等
+            remove_unused_columns=False,  # 保留所有列, 包括 ground_truth 等
         )
 
         # 计算总步数
@@ -345,11 +345,11 @@ class GRPOTrainerWrapper(BaseTrainerWrapper):
             callbacks=[logging_callback],  # 添加回调
         )
 
-        print("\n🚀 开始GRPO训练...")
-        print(f"{'='*80}\n")
+        print("\n🚀 开始 GRPO 训练...")
+        print(f"{'=' * 80}\n")
         self.trainer.train()
-        print(f"\n{'='*80}")
-        print("✅ GRPO训练完成")
+        print(f"\n{'=' * 80}")
+        print("✅ GRPO 训练完成")
 
         return self.trainer
 
@@ -357,15 +357,15 @@ class GRPOTrainerWrapper(BaseTrainerWrapper):
 class PPOTrainerWrapper(BaseTrainerWrapper):
     """PPO (Proximal Policy Optimization) 训练器封装
 
-    用于强化学习训练, 是经典的RL算法. 
-    相比GRPO, PPO需要额外的Value Model, 但可能获得更好的性能. 
+    用于强化学习训练, 是经典的 RL 算法.
+    相比 GRPO, PPO 需要额外的 Value Model, 但可能获得更好的性能.
     """
 
     def __init__(
         self, config: Optional[TrainingConfig] = None, dataset=None, reward_model=None
     ):
         """
-        初始化PPO训练器
+        初始化 PPO 训练器
 
         Args:
             config: 训练配置
@@ -377,12 +377,12 @@ class PPOTrainerWrapper(BaseTrainerWrapper):
         self.reward_model = reward_model
 
     def setup_model(self):
-        """设置模型和tokenizer"""
+        """设置模型和 tokenizer"""
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
         print(f"📦 加载模型: {self.config.model_name}")
 
-        # 加载tokenizer
+        # 加载 tokenizer
         self.tokenizer = AutoTokenizer.from_pretrained(
             self.config.model_name, trust_remote_code=True
         )
@@ -399,7 +399,7 @@ class PPOTrainerWrapper(BaseTrainerWrapper):
         print("✅ 模型加载完成")
 
     def train(self):
-        """开始PPO训练"""
-        print("⚠️  PPO训练器正在开发中...")
-        print("   建议使用GRPO训练器, 它更简单且性能相近")
-        raise NotImplementedError("PPO训练器尚未实现, 请使用GRPOTrainerWrapper")
+        """开始 PPO 训练"""
+        print("⚠️  PPO 训练器正在开发中...")
+        print("   建议使用 GRPO 训练器, 它更简单且性能相近")
+        raise NotImplementedError("PPO 训练器尚未实现, 请使用 GRPOTrainerWrapper")

@@ -1,8 +1,8 @@
-# RLTrainingTool API文档
+# RLTrainingTool API 文档
 
 ## 概述
 
-`RLTrainingTool` 是HelloAgents框架中用于强化学习训练的统一工具. 它提供了简单易用的接口,支持数据集加载、模型训练、奖励函数创建和模型评估等功能. 
+`RLTrainingTool` 是 HelloAgents 框架中用于强化学习训练的统一工具. 它提供了简单易用的接口, 支持数据集加载、模型训练、奖励函数创建和模型评估等功能.
 
 ## 基本用法
 
@@ -15,12 +15,12 @@ result = tool.run(config)
 
 ## 支持的操作
 
-RLTrainingTool支持4种操作,通过 `action` 参数指定:
+RLTrainingTool 支持 4 种操作, 通过 `action` 参数指定:
 
-1. **train**: 训练模型(SFT或GRPO)
-2. **load_dataset**: 加载数据集
-3. **create_reward**: 创建奖励函数
-4. **evaluate**: 评估模型
+1. train: 训练模型(SFT 或 GRPO)
+2. load_dataset: 加载数据集
+3. create_reward: 创建奖励函数
+4. evaluate: 评估模型
 
 ## 1. 训练模型 (action="train")
 
@@ -28,30 +28,30 @@ RLTrainingTool支持4种操作,通过 `action` 参数指定:
 
 #### 必需参数
 
-- **action** (`str`): 必须为 `"train"`
-- **algorithm** (`str`): 训练算法,可选 `"sft"` 或 `"grpo"`
-- **model_name** (`str`): 模型名称或路径
-- **output_dir** (`str`): 输出目录
+- action (`str`): 必须为 `"train"`
+- algorithm (`str`): 训练算法, 可选 `"sft"` 或 `"grpo"`
+- model_name (`str`): 模型名称或路径
+- output_dir (`str`): 输出目录
 
 #### 可选参数
 
-- **max_samples** (`int`, 可选): 最大样本数, 默认 `None` (使用全部数据)
-- **num_epochs** (`int`, 可选): 训练轮数, 默认 `3`
-- **batch_size** (`int`, 可选): 批次大小, 默认 `4` (SFT) 或 `2` (GRPO)
-- **learning_rate** (`float`, 可选): 学习率, 默认 `2e-5` (SFT) 或 `1e-5` (GRPO)
-- **use_lora** (`bool`, 可选): 是否使用LoRA, 默认 `False`
-- **lora_r** (`int`, 可选): LoRA秩, 默认 `16`
-- **lora_alpha** (`int`, 可选): LoRA alpha, 默认 `32`
-- **lora_dropout** (`float`, 可选): LoRA dropout, 默认 `0.05`
+- max_samples (`int`, 可选): 最大样本数, 默认 `None` (使用全部数据)
+- num_epochs (`int`, 可选): 训练轮数, 默认 `3`
+- batch_size (`int`, 可选): 批次大小, 默认 `4` (SFT) 或 `2` (GRPO)
+- learning_rate (`float`, 可选): 学习率, 默认 `2e-5` (SFT) 或 `1e-5` (GRPO)
+- use_lora (`bool`, 可选): 是否使用 LoRA, 默认 `False`
+- lora_r (`int`, 可选): LoRA 秩, 默认 `16`
+- lora_alpha (`int`, 可选): LoRA alpha, 默认 `32`
+- lora_dropout (`float`, 可选): LoRA dropout, 默认 `0.05`
 
-### SFT训练示例
+### SFT 训练示例
 
 ```python
 from hello_agents.tools import RLTrainingTool
 
 tool = RLTrainingTool()
 
-# 基础SFT训练
+# 基础 SFT 训练
 result = tool.run({
     "action": "train",
     "algorithm": "sft",
@@ -66,10 +66,10 @@ result = tool.run({
 print(result)
 ```
 
-### GRPO训练示例
+### GRPO 训练示例
 
 ```python
-# 基础GRPO训练
+# 基础 GRPO 训练
 result = tool.run({
     "action": "train",
     "algorithm": "grpo",
@@ -87,7 +87,7 @@ print(result)
 ### 完整训练流程
 
 ```python
-# 步骤1: SFT训练
+# 步骤1: SFT 训练
 sft_result = tool.run({
     "action": "train",
     "algorithm": "sft",
@@ -97,11 +97,11 @@ sft_result = tool.run({
     "num_epochs": 3
 })
 
-# 步骤2: GRPO训练(使用SFT模型)
+# 步骤2: GRPO 训练(使用 SFT 模型)
 grpo_result = tool.run({
     "action": "train",
     "algorithm": "grpo",
-    "model_name": "./output/sft",  # 使用SFT训练后的模型
+    "model_name": "./output/sft",  # 使用 SFT 训练后的模型
     "output_dir": "./output/grpo",
     "max_samples": 500,
     "num_epochs": 3
@@ -110,7 +110,7 @@ grpo_result = tool.run({
 
 ### 返回值
 
-训练成功返回JSON字符串:
+训练成功返回 JSON 字符串:
 
 ```json
 {
@@ -128,16 +128,16 @@ grpo_result = tool.run({
 
 ### 参数
 
-- **action** (`str`): 必须为 `"load_dataset"`
-- **format** (`str`, 可选): 数据格式,可选 `"sft"` 或 `"rl"`, 默认 `"sft"`
-- **split** (`str`, 可选): 数据集分割,可选 `"train"` 或 `"test"`, 默认 `"train"`
-- **max_samples** (`int`, 可选): 最大样本数, 默认 `100`
-- **model_name** (`str`, 可选): 模型名称(仅RL格式需要), 默认 `"Qwen/Qwen3-0.6B"`
+- action (`str`): 必须为 `"load_dataset"`
+- format (`str`, 可选): 数据格式, 可选 `"sft"` 或 `"rl"`, 默认 `"sft"`
+- split (`str`, 可选): 数据集分割, 可选 `"train"` 或 `"test"`, 默认 `"train"`
+- max_samples (`int`, 可选): 最大样本数, 默认 `100`
+- model_name (`str`, 可选): 模型名称(仅 RL 格式需要), 默认 `"Qwen/Qwen3-0.6B"`
 
 ### 示例
 
 ```python
-# 加载SFT格式数据集
+# 加载 SFT 格式数据集
 result = tool.run({
     "action": "load_dataset",
     "format": "sft",
@@ -145,7 +145,7 @@ result = tool.run({
     "max_samples": 100
 })
 
-# 加载RL格式数据集
+# 加载 RL 格式数据集
 result = tool.run({
     "action": "load_dataset",
     "format": "rl",
@@ -171,13 +171,13 @@ result = tool.run({
 
 ### 参数
 
-- **action** (`str`): 必须为 `"create_reward"`
-- **reward_type** (`str`): 奖励类型,可选:
+- action (`str`): 必须为 `"create_reward"`
+- reward_type (`str`): 奖励类型, 可选:
   - `"accuracy"`: 准确率奖励
   - `"length_penalty"`: 长度惩罚奖励
   - `"step"`: 步骤奖励
-- **penalty_weight** (`float`, 可选): 长度惩罚权重, 默认 `0.001`
-- **step_bonus** (`float`, 可选): 步骤奖励, 默认 `0.1`
+- penalty_weight (`float`, 可选): 长度惩罚权重, 默认 `0.001`
+- step_bonus (`float`, 可选): 步骤奖励, 默认 `0.1`
 
 ### 示例
 
@@ -209,7 +209,7 @@ result = tool.run({
 {
     "status": "success",
     "reward_type": "accuracy",
-    "description": "准确率奖励函数: 正确答案得1分,错误答案得0分"
+    "description": "准确率奖励函数: 正确答案得 1 分, 错误答案得 0 分"
 }
 ```
 
@@ -217,21 +217,21 @@ result = tool.run({
 
 ### 参数
 
-- **action** (`str`): 必须为 `"evaluate"`
-- **model_path** (`str`): 模型路径
-- **max_samples** (`int`, 可选): 测试样本数, 默认 `100`
+- action (`str`): 必须为 `"evaluate"`
+- model_path (`str`): 模型路径
+- max_samples (`int`, 可选): 测试样本数, 默认 `100`
 
 ### 示例
 
 ```python
-# 评估SFT模型
+# 评估 SFT 模型
 result = tool.run({
     "action": "evaluate",
     "model_path": "./output/sft",
     "max_samples": 100
 })
 
-# 评估GRPO模型
+# 评估 GRPO 模型
 result = tool.run({
     "action": "evaluate",
     "model_path": "./output/grpo",
@@ -279,7 +279,7 @@ dataset_result = tool.run({
 })
 print(dataset_result)
 
-# 2. SFT训练
+# 2. SFT 训练
 print("\n2. SFT训练...")
 sft_result = tool.run({
     "action": "train",
@@ -292,7 +292,7 @@ sft_result = tool.run({
 })
 print(sft_result)
 
-# 3. GRPO训练
+# 3. GRPO 训练
 print("\n3. GRPO训练...")
 grpo_result = tool.run({
     "action": "train",
@@ -319,10 +319,10 @@ print(f"准确率: {eval_data['accuracy']}")
 ### 快速测试
 
 ```python
-# 快速测试(10个样本)
+# 快速测试(10 个样本)
 tool = RLTrainingTool()
 
-# SFT训练
+# SFT 训练
 tool.run({
     "action": "train",
     "algorithm": "sft",
@@ -332,7 +332,7 @@ tool.run({
     "num_epochs": 1
 })
 
-# GRPO训练
+# GRPO 训练
 tool.run({
     "action": "train",
     "algorithm": "grpo",
@@ -364,7 +364,7 @@ print(result)
 }
 ```
 
-**预计时间**: 1-2分钟
+预计时间: 1-2 分钟
 
 ### 小规模训练配置
 
@@ -377,7 +377,7 @@ print(result)
 }
 ```
 
-**预计时间**: 10-20分钟
+预计时间: 10-20 分钟
 
 ### 中等规模训练配置
 
@@ -390,7 +390,7 @@ print(result)
 }
 ```
 
-**预计时间**: 1-2小时
+预计时间: 1-2 小时
 
 ### 完整训练配置
 
@@ -403,13 +403,13 @@ print(result)
 }
 ```
 
-**预计时间**: 5-10小时
+预计时间: 5-10 小时
 
 ## 错误处理
 
 ### 常见错误
 
-**缺少必需参数**:
+缺少必需参数:
 ```json
 {
     "status": "error",
@@ -417,7 +417,7 @@ print(result)
 }
 ```
 
-**不支持的算法**:
+不支持的算法:
 ```json
 {
     "status": "error",
@@ -425,7 +425,7 @@ print(result)
 }
 ```
 
-**模型加载失败**:
+模型加载失败:
 ```json
 {
     "status": "error",
@@ -451,29 +451,29 @@ else:
 
 ### 显存优化
 
-1. **使用LoRA**: `use_lora=True`
-2. **减小批次**: `batch_size=2`
-3. **减少样本**: `max_samples=100`
+1. 使用 LoRA: `use_lora=True`
+2. 减小批次: `batch_size=2`
+3. 减少样本: `max_samples=100`
 
 ### 速度优化
 
-1. **增大批次**: `batch_size=8` (如果显存允许)
-2. **减少轮数**: `num_epochs=1` (快速测试)
-3. **使用GPU**: 自动检测并使用
+1. 增大批次: `batch_size=8` (如果显存允许)
+2. 减少轮数: `num_epochs=1` (快速测试)
+3. 使用 GPU: 自动检测并使用
 
 ## 常见问题
 
 ### Q: 如何查看训练进度?
 
-A: 训练过程会打印进度信息到控制台. 
+A: 训练过程会打印进度信息到控制台.
 
 ### Q: 训练可以中断吗?
 
-A: 可以,使用 Ctrl+C 中断. 模型会保存到output_dir. 
+A: 可以, 使用 Ctrl+C 中断. 模型会保存到 output_dir.
 
 ### Q: 如何使用训练后的模型?
 
-A: 模型保存在output_dir,可以用transformers加载:
+A: 模型保存在 output_dir, 可以用 transformers 加载:
 
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -482,16 +482,15 @@ model = AutoModelForCausalLM.from_pretrained("./output/sft")
 tokenizer = AutoTokenizer.from_pretrained("./output/sft")
 ```
 
-### Q: LoRA和全参数训练有什么区别?
+### Q: LoRA 和全参数训练有什么区别?
 
 A:
-- **LoRA**: 只训练少量参数,显存占用小,速度快
-- **全参数**: 训练所有参数,效果可能更好,但需要更多显存
+- LoRA: 只训练少量参数, 显存占用小, 速度快
+- 全参数: 训练所有参数, 效果可能更好, 但需要更多显存
 
 ## 相关文档
 
-- [数据集API](datasets.md)
-- [奖励函数API](rewards.md)
-- [训练器API](trainers.md)
+- [数据集 API](datasets.md)
+- [奖励函数 API](rewards.md)
+- [训练器 API](trainers.md)
 - [快速开始教程](../../tutorials/quickstart.md)
-
