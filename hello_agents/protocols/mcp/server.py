@@ -1,8 +1,8 @@
 """
 基于 fastmcp 库的 MCP 服务器实现
 
-使用 fastmcp 库实现 Model Context Protocol 服务器功能. 
-fastmcp 是一个快速创建 MCP 服务器的 Python 库. 
+使用 fastmcp 库实现 Model Context Protocol 服务器功能.
+fastmcp 是一个快速创建 MCP 服务器的 Python 库.
 """
 
 from typing import Dict, Any, List, Optional, Callable

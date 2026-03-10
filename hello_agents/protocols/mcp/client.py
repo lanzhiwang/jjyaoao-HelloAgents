@@ -1,16 +1,16 @@
 """
 增强的 MCP 客户端实现
 
-支持多种传输方式的 MCP 客户端, 用于教学和实际应用. 
-这个实现展示了如何使用不同的传输方式连接到 MCP 服务器. 
+支持多种传输方式的 MCP 客户端, 用于教学和实际应用.
+这个实现展示了如何使用不同的传输方式连接到 MCP 服务器.
 
-支持的传输方式: 
+支持的传输方式:
 1. Memory: 内存传输(用于测试, 直接传递 FastMCP 实例)
 2. Stdio: 标准输入输出传输(本地进程, Python/Node.js 脚本)
 3. HTTP: HTTP 传输(远程服务器)
 4. SSE: Server-Sent Events 传输(实时通信)
 
-使用示例: 
+使用示例:
 ```python
 # 1. 内存传输(测试)
 from fastmcp import FastMCP
@@ -72,10 +72,10 @@ class MCPClient:
         **transport_kwargs,
     ):
         """
-        初始化MCP 客户端
+        初始化 MCP 客户端
 
         Args:
-            server_source: 服务器源, 支持多种格式: 
+            server_source: 服务器源, 支持多种格式:
                 - FastMCP 实例: 内存传输(用于测试)
                 - 字符串路径: Python 脚本路径(如 "server.py")
                 - HTTP URL: 远程服务器(如 "https://api.example.com/mcp")
@@ -83,7 +83,7 @@ class MCPClient:
                 - 配置字典: 传输配置
             server_args: 服务器参数列表(可选)
             transport_type: 强制指定传输类型 ("stdio", "http", "sse", "memory")
-            env: 环境变量字典(传递给MCP服务器进程)
+            env: 环境变量字典(传递给 MCP 服务器进程)
             **transport_kwargs: 传输特定的额外参数
 
         Raises:
@@ -91,7 +91,7 @@ class MCPClient:
         """
         if not FASTMCP_AVAILABLE:
             raise ImportError(
-                "Enhanced MCP client requires the 'fastmcp' library (version 2.0+). "
+                "Enhanced MCP client requires the 'fastmcp' library (version 2.0+)."
                 "Install it with: pip install fastmcp>=2.0.0"
             )
 

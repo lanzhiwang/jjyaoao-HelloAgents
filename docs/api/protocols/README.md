@@ -1,16 +1,16 @@
 # HelloAgents 智能体通信协议 API 文档
 
-本目录包含 HelloAgents 框架支持的三种主要智能体通信协议的完整 API 文档和实用案例. 
+本目录包含 HelloAgents 框架支持的三种主要智能体通信协议的完整 API 文档和实用案例.
 
 ## 📋 协议概览
 
-HelloAgents 支持三种核心通信协议, 每种协议都有其特定的应用场景: 
+HelloAgents 支持三种核心通信协议, 每种协议都有其特定的应用场景:
 
-| 协议    | 全称                    | 主要用途           | 实现状态      | 文档链接                    |
-| ------- | ----------------------- | ------------------ | ------------- | --------------------------- |
-| **MCP** | Model Context Protocol  | 工具调用、资源访问 | ✅ 生产就绪    | [MCP 详解](mcp.md)          |
-| **A2A** | Agent-to-Agent Protocol | 智能体间通信协作   | ✅ 基于官方SDK | [A2A 案例](a2a_examples.md) |
-| **ANP** | Agent Network Protocol  | 网络管理、服务发现 | ✅ 概念实现    | [ANP 演示](anp_examples.md) |
+| 协议    | 全称                    | 主要用途           | 实现状态       | 文档链接                    |
+| ------- | ----------------------- | ------------------ | -------------- | --------------------------- |
+| **MCP** | Model Context Protocol  | 工具调用、资源访问 | ✅ 生产就绪     | [MCP 详解](mcp.md)          |
+| **A2A** | Agent-to-Agent Protocol | 智能体间通信协作   | ✅ 基于官方 SDK | [A2A 案例](a2a_examples.md) |
+| **ANP** | Agent Network Protocol  | 网络管理、服务发现 | ✅ 概念实现     | [ANP 演示](anp_examples.md) |
 
 ## 🚀 快速开始
 
@@ -39,7 +39,7 @@ server = FastMCP("my-server")
 @server.tool()
 def greet(name: str) -> str:
     """问候工具"""
-    return f"Hello, {name}! 欢迎使用 MCP 协议. "
+    return f"Hello, {name}! 欢迎使用 MCP 协议."
 
 @server.tool()
 def calculate(expression: str) -> float:
@@ -69,7 +69,7 @@ agent = A2AServer(
 @agent.skill("greet")
 def greet_user(name: str) -> str:
     """问候技能"""
-    return f"你好, {name}! 我是 A2A 智能体. "
+    return f"你好, {name}! 我是 A2A 智能体."
 
 @agent.skill("help")
 def show_help(topic: str = "") -> str:
@@ -116,55 +116,55 @@ print(f"网络状态: {status['health_status']}")
 ## 📚 详细文档
 
 ### 核心协议文档
-- **[MCP 协议详解](mcp.md)** - 完整的 MCP 协议规范、传输方式和最佳实践
-- **[MCP 实战案例](mcp_examples.md)** - 官方服务器使用和自定义服务器开发
-- **[A2A 实战案例](a2a_examples.md)** - 基于官方 SDK 的智能体协作案例
-- **[ANP 概念演示](anp_examples.md)** - 网络管理和服务发现的概念性实现
+- [MCP 协议详解](mcp.md) - 完整的 MCP 协议规范、传输方式和最佳实践
+- [MCP 实战案例](mcp_examples.md) - 官方服务器使用和自定义服务器开发
+- [A2A 实战案例](a2a_examples.md) - 基于官方 SDK 的智能体协作案例
+- [ANP 概念演示](anp_examples.md) - 网络管理和服务发现的概念性实现
 
 ### 实用指南
-- **协议选择指南** - 如何根据需求选择合适的协议
-- **性能优化建议** - 提升协议通信效率的方法
-- **安全最佳实践** - 协议使用中的安全考虑
-- **故障排除指南** - 常见问题和解决方案
+- 协议选择指南 - 如何根据需求选择合适的协议
+- 性能优化建议 - 提升协议通信效率的方法
+- 安全最佳实践 - 协议使用中的安全考虑
+- 故障排除指南 - 常见问题和解决方案
 
 ## 🎯 协议选择指南
 
-### 选择 MCP 当你需要: 
+### 选择 MCP 当你需要:
 - ✅ 集成外部工具和服务(文件系统、数据库、API)
 - ✅ 标准化的工具调用接口
 - ✅ 访问结构化资源和提示词
 - ✅ 与现有 MCP 生态系统兼容
 
-**典型场景**: 文档处理、数据查询、代码分析、系统集成
+典型场景: 文档处理、数据查询、代码分析、系统集成
 
-### 选择 A2A 当你需要: 
+### 选择 A2A 当你需要:
 - ✅ 多个智能体协作完成复杂任务
 - ✅ 实现智能体间的技能共享
 - ✅ 构建工作流自动化系统
 - ✅ 智能体角色分工和协调
 
-**典型场景**: 内容创作团队、客服系统、代码审查流程、教学系统
+典型场景: 内容创作团队、客服系统、代码审查流程、教学系统
 
-### 选择 ANP 当你需要: 
+### 选择 ANP 当你需要:
 - ✅ 管理大规模智能体网络
 - ✅ 实现服务发现和负载均衡
 - ✅ 构建分布式智能体系统
 - ✅ 网络拓扑管理和监控
 
-**典型场景**: 企业级智能体平台、云原生智能体服务、IoT 智能体网络
+典型场景: 企业级智能体平台、云原生智能体服务、IoT 智能体网络
 
 ## 📁 示例代码
 
 ### 完整示例文件
-- **`examples/weather_mcp_server.py`** - 完整的天气查询 MCP 服务器
-- **`examples/a2a_content_team.py`** - A2A 内容创作团队协作演示
-- **`examples/comprehensive_protocol_demo.py`** - 三种协议的综合演示
-- **`examples/chapter10_protocols.py`** - 教学示例集合
+- `examples/weather_mcp_server.py` - 完整的天气查询 MCP 服务器
+- `examples/a2a_content_team.py` - A2A 内容创作团队协作演示
+- `examples/comprehensive_protocol_demo.py` - 三种协议的综合演示
+- `examples/chapter10_protocols.py` - 教学示例集合
 
 ### 测试和验证
-- **`test_protocols.py`** - 协议功能测试脚本
-- **`test_mcp_client.py`** - MCP 客户端测试
-- **`final_verification_test.py`** - 最终验证测试
+- `test_protocols.py` - 协议功能测试脚本
+- `test_mcp_client.py` - MCP 客户端测试
+- `final_verification_test.py` - 最终验证测试
 
 ## 🔧 开发工具
 
@@ -230,25 +230,25 @@ npm install -g @modelcontextprotocol/server-memory
 ## 🌐 参考资源
 
 ### 官方文档
-- **[MCP 官方规范](https://modelcontextprotocol.io/)** - Model Context Protocol 官方文档
-- **[FastMCP 文档](https://fastmcp.wiki/)** - FastMCP 库的详细文档
-- **[A2A 项目](https://github.com/a2aproject/A2A)** - Agent-to-Agent Protocol 官方项目
+- [MCP 官方规范](https://modelcontextprotocol.io/) - Model Context Protocol 官方文档
+- [FastMCP 文档](https://fastmcp.wiki/) - FastMCP 库的详细文档
+- [A2A 项目](https://github.com/a2aproject/A2A) - Agent-to-Agent Protocol 官方项目
 
 ### 社区资源
-- **[MCP 服务器集合](https://github.com/modelcontextprotocol)** - 官方 MCP 服务器仓库
-- **[HelloAgents 示例](https://github.com/HelloAgents/examples)** - 更多实用示例
-- **[协议讨论区](https://github.com/HelloAgents/HelloAgents/discussions)** - 技术讨论和问答
+- [MCP 服务器集合](https://github.com/modelcontextprotocol) - 官方 MCP 服务器仓库
+- [HelloAgents 示例](https://github.com/HelloAgents/examples) - 更多实用示例
+- [协议讨论区](https://github.com/HelloAgents/HelloAgents/discussions) - 技术讨论和问答
 
 ## 🤝 贡献指南
 
-欢迎为协议文档和示例贡献代码: 
+欢迎为协议文档和示例贡献代码:
 
-1. **Fork 项目仓库**
-2. **创建功能分支** (`git checkout -b feature/new-protocol-example`)
-3. **添加测试和文档**
-4. **提交更改** (`git commit -am 'Add new protocol example'`)
-5. **推送分支** (`git push origin feature/new-protocol-example`)
-6. **创建 Pull Request**
+1. Fork 项目仓库
+2. 创建功能分支 (`git checkout -b feature/new-protocol-example`)
+3. 添加测试和文档
+4. 提交更改 (`git commit -am 'Add new protocol example'`)
+5. 推送分支 (`git push origin feature/new-protocol-example`)
+6. 创建 Pull Request
 
 ### 贡献类型
 - 📝 文档改进和翻译
@@ -258,10 +258,10 @@ npm install -g @modelcontextprotocol/server-memory
 
 ## 📞 支持与反馈
 
-- **📧 邮箱**: support@helloagents.ai
-- **💬 讨论**: [GitHub Discussions](https://github.com/HelloAgents/HelloAgents/discussions)
-- **🐛 问题报告**: [GitHub Issues](https://github.com/HelloAgents/HelloAgents/issues)
-- **📚 在线文档**: https://docs.helloagents.ai
+- 📧 邮箱: support@helloagents.ai
+- 💬 讨论: [GitHub Discussions](https://github.com/HelloAgents/HelloAgents/discussions)
+- 🐛 问题报告: [GitHub Issues](https://github.com/HelloAgents/HelloAgents/issues)
+- 📚 在线文档: https://docs.helloagents.ai
 
 ---
 

@@ -16,14 +16,14 @@ from hello_agents.core.llm import HelloAgentsLLM
 
 
 class WinRateTool(Tool):
-    """Win Rate评估工具"""
+    """Win Rate 评估工具"""
 
     def __init__(self, llm: HelloAgentsLLM = None):
         """
-        初始化Win Rate工具
+        初始化 Win Rate 工具
 
         Args:
-            llm: LLM实例, 用于评估
+            llm: LLM 实例, 用于评估
         """
         super().__init__(
             name="win_rate_evaluation",
@@ -38,27 +38,27 @@ class WinRateTool(Tool):
             "properties": {
                 "generated_data_path": {
                     "type": "string",
-                    "description": "生成数据的JSON文件路径",
+                    "description": "生成数据的 JSON 文件路径",
                 },
                 "reference_data_path": {
                     "type": "string",
-                    "description": "参考数据的JSON文件路径(可选)",
+                    "description": "参考数据的 JSON 文件路径(可选)",
                 },
                 "reference_year": {
                     "type": "integer",
-                    "description": "AIME真题年份(可选, 如2024, 2025)",
+                    "description": "AIME 真题年份(可选, 如 2024, 2025)",
                 },
                 "num_comparisons": {
                     "type": "integer",
-                    "description": "对比次数(可选, 默认为min(生成数据数量, 参考数据数量))",
+                    "description": "对比次数(可选, 默认为 min(生成数据数量, 参考数据数量))",
                 },
                 "output_dir": {
                     "type": "string",
-                    "description": "输出目录(可选, 默认为evaluation_results/win_rate)",
+                    "description": "输出目录(可选, 默认为 evaluation_results/win_rate)",
                 },
                 "judge_model": {
                     "type": "string",
-                    "description": "评委模型名称(可选, 默认为gpt-4o)",
+                    "description": "评委模型名称(可选, 默认为 gpt-4o)",
                 },
             },
             "required": ["generated_data_path"],
@@ -66,13 +66,13 @@ class WinRateTool(Tool):
 
     def run(self, params: Dict[str, Any]) -> str:
         """
-        运行Win Rate评估
+        运行 Win Rate 评估
 
         Args:
             params: 工具参数
 
         Returns:
-            评估结果的JSON字符串
+            评估结果的 JSON 字符串
         """
         # 解析参数
         generated_data_path = params["generated_data_path"]
@@ -86,7 +86,7 @@ class WinRateTool(Tool):
         os.makedirs(output_dir, exist_ok=True)
 
         print("\n" + "=" * 60)
-        print("🏆 Win Rate评估")
+        print("🏆 Win Rate 评估")
         print("=" * 60)
 
         # 1. 加载生成数据
@@ -106,10 +106,10 @@ class WinRateTool(Tool):
             ref_dataset = AIDataset(dataset_type="real", year=reference_year)
             ref_problems = ref_dataset.load()
         else:
-            raise ValueError("必须提供reference_data_path或reference_year之一")
+            raise ValueError("必须提供 reference_data_path 或 reference_year之一")
 
         # 3. 创建评估器
-        print(f"\n🔧 步骤3: 创建Win Rate评估器")
+        print(f"\n🔧 步骤3: 创建 Win Rate 评估器")
         evaluator = WinRateEvaluator(llm=self.llm, judge_model=judge_model)
 
         # 4. 运行评估
@@ -130,7 +130,7 @@ class WinRateTool(Tool):
         self._generate_report(results, report_file)
 
         print("\n" + "=" * 60)
-        print("✅ Win Rate评估完成")
+        print("✅ Win Rate 评估完成")
         print("=" * 60)
         print(f"\n📁 输出文件:")
         print(f"   - 评估结果: {result_file}")
@@ -149,10 +149,10 @@ class WinRateTool(Tool):
         )
 
     def _generate_report(self, results: Dict[str, Any], output_path: str):
-        """生成Markdown评估报告"""
+        """生成 Markdown 评估报告"""
         metrics = results["metrics"]
 
-        report = f"""# Win Rate评估报告
+        report = f"""# Win Rate 评估报告
 
 ## 基本信息
 
@@ -197,7 +197,7 @@ class WinRateTool(Tool):
 """
 
         if len(results["comparisons"]) > 10:
-            report += f"\n*(仅显示前10次对比的详细结果, 完整结果请查看JSON文件)*\n"
+            report += f"\n*(仅显示前 10 次对比的详细结果, 完整结果请查看 JSON 文件)*\n"
 
         report += f"""
 ## 结论
@@ -218,32 +218,32 @@ class WinRateTool(Tool):
         """根据胜率生成分析"""
         if win_rate >= 0.55:
             return """
-✅ **优秀**: 生成数据质量超过参考数据! 这表明数据生成系统表现出色. 
+✅ **优秀**: 生成数据质量超过参考数据! 这表明数据生成系统表现出色.
 """
         elif win_rate >= 0.45:
             return """
-✅ **良好**: 生成数据质量接近参考数据(差距<10%). 这是理想的结果, 说明生成质量达到了真题水平. 
+✅ **良好**: 生成数据质量接近参考数据(差距<10%). 这是理想的结果, 说明生成质量达到了真题水平.
 """
         elif win_rate >= 0.35:
             return """
-⚠️ **合格**: 生成数据质量略低于参考数据, 但仍在可接受范围内. 建议进一步优化生成策略. 
+⚠️ **合格**: 生成数据质量略低于参考数据, 但仍在可接受范围内. 建议进一步优化生成策略.
 """
         else:
             return """
-❌ **需改进**: 生成数据质量明显低于参考数据. 建议检查生成Pipeline并进行优化. 
+❌ **需改进**: 生成数据质量明显低于参考数据. 建议检查生成 Pipeline 并进行优化.
 """
 
     def _get_conclusion(self, win_rate: float) -> str:
         """根据胜率生成结论"""
         if win_rate >= 0.45:
-            return f"""基于Win Rate评估, 生成数据集的质量**接近或达到AIME真题水平**(Win Rate = {win_rate:.2%}). 
+            return f"""基于Win Rate评估, 生成数据集的质量**接近或达到AIME真题水平**(Win Rate = {win_rate:.2%}).
 
-这证明了数据生成系统的有效性, 生成的题目在质量上可以与真题相媲美. 
+这证明了数据生成系统的有效性, 生成的题目在质量上可以与真题相媲美.
 """
         else:
-            return f"""基于Win Rate评估, 生成数据集的质量**仍有提升空间**(Win Rate = {win_rate:.2%}). 
+            return f"""基于Win Rate评估, 生成数据集的质量**仍有提升空间**(Win Rate = {win_rate:.2%}).
 
-建议: 
+建议:
 1. 优化题目生成的提示词
 2. 增加质量过滤步骤
 3. 使用更强的生成模型

@@ -1,16 +1,16 @@
 """智能体通信协议模块
 
-本模块提供三种主要的智能体通信协议: 
+本模块提供三种主要的智能体通信协议:
 - MCP (Model Context Protocol): 模型上下文协议
 - A2A (Agent-to-Agent Protocol): 智能体间通信协议
 - ANP (Agent Network Protocol): 智能体网络协议
 
-简洁导入示例: 
+简洁导入示例:
     >>> from hello_agents.protocols import MCPClient, MCPServer
     >>> from hello_agents.protocols import A2AServer, A2AClient, AgentNetwork
     >>> from hello_agents.protocols import ANPDiscovery, ANPNetwork
 
-完整导入示例(向后兼容): 
+完整导入示例(向后兼容):
     >>> from hello_agents.protocols.mcp import MCPClient, MCPServer
     >>> from hello_agents.protocols.a2a import A2AServer, A2AClient
     >>> from hello_agents.protocols.anp import ANPDiscovery, ANPNetwork

@@ -1,26 +1,26 @@
 # MCP (Model Context Protocol) API 详解
 
-MCP 是一个开放标准, 用于在 AI 应用程序和外部数据源之间建立安全、可控的连接. HelloAgents 基于 FastMCP 库提供了完整的 MCP 协议支持. 
+MCP 是一个开放标准, 用于在 AI 应用程序和外部数据源之间建立安全、可控的连接. HelloAgents 基于 FastMCP 库提供了完整的 MCP 协议支持.
 
 ## 📋 核心概念
 
 ### 1. 工具 (Tools)
-工具是 MCP 服务器可以执行的函数, 类似于 API 端点. 每个工具都有明确的输入参数和输出格式. 
+工具是 MCP 服务器可以执行的函数, 类似于 API 端点. 每个工具都有明确的输入参数和输出格式.
 
 ### 2. 资源 (Resources)
-资源是服务器可以提供的数据, 如文件、数据库记录、API 响应等. 资源通过 URI 进行标识. 
+资源是服务器可以提供的数据, 如文件、数据库记录、API 响应等. 资源通过 URI 进行标识.
 
 ### 3. 提示词 (Prompts)
-预定义的提示词模板, 可以被客户端使用来生成特定格式的请求. 
+预定义的提示词模板, 可以被客户端使用来生成特定格式的请求.
 
 ### 4. 传输层 (Transport)
-MCP 支持多种传输方式: Stdio、HTTP、WebSocket、SSE 等. 
+MCP 支持多种传输方式: Stdio、HTTP、WebSocket、SSE 等.
 
 ## 🚀 HelloAgents MCP 实现
 
 ### FastMCP 服务器
 
-HelloAgents 使用 FastMCP 库来实现 MCP 服务器: 
+HelloAgents 使用 FastMCP 库来实现 MCP 服务器:
 
 ```python
 from fastmcp import FastMCP
@@ -33,10 +33,10 @@ server = FastMCP("my-server")
 def calculate(expression: str) -> Dict[str, Any]:
     """
     计算数学表达式
-    
+
     Args:
         expression: 数学表达式字符串
-    
+
     Returns:
         包含计算结果的字典
     """
@@ -70,7 +70,7 @@ if __name__ == "__main__":
 
 ### 增强的 MCP 客户端
 
-HelloAgents 提供了增强的 MCP 客户端, 支持多种传输方式: 
+HelloAgents 提供了增强的 MCP 客户端, 支持多种传输方式:
 
 ```python
 from hello_agents.protocols.mcp.client import MCPClient
@@ -107,7 +107,7 @@ asyncio.run(use_mcp_client())
 ## 🔧 传输方式详解
 
 ### 1. Stdio 传输(默认)
-通过标准输入输出进行通信, 适用于本地进程. 
+通过标准输入输出进行通信, 适用于本地进程.
 
 ```python
 # 服务器端
@@ -119,7 +119,7 @@ client = MCPClient("server_script.py")
 ```
 
 ### 2. HTTP 传输
-通过 HTTP 协议进行通信, 适用于远程服务. 
+通过 HTTP 协议进行通信, 适用于远程服务.
 
 ```python
 # 服务器端
@@ -131,7 +131,7 @@ client = MCPClient("http://localhost:8000")
 ```
 
 ### 3. SSE 传输
-通过 Server-Sent Events 进行实时通信. 
+通过 Server-Sent Events 进行实时通信.
 
 ```python
 # 客户端
@@ -142,7 +142,7 @@ client = MCPClient(
 ```
 
 ### 4. 内存传输
-直接在内存中通信, 适用于测试和开发. 
+直接在内存中通信, 适用于测试和开发.
 
 ```python
 # 直接传递 FastMCP 实例
@@ -227,7 +227,7 @@ db_server = FastMCP("database-server")
 def init_database():
     conn = sqlite3.connect('example.db')
     cursor = conn.cursor()
-    
+
     # 创建示例表
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
@@ -237,13 +237,13 @@ def init_database():
             age INTEGER
         )
     ''')
-    
+
     # 插入示例数据
     cursor.execute("INSERT OR IGNORE INTO users (name, email, age) VALUES (?, ?, ?)",
                    ("张三", "zhangsan@example.com", 25))
     cursor.execute("INSERT OR IGNORE INTO users (name, email, age) VALUES (?, ?, ?)",
                    ("李四", "lisi@example.com", 30))
-    
+
     conn.commit()
     conn.close()
 
@@ -253,10 +253,10 @@ def query_users(limit: int = 10) -> Dict[str, Any]:
     try:
         conn = sqlite3.connect('example.db')
         cursor = conn.cursor()
-        
+
         cursor.execute("SELECT id, name, email, age FROM users LIMIT ?", (limit,))
         rows = cursor.fetchall()
-        
+
         users = []
         for row in rows:
             users.append({
@@ -265,9 +265,9 @@ def query_users(limit: int = 10) -> Dict[str, Any]:
                 "email": row[2],
                 "age": row[3]
             })
-        
+
         conn.close()
-        
+
         return {
             "users": users,
             "count": len(users),
@@ -285,14 +285,14 @@ def add_user(name: str, email: str, age: int) -> Dict[str, Any]:
     try:
         conn = sqlite3.connect('example.db')
         cursor = conn.cursor()
-        
+
         cursor.execute("INSERT INTO users (name, email, age) VALUES (?, ?, ?)",
                        (name, email, age))
         user_id = cursor.lastrowid
-        
+
         conn.commit()
         conn.close()
-        
+
         return {
             "user_id": user_id,
             "name": name,
@@ -326,24 +326,24 @@ def create_mcp_agent():
     """创建使用 MCP 工具的智能体"""
     load_dotenv()
     llm = HelloAgentsLLM()
-    
+
     # 创建智能体
     agent = SimpleAgent(name="MCP助手", llm=llm)
-    
+
     # 添加文件系统 MCP 工具
     fs_tool = MCPTool(
         server_command=["python", "filesystem_server.py"],
         name="文件系统工具"
     )
     agent.add_tool(fs_tool)
-    
+
     # 添加数据库 MCP 工具
     db_tool = MCPTool(
         server_command=["python", "database_server.py"],
         name="数据库工具"
     )
     agent.add_tool(db_tool)
-    
+
     return agent
 
 # 使用示例

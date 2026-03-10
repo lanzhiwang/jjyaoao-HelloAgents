@@ -1,7 +1,7 @@
 """
 LLM Judge Evaluation Tool
 
-使用LLM作为评委评估数据生成质量的工具
+使用 LLM 作为评委评估数据生成质量的工具
 """
 
 import json
@@ -18,17 +18,17 @@ from hello_agents.core.llm import HelloAgentsLLM
 
 
 class LLMJudgeTool(Tool):
-    """LLM Judge评估工具"""
+    """LLM Judge 评估工具"""
 
     def __init__(self, llm: HelloAgentsLLM = None):
         """
-        初始化LLM Judge工具
+        初始化 LLM Judge 工具
 
         Args:
-            llm: LLM实例, 用于评估
+            llm: LLM 实例, 用于评估
         """
         super().__init__(
-            name="llm_judge_evaluation", description="使用LLM作为评委评估数据生成质量"
+            name="llm_judge_evaluation", description="使用 LLM 作为评委评估数据生成质量"
         )
         self.llm = llm
 
@@ -39,15 +39,15 @@ class LLMJudgeTool(Tool):
             "properties": {
                 "generated_data_path": {
                     "type": "string",
-                    "description": "生成数据的JSON文件路径",
+                    "description": "生成数据的 JSON 文件路径",
                 },
                 "reference_data_path": {
                     "type": "string",
-                    "description": "参考数据的JSON文件路径(可选, 用于对比)",
+                    "description": "参考数据的 JSON 文件路径(可选, 用于对比)",
                 },
                 "reference_year": {
                     "type": "integer",
-                    "description": "AIME真题年份(可选, 如2024, 2025)",
+                    "description": "AIME 真题年份(可选, 如 2024, 2025)",
                 },
                 "max_samples": {
                     "type": "integer",
@@ -55,11 +55,11 @@ class LLMJudgeTool(Tool):
                 },
                 "output_dir": {
                     "type": "string",
-                    "description": "输出目录(可选, 默认为evaluation_results/llm_judge)",
+                    "description": "输出目录(可选, 默认为 evaluation_results/llm_judge)",
                 },
                 "judge_model": {
                     "type": "string",
-                    "description": "评委模型名称(可选, 默认为gpt-4o)",
+                    "description": "评委模型名称(可选, 默认为 gpt-4o)",
                 },
             },
             "required": ["generated_data_path"],
@@ -67,13 +67,13 @@ class LLMJudgeTool(Tool):
 
     def run(self, params: Dict[str, Any]) -> str:
         """
-        运行LLM Judge评估
+        运行 LLM Judge 评估
 
         Args:
             params: 工具参数
 
         Returns:
-            评估结果的JSON字符串
+            评估结果的 JSON 字符串
         """
         # 解析参数
         generated_data_path = params["generated_data_path"]
@@ -87,7 +87,7 @@ class LLMJudgeTool(Tool):
         os.makedirs(output_dir, exist_ok=True)
 
         print("\n" + "=" * 60)
-        print("🎯 LLM Judge评估")
+        print("🎯 LLM Judge 评估")
         print("=" * 60)
 
         # 1. 加载生成数据
@@ -115,7 +115,7 @@ class LLMJudgeTool(Tool):
             print(f"\n⏭️  步骤2: 跳过参考数据加载(无对比)")
 
         # 3. 创建评估器
-        print(f"\n🔧 步骤3: 创建LLM Judge评估器")
+        print(f"\n🔧 步骤3: 创建 LLM Judge 评估器")
         evaluator = LLMJudgeEvaluator(llm=self.llm, judge_model=judge_model)
 
         # 4. 运行评估
@@ -134,7 +134,7 @@ class LLMJudgeTool(Tool):
         self._generate_report(results, report_file)
 
         print("\n" + "=" * 60)
-        print("✅ LLM Judge评估完成")
+        print("✅ LLM Judge 评估完成")
         print("=" * 60)
         print(f"\n📁 输出文件:")
         print(f"   - 评估结果: {result_file}")
@@ -154,10 +154,10 @@ class LLMJudgeTool(Tool):
         )
 
     def _generate_report(self, results: Dict[str, Any], output_path: str):
-        """生成Markdown评估报告"""
+        """生成 Markdown 评估报告"""
         metrics = results["metrics"]
 
-        report = f"""# LLM Judge评估报告
+        report = f"""# LLM Judge 评估报告
 
 ## 基本信息
 
@@ -205,7 +205,7 @@ class LLMJudgeTool(Tool):
         report += f"""
 ## 结论
 
-基于LLM Judge的评估, 生成的数据集质量{'优秀' if metrics['average_total_score'] >= 4.5 else '良好' if metrics['average_total_score'] >= 3.5 else '需要改进'}. 
+基于 LLM Judge 的评估, 生成的数据集质量{'优秀' if metrics['average_total_score'] >= 4.5 else '良好' if metrics['average_total_score'] >= 3.5 else '需要改进'}.
 
 ---
 
