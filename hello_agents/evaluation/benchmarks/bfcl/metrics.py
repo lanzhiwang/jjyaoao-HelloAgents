@@ -17,7 +17,7 @@ class BFCLMetrics:
     - 准确率 (Accuracy): 完全正确的比例
     - AST 匹配度 (AST Match): 抽象语法树匹配度
     - 参数准确率 (Parameter Accuracy): 参数正确的比例
-    - F1分数: 精确率和召回率的调和平均
+    - F1 分数: 精确率和召回率的调和平均
     - 执行成功率: 可执行函数调用的成功率
     """
 
@@ -53,11 +53,11 @@ class BFCLMetrics:
             匹配度 (0-1)
         """
         try:
-            # 尝试解析为AST
+            # 尝试解析为 AST
             pred_ast = ast.parse(predicted, mode="eval")
             exp_ast = ast.parse(expected, mode="eval")
 
-            # 比较AST结构
+            # 比较 AST 结构
             pred_dump = ast.dump(pred_ast)
             exp_dump = ast.dump(exp_ast)
 
@@ -74,7 +74,7 @@ class BFCLMetrics:
 
     @staticmethod
     def _calculate_string_similarity(s1: str, s2: str) -> float:
-        """计算字符串相似度(简化版Levenshtein距离)"""
+        """计算字符串相似度(简化版 Levenshtein 距离)"""
         if s1 == s2:
             return 1.0
         if not s1 or not s2:
@@ -285,7 +285,7 @@ class BFCLMetrics:
 
     @staticmethod
     def calculate_f1_score(precision: float, recall: float) -> float:
-        """计算F1分数
+        """计算 F1 分数
 
         Args:
             precision: 精确率

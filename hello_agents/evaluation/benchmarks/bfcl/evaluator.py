@@ -17,14 +17,14 @@ from hello_agents.evaluation.benchmarks.bfcl.metrics import BFCLMetrics
 class BFCLEvaluator:
     """BFCL 评估器
 
-    评估智能体的工具调用能力,包括:
+    评估智能体的工具调用能力, 包括:
     - 简单函数调用
     - 多函数调用
     - 并行函数调用
     - 无关检测
 
     支持两种评估模式:
-    - AST评估: 抽象语法树匹配
+    - AST 评估: 抽象语法树匹配
     - 执行评估: 实际函数执行结果对比
 
     Attributes:
@@ -43,7 +43,7 @@ class BFCLEvaluator:
         """初始化 BFCL 评估器
 
         Args:
-            dataset: BFCL 数据集,如果为 None 则自动创建
+            dataset: BFCL 数据集, 如果为 None 则自动创建
             category: 评估类别
             evaluation_mode: 评估模式 ('ast' 或 'execution')
             local_data_dir: 本地数据目录
@@ -60,10 +60,10 @@ class BFCLEvaluator:
 
         Args:
             agent: 要评估的智能体
-            max_samples: 最大评估样本数,None表示评估全部
+            max_samples: 最大评估样本数, None 表示评估全部
 
         Returns:
-            评估结果字典,包含各项指标
+            评估结果字典, 包含各项指标
         """
         print(f"\n🔧 开始 BFCL 评估...")
         print(f"   智能体: {getattr(agent, 'name', 'Unknown')}")
@@ -73,7 +73,7 @@ class BFCLEvaluator:
         # 加载数据集
         dataset = self.dataset.load()
         if not dataset:
-            print("   ⚠️ 数据集为空,跳过评估")
+            print("   ⚠️ 数据集为空, 跳过评估")
             return self._create_empty_results(agent)
 
         # 限制样本数量
@@ -203,7 +203,7 @@ class BFCLEvaluator:
                 "predicted": predicted_calls,
                 "expected": ground_truth,
                 "response": response,
-                "question": question,  # 添加question字段用于导出
+                "question": question,  # 添加 question 字段用于导出
                 "execution_time": execution_time,
                 "sample_id": sample.get("id", ""),
                 "category": (
@@ -219,7 +219,7 @@ class BFCLEvaluator:
                 "score": 0.0,
                 "predicted": None,
                 "expected": sample.get("ground_truth", []),
-                "question": sample.get("question", ""),  # 添加question字段
+                "question": sample.get("question", ""),  # 添加 question 字段
                 "error": str(e),
                 "sample_id": sample.get("id", ""),
                 "category": (
@@ -250,7 +250,7 @@ class BFCLEvaluator:
         if not functions:
             return question
 
-        prompt = f"你是一个智能助手, 可以调用以下函数来帮助回答问题: \n\n"
+        prompt = f"你是一个智能助手, 可以调用以下函数来帮助回答问题:\n\n"
 
         # 添加函数定义
         for i, func in enumerate(functions, 1):
@@ -269,7 +269,7 @@ class BFCLEvaluator:
             prompt += "\n"
 
         prompt += f"请根据以下问题, 选择合适的函数进行调用: \n{question}\n\n"
-        prompt += "请以JSON格式返回函数调用, 例如: \n"
+        prompt += "请以 JSON 格式返回函数调用, 例如:\n"
         prompt += '[{"name": "function_name", "arguments": {"param1": "value1"}}]'
 
         return prompt
@@ -277,11 +277,11 @@ class BFCLEvaluator:
     def _extract_function_calls(self, response: str) -> List[Dict[str, Any]]:
         """从响应中提取函数调用"""
         try:
-            # 尝试直接解析JSON
+            # 尝试直接解析 JSON
             if response.strip().startswith("[") and response.strip().endswith("]"):
                 return json.loads(response.strip())
 
-            # 使用正则表达式查找JSON数组
+            # 使用正则表达式查找 JSON 数组
             json_pattern = r"\[.*?\]"
             matches = re.findall(json_pattern, response, re.DOTALL)
 
@@ -314,19 +314,19 @@ class BFCLEvaluator:
     def _evaluate_ast_matching(
         self, predicted: List[Dict], expected: List
     ) -> tuple[bool, float]:
-        """AST匹配评估
+        """AST 匹配评估
 
-        支持两种ground truth格式: 
-        1. BFCL v4格式: [{"func_name": {"param": [value1, value2]}}]
+        支持两种 ground truth 格式:
+        1. BFCL v4 格式: [{"func_name": {"param": [value1, value2]}}]
         2. 字符串格式: ["func_name(param=value)"]
         """
         if not expected:
             return len(predicted) == 0, 1.0 if len(predicted) == 0 else 0.0
 
         try:
-            # 检测ground truth格式
+            # 检测 ground truth 格式
             if expected and isinstance(expected[0], dict):
-                # BFCL v4格式
+                # BFCL v4 格式
                 return self._evaluate_bfcl_v4_format(predicted, expected)
             else:
                 # 字符串格式(旧版)
@@ -339,9 +339,9 @@ class BFCLEvaluator:
     def _evaluate_bfcl_v4_format(
         self, predicted: List[Dict], expected: List[Dict]
     ) -> tuple[bool, float]:
-        """评估BFCL v4格式的ground truth
+        """评估 BFCL v4 格式的 ground truth
 
-        BFCL v4格式: 
+        BFCL v4 格式:
         predicted: [{"name": "func_name", "arguments": {"param": value}}]
         expected: [{"func_name": {"param": [value1, value2]}}]
         """
@@ -356,7 +356,7 @@ class BFCLEvaluator:
             pred_func_name = pred_call["name"]
             pred_args = pred_call.get("arguments", {})
 
-            # 在expected中查找匹配的函数调用
+            # 在 expected 中查找匹配的函数调用
             for exp_call in expected:
                 if not isinstance(exp_call, dict):
                     continue
@@ -392,9 +392,9 @@ class BFCLEvaluator:
 
             pred_value = pred_params[param_name]
 
-            # expected_values是数组, 包含所有可接受的值
+            # expected_values 是数组, 包含所有可接受的值
             if isinstance(expected_values, list):
-                # 检查pred_value是否在可接受的值列表中
+                # 检查 pred_value 是否在可接受的值列表中
                 if pred_value not in expected_values:
                     # 尝试类型转换后比较
                     if str(pred_value) not in [str(v) for v in expected_values]:
@@ -411,7 +411,7 @@ class BFCLEvaluator:
     def _evaluate_string_format(
         self, predicted: List[Dict], expected: List[str]
     ) -> tuple[bool, float]:
-        """评估字符串格式的ground truth(旧版)"""
+        """评估字符串格式的 ground truth (旧版)"""
         # 将预测结果转换为字符串形式
         predicted_strs = []
         for call in predicted:
@@ -444,14 +444,14 @@ class BFCLEvaluator:
         return success, score
 
     def _ast_strings_match(self, pred: str, expected: str) -> bool:
-        """比较两个函数调用字符串是否在AST层面匹配"""
+        """比较两个函数调用字符串是否在 AST 层面匹配"""
         try:
-            # 尝试解析为AST并比较
+            # 尝试解析为 AST 并比较
             pred_ast = ast.parse(pred, mode="eval")
             exp_ast = ast.parse(expected, mode="eval")
             return ast.dump(pred_ast) == ast.dump(exp_ast)
         except:
-            # 如果AST解析失败, 使用字符串相似度
+            # 如果 AST 解析失败, 使用字符串相似度
             return pred.strip() == expected.strip()
 
     def _evaluate_execution(
@@ -468,36 +468,46 @@ class BFCLEvaluator:
         output_path: Union[str, Path],
         include_inference_log: bool = True,
     ) -> None:
-        """导出评估结果为BFCL官方格式
+        """导出评估结果为 BFCL 官方格式
 
-        BFCL官方格式示例: 
+        BFCL 官方格式示例:
         {
             "id": "simple_python_0",
             "model_result": [
                 {
                     "name": "calculate_triangle_area",
-                    "arguments": {"base": 10, "height": 5, "unit": "units"}
+                    "arguments": {
+                        "base": 10,
+                        "height": 5,
+                        "unit": "units"
+                    }
                 }
             ],
             "inference_log": [
-                {"role": "user", "content": "..."},
-                {"role": "assistant", "content": "..."}
+                {
+                    "role": "user",
+                    "content": "..."
+                },
+                {
+                    "role": "assistant",
+                    "content": "..."
+                }
             ]
         }
 
         Args:
-            results: evaluate()方法返回的评估结果
+            results: evaluate() 方法返回的评估结果
             output_path: 输出文件路径
             include_inference_log: 是否包含推理日志
         """
         output_path = Path(output_path)
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        # 转换为BFCL格式
+        # 转换为 BFCL 格式
         bfcl_results = []
 
         for detail in results.get("detailed_results", []):
-            # 将predicted转换为字符串格式的函数调用
+            # 将 predicted 转换为字符串格式的函数调用
             predicted = detail.get("predicted", [])
             result_string = ""
 
@@ -518,7 +528,7 @@ class BFCLEvaluator:
 
             bfcl_item = {
                 "id": detail.get("sample_id", ""),
-                "result": result_string,  # BFCL期望的是单个字符串
+                "result": result_string,  # BFCL 期望的是单个字符串
             }
 
             # 添加推理日志(如果需要)
@@ -533,18 +543,18 @@ class BFCLEvaluator:
 
             bfcl_results.append(bfcl_item)
 
-        # 写入JSONL格式(每行一个JSON对象)
+        # 写入 JSONL 格式(每行一个 JSON 对象)
         with open(output_path, "w", encoding="utf-8") as f:
             for item in bfcl_results:
                 f.write(json.dumps(item, ensure_ascii=False) + "\n")
 
-        print(f"\n✅ BFCL格式结果已导出")
+        print(f"\n✅ BFCL 格式结果已导出")
         print(f"   输出文件: {output_path}")
         print(f"   样本数: {len(bfcl_results)}")
         print(f"   包含推理日志: {include_inference_log}")
 
-        # 提示如何使用BFCL官方评估
-        print(f"\n📝 使用BFCL官方评估工具: ")
+        # 提示如何使用 BFCL 官方评估
+        print(f"\n📝 使用 BFCL 官方评估工具:")
         print(f"   1. 安装: pip install bfcl-eval")
         print(f"   2. 设置环境变量: export BFCL_PROJECT_ROOT=.")
         print(f"   3. 将结果文件复制到: result/HelloAgents/")
